@@ -1,4 +1,0 @@
-Num, Syntactic Category, Lexeme, Type, Line of Declaration
-0, Identifier, len, int, 5
-1, Identifier, onedigit, int[], 18
-2, Identifier, x, int, 28
