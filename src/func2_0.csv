@@ -1,0 +1,3 @@
+Num, Syntactic Category, Lexeme, Type, Line of Declaration
+0, Identifier, len, int, 32
+1, Identifier, twodigit, int[][], 45
