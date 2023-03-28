@@ -4,4 +4,8 @@ src/*.out
 src/*.csv
 src/*.tab.c
 src/*.3ac
+src/*.dot
+src/lex.yy.c
+src/y.tab.h
+src/parser
 .vscode/

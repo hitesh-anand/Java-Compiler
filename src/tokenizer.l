@@ -160,12 +160,20 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
 "assert"        {yylval.lexeme = strdup(yytext); return ASSERT;}
 "if"            {root->addNewScope();root->currNode->vulnerable=true;root->currNode->isIfScope=true;root->currNode->name="if";yylval.lexeme = strdup(yytext); return IF;}
 "else"          {root->addNewScope();root->currNode->vulnerable=true;root->currNode->name="else";yylval.lexeme = strdup(yytext); return ELSE;}
-"while"         {root->addNewScope();root->currNode->vulnerable=true;root->currNode->name="while";yylval.lexeme = strdup(yytext); return WHILE;}
+"while"         {
+                    if(!(root->currNode->isDoRun==true&&root->currNode->cnt_paran==0)){
+                        root->addNewScope();
+                        root->currNode->vulnerable=true;
+                        root->currNode->name="while";
+                    }
+                    yylval.lexeme = strdup(yytext); 
+                    return WHILE;
+                }
 "for"           {root->addNewScope();root->currNode->vulnerable=true;root->currNode->isForScope=true;root->currNode->name="for";yylval.lexeme = strdup(yytext); return FOR;}
 "return"        {yylval.lexeme = strdup(yytext); return RETURN;}
 "continue"      {yylval.lexeme = strdup(yytext); return CONTINUE;}
 "break"         {yylval.lexeme = strdup(yytext); return BREAK;}
-"do"            {root->addNewScope();root->currNode->name="do";yylval.lexeme = strdup(yytext); return DO;}
+"do"            {root->addNewScope();root->currNode->isDoRun=true;root->currNode->name="do";yylval.lexeme = strdup(yytext); return DO;}
 "true"          {yylval.lexeme = strdup(yytext);return BOOLEANLITERAL;}
 "false"         {yylval.lexeme = strdup(yytext); return BOOLEANLITERAL;}
 
@@ -221,13 +229,16 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                     yylval.lexeme = strdup(yytext);
                     return RIGHTPARENTHESIS;
                 }
-"}"             {   
-                        if(root->currNode->name=="classextends" && root->currNode->parent->default_done==0 && root->currNode->parent->constr_args.size()>0 && root->currNode->constr_args.size()==0)
-                        {
-                            cout<<"Error on line number "<<yylineno<<". This class must include an explicit constructor declaration"<<endl;
-                            yyerror("Error");
-                        }
-                        if(isarrayinit==0){
+"}"             {       
+                    if(root->currNode->isDoRun==true){
+                        root->currNode->cnt_paran--;
+                    }
+                    if(root->currNode->name=="classextends" && root->currNode->parent->default_done==0 && root->currNode->parent->constr_args.size()>0 && root->currNode->constr_args.size()==0)
+                    {
+                        cout<<"Error on line number "<<yylineno<<". This class must include an explicit constructor declaration"<<endl;
+                        yyerror("Error");
+                    }
+                    if(isarrayinit==0){
                         if(root->currNode->vulnerable==false&&
                         root->currNode->isIfScope==true){
                             root->endcurrScope();
@@ -235,7 +246,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                         }
                         else
                         if(root->currNode->vulnerable==false&&
-                        root->currNode->isIfScope==false){
+                        root->currNode->isIfScope==false&&root->currNode->name!="do"){
                             root->end_all_vulnerable();
                         }
                     }
@@ -245,7 +256,10 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                     yylval.lexeme = strdup(yytext); 
                     return RIGHTCURLYBRACKET;
                 }
-"{"             {
+"{"             {   
+                    if(root->currNode->isDoRun==true){
+                        root->currNode->cnt_paran++;
+                    }
                     root->currNode->vulnerable=false;
                     yylval.lexeme = strdup(yytext);
                     return LEFTCURLYBRACKET;
