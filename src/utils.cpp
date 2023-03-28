@@ -270,6 +270,17 @@ void processArithmetic(vector<Node*> nodes, string op)
     nodes[0]->last = ircode.size() - 1;
 }
 
+void processDoWhile(Node* n, Node* n1, Node* n2)
+{
+    backpatch(n2->nextlist, n2->last + 1 );
+    backpatch(n1->truelist, n1->last + 1);
+    n->nextlist = n1->falselist;
+    Quadruple* q = new Quadruple(3, "", "", "", to_string( n2->last + 1 - n2->code.size() ));
+    ircode.push_back(q);
+    n->code.push_back(q);
+    n->last = ircode.size() - 1;
+}
+
 void processWhile(Node* n, Node* n1, Node* n2)
 {
     backpatch(n2->nextlist, n1->last + 1 - n1->code.size());
