@@ -6025,8 +6025,9 @@ MethodInvocation:
     }
     else 
     {
-        q = q = new Quadruple(4, $1->attr, to_string($3->code.size()));
+        q = new Quadruple(4, $1->attr, to_string($3->code.size()));
     }
+
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;

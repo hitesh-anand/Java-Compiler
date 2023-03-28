@@ -1,5 +1,7 @@
-*.o
-*.exe
-*.out
-*.csv
+src/*.o
+src/*.exe
+src/*.out
+src/*.csv
+src/*.tab.c
+src/*.3ac
 .vscode/
