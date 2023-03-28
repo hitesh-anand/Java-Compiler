@@ -43,6 +43,8 @@ class SymNode{ //represents individual scope in case of nested scopes/ individua
     bool isClassName=true;
     bool isFinalClass=false;
     bool isFinalId=false;
+    bool isDoRun=false;//used for do while
+    int cnt_paran=0;//used for do while
     string name; //this symbol table is created for this name entity
     int symtype; //0=variable, 1=function, 2=class
     map<string, Symbol*> mp; //maintains the symbol table as a hash table
