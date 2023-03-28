@@ -3800,20 +3800,21 @@ ExplicitConstructorInvocation:
 ArgumentList:
     Expression COMMA Expression CommaExpressions    {
     vector<struct Node*> temp;
-    temp.push_back($1);
-    //struct Node* n1 = new struct Node("Separator", $2);
-    //temp.push_back(n1);
-    temp.push_back($3);
+
     if($4)
     {
-        for(auto ch : $4->children)
-            temp.push_back(ch);
+        $4->addChildToLeft($3);
+        $4->addChildToLeft($1);
+        temp.push_back($4);
     }
-    struct Node* n = new struct Node("ArgumentList", temp);
-    $$ = n;
-    vector<Node*> nodes = {$1, $3};
-    if($4) nodes.insert(nodes.end(), $4->children.begin(), $4->children.end());
-    generateArgumentList(nodes, $$);
+    else {
+        temp.push_back($1);
+        temp.push_back($3);
+    }
+    $4->changeLabel("ArgumentList");
+    $$ = $4;
+    
+    generateArgumentList($$->children, $$);
     verbose(v,"Expression COMMA Expression CommaExpressions->ArgumentList");
 
 
@@ -6020,12 +6021,12 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string($3->code.size()), resName);
+        q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName);
         $$->varName = resName;
     }
     else 
     {
-        q = new Quadruple(4, $1->attr, to_string($3->code.size()));
+        q = new Quadruple(4, $1->attr, to_string($3->children.size()));
     }
 
     $$->code.push_back(q);
@@ -6069,11 +6070,11 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string($5->code.size()), resName);
+        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string($5->children.size()), resName);
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3, to_string($5->code.size()));
+        q = new Quadruple(4, $1->attr + string(".") + $3, to_string($5->children.size()));
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6136,11 +6137,11 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1 + string(".") + $3, to_string($5->code.size()), resName);
+        q = new Quadruple(4, "", $1 + string(".") + $3, to_string($5->children.size()), resName);
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1 + string(".") + $3, to_string($5->code.size()));
+        q = new Quadruple(4, $1 + string(".") + $3, to_string($5->children.size()));
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6224,11 +6225,11 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
-        q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string($7->code.size()), resName);
+        q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()), resName);
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string($7->code.size()));
+        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()));
     }
     $$->code.push_back(q);
     ircode.push_back(q);

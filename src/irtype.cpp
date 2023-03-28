@@ -82,7 +82,7 @@ void Quadruple::print()
         return;
     }
     else if(type == 5) {
-        std::cout << "param " << arg1 << "\n"; return;
+        std::cout << "pushparam " << arg1 << "\n"; return;
     }
     else if(type == 6) {
         std::cout << "beginfunc " << arg1 << "\n"; return;

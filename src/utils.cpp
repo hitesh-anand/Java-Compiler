@@ -72,7 +72,7 @@ void ir_gen(vector<Quadruple*> ircode, string fln)
         continue;
     }
     else if(it->type == 5) {
-        myFile << "param " << it->arg1 << "\n"; continue;
+        myFile << "pushparam " << it->arg1 << "\n"; continue;
     }
     else if(it->type == 6) {
         myFile << "beginfunc " << it->arg1 << "\n"; continue;
