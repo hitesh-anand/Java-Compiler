@@ -3547,13 +3547,15 @@ ArgumentList:
         $4->addChildToLeft($3);
         $4->addChildToLeft($1);
         temp.push_back($4);
+        $4->changeLabel("ArgumentList");
+        $$ = $4;
     }
     else {
         temp.push_back($1);
         temp.push_back($3);
+        $$ = new Node("ArgumentList", temp);
     }
-    $4->changeLabel("ArgumentList");
-    $$ = $4;
+    
     
     generateArgumentList($$->children, $$);
     verbose(v,"Expression COMMA Expression CommaExpressions->ArgumentList");
