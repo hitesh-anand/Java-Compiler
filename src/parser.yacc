@@ -2937,7 +2937,20 @@ VariableModifiers:
 
 MethodBody:
     Block   {
-        if(root->currNode->childscopes.back()->returntype!=VOID_TYPE && $1->children[$1->children.size()-1]->children.back()->label!="ReturnStatement")
+
+        if($1->children.size()==0 && root->currNode->childscopes.back()->returntype!=VOID_TYPE)
+        {
+            cout<<"Error on line number "<<yylineno<<". This method must return a result of type "<<typeroot->inv_types[root->currNode->childscopes.back()->returntype]<<endl;
+            yyerror("Error");           
+        }     
+
+        if($1->children.size()>0 && $1->children[0]->label!="BlockStatements" && root->currNode->childscopes.back()->returntype!=VOID_TYPE && $1->children[$1->children.size()-1]->label!="ReturnStatement")
+        {
+            cout<<"Error on line number "<<yylineno<<". This method must return a result of type "<<typeroot->inv_types[root->currNode->childscopes.back()->returntype]<<endl;
+            yyerror("Error");
+        }
+
+        else if($1->children.size()>0 && root->currNode->childscopes.back()->returntype!=VOID_TYPE && $1->children[0]->label=="BlockStatements" && $1->children[$1->children.size()-1]->children.back()->label!="ReturnStatement")
         {
             cout<<"Error on line number "<<yylineno<<". This method must return a result of type "<<typeroot->inv_types[root->currNode->childscopes.back()->returntype]<<endl;
             yyerror("Error");
@@ -3816,8 +3829,7 @@ ArgumentList:
 Block:
     LEFTCURLYBRACKET RIGHTCURLYBRACKET  {
     vector<struct Node*> temp;
-    struct Node* n1 = new struct Node("<empty>" );
-    temp.push_back(n1);
+    struct Node* n1 = new struct Node("<empty>", temp);
     $$ = n1;
     verbose(v,"LEFTCURLYBRACKET RIGHTCURLYBRACKET->Block");
 }

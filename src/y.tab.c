@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.8.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -34,6 +34,10 @@
 /* C LALR(1) parser skeleton written by Richard Stallman, by
    simplifying the original so-called "semantic" parser.  */
 
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
+
 /* All symbols defined below should begin with yy or YY, to avoid
    infringing on user name space.  This should be done even for local
    variables, as they might otherwise be expanded by user macros.
@@ -41,14 +45,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
+/* Identify Bison output, and Bison version.  */
+#define YYBISON 30802
 
-/* Identify Bison output.  */
-#define YYBISON 1
-
-/* Bison version.  */
-#define YYBISON_VERSION "3.5.1"
+/* Bison version string.  */
+#define YYBISON_VERSION "3.8.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -373,7 +374,7 @@ void verbose(int v,string h){
 
 
 
-#line 377 "y.tab.c"
+#line 378 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -396,14 +397,6 @@ void verbose(int v,string h){
 #  endif
 # endif
 
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 0
-#endif
-
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
 #ifndef YY_YY_Y_TAB_H_INCLUDED
@@ -416,134 +409,143 @@ void verbose(int v,string h){
 extern int yydebug;
 #endif
 
-/* Token type.  */
+/* Token kinds.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    BOOLEAN = 258,
-    CHAR = 259,
-    BYTE = 260,
-    SHORT = 261,
-    INT = 262,
-    LONG = 263,
-    FLOAT = 264,
-    DOUBLE = 265,
-    VOID = 266,
-    EXTENDS = 267,
-    SUPER = 268,
-    STRING = 269,
-    THIS = 270,
-    VAR = 271,
-    INSTANCEOF = 272,
-    FINAL = 273,
-    NEW = 274,
-    CHARACTERLITERAL = 275,
-    STRINGLITERAL = 276,
-    TEXTBLOCK = 277,
-    NULLLITERAL = 278,
-    CLASS = 279,
-    PACKAGE = 280,
-    IMPORT = 281,
-    STATIC = 282,
-    DO = 283,
-    INTEGERLITERAL = 284,
-    FLOATINGPOINTLITERAL = 285,
-    BOOLEANLITERAL = 286,
-    JAVALETTER = 287,
-    JAVALETTERORDIGIT = 288,
-    OPEN = 289,
-    MODULE = 290,
-    REQUIRES = 291,
-    EXPORTS = 292,
-    OPENS = 293,
-    USES = 294,
-    PROVIDES = 295,
-    TO = 296,
-    WITH = 297,
-    TRANSITIVE = 298,
-    LEFTSQUAREBRACKET = 299,
-    RIGHTSQUAREBRACKET = 300,
-    LEFTCURLYBRACKET = 301,
-    RIGHTCURLYBRACKET = 302,
-    LEFTPARENTHESIS = 303,
-    RIGHTPARENTHESIS = 304,
-    SEMICOLON = 305,
-    COMMA = 306,
-    DOT = 307,
-    ELLIPSIS = 308,
-    AT = 309,
-    DOUBLECOLON = 310,
-    ASSIGN = 311,
-    GRT = 312,
-    LSS = 313,
-    NOT = 314,
-    TIL = 315,
-    QUES = 316,
-    COL = 317,
-    ARW = 318,
-    EQUAL = 319,
-    GEQ = 320,
-    IMPLEMENTS = 321,
-    LEQ = 322,
-    NEQUAL = 323,
-    AND = 324,
-    OR = 325,
-    INCRE = 326,
-    DECRE = 327,
-    PLUS = 328,
-    MINUS = 329,
-    MULT = 330,
-    DIV = 331,
-    BAND = 332,
-    BOR = 333,
-    BXOR = 334,
-    MOD = 335,
-    LSHIFT = 336,
-    RSHIFT = 337,
-    UNRSHIFT = 338,
-    PLUSEQUAL = 339,
-    MINUSEQUAL = 340,
-    MULTEQUAL = 341,
-    DIVEQUAL = 342,
-    BANDEQUAL = 343,
-    BOREQUAL = 344,
-    BXOREQUAL = 345,
-    MODEQUAL = 346,
-    LSHIFTEQUAL = 347,
-    RSHIFTEQUAL = 348,
-    UNRSHIFTEQUAL = 349,
-    IF = 350,
-    ELSE = 351,
-    WHILE = 352,
-    FOR = 353,
-    RETURN = 354,
-    CONTINUE = 355,
-    BREAK = 356,
-    YIELD = 357,
-    SEALED = 358,
-    PROTECTED = 359,
-    PUBLIC = 360,
-    PRIVATE = 361,
-    STRICTFP = 362,
-    ABSTRACT = 363,
-    DEFAULT = 364,
-    INTERFACE = 365,
-    PERMITS = 366,
-    NONSEALED = 367,
-    TRANSIENT = 368,
-    VOLATILE = 369,
-    NATIVE = 370,
-    SYNCHRONIZED = 371,
-    THROWS = 372,
-    ASSERT = 373,
-    IDENTIFIER = 374,
-    RECORD = 375,
-    LRSQUAREBRACKET = 376,
-    SYSTEMOUTPRINTLN = 377
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    BOOLEAN = 258,                 /* BOOLEAN  */
+    CHAR = 259,                    /* CHAR  */
+    BYTE = 260,                    /* BYTE  */
+    SHORT = 261,                   /* SHORT  */
+    INT = 262,                     /* INT  */
+    LONG = 263,                    /* LONG  */
+    FLOAT = 264,                   /* FLOAT  */
+    DOUBLE = 265,                  /* DOUBLE  */
+    VOID = 266,                    /* VOID  */
+    EXTENDS = 267,                 /* EXTENDS  */
+    SUPER = 268,                   /* SUPER  */
+    STRING = 269,                  /* STRING  */
+    THIS = 270,                    /* THIS  */
+    VAR = 271,                     /* VAR  */
+    INSTANCEOF = 272,              /* INSTANCEOF  */
+    FINAL = 273,                   /* FINAL  */
+    NEW = 274,                     /* NEW  */
+    CHARACTERLITERAL = 275,        /* CHARACTERLITERAL  */
+    STRINGLITERAL = 276,           /* STRINGLITERAL  */
+    TEXTBLOCK = 277,               /* TEXTBLOCK  */
+    NULLLITERAL = 278,             /* NULLLITERAL  */
+    CLASS = 279,                   /* CLASS  */
+    PACKAGE = 280,                 /* PACKAGE  */
+    IMPORT = 281,                  /* IMPORT  */
+    STATIC = 282,                  /* STATIC  */
+    DO = 283,                      /* DO  */
+    INTEGERLITERAL = 284,          /* INTEGERLITERAL  */
+    FLOATINGPOINTLITERAL = 285,    /* FLOATINGPOINTLITERAL  */
+    BOOLEANLITERAL = 286,          /* BOOLEANLITERAL  */
+    JAVALETTER = 287,              /* JAVALETTER  */
+    JAVALETTERORDIGIT = 288,       /* JAVALETTERORDIGIT  */
+    OPEN = 289,                    /* OPEN  */
+    MODULE = 290,                  /* MODULE  */
+    REQUIRES = 291,                /* REQUIRES  */
+    EXPORTS = 292,                 /* EXPORTS  */
+    OPENS = 293,                   /* OPENS  */
+    USES = 294,                    /* USES  */
+    PROVIDES = 295,                /* PROVIDES  */
+    TO = 296,                      /* TO  */
+    WITH = 297,                    /* WITH  */
+    TRANSITIVE = 298,              /* TRANSITIVE  */
+    LEFTSQUAREBRACKET = 299,       /* LEFTSQUAREBRACKET  */
+    RIGHTSQUAREBRACKET = 300,      /* RIGHTSQUAREBRACKET  */
+    LEFTCURLYBRACKET = 301,        /* LEFTCURLYBRACKET  */
+    RIGHTCURLYBRACKET = 302,       /* RIGHTCURLYBRACKET  */
+    LEFTPARENTHESIS = 303,         /* LEFTPARENTHESIS  */
+    RIGHTPARENTHESIS = 304,        /* RIGHTPARENTHESIS  */
+    SEMICOLON = 305,               /* SEMICOLON  */
+    COMMA = 306,                   /* COMMA  */
+    DOT = 307,                     /* DOT  */
+    ELLIPSIS = 308,                /* ELLIPSIS  */
+    AT = 309,                      /* AT  */
+    DOUBLECOLON = 310,             /* DOUBLECOLON  */
+    ASSIGN = 311,                  /* ASSIGN  */
+    GRT = 312,                     /* GRT  */
+    LSS = 313,                     /* LSS  */
+    NOT = 314,                     /* NOT  */
+    TIL = 315,                     /* TIL  */
+    QUES = 316,                    /* QUES  */
+    COL = 317,                     /* COL  */
+    ARW = 318,                     /* ARW  */
+    EQUAL = 319,                   /* EQUAL  */
+    GEQ = 320,                     /* GEQ  */
+    IMPLEMENTS = 321,              /* IMPLEMENTS  */
+    LEQ = 322,                     /* LEQ  */
+    NEQUAL = 323,                  /* NEQUAL  */
+    AND = 324,                     /* AND  */
+    OR = 325,                      /* OR  */
+    INCRE = 326,                   /* INCRE  */
+    DECRE = 327,                   /* DECRE  */
+    PLUS = 328,                    /* PLUS  */
+    MINUS = 329,                   /* MINUS  */
+    MULT = 330,                    /* MULT  */
+    DIV = 331,                     /* DIV  */
+    BAND = 332,                    /* BAND  */
+    BOR = 333,                     /* BOR  */
+    BXOR = 334,                    /* BXOR  */
+    MOD = 335,                     /* MOD  */
+    LSHIFT = 336,                  /* LSHIFT  */
+    RSHIFT = 337,                  /* RSHIFT  */
+    UNRSHIFT = 338,                /* UNRSHIFT  */
+    PLUSEQUAL = 339,               /* PLUSEQUAL  */
+    MINUSEQUAL = 340,              /* MINUSEQUAL  */
+    MULTEQUAL = 341,               /* MULTEQUAL  */
+    DIVEQUAL = 342,                /* DIVEQUAL  */
+    BANDEQUAL = 343,               /* BANDEQUAL  */
+    BOREQUAL = 344,                /* BOREQUAL  */
+    BXOREQUAL = 345,               /* BXOREQUAL  */
+    MODEQUAL = 346,                /* MODEQUAL  */
+    LSHIFTEQUAL = 347,             /* LSHIFTEQUAL  */
+    RSHIFTEQUAL = 348,             /* RSHIFTEQUAL  */
+    UNRSHIFTEQUAL = 349,           /* UNRSHIFTEQUAL  */
+    IF = 350,                      /* IF  */
+    ELSE = 351,                    /* ELSE  */
+    WHILE = 352,                   /* WHILE  */
+    FOR = 353,                     /* FOR  */
+    RETURN = 354,                  /* RETURN  */
+    CONTINUE = 355,                /* CONTINUE  */
+    BREAK = 356,                   /* BREAK  */
+    YIELD = 357,                   /* YIELD  */
+    SEALED = 358,                  /* SEALED  */
+    PROTECTED = 359,               /* PROTECTED  */
+    PUBLIC = 360,                  /* PUBLIC  */
+    PRIVATE = 361,                 /* PRIVATE  */
+    STRICTFP = 362,                /* STRICTFP  */
+    ABSTRACT = 363,                /* ABSTRACT  */
+    DEFAULT = 364,                 /* DEFAULT  */
+    INTERFACE = 365,               /* INTERFACE  */
+    PERMITS = 366,                 /* PERMITS  */
+    NONSEALED = 367,               /* NONSEALED  */
+    TRANSIENT = 368,               /* TRANSIENT  */
+    VOLATILE = 369,                /* VOLATILE  */
+    NATIVE = 370,                  /* NATIVE  */
+    SYNCHRONIZED = 371,            /* SYNCHRONIZED  */
+    THROWS = 372,                  /* THROWS  */
+    ASSERT = 373,                  /* ASSERT  */
+    IDENTIFIER = 374,              /* IDENTIFIER  */
+    RECORD = 375,                  /* RECORD  */
+    LRSQUAREBRACKET = 376,         /* LRSQUAREBRACKET  */
+    SYSTEMOUTPRINTLN = 377         /* SYSTEMOUTPRINTLN  */
   };
+  typedef enum yytokentype yytoken_kind_t;
 #endif
-/* Tokens.  */
+/* Token kinds.  */
+#define YYEMPTY -2
+#define YYEOF 0
+#define YYerror 256
+#define YYUNDEF 257
 #define BOOLEAN 258
 #define CHAR 259
 #define BYTE 260
@@ -674,7 +676,7 @@ union YYSTYPE
     struct Node* node;
 	char* lexeme;
 
-#line 678 "y.tab.c"
+#line 680 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -699,9 +701,290 @@ struct YYLTYPE
 
 extern YYSTYPE yylval;
 extern YYLTYPE yylloc;
+
 int yyparse (void);
 
+
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+/* Symbol kind.  */
+enum yysymbol_kind_t
+{
+  YYSYMBOL_YYEMPTY = -2,
+  YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
+  YYSYMBOL_YYerror = 1,                    /* error  */
+  YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
+  YYSYMBOL_BOOLEAN = 3,                    /* BOOLEAN  */
+  YYSYMBOL_CHAR = 4,                       /* CHAR  */
+  YYSYMBOL_BYTE = 5,                       /* BYTE  */
+  YYSYMBOL_SHORT = 6,                      /* SHORT  */
+  YYSYMBOL_INT = 7,                        /* INT  */
+  YYSYMBOL_LONG = 8,                       /* LONG  */
+  YYSYMBOL_FLOAT = 9,                      /* FLOAT  */
+  YYSYMBOL_DOUBLE = 10,                    /* DOUBLE  */
+  YYSYMBOL_VOID = 11,                      /* VOID  */
+  YYSYMBOL_EXTENDS = 12,                   /* EXTENDS  */
+  YYSYMBOL_SUPER = 13,                     /* SUPER  */
+  YYSYMBOL_STRING = 14,                    /* STRING  */
+  YYSYMBOL_THIS = 15,                      /* THIS  */
+  YYSYMBOL_VAR = 16,                       /* VAR  */
+  YYSYMBOL_INSTANCEOF = 17,                /* INSTANCEOF  */
+  YYSYMBOL_FINAL = 18,                     /* FINAL  */
+  YYSYMBOL_NEW = 19,                       /* NEW  */
+  YYSYMBOL_CHARACTERLITERAL = 20,          /* CHARACTERLITERAL  */
+  YYSYMBOL_STRINGLITERAL = 21,             /* STRINGLITERAL  */
+  YYSYMBOL_TEXTBLOCK = 22,                 /* TEXTBLOCK  */
+  YYSYMBOL_NULLLITERAL = 23,               /* NULLLITERAL  */
+  YYSYMBOL_CLASS = 24,                     /* CLASS  */
+  YYSYMBOL_PACKAGE = 25,                   /* PACKAGE  */
+  YYSYMBOL_IMPORT = 26,                    /* IMPORT  */
+  YYSYMBOL_STATIC = 27,                    /* STATIC  */
+  YYSYMBOL_DO = 28,                        /* DO  */
+  YYSYMBOL_INTEGERLITERAL = 29,            /* INTEGERLITERAL  */
+  YYSYMBOL_FLOATINGPOINTLITERAL = 30,      /* FLOATINGPOINTLITERAL  */
+  YYSYMBOL_BOOLEANLITERAL = 31,            /* BOOLEANLITERAL  */
+  YYSYMBOL_JAVALETTER = 32,                /* JAVALETTER  */
+  YYSYMBOL_JAVALETTERORDIGIT = 33,         /* JAVALETTERORDIGIT  */
+  YYSYMBOL_OPEN = 34,                      /* OPEN  */
+  YYSYMBOL_MODULE = 35,                    /* MODULE  */
+  YYSYMBOL_REQUIRES = 36,                  /* REQUIRES  */
+  YYSYMBOL_EXPORTS = 37,                   /* EXPORTS  */
+  YYSYMBOL_OPENS = 38,                     /* OPENS  */
+  YYSYMBOL_USES = 39,                      /* USES  */
+  YYSYMBOL_PROVIDES = 40,                  /* PROVIDES  */
+  YYSYMBOL_TO = 41,                        /* TO  */
+  YYSYMBOL_WITH = 42,                      /* WITH  */
+  YYSYMBOL_TRANSITIVE = 43,                /* TRANSITIVE  */
+  YYSYMBOL_LEFTSQUAREBRACKET = 44,         /* LEFTSQUAREBRACKET  */
+  YYSYMBOL_RIGHTSQUAREBRACKET = 45,        /* RIGHTSQUAREBRACKET  */
+  YYSYMBOL_LEFTCURLYBRACKET = 46,          /* LEFTCURLYBRACKET  */
+  YYSYMBOL_RIGHTCURLYBRACKET = 47,         /* RIGHTCURLYBRACKET  */
+  YYSYMBOL_LEFTPARENTHESIS = 48,           /* LEFTPARENTHESIS  */
+  YYSYMBOL_RIGHTPARENTHESIS = 49,          /* RIGHTPARENTHESIS  */
+  YYSYMBOL_SEMICOLON = 50,                 /* SEMICOLON  */
+  YYSYMBOL_COMMA = 51,                     /* COMMA  */
+  YYSYMBOL_DOT = 52,                       /* DOT  */
+  YYSYMBOL_ELLIPSIS = 53,                  /* ELLIPSIS  */
+  YYSYMBOL_AT = 54,                        /* AT  */
+  YYSYMBOL_DOUBLECOLON = 55,               /* DOUBLECOLON  */
+  YYSYMBOL_ASSIGN = 56,                    /* ASSIGN  */
+  YYSYMBOL_GRT = 57,                       /* GRT  */
+  YYSYMBOL_LSS = 58,                       /* LSS  */
+  YYSYMBOL_NOT = 59,                       /* NOT  */
+  YYSYMBOL_TIL = 60,                       /* TIL  */
+  YYSYMBOL_QUES = 61,                      /* QUES  */
+  YYSYMBOL_COL = 62,                       /* COL  */
+  YYSYMBOL_ARW = 63,                       /* ARW  */
+  YYSYMBOL_EQUAL = 64,                     /* EQUAL  */
+  YYSYMBOL_GEQ = 65,                       /* GEQ  */
+  YYSYMBOL_IMPLEMENTS = 66,                /* IMPLEMENTS  */
+  YYSYMBOL_LEQ = 67,                       /* LEQ  */
+  YYSYMBOL_NEQUAL = 68,                    /* NEQUAL  */
+  YYSYMBOL_AND = 69,                       /* AND  */
+  YYSYMBOL_OR = 70,                        /* OR  */
+  YYSYMBOL_INCRE = 71,                     /* INCRE  */
+  YYSYMBOL_DECRE = 72,                     /* DECRE  */
+  YYSYMBOL_PLUS = 73,                      /* PLUS  */
+  YYSYMBOL_MINUS = 74,                     /* MINUS  */
+  YYSYMBOL_MULT = 75,                      /* MULT  */
+  YYSYMBOL_DIV = 76,                       /* DIV  */
+  YYSYMBOL_BAND = 77,                      /* BAND  */
+  YYSYMBOL_BOR = 78,                       /* BOR  */
+  YYSYMBOL_BXOR = 79,                      /* BXOR  */
+  YYSYMBOL_MOD = 80,                       /* MOD  */
+  YYSYMBOL_LSHIFT = 81,                    /* LSHIFT  */
+  YYSYMBOL_RSHIFT = 82,                    /* RSHIFT  */
+  YYSYMBOL_UNRSHIFT = 83,                  /* UNRSHIFT  */
+  YYSYMBOL_PLUSEQUAL = 84,                 /* PLUSEQUAL  */
+  YYSYMBOL_MINUSEQUAL = 85,                /* MINUSEQUAL  */
+  YYSYMBOL_MULTEQUAL = 86,                 /* MULTEQUAL  */
+  YYSYMBOL_DIVEQUAL = 87,                  /* DIVEQUAL  */
+  YYSYMBOL_BANDEQUAL = 88,                 /* BANDEQUAL  */
+  YYSYMBOL_BOREQUAL = 89,                  /* BOREQUAL  */
+  YYSYMBOL_BXOREQUAL = 90,                 /* BXOREQUAL  */
+  YYSYMBOL_MODEQUAL = 91,                  /* MODEQUAL  */
+  YYSYMBOL_LSHIFTEQUAL = 92,               /* LSHIFTEQUAL  */
+  YYSYMBOL_RSHIFTEQUAL = 93,               /* RSHIFTEQUAL  */
+  YYSYMBOL_UNRSHIFTEQUAL = 94,             /* UNRSHIFTEQUAL  */
+  YYSYMBOL_IF = 95,                        /* IF  */
+  YYSYMBOL_ELSE = 96,                      /* ELSE  */
+  YYSYMBOL_WHILE = 97,                     /* WHILE  */
+  YYSYMBOL_FOR = 98,                       /* FOR  */
+  YYSYMBOL_RETURN = 99,                    /* RETURN  */
+  YYSYMBOL_CONTINUE = 100,                 /* CONTINUE  */
+  YYSYMBOL_BREAK = 101,                    /* BREAK  */
+  YYSYMBOL_YIELD = 102,                    /* YIELD  */
+  YYSYMBOL_SEALED = 103,                   /* SEALED  */
+  YYSYMBOL_PROTECTED = 104,                /* PROTECTED  */
+  YYSYMBOL_PUBLIC = 105,                   /* PUBLIC  */
+  YYSYMBOL_PRIVATE = 106,                  /* PRIVATE  */
+  YYSYMBOL_STRICTFP = 107,                 /* STRICTFP  */
+  YYSYMBOL_ABSTRACT = 108,                 /* ABSTRACT  */
+  YYSYMBOL_DEFAULT = 109,                  /* DEFAULT  */
+  YYSYMBOL_INTERFACE = 110,                /* INTERFACE  */
+  YYSYMBOL_PERMITS = 111,                  /* PERMITS  */
+  YYSYMBOL_NONSEALED = 112,                /* NONSEALED  */
+  YYSYMBOL_TRANSIENT = 113,                /* TRANSIENT  */
+  YYSYMBOL_VOLATILE = 114,                 /* VOLATILE  */
+  YYSYMBOL_NATIVE = 115,                   /* NATIVE  */
+  YYSYMBOL_SYNCHRONIZED = 116,             /* SYNCHRONIZED  */
+  YYSYMBOL_THROWS = 117,                   /* THROWS  */
+  YYSYMBOL_ASSERT = 118,                   /* ASSERT  */
+  YYSYMBOL_IDENTIFIER = 119,               /* IDENTIFIER  */
+  YYSYMBOL_RECORD = 120,                   /* RECORD  */
+  YYSYMBOL_LRSQUAREBRACKET = 121,          /* LRSQUAREBRACKET  */
+  YYSYMBOL_SYSTEMOUTPRINTLN = 122,         /* SYSTEMOUTPRINTLN  */
+  YYSYMBOL_YYACCEPT = 123,                 /* $accept  */
+  YYSYMBOL_CompilationUnit = 124,          /* CompilationUnit  */
+  YYSYMBOL_OrdinaryCompilationUnit = 125,  /* OrdinaryCompilationUnit  */
+  YYSYMBOL_PackageDeclaration = 126,       /* PackageDeclaration  */
+  YYSYMBOL_ModularCompilationUnit = 127,   /* ModularCompilationUnit  */
+  YYSYMBOL_ImportDeclaration = 128,        /* ImportDeclaration  */
+  YYSYMBOL_SingleTypeImportDeclaration = 129, /* SingleTypeImportDeclaration  */
+  YYSYMBOL_TypeImportOnDemandDeclaration = 130, /* TypeImportOnDemandDeclaration  */
+  YYSYMBOL_SingleStaticImportDeclaration = 131, /* SingleStaticImportDeclaration  */
+  YYSYMBOL_StaticImportOnDemandDeclaration = 132, /* StaticImportOnDemandDeclaration  */
+  YYSYMBOL_ModuleDeclaration = 133,        /* ModuleDeclaration  */
+  YYSYMBOL_ModuleDirective = 134,          /* ModuleDirective  */
+  YYSYMBOL_RequiresModifier = 135,         /* RequiresModifier  */
+  YYSYMBOL_TopLevelClassOrInterfaceDeclaration = 136, /* TopLevelClassOrInterfaceDeclaration  */
+  YYSYMBOL_TopLevelClassOrInterfaceDeclarations = 137, /* TopLevelClassOrInterfaceDeclarations  */
+  YYSYMBOL_Name = 138,                     /* Name  */
+  YYSYMBOL_DotIdentifiers = 139,           /* DotIdentifiers  */
+  YYSYMBOL_CommaNames = 140,               /* CommaNames  */
+  YYSYMBOL_Class = 141,                    /* Class  */
+  YYSYMBOL_ClassDeclaration = 142,         /* ClassDeclaration  */
+  YYSYMBOL_NormalClassDeclaration = 143,   /* NormalClassDeclaration  */
+  YYSYMBOL_Modifier = 144,                 /* Modifier  */
+  YYSYMBOL_Modifiers = 145,                /* Modifiers  */
+  YYSYMBOL_TypeParameters = 146,           /* TypeParameters  */
+  YYSYMBOL_TypeParameterList = 147,        /* TypeParameterList  */
+  YYSYMBOL_ClassExtends = 148,             /* ClassExtends  */
+  YYSYMBOL_ClassPermits = 149,             /* ClassPermits  */
+  YYSYMBOL_ClassBody = 150,                /* ClassBody  */
+  YYSYMBOL_ClassBodyDeclaration = 151,     /* ClassBodyDeclaration  */
+  YYSYMBOL_ClassBodyDeclarations = 152,    /* ClassBodyDeclarations  */
+  YYSYMBOL_ClassMemberDeclaration = 153,   /* ClassMemberDeclaration  */
+  YYSYMBOL_FieldDeclaration = 154,         /* FieldDeclaration  */
+  YYSYMBOL_VariableDeclaratorList = 155,   /* VariableDeclaratorList  */
+  YYSYMBOL_VariableDeclarator = 156,       /* VariableDeclarator  */
+  YYSYMBOL_CommaVariableDeclarators = 157, /* CommaVariableDeclarators  */
+  YYSYMBOL_VariableDeclaratorId = 158,     /* VariableDeclaratorId  */
+  YYSYMBOL_VariableInitializer = 159,      /* VariableInitializer  */
+  YYSYMBOL_CommaVariableInitializers = 160, /* CommaVariableInitializers  */
+  YYSYMBOL_leftcurl = 161,                 /* leftcurl  */
+  YYSYMBOL_ArrayInitializer = 162,         /* ArrayInitializer  */
+  YYSYMBOL_MethodDeclaration = 163,        /* MethodDeclaration  */
+  YYSYMBOL_MethodHeader = 164,             /* MethodHeader  */
+  YYSYMBOL_Result = 165,                   /* Result  */
+  YYSYMBOL_MethodDeclarator = 166,         /* MethodDeclarator  */
+  YYSYMBOL_ReceiverParameter = 167,        /* ReceiverParameter  */
+  YYSYMBOL_FormalParameterList = 168,      /* FormalParameterList  */
+  YYSYMBOL_CommaFormalParameters = 169,    /* CommaFormalParameters  */
+  YYSYMBOL_FormalParameter = 170,          /* FormalParameter  */
+  YYSYMBOL_VariableArityParameter = 171,   /* VariableArityParameter  */
+  YYSYMBOL_VariableModifier = 172,         /* VariableModifier  */
+  YYSYMBOL_VariableModifiers = 173,        /* VariableModifiers  */
+  YYSYMBOL_MethodBody = 174,               /* MethodBody  */
+  YYSYMBOL_InstanceInitializer = 175,      /* InstanceInitializer  */
+  YYSYMBOL_StaticInitializer = 176,        /* StaticInitializer  */
+  YYSYMBOL_ConstructorDeclaration = 177,   /* ConstructorDeclaration  */
+  YYSYMBOL_ConstructorDeclarator = 178,    /* ConstructorDeclarator  */
+  YYSYMBOL_ConstructorBody = 179,          /* ConstructorBody  */
+  YYSYMBOL_ExplicitConstructorInvocation = 180, /* ExplicitConstructorInvocation  */
+  YYSYMBOL_ArgumentList = 181,             /* ArgumentList  */
+  YYSYMBOL_Block = 182,                    /* Block  */
+  YYSYMBOL_BlockStatement = 183,           /* BlockStatement  */
+  YYSYMBOL_BlockStatements = 184,          /* BlockStatements  */
+  YYSYMBOL_LocalClassOrInterfaceDeclaration = 185, /* LocalClassOrInterfaceDeclaration  */
+  YYSYMBOL_LocalVariableDeclarationStatement = 186, /* LocalVariableDeclarationStatement  */
+  YYSYMBOL_LocalVariableDeclaration = 187, /* LocalVariableDeclaration  */
+  YYSYMBOL_LocalVariableType = 188,        /* LocalVariableType  */
+  YYSYMBOL_Statement = 189,                /* Statement  */
+  YYSYMBOL_StatementNoShortIf = 190,       /* StatementNoShortIf  */
+  YYSYMBOL_StatementWithoutTrailingSubstatement = 191, /* StatementWithoutTrailingSubstatement  */
+  YYSYMBOL_DoStatement = 192,              /* DoStatement  */
+  YYSYMBOL_EmptyStatement = 193,           /* EmptyStatement  */
+  YYSYMBOL_LabeledStatement = 194,         /* LabeledStatement  */
+  YYSYMBOL_LabeledStatementNoShortIf = 195, /* LabeledStatementNoShortIf  */
+  YYSYMBOL_ExpressionStatement = 196,      /* ExpressionStatement  */
+  YYSYMBOL_StatementExpression = 197,      /* StatementExpression  */
+  YYSYMBOL_CommaStatementExpressions = 198, /* CommaStatementExpressions  */
+  YYSYMBOL_IfThenStatement = 199,          /* IfThenStatement  */
+  YYSYMBOL__StatementNoShortIf = 200,      /* _StatementNoShortIf  */
+  YYSYMBOL_IfThenElseStatement = 201,      /* IfThenElseStatement  */
+  YYSYMBOL_IfThenElseStatementNoShortIf = 202, /* IfThenElseStatementNoShortIf  */
+  YYSYMBOL_AssertStatement = 203,          /* AssertStatement  */
+  YYSYMBOL_WhileStatement = 204,           /* WhileStatement  */
+  YYSYMBOL_WhileStatementNoShortIf = 205,  /* WhileStatementNoShortIf  */
+  YYSYMBOL_ForStatement = 206,             /* ForStatement  */
+  YYSYMBOL_ForStatementNoShortIf = 207,    /* ForStatementNoShortIf  */
+  YYSYMBOL_BasicForStatement = 208,        /* BasicForStatement  */
+  YYSYMBOL_BasicForStatementNoShortIf = 209, /* BasicForStatementNoShortIf  */
+  YYSYMBOL_ForInit = 210,                  /* ForInit  */
+  YYSYMBOL_ForUpdate = 211,                /* ForUpdate  */
+  YYSYMBOL_StatementExpressionList = 212,  /* StatementExpressionList  */
+  YYSYMBOL_EnhancedForStatement = 213,     /* EnhancedForStatement  */
+  YYSYMBOL_EnhancedForStatementNoShortIf = 214, /* EnhancedForStatementNoShortIf  */
+  YYSYMBOL_BreakStatement = 215,           /* BreakStatement  */
+  YYSYMBOL_ContinueStatement = 216,        /* ContinueStatement  */
+  YYSYMBOL_ReturnStatement = 217,          /* ReturnStatement  */
+  YYSYMBOL_LeftRightSquareBrackets = 218,  /* LeftRightSquareBrackets  */
+  YYSYMBOL_Primary = 219,                  /* Primary  */
+  YYSYMBOL_PrimaryNoNewArray = 220,        /* PrimaryNoNewArray  */
+  YYSYMBOL_ClassLiteral = 221,             /* ClassLiteral  */
+  YYSYMBOL_NumericType = 222,              /* NumericType  */
+  YYSYMBOL_IntegralType = 223,             /* IntegralType  */
+  YYSYMBOL_FloatingPointType = 224,        /* FloatingPointType  */
+  YYSYMBOL_ClassInstanceCreationExpression = 225, /* ClassInstanceCreationExpression  */
+  YYSYMBOL_UnqualifiedClassInstanceCreationExpression = 226, /* UnqualifiedClassInstanceCreationExpression  */
+  YYSYMBOL_FieldAccess = 227,              /* FieldAccess  */
+  YYSYMBOL_ArrayAccess = 228,              /* ArrayAccess  */
+  YYSYMBOL_MethodInvocation = 229,         /* MethodInvocation  */
+  YYSYMBOL_MethodReference = 230,          /* MethodReference  */
+  YYSYMBOL_ArrayCreationExpression = 231,  /* ArrayCreationExpression  */
+  YYSYMBOL_DimExpr_ = 232,                 /* DimExpr_  */
+  YYSYMBOL_Dims = 233,                     /* Dims  */
+  YYSYMBOL_Expression = 234,               /* Expression  */
+  YYSYMBOL_CommaExpressions = 235,         /* CommaExpressions  */
+  YYSYMBOL_AssignmentExpression = 236,     /* AssignmentExpression  */
+  YYSYMBOL_Assignment = 237,               /* Assignment  */
+  YYSYMBOL_LeftHandSide = 238,             /* LeftHandSide  */
+  YYSYMBOL_AssignmentOperatorEqual = 239,  /* AssignmentOperatorEqual  */
+  YYSYMBOL_AssignmentOperator = 240,       /* AssignmentOperator  */
+  YYSYMBOL_ColConditional = 241,           /* ColConditional  */
+  YYSYMBOL_ConditionalExpression = 242,    /* ConditionalExpression  */
+  YYSYMBOL_ConditionalOrExpression = 243,  /* ConditionalOrExpression  */
+  YYSYMBOL_ConditionalAndExpression = 244, /* ConditionalAndExpression  */
+  YYSYMBOL_InclusiveOrExpression = 245,    /* InclusiveOrExpression  */
+  YYSYMBOL_ExclusiveOrExpression = 246,    /* ExclusiveOrExpression  */
+  YYSYMBOL_AndExpression = 247,            /* AndExpression  */
+  YYSYMBOL_EqualityExpression = 248,       /* EqualityExpression  */
+  YYSYMBOL_RelationalExpression = 249,     /* RelationalExpression  */
+  YYSYMBOL_InstanceofExpression = 250,     /* InstanceofExpression  */
+  YYSYMBOL_ShiftExpression = 251,          /* ShiftExpression  */
+  YYSYMBOL_AdditiveExpression = 252,       /* AdditiveExpression  */
+  YYSYMBOL_MultiplicativeExpression = 253, /* MultiplicativeExpression  */
+  YYSYMBOL_UnaryExpression = 254,          /* UnaryExpression  */
+  YYSYMBOL_PreIncrementExpression = 255,   /* PreIncrementExpression  */
+  YYSYMBOL_PreDecrementExpression = 256,   /* PreDecrementExpression  */
+  YYSYMBOL_UnaryExpressionNotPlusMinus = 257, /* UnaryExpressionNotPlusMinus  */
+  YYSYMBOL_CastExpression = 258,           /* CastExpression  */
+  YYSYMBOL_PostfixExpression = 259,        /* PostfixExpression  */
+  YYSYMBOL_PostIncrementExpression = 260,  /* PostIncrementExpression  */
+  YYSYMBOL_PostDecrementExpression = 261,  /* PostDecrementExpression  */
+  YYSYMBOL_Type = 262,                     /* Type  */
+  YYSYMBOL_PrimitiveType = 263,            /* PrimitiveType  */
+  YYSYMBOL_ReferenceType = 264,            /* ReferenceType  */
+  YYSYMBOL_ArrayType = 265,                /* ArrayType  */
+  YYSYMBOL_TypeParameter = 266,            /* TypeParameter  */
+  YYSYMBOL_CommaTypeParameters = 267,      /* CommaTypeParameters  */
+  YYSYMBOL_Literal = 268,                  /* Literal  */
+  YYSYMBOL_ImportDeclarations = 269,       /* ImportDeclarations  */
+  YYSYMBOL_ModuleDirectives = 270,         /* ModuleDirectives  */
+  YYSYMBOL_RequiresModifiers = 271         /* RequiresModifiers  */
+};
+typedef enum yysymbol_kind_t yysymbol_kind_t;
+
 
 
 
@@ -740,6 +1023,18 @@ typedef __INT_LEAST16_TYPE__ yytype_int16;
 typedef int_least16_t yytype_int16;
 #else
 typedef short yytype_int16;
+#endif
+
+/* Work around bug in HP-UX 11.23, which defines these macros
+   incorrectly for preprocessor constants.  This workaround can likely
+   be removed in 2023, as HPE has promised support for HP-UX 11.23
+   (aka HP-UX 11i v2) only through the end of 2022; see Table 2 of
+   <https://h20195.www2.hpe.com/V2/getpdf.aspx/4AA4-7673ENW.pdf>.  */
+#ifdef __hpux
+# undef UINT_LEAST8_MAX
+# undef UINT_LEAST16_MAX
+# define UINT_LEAST8_MAX 255
+# define UINT_LEAST16_MAX 65535
 #endif
 
 #if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
@@ -801,6 +1096,7 @@ typedef int yytype_uint16;
 
 #define YYSIZEOF(X) YY_CAST (YYPTRDIFF_T, sizeof (X))
 
+
 /* Stored state numbers (used for stacks). */
 typedef yytype_int16 yy_state_t;
 
@@ -818,6 +1114,7 @@ typedef int yy_state_fast_t;
 #  define YY_(Msgid) Msgid
 # endif
 #endif
+
 
 #ifndef YY_ATTRIBUTE_PURE
 # if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
@@ -837,17 +1134,23 @@ typedef int yy_state_fast_t;
 
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
-# define YYUSE(E) ((void) (E))
+# define YY_USE(E) ((void) (E))
 #else
-# define YYUSE(E) /* empty */
+# define YY_USE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
+#if defined __GNUC__ && ! defined __ICC && 406 <= __GNUC__ * 100 + __GNUC_MINOR__
+# if __GNUC__ * 100 + __GNUC_MINOR__ < 407
+#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
+    _Pragma ("GCC diagnostic push")                                     \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")
+# else
+#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
     _Pragma ("GCC diagnostic push")                                     \
     _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
+# endif
 # define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
     _Pragma ("GCC diagnostic pop")
 #else
@@ -876,7 +1179,7 @@ typedef int yy_state_fast_t;
 
 #define YY_ASSERT(E) ((void) (0 && (E)))
 
-#if ! defined yyoverflow || YYERROR_VERBOSE
+#if !defined yyoverflow
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
@@ -941,8 +1244,7 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 # endif
-#endif /* ! defined yyoverflow || YYERROR_VERBOSE */
-
+#endif /* !defined yyoverflow */
 
 #if (! defined yyoverflow \
      && (! defined __cplusplus \
@@ -1021,14 +1323,16 @@ union yyalloc
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  864
 
-#define YYUNDEFTOK  2
+/* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   377
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, with out-of-bounds checking.  */
-#define YYTRANSLATE(YYX)                                                \
-  (0 <= (YYX) && (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+#define YYTRANSLATE(YYX)                                \
+  (0 <= (YYX) && (YYX) <= YYMAXUTOK                     \
+   ? YY_CAST (yysymbol_kind_t, yytranslate[YYX])        \
+   : YYSYMBOL_YYUNDEF)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
@@ -1075,7 +1379,7 @@ static const yytype_int8 yytranslate[] =
 };
 
 #if YYDEBUG
-  /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
+/* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
        0,   360,   360,   394,   412,   426,   444,   457,   492,   496,
@@ -1092,65 +1396,72 @@ static const yytype_int16 yyrline[] =
     2274,  2291,  2298,  2305,  2340,  2354,  2370,  2404,  2427,  2488,
     2547,  2599,  2603,  2614,  2624,  2637,  2651,  2666,  2683,  2703,
     2724,  2752,  2764,  2776,  2783,  2810,  2811,  2831,  2838,  2871,
-    2878,  2888,  2906,  2917,  2918,  2939,  2948,  2961,  2968,  2982,
-    3003,  3047,  3081,  3095,  3154,  3207,  3220,  3235,  3288,  3348,
-    3367,  3382,  3406,  3423,  3454,  3491,  3522,  3557,  3577,  3596,
-    3620,  3646,  3688,  3728,  3756,  3788,  3817,  3824,  3846,  3850,
-    3854,  3861,  3862,  3885,  3894,  3908,  3970,  4041,  4045,  4049,
-    4060,  4064,  4068,  4072,  4076,  4080,  4087,  4091,  4095,  4099,
-    4103,  4110,  4114,  4118,  4122,  4127,  4131,  4135,  4139,  4151,
-    4196,  4210,  4226,  4242,  4259,  4263,  4267,  4271,  4275,  4279,
-    4283,  4290,  4291,  4311,  4341,  4357,  4390,  4420,  4439,  4464,
-    4491,  4524,  4528,  4535,  4539,  4546,  4587,  4610,  4633,  4666,
-    4700,  4733,  4764,  4803,  4831,  4855,  4879,  4906,  4939,  4966,
-    4998,  5036,  5040,  5047,  5060,  5064,  5075,  5091,  5105,  5121,
-    5139,  5155,  5172,  5195,  5228,  5229,  5252,  5256,  5263,  5267,
-    5271,  5276,  5287,  5305,  5309,  5313,  5317,  5321,  5328,  5341,
-    5357,  5377,  5400,  5417,  5422,  5429,  5435,  5441,  5447,  5453,
-    5462,  5468,  5477,  5481,  5497,  5516,  5552,  5585,  5620,  5654,
-    5687,  5722,  5743,  5764,  5791,  5827,  5870,  5930,  5976,  6022,
-    6045,  6070,  6111,  6154,  6197,  6244,  6300,  6327,  6372,  6414,
-    6446,  6459,  6470,  6481,  6491,  6503,  6518,  6529,  6547,  6563,
-    6579,  6604,  6608,  6626,  6630,  6646,  6668,  6672,  6689,  6713,
-    6748,  6755,  6765,  6772,  6773,  6794,  6798,  6805,  6866,  6925,
-    6929,  6933,  6950,  6958,  6963,  6968,  6973,  6978,  6983,  6988,
-    6993,  6998,  7003,  7008,  7016,  7042,  7046,  7107,  7111,  7157,
-    7161,  7206,  7210,  7252,  7256,  7298,  7302,  7344,  7348,  7386,
-    7428,  7432,  7471,  7509,  7548,  7588,  7595,  7621,  7625,  7664,
-    7703,  7746,  7750,  7794,  7838,  7842,  7882,  7921,  7963,  7967,
-    7971,  7995,  8019,  8025,  8058,  8090,  8094,  8118,  8143,  8150,
-    8198,  8202,  8206,  8210,  8217,  8254,  8288,  8292,  8299,  8303,
-    8309,  8318,  8322,  8335,  8359,  8386,  8391,  8399,  8400,  8437,
-    8446,  8454,  8462,  8471,  8479,  8487,  8507,  8508,  8527,  8528,
-    8547,  8548
+    2878,  2888,  2906,  2917,  2918,  2939,  2961,  2974,  2981,  2995,
+    3016,  3060,  3094,  3108,  3167,  3220,  3233,  3248,  3301,  3361,
+    3380,  3395,  3419,  3436,  3467,  3504,  3535,  3570,  3590,  3609,
+    3633,  3659,  3701,  3741,  3769,  3801,  3830,  3836,  3858,  3862,
+    3866,  3873,  3874,  3897,  3906,  3920,  3982,  4053,  4057,  4061,
+    4072,  4076,  4080,  4084,  4088,  4092,  4099,  4103,  4107,  4111,
+    4115,  4122,  4126,  4130,  4134,  4139,  4143,  4147,  4151,  4163,
+    4208,  4222,  4238,  4254,  4271,  4275,  4279,  4283,  4287,  4291,
+    4295,  4302,  4303,  4323,  4353,  4369,  4402,  4432,  4451,  4476,
+    4503,  4536,  4540,  4547,  4551,  4558,  4599,  4622,  4645,  4678,
+    4712,  4745,  4776,  4815,  4843,  4867,  4891,  4918,  4951,  4978,
+    5010,  5048,  5052,  5059,  5072,  5076,  5087,  5103,  5117,  5133,
+    5151,  5167,  5184,  5207,  5240,  5241,  5264,  5268,  5275,  5279,
+    5283,  5288,  5299,  5317,  5321,  5325,  5329,  5333,  5340,  5353,
+    5369,  5389,  5412,  5429,  5434,  5441,  5447,  5453,  5459,  5465,
+    5474,  5480,  5489,  5493,  5509,  5528,  5564,  5597,  5632,  5666,
+    5699,  5734,  5755,  5776,  5803,  5839,  5882,  5942,  5988,  6034,
+    6057,  6082,  6123,  6166,  6209,  6256,  6312,  6339,  6384,  6426,
+    6458,  6471,  6482,  6493,  6503,  6515,  6530,  6541,  6559,  6575,
+    6591,  6616,  6620,  6638,  6642,  6658,  6680,  6684,  6701,  6725,
+    6760,  6767,  6777,  6784,  6785,  6806,  6810,  6817,  6878,  6937,
+    6941,  6945,  6962,  6970,  6975,  6980,  6985,  6990,  6995,  7000,
+    7005,  7010,  7015,  7020,  7028,  7054,  7058,  7119,  7123,  7169,
+    7173,  7218,  7222,  7264,  7268,  7310,  7314,  7356,  7360,  7398,
+    7440,  7444,  7483,  7521,  7560,  7600,  7607,  7633,  7637,  7676,
+    7715,  7758,  7762,  7806,  7850,  7854,  7894,  7933,  7975,  7979,
+    7983,  8007,  8031,  8037,  8070,  8102,  8106,  8130,  8155,  8162,
+    8210,  8214,  8218,  8222,  8229,  8266,  8300,  8304,  8311,  8315,
+    8321,  8330,  8334,  8347,  8371,  8398,  8403,  8411,  8412,  8449,
+    8458,  8466,  8474,  8483,  8491,  8499,  8519,  8520,  8539,  8540,
+    8559,  8560
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || 0
+/** Accessing symbol of state STATE.  */
+#define YY_ACCESSING_SYMBOL(State) YY_CAST (yysymbol_kind_t, yystos[State])
+
+#if YYDEBUG || 0
+/* The user-facing name of the symbol whose (internal) number is
+   YYSYMBOL.  No bounds checking.  */
+static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
+
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "BOOLEAN", "CHAR", "BYTE", "SHORT",
-  "INT", "LONG", "FLOAT", "DOUBLE", "VOID", "EXTENDS", "SUPER", "STRING",
-  "THIS", "VAR", "INSTANCEOF", "FINAL", "NEW", "CHARACTERLITERAL",
-  "STRINGLITERAL", "TEXTBLOCK", "NULLLITERAL", "CLASS", "PACKAGE",
-  "IMPORT", "STATIC", "DO", "INTEGERLITERAL", "FLOATINGPOINTLITERAL",
-  "BOOLEANLITERAL", "JAVALETTER", "JAVALETTERORDIGIT", "OPEN", "MODULE",
-  "REQUIRES", "EXPORTS", "OPENS", "USES", "PROVIDES", "TO", "WITH",
-  "TRANSITIVE", "LEFTSQUAREBRACKET", "RIGHTSQUAREBRACKET",
-  "LEFTCURLYBRACKET", "RIGHTCURLYBRACKET", "LEFTPARENTHESIS",
-  "RIGHTPARENTHESIS", "SEMICOLON", "COMMA", "DOT", "ELLIPSIS", "AT",
-  "DOUBLECOLON", "ASSIGN", "GRT", "LSS", "NOT", "TIL", "QUES", "COL",
-  "ARW", "EQUAL", "GEQ", "IMPLEMENTS", "LEQ", "NEQUAL", "AND", "OR",
-  "INCRE", "DECRE", "PLUS", "MINUS", "MULT", "DIV", "BAND", "BOR", "BXOR",
-  "MOD", "LSHIFT", "RSHIFT", "UNRSHIFT", "PLUSEQUAL", "MINUSEQUAL",
-  "MULTEQUAL", "DIVEQUAL", "BANDEQUAL", "BOREQUAL", "BXOREQUAL",
-  "MODEQUAL", "LSHIFTEQUAL", "RSHIFTEQUAL", "UNRSHIFTEQUAL", "IF", "ELSE",
-  "WHILE", "FOR", "RETURN", "CONTINUE", "BREAK", "YIELD", "SEALED",
-  "PROTECTED", "PUBLIC", "PRIVATE", "STRICTFP", "ABSTRACT", "DEFAULT",
-  "INTERFACE", "PERMITS", "NONSEALED", "TRANSIENT", "VOLATILE", "NATIVE",
-  "SYNCHRONIZED", "THROWS", "ASSERT", "IDENTIFIER", "RECORD",
+  "\"end of file\"", "error", "\"invalid token\"", "BOOLEAN", "CHAR",
+  "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "VOID", "EXTENDS",
+  "SUPER", "STRING", "THIS", "VAR", "INSTANCEOF", "FINAL", "NEW",
+  "CHARACTERLITERAL", "STRINGLITERAL", "TEXTBLOCK", "NULLLITERAL", "CLASS",
+  "PACKAGE", "IMPORT", "STATIC", "DO", "INTEGERLITERAL",
+  "FLOATINGPOINTLITERAL", "BOOLEANLITERAL", "JAVALETTER",
+  "JAVALETTERORDIGIT", "OPEN", "MODULE", "REQUIRES", "EXPORTS", "OPENS",
+  "USES", "PROVIDES", "TO", "WITH", "TRANSITIVE", "LEFTSQUAREBRACKET",
+  "RIGHTSQUAREBRACKET", "LEFTCURLYBRACKET", "RIGHTCURLYBRACKET",
+  "LEFTPARENTHESIS", "RIGHTPARENTHESIS", "SEMICOLON", "COMMA", "DOT",
+  "ELLIPSIS", "AT", "DOUBLECOLON", "ASSIGN", "GRT", "LSS", "NOT", "TIL",
+  "QUES", "COL", "ARW", "EQUAL", "GEQ", "IMPLEMENTS", "LEQ", "NEQUAL",
+  "AND", "OR", "INCRE", "DECRE", "PLUS", "MINUS", "MULT", "DIV", "BAND",
+  "BOR", "BXOR", "MOD", "LSHIFT", "RSHIFT", "UNRSHIFT", "PLUSEQUAL",
+  "MINUSEQUAL", "MULTEQUAL", "DIVEQUAL", "BANDEQUAL", "BOREQUAL",
+  "BXOREQUAL", "MODEQUAL", "LSHIFTEQUAL", "RSHIFTEQUAL", "UNRSHIFTEQUAL",
+  "IF", "ELSE", "WHILE", "FOR", "RETURN", "CONTINUE", "BREAK", "YIELD",
+  "SEALED", "PROTECTED", "PUBLIC", "PRIVATE", "STRICTFP", "ABSTRACT",
+  "DEFAULT", "INTERFACE", "PERMITS", "NONSEALED", "TRANSIENT", "VOLATILE",
+  "NATIVE", "SYNCHRONIZED", "THROWS", "ASSERT", "IDENTIFIER", "RECORD",
   "LRSQUAREBRACKET", "SYSTEMOUTPRINTLN", "$accept", "CompilationUnit",
   "OrdinaryCompilationUnit", "PackageDeclaration",
   "ModularCompilationUnit", "ImportDeclaration",
@@ -1205,28 +1516,13 @@ static const char *const yytname[] =
   "CommaTypeParameters", "Literal", "ImportDeclarations",
   "ModuleDirectives", "RequiresModifiers", YY_NULLPTR
 };
-#endif
 
-# ifdef YYPRINT
-/* YYTOKNUM[NUM] -- (External) token number corresponding to the
-   (internal) symbol number NUM (which must be that of a token).  */
-static const yytype_int16 yytoknum[] =
+static const char *
+yysymbol_name (yysymbol_kind_t yysymbol)
 {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,   306,   307,   308,   309,   310,   311,   312,   313,   314,
-     315,   316,   317,   318,   319,   320,   321,   322,   323,   324,
-     325,   326,   327,   328,   329,   330,   331,   332,   333,   334,
-     335,   336,   337,   338,   339,   340,   341,   342,   343,   344,
-     345,   346,   347,   348,   349,   350,   351,   352,   353,   354,
-     355,   356,   357,   358,   359,   360,   361,   362,   363,   364,
-     365,   366,   367,   368,   369,   370,   371,   372,   373,   374,
-     375,   376,   377
-};
-# endif
+  return yytname[yysymbol];
+}
+#endif
 
 #define YYPACT_NINF (-503)
 
@@ -1238,8 +1534,8 @@ static const yytype_int16 yytoknum[] =
 #define yytable_value_is_error(Yyn) \
   0
 
-  /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
-     STATE-NUM.  */
+/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+   STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
      295,   -12,    17,   103,    83,    85,  -503,   198,  -503,   198,
@@ -1331,9 +1627,9 @@ static const yytype_int16 yypact[] =
     -503,  -503,  2903,  -503
 };
 
-  /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
-     Performed when YYTABLE does not specify something else to do.  Zero
-     means the default is an error.  */
+/* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
+   Performed when YYTABLE does not specify something else to do.  Zero
+   means the default is an error.  */
 static const yytype_int16 yydefact[] =
 {
      436,     0,     0,     0,     0,     0,     2,   436,     3,   436,
@@ -1425,7 +1721,7 @@ static const yytype_int16 yydefact[] =
      249,   248,     0,   243
 };
 
-  /* YYPGOTO[NTERM-NUM].  */
+/* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
     -503,  -503,  -503,  -503,  -503,   879,  -503,  -503,  -503,  -503,
@@ -1445,10 +1741,10 @@ static const yytype_int16 yypgoto[] =
      -52,   -82,   -30,   671,   276,  -503,   257,  -130,   658
 };
 
-  /* YYDEFGOTO[NTERM-NUM].  */
+/* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int16 yydefgoto[] =
 {
-      -1,     5,     6,     7,     8,    23,    10,    11,    12,    13,
+       0,     5,     6,     7,     8,    23,    10,    11,    12,    13,
       14,   141,   266,    32,    33,   294,   127,   544,    34,   182,
       36,    37,    50,    97,   116,    58,    59,    60,   236,   237,
       99,   100,   244,   245,   405,   246,   640,   719,   538,   641,
@@ -1465,9 +1761,9 @@ static const yytype_int16 yydefgoto[] =
      296,   113,   297,   117,   542,   227,    15,   142,   267
 };
 
-  /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
-     positive, shift that token.  If negative, reduce the rule whose
-     number is the opposite.  If YYTABLE_NINF, syntax error.  */
+/* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
+   positive, shift that token.  If negative, reduce the rule whose
+   number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
      210,   264,   112,   476,   479,    57,    75,   504,   111,   185,
@@ -2408,8 +2704,8 @@ static const yytype_int16 yycheck[] =
       -1,   119,    -1,    -1,   122
 };
 
-  /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
-     symbol of state STATE-NUM.  */
+/* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
+   state STATE-NUM.  */
 static const yytype_int16 yystos[] =
 {
        0,    25,    26,    34,    35,   124,   125,   126,   127,   128,
@@ -2501,7 +2797,7 @@ static const yytype_int16 yystos[] =
      190,   190,    49,   190
 };
 
-  /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
+/* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int16 yyr1[] =
 {
        0,   123,   124,   124,   125,   125,   126,   126,   127,   127,
@@ -2551,7 +2847,7 @@ static const yytype_int16 yyr1[] =
      271,   271
 };
 
-  /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
+/* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     1,     3,     2,     3,     6,     1,     3,
@@ -2602,14 +2898,15 @@ static const yytype_int8 yyr2[] =
 };
 
 
+enum { YYENOMEM = -2 };
+
 #define yyerrok         (yyerrstatus = 0)
 #define yyclearin       (yychar = YYEMPTY)
-#define YYEMPTY         (-2)
-#define YYEOF           0
 
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
 #define YYERROR         goto yyerrorlab
+#define YYNOMEM         goto yyexhaustedlab
 
 
 #define YYRECOVERING()  (!!yyerrstatus)
@@ -2631,10 +2928,9 @@ static const yytype_int8 yyr2[] =
       }                                                           \
   while (0)
 
-/* Error token number */
-#define YYTERROR        1
-#define YYERRCODE       256
-
+/* Backward compatibility with an undocumented macro.
+   Use YYerror or YYUNDEF. */
+#define YYERRCODE YYUNDEF
 
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
    If N is 0, then set CURRENT to the empty location which ends
@@ -2678,12 +2974,19 @@ do {                                            \
 } while (0)
 
 
-/* YY_LOCATION_PRINT -- Print the location on the stream.
+/* YYLOCATION_PRINT -- Print the location on the stream.
    This macro was not mandated originally: define only if we know
    we won't break user code: when these are the locations we know.  */
 
-#ifndef YY_LOCATION_PRINT
-# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
+# ifndef YYLOCATION_PRINT
+
+#  if defined YY_LOCATION_PRINT
+
+   /* Temporary convenience wrapper in case some people defined the
+      undocumented and private YY_LOCATION_PRINT macros.  */
+#   define YYLOCATION_PRINT(File, Loc)  YY_LOCATION_PRINT(File, *(Loc))
+
+#  elif defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
@@ -2711,24 +3014,32 @@ yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
         res += YYFPRINTF (yyo, "-%d", end_col);
     }
   return res;
- }
+}
 
-#  define YY_LOCATION_PRINT(File, Loc)          \
-  yy_location_print_ (File, &(Loc))
+#   define YYLOCATION_PRINT  yy_location_print_
 
-# else
-#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-# endif
-#endif
+    /* Temporary convenience wrapper in case some people defined the
+       undocumented and private YY_LOCATION_PRINT macros.  */
+#   define YY_LOCATION_PRINT(File, Loc)  YYLOCATION_PRINT(File, &(Loc))
+
+#  else
+
+#   define YYLOCATION_PRINT(File, Loc) ((void) 0)
+    /* Temporary convenience wrapper in case some people defined the
+       undocumented and private YY_LOCATION_PRINT macros.  */
+#   define YY_LOCATION_PRINT  YYLOCATION_PRINT
+
+#  endif
+# endif /* !defined YYLOCATION_PRINT */
 
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)                    \
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                    \
 do {                                                                      \
   if (yydebug)                                                            \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
       yy_symbol_print (stderr,                                            \
-                  Type, Value, Location); \
+                  Kind, Value, Location); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
 } while (0)
@@ -2739,19 +3050,16 @@ do {                                                                      \
 `-----------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+yy_symbol_value_print (FILE *yyo,
+                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
 {
   FILE *yyoutput = yyo;
-  YYUSE (yyoutput);
-  YYUSE (yylocationp);
+  YY_USE (yyoutput);
+  YY_USE (yylocationp);
   if (!yyvaluep)
     return;
-# ifdef YYPRINT
-  if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
-# endif
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
+  YY_USE (yykind);
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
@@ -2761,14 +3069,15 @@ yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, YY
 `---------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+yy_symbol_print (FILE *yyo,
+                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
 {
   YYFPRINTF (yyo, "%s %s (",
-             yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
+             yykind < YYNTOKENS ? "token" : "nterm", yysymbol_name (yykind));
 
-  YY_LOCATION_PRINT (yyo, *yylocationp);
+  YYLOCATION_PRINT (yyo, yylocationp);
   YYFPRINTF (yyo, ": ");
-  yy_symbol_value_print (yyo, yytype, yyvaluep, yylocationp);
+  yy_symbol_value_print (yyo, yykind, yyvaluep, yylocationp);
   YYFPRINTF (yyo, ")");
 }
 
@@ -2801,7 +3110,8 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule)
+yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp,
+                 int yyrule)
 {
   int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
@@ -2813,9 +3123,9 @@ yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, YYLTYPE *yylsp, int yyrule)
     {
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
-                       yystos[+yyssp[yyi + 1 - yynrhs]],
-                       &yyvsp[(yyi + 1) - (yynrhs)]
-                       , &(yylsp[(yyi + 1) - (yynrhs)])                       );
+                       YY_ACCESSING_SYMBOL (+yyssp[yyi + 1 - yynrhs]),
+                       &yyvsp[(yyi + 1) - (yynrhs)],
+                       &(yylsp[(yyi + 1) - (yynrhs)]));
       YYFPRINTF (stderr, "\n");
     }
 }
@@ -2830,8 +3140,8 @@ do {                                    \
    multiple parsers can coexist.  */
 int yydebug;
 #else /* !YYDEBUG */
-# define YYDPRINTF(Args)
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
+# define YYDPRINTF(Args) ((void) 0)
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)
 # define YY_STACK_PRINT(Bottom, Top)
 # define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
@@ -2854,260 +3164,31 @@ int yydebug;
 #endif
 
 
-#if YYERROR_VERBOSE
 
-# ifndef yystrlen
-#  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
-#  else
-/* Return the length of YYSTR.  */
-static YYPTRDIFF_T
-yystrlen (const char *yystr)
-{
-  YYPTRDIFF_T yylen;
-  for (yylen = 0; yystr[yylen]; yylen++)
-    continue;
-  return yylen;
-}
-#  endif
-# endif
 
-# ifndef yystpcpy
-#  if defined __GLIBC__ && defined _STRING_H && defined _GNU_SOURCE
-#   define yystpcpy stpcpy
-#  else
-/* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
-   YYDEST.  */
-static char *
-yystpcpy (char *yydest, const char *yysrc)
-{
-  char *yyd = yydest;
-  const char *yys = yysrc;
 
-  while ((*yyd++ = *yys++) != '\0')
-    continue;
-
-  return yyd - 1;
-}
-#  endif
-# endif
-
-# ifndef yytnamerr
-/* Copy to YYRES the contents of YYSTR after stripping away unnecessary
-   quotes and backslashes, so that it's suitable for yyerror.  The
-   heuristic is that double-quoting is unnecessary unless the string
-   contains an apostrophe, a comma, or backslash (other than
-   backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
-   null, do not copy; instead, return the length of what the result
-   would have been.  */
-static YYPTRDIFF_T
-yytnamerr (char *yyres, const char *yystr)
-{
-  if (*yystr == '"')
-    {
-      YYPTRDIFF_T yyn = 0;
-      char const *yyp = yystr;
-
-      for (;;)
-        switch (*++yyp)
-          {
-          case '\'':
-          case ',':
-            goto do_not_strip_quotes;
-
-          case '\\':
-            if (*++yyp != '\\')
-              goto do_not_strip_quotes;
-            else
-              goto append;
-
-          append:
-          default:
-            if (yyres)
-              yyres[yyn] = *yyp;
-            yyn++;
-            break;
-
-          case '"':
-            if (yyres)
-              yyres[yyn] = '\0';
-            return yyn;
-          }
-    do_not_strip_quotes: ;
-    }
-
-  if (yyres)
-    return yystpcpy (yyres, yystr) - yyres;
-  else
-    return yystrlen (yystr);
-}
-# endif
-
-/* Copy into *YYMSG, which is of size *YYMSG_ALLOC, an error message
-   about the unexpected token YYTOKEN for the state stack whose top is
-   YYSSP.
-
-   Return 0 if *YYMSG was successfully written.  Return 1 if *YYMSG is
-   not large enough to hold the message.  In that case, also set
-   *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
-   required number of bytes is too large to store.  */
-static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
-{
-  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-  /* Internationalized format string. */
-  const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
-  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Actual size of YYARG. */
-  int yycount = 0;
-  /* Cumulated lengths of YYARG.  */
-  YYPTRDIFF_T yysize = 0;
-
-  /* There are many possibilities here to consider:
-     - If this state is a consistent state with a default action, then
-       the only way this function was invoked is if the default action
-       is an error action.  In that case, don't check for expected
-       tokens because there are none.
-     - The only way there can be no lookahead present (in yychar) is if
-       this state is a consistent state with a default action.  Thus,
-       detecting the absence of a lookahead is sufficient to determine
-       that there is no unexpected or expected token to report.  In that
-       case, just report a simple "syntax error".
-     - Don't assume there isn't a lookahead just because this state is a
-       consistent state with a default action.  There might have been a
-       previous inconsistent state, consistent state with a non-default
-       action, or user semantic action that manipulated yychar.
-     - Of course, the expected token list depends on states to have
-       correct lookahead information, and it depends on the parser not
-       to perform extra reductions after fetching a lookahead from the
-       scanner and before detecting a syntax error.  Thus, state merging
-       (from LALR or IELR) and default reductions corrupt the expected
-       token list.  However, the list is correct for canonical LR with
-       one exception: it will still contain any token that will not be
-       accepted due to an error action in a later state.
-  */
-  if (yytoken != YYEMPTY)
-    {
-      int yyn = yypact[+*yyssp];
-      YYPTRDIFF_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
-      yysize = yysize0;
-      yyarg[yycount++] = yytname[yytoken];
-      if (!yypact_value_is_default (yyn))
-        {
-          /* Start YYX at -YYN if negative to avoid negative indexes in
-             YYCHECK.  In other words, skip the first -YYN actions for
-             this state because they are default actions.  */
-          int yyxbegin = yyn < 0 ? -yyn : 0;
-          /* Stay within bounds of both yycheck and yytname.  */
-          int yychecklim = YYLAST - yyn + 1;
-          int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-          int yyx;
-
-          for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR
-                && !yytable_value_is_error (yytable[yyx + yyn]))
-              {
-                if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-                  {
-                    yycount = 1;
-                    yysize = yysize0;
-                    break;
-                  }
-                yyarg[yycount++] = yytname[yyx];
-                {
-                  YYPTRDIFF_T yysize1
-                    = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-                    yysize = yysize1;
-                  else
-                    return 2;
-                }
-              }
-        }
-    }
-
-  switch (yycount)
-    {
-# define YYCASE_(N, S)                      \
-      case N:                               \
-        yyformat = S;                       \
-      break
-    default: /* Avoid compiler warnings. */
-      YYCASE_(0, YY_("syntax error"));
-      YYCASE_(1, YY_("syntax error, unexpected %s"));
-      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
-# undef YYCASE_
-    }
-
-  {
-    /* Don't count the "%s"s in the final size, but reserve room for
-       the terminator.  */
-    YYPTRDIFF_T yysize1 = yysize + (yystrlen (yyformat) - 2 * yycount) + 1;
-    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-      yysize = yysize1;
-    else
-      return 2;
-  }
-
-  if (*yymsg_alloc < yysize)
-    {
-      *yymsg_alloc = 2 * yysize;
-      if (! (yysize <= *yymsg_alloc
-             && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
-        *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
-      return 1;
-    }
-
-  /* Avoid sprintf, as that infringes on the user's name space.
-     Don't have undefined behavior even if the translation
-     produced a string with the wrong number of "%s"s.  */
-  {
-    char *yyp = *yymsg;
-    int yyi = 0;
-    while ((*yyp = *yyformat) != '\0')
-      if (*yyp == '%' && yyformat[1] == 's' && yyi < yycount)
-        {
-          yyp += yytnamerr (yyp, yyarg[yyi++]);
-          yyformat += 2;
-        }
-      else
-        {
-          ++yyp;
-          ++yyformat;
-        }
-  }
-  return 0;
-}
-#endif /* YYERROR_VERBOSE */
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
 static void
-yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
+yydestruct (const char *yymsg,
+            yysymbol_kind_t yykind, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
 {
-  YYUSE (yyvaluep);
-  YYUSE (yylocationp);
+  YY_USE (yyvaluep);
+  YY_USE (yylocationp);
   if (!yymsg)
     yymsg = "Deleting";
-  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+  YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (yytype);
+  YY_USE (yykind);
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
 
-
-
-/* The lookahead symbol.  */
+/* Lookahead token kind.  */
 int yychar;
 
 /* The semantic value of the lookahead symbol.  */
@@ -3122,6 +3203,8 @@ YYLTYPE yylloc
 int yynerrs;
 
 
+
+
 /*----------.
 | yyparse.  |
 `----------*/
@@ -3129,53 +3212,45 @@ int yynerrs;
 int
 yyparse (void)
 {
-    yy_state_fast_t yystate;
+    yy_state_fast_t yystate = 0;
     /* Number of tokens to shift before error messages enabled.  */
-    int yyerrstatus;
+    int yyerrstatus = 0;
 
-    /* The stacks and their tools:
-       'yyss': related to states.
-       'yyvs': related to semantic values.
-       'yyls': related to locations.
-
-       Refer to the stacks through separate pointers, to allow yyoverflow
+    /* Refer to the stacks through separate pointers, to allow yyoverflow
        to reallocate them elsewhere.  */
 
-    /* The state stack.  */
+    /* Their size.  */
+    YYPTRDIFF_T yystacksize = YYINITDEPTH;
+
+    /* The state stack: array, bottom, top.  */
     yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+    yy_state_t *yyss = yyssa;
+    yy_state_t *yyssp = yyss;
 
-    /* The semantic value stack.  */
+    /* The semantic value stack: array, bottom, top.  */
     YYSTYPE yyvsa[YYINITDEPTH];
-    YYSTYPE *yyvs;
-    YYSTYPE *yyvsp;
+    YYSTYPE *yyvs = yyvsa;
+    YYSTYPE *yyvsp = yyvs;
 
-    /* The location stack.  */
+    /* The location stack: array, bottom, top.  */
     YYLTYPE yylsa[YYINITDEPTH];
-    YYLTYPE *yyls;
-    YYLTYPE *yylsp;
-
-    /* The locations where the error started and ended.  */
-    YYLTYPE yyerror_range[3];
-
-    YYPTRDIFF_T yystacksize;
+    YYLTYPE *yyls = yylsa;
+    YYLTYPE *yylsp = yyls;
 
   int yyn;
+  /* The return value of yyparse.  */
   int yyresult;
-  /* Lookahead token as an internal (translated) token number.  */
-  int yytoken = 0;
+  /* Lookahead symbol kind.  */
+  yysymbol_kind_t yytoken = YYSYMBOL_YYEMPTY;
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;
   YYLTYPE yyloc;
 
-#if YYERROR_VERBOSE
-  /* Buffer for error messages, and its allocated size.  */
-  char yymsgbuf[128];
-  char *yymsg = yymsgbuf;
-  YYPTRDIFF_T yymsg_alloc = sizeof yymsgbuf;
-#endif
+  /* The locations where the error started and ended.  */
+  YYLTYPE yyerror_range[3];
+
+
 
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N), yylsp -= (N))
 
@@ -3183,17 +3258,10 @@ yyparse (void)
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
 
-  yyssp = yyss = yyssa;
-  yyvsp = yyvs = yyvsa;
-  yylsp = yyls = yylsa;
-  yystacksize = YYINITDEPTH;
-
   YYDPRINTF ((stderr, "Starting parse\n"));
 
-  yystate = 0;
-  yyerrstatus = 0;
-  yynerrs = 0;
   yychar = YYEMPTY; /* Cause a token to be read.  */
+
   yylsp[0] = yylloc;
   goto yysetstate;
 
@@ -3216,10 +3284,11 @@ yysetstate:
   YY_IGNORE_USELESS_CAST_BEGIN
   *yyssp = YY_CAST (yy_state_t, yystate);
   YY_IGNORE_USELESS_CAST_END
+  YY_STACK_PRINT (yyss, yyssp);
 
   if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    goto yyexhaustedlab;
+    YYNOMEM;
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
@@ -3250,7 +3319,7 @@ yysetstate:
 # else /* defined YYSTACK_RELOCATE */
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
-        goto yyexhaustedlab;
+        YYNOMEM;
       yystacksize *= 2;
       if (YYMAXDEPTH < yystacksize)
         yystacksize = YYMAXDEPTH;
@@ -3261,11 +3330,11 @@ yysetstate:
           YY_CAST (union yyalloc *,
                    YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
         if (! yyptr)
-          goto yyexhaustedlab;
+          YYNOMEM;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
         YYSTACK_RELOCATE (yyls_alloc, yyls);
-# undef YYSTACK_RELOCATE
+#  undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
@@ -3284,6 +3353,7 @@ yysetstate:
         YYABORT;
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+
 
   if (yystate == YYFINAL)
     YYACCEPT;
@@ -3305,17 +3375,29 @@ yybackup:
 
   /* Not known => get a lookahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either empty, or end-of-input, or a valid lookahead.  */
   if (yychar == YYEMPTY)
     {
-      YYDPRINTF ((stderr, "Reading a token: "));
+      YYDPRINTF ((stderr, "Reading a token\n"));
       yychar = yylex ();
     }
 
   if (yychar <= YYEOF)
     {
-      yychar = yytoken = YYEOF;
+      yychar = YYEOF;
+      yytoken = YYSYMBOL_YYEOF;
       YYDPRINTF ((stderr, "Now at end of input.\n"));
+    }
+  else if (yychar == YYerror)
+    {
+      /* The scanner already issued an error message, process directly
+         to error recovery.  But do not keep the error token as
+         lookahead, it is too special and may lead us to an endless
+         loop in error recovery. */
+      yychar = YYUNDEF;
+      yytoken = YYSYMBOL_YYerror;
+      yyerror_range[1] = yylloc;
+      goto yyerrlab1;
     }
   else
     {
@@ -3388,7 +3470,7 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
+  case 2: /* CompilationUnit: OrdinaryCompilationUnit  */
 #line 360 "parser.yacc"
                              {
         (yyvsp[0].node)->changeLabel("CompilationUnit");
@@ -3424,10 +3506,10 @@ yyreduce:
         }
         root->dumpSymbolTable();
     }
-#line 3428 "y.tab.c"
+#line 3510 "y.tab.c"
     break;
 
-  case 3:
+  case 3: /* CompilationUnit: ModularCompilationUnit  */
 #line 395 "parser.yacc"
      {
         (yyvsp[0].node)->changeLabel("CompilationUnit");
@@ -3443,10 +3525,10 @@ yyreduce:
         root->printTree();
         root->printFuncs();
      }
-#line 3447 "y.tab.c"
+#line 3529 "y.tab.c"
     break;
 
-  case 4:
+  case 4: /* OrdinaryCompilationUnit: PackageDeclaration ImportDeclarations TopLevelClassOrInterfaceDeclarations  */
 #line 412 "parser.yacc"
                                                                               {
         vector<Node*> temp;
@@ -3462,10 +3544,10 @@ yyreduce:
         (yyval.node) = n;
         verbose(v,"PackageDeclaration ImportDeclarations TopLevelClassOrInterfaceDeclarations->OrdinaryCompilationUnit");
     }
-#line 3466 "y.tab.c"
+#line 3548 "y.tab.c"
     break;
 
-  case 5:
+  case 5: /* OrdinaryCompilationUnit: ImportDeclarations TopLevelClassOrInterfaceDeclarations  */
 #line 426 "parser.yacc"
                                                            {
         vector<Node*> temp;
@@ -3481,10 +3563,10 @@ yyreduce:
         (yyval.node) = n;
         verbose(v,"ImportDeclarations TopLevelClassOrInterfaceDeclarations->OrdinaryCompilationUnit");
     }
-#line 3485 "y.tab.c"
+#line 3567 "y.tab.c"
     break;
 
-  case 6:
+  case 6: /* PackageDeclaration: PACKAGE IDENTIFIER SEMICOLON  */
 #line 445 "parser.yacc"
     {
         (yyval.node) = new Node("PackageDeclaration", strcat((yyvsp[-2].lexeme), strcat(" ", (yyvsp[-1].lexeme))));
@@ -3498,10 +3580,10 @@ yyreduce:
         res = new Symbol((yyvsp[-1].lexeme), PACKAGE_TYPE, yylineno);
         root->insert(res->lexeme, res);
     }
-#line 3502 "y.tab.c"
+#line 3584 "y.tab.c"
     break;
 
-  case 7:
+  case 7: /* PackageDeclaration: PACKAGE IDENTIFIER DOT IDENTIFIER DotIdentifiers SEMICOLON  */
 #line 458 "parser.yacc"
     {
         
@@ -3534,19 +3616,19 @@ yyreduce:
             }
         }       
     }
-#line 3538 "y.tab.c"
+#line 3620 "y.tab.c"
     break;
 
-  case 8:
+  case 8: /* ModularCompilationUnit: ModuleDeclaration  */
 #line 492 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ModuleDeclaration->ModularCompilationUnit");
     }
-#line 3547 "y.tab.c"
+#line 3629 "y.tab.c"
     break;
 
-  case 9:
+  case 9: /* ModularCompilationUnit: ImportDeclaration ImportDeclarations ModuleDeclaration  */
 #line 496 "parser.yacc"
                                                               {
         vector<struct Node*> temp;
@@ -3578,50 +3660,50 @@ yyreduce:
         (yyval.node) = n;
       verbose(v,"ImportDeclaration ImportDeclarations ModuleDeclaration->ModularCompilationUnit");
     }
-#line 3582 "y.tab.c"
+#line 3664 "y.tab.c"
     break;
 
-  case 10:
+  case 10: /* ImportDeclaration: SingleTypeImportDeclaration  */
 #line 528 "parser.yacc"
                                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"SingleTypeImportDeclaration->ImportDeclaration");
         importflag = 0;
     }
-#line 3592 "y.tab.c"
+#line 3674 "y.tab.c"
     break;
 
-  case 11:
+  case 11: /* ImportDeclaration: TypeImportOnDemandDeclaration  */
 #line 533 "parser.yacc"
                                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"TypeImportOnDemandDeclaration->ImportDeclaration");
         importflag = 0;
     }
-#line 3602 "y.tab.c"
+#line 3684 "y.tab.c"
     break;
 
-  case 12:
+  case 12: /* ImportDeclaration: SingleStaticImportDeclaration  */
 #line 538 "parser.yacc"
                                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"SingleStaticImportDeclaration->ImportDeclaration");
         importflag = 0;
     }
-#line 3612 "y.tab.c"
+#line 3694 "y.tab.c"
     break;
 
-  case 13:
+  case 13: /* ImportDeclaration: StaticImportOnDemandDeclaration  */
 #line 543 "parser.yacc"
                                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"StaticImportOnDemandDeclaration->ImportDeclaration");
         importflag = 0;
     }
-#line 3622 "y.tab.c"
+#line 3704 "y.tab.c"
     break;
 
-  case 14:
+  case 14: /* SingleTypeImportDeclaration: IMPORT Name SEMICOLON  */
 #line 551 "parser.yacc"
                                 {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-2].lexeme));
@@ -3638,10 +3720,10 @@ yyreduce:
             root->insert(res->lexeme, res);
         }
     }
-#line 3642 "y.tab.c"
+#line 3724 "y.tab.c"
     break;
 
-  case 15:
+  case 15: /* TypeImportOnDemandDeclaration: IMPORT Name DOT MULT SEMICOLON  */
 #line 569 "parser.yacc"
                                     {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-4].lexeme));
@@ -3661,10 +3743,10 @@ yyreduce:
             root->insert(res->lexeme, res);
         }
     }
-#line 3665 "y.tab.c"
+#line 3747 "y.tab.c"
     break;
 
-  case 16:
+  case 16: /* SingleStaticImportDeclaration: IMPORT STATIC Name SEMICOLON  */
 #line 590 "parser.yacc"
                                  {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-3].lexeme));
@@ -3682,10 +3764,10 @@ yyreduce:
             root->insert(res->lexeme, res);
         }
     }
-#line 3686 "y.tab.c"
+#line 3768 "y.tab.c"
     break;
 
-  case 17:
+  case 17: /* StaticImportOnDemandDeclaration: IMPORT STATIC Name DOT MULT SEMICOLON  */
 #line 609 "parser.yacc"
                                             {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-5].lexeme));
@@ -3707,10 +3789,10 @@ yyreduce:
             root->insert(res->lexeme, res);
         }
     }
-#line 3711 "y.tab.c"
+#line 3793 "y.tab.c"
     break;
 
-  case 18:
+  case 18: /* ModuleDeclaration: MODULE IDENTIFIER LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
 #line 632 "parser.yacc"
                                                             {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-3].lexeme));
@@ -3721,10 +3803,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"MODULE IDENTIFIER LEFTCURLYBRACKET RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3725 "y.tab.c"
+#line 3807 "y.tab.c"
     break;
 
-  case 19:
+  case 19: /* ModuleDeclaration: MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
 #line 641 "parser.yacc"
                                                                                        {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-6].lexeme));
@@ -3738,10 +3820,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3742 "y.tab.c"
+#line 3824 "y.tab.c"
     break;
 
-  case 20:
+  case 20: /* ModuleDeclaration: MODULE IDENTIFIER LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET  */
 #line 653 "parser.yacc"
                                                                                             {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-5].lexeme));
@@ -3756,10 +3838,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"MODULE IDENTIFIER LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3760 "y.tab.c"
+#line 3842 "y.tab.c"
     break;
 
-  case 21:
+  case 21: /* ModuleDeclaration: MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET  */
 #line 666 "parser.yacc"
                                                                                                                            {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-8].lexeme));
@@ -3790,10 +3872,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", temp);
         verbose(v,"MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3794 "y.tab.c"
+#line 3876 "y.tab.c"
     break;
 
-  case 22:
+  case 22: /* ModuleDeclaration: OPEN MODULE IDENTIFIER LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
 #line 695 "parser.yacc"
                                                                 {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-4].lexeme));
@@ -3805,10 +3887,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"OPEN MODULE IDENTIFIER LEFTCURLYBRACKET RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3809 "y.tab.c"
+#line 3891 "y.tab.c"
     break;
 
-  case 23:
+  case 23: /* ModuleDeclaration: OPEN MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
 #line 705 "parser.yacc"
                                                                                              {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-7].lexeme));
@@ -3826,10 +3908,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"OPEN MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3830 "y.tab.c"
+#line 3912 "y.tab.c"
     break;
 
-  case 24:
+  case 24: /* ModuleDeclaration: OPEN MODULE IDENTIFIER LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET  */
 #line 721 "parser.yacc"
                                                                                                 {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-6].lexeme));
@@ -3844,10 +3926,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"OPEN MODULE IDENTIFIER LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET->ModuleDeclaration");
     }
-#line 3848 "y.tab.c"
+#line 3930 "y.tab.c"
     break;
 
-  case 25:
+  case 25: /* ModuleDeclaration: OPEN MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET  */
 #line 734 "parser.yacc"
                                                                                                                                {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-9].lexeme));
@@ -3870,10 +3952,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDeclaration", t);
         verbose(v,"OPEN MODULE IDENTIFIER DOT IDENTIFIER DotIdentifiers LEFTCURLYBRACKET ModuleDirective ModuleDirectives RIGHTCURLYBRACKET>ModuleDeclaration");
     }
-#line 3874 "y.tab.c"
+#line 3956 "y.tab.c"
     break;
 
-  case 26:
+  case 26: /* ModuleDirective: REQUIRES Name SEMICOLON  */
 #line 757 "parser.yacc"
                             {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-2].lexeme));
@@ -3883,10 +3965,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"REQUIRES Name SEMICOLON->ModuleDirective");
     }
-#line 3887 "y.tab.c"
+#line 3969 "y.tab.c"
     break;
 
-  case 27:
+  case 27: /* ModuleDirective: REQUIRES RequiresModifier RequiresModifiers Name SEMICOLON  */
 #line 765 "parser.yacc"
                                                                  {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-4].lexeme));
@@ -3903,10 +3985,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"REQUIRES RequiresModifier RequiresModifiers Name SEMICOLON->ModuleDirective");
     }
-#line 3907 "y.tab.c"
+#line 3989 "y.tab.c"
     break;
 
-  case 28:
+  case 28: /* ModuleDirective: EXPORTS Name SEMICOLON  */
 #line 780 "parser.yacc"
                             {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-2].lexeme));
@@ -3916,10 +3998,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"EXPORTS Name SEMICOLON->ModuleDirective");
     }
-#line 3920 "y.tab.c"
+#line 4002 "y.tab.c"
     break;
 
-  case 29:
+  case 29: /* ModuleDirective: EXPORTS Name TO Name SEMICOLON  */
 #line 788 "parser.yacc"
                                     {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-4].lexeme));
@@ -3930,10 +4012,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"EXPORTS Name TO Name SEMICOLON->ModuleDirective");
     }
-#line 3934 "y.tab.c"
+#line 4016 "y.tab.c"
     break;
 
-  case 30:
+  case 30: /* ModuleDirective: EXPORTS Name TO Name COMMA Name CommaNames SEMICOLON  */
 #line 797 "parser.yacc"
                                                            {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-7].lexeme));
@@ -3952,10 +4034,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"EXPORTS Name TO Name COMMA Name CommaNames SEMICOLON->ModuleDirective");
     }
-#line 3956 "y.tab.c"
+#line 4038 "y.tab.c"
     break;
 
-  case 31:
+  case 31: /* ModuleDirective: OPENS Name SEMICOLON  */
 #line 814 "parser.yacc"
                             {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-2].lexeme));
@@ -3965,10 +4047,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"OPENS Name SEMICOLON->ModuleDirective");
     }
-#line 3969 "y.tab.c"
+#line 4051 "y.tab.c"
     break;
 
-  case 32:
+  case 32: /* ModuleDirective: OPENS Name TO Name COMMA Name CommaNames SEMICOLON  */
 #line 822 "parser.yacc"
                                                        {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-7].lexeme));
@@ -3989,10 +4071,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"OPENS Name TO Name COMMA Name CommaNames SEMICOLON->ModuleDirective");
     }
-#line 3993 "y.tab.c"
+#line 4075 "y.tab.c"
     break;
 
-  case 33:
+  case 33: /* ModuleDirective: USES Name SEMICOLON  */
 #line 841 "parser.yacc"
                         {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-2].lexeme));
@@ -4002,10 +4084,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"USES Name SEMICOLON->ModuleDirective");
     }
-#line 4006 "y.tab.c"
+#line 4088 "y.tab.c"
     break;
 
-  case 34:
+  case 34: /* ModuleDirective: PROVIDES Name WITH Name SEMICOLON  */
 #line 849 "parser.yacc"
                                         {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-4].lexeme));
@@ -4016,10 +4098,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"PROVIDES Name WITH Name SEMICOLON->ModuleDirective");
     }
-#line 4020 "y.tab.c"
+#line 4102 "y.tab.c"
     break;
 
-  case 35:
+  case 35: /* ModuleDirective: PROVIDES Name WITH Name COMMA Name CommaNames SEMICOLON  */
 #line 858 "parser.yacc"
                                                                {
         struct Node* t1 = new struct Node ("Keyword",  (yyvsp[-7].lexeme));
@@ -4038,10 +4120,10 @@ yyreduce:
         (yyval.node) = new struct Node("ModuleDirective", t);
         verbose(v,"PROVIDES Name WITH Name COMMA Name CommaNames SEMICOLON->ModuleDirective");
     }
-#line 4042 "y.tab.c"
+#line 4124 "y.tab.c"
     break;
 
-  case 36:
+  case 36: /* RequiresModifier: TRANSITIVE  */
 #line 878 "parser.yacc"
                 {
     vector<struct Node*> temp;
@@ -4051,10 +4133,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"TRANSITIVE->RequiresModifier");
 }
-#line 4055 "y.tab.c"
+#line 4137 "y.tab.c"
     break;
 
-  case 37:
+  case 37: /* RequiresModifier: STATIC  */
 #line 886 "parser.yacc"
             {
     vector<struct Node*> temp;
@@ -4064,25 +4146,25 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"STATIC->RequiresModifier");
 }
-#line 4068 "y.tab.c"
+#line 4150 "y.tab.c"
     break;
 
-  case 38:
+  case 38: /* TopLevelClassOrInterfaceDeclaration: ClassDeclaration  */
 #line 898 "parser.yacc"
                          {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ClassDeclaration->TopLevelClassOrInterfaceDeclaration");
     }
-#line 4077 "y.tab.c"
+#line 4159 "y.tab.c"
     break;
 
-  case 39:
+  case 39: /* TopLevelClassOrInterfaceDeclarations: %empty  */
 #line 905 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 4083 "y.tab.c"
+#line 4165 "y.tab.c"
     break;
 
-  case 40:
+  case 40: /* TopLevelClassOrInterfaceDeclarations: TopLevelClassOrInterfaceDeclaration TopLevelClassOrInterfaceDeclarations  */
 #line 906 "parser.yacc"
                                                                                 {
         vector<struct Node*> temp;
@@ -4101,10 +4183,10 @@ yyreduce:
         else (yyval.node) = new Node("TopLevelClassOrInterfaceDeclarations", temp);
         verbose(v,"TopLevelClassOrInterfaceDeclaration TopLevelClassOrInterfaceDeclarations->TopLevelClassOrInterfaceDeclarations");
     }
-#line 4105 "y.tab.c"
+#line 4187 "y.tab.c"
     break;
 
-  case 41:
+  case 41: /* Name: IDENTIFIER  */
 #line 927 "parser.yacc"
     {
         (yyval.node) = new Node("Identifier", (yyvsp[0].lexeme));
@@ -4127,10 +4209,10 @@ yyreduce:
         }
         }
      }
-#line 4131 "y.tab.c"
+#line 4213 "y.tab.c"
     break;
 
-  case 42:
+  case 42: /* Name: Name DOT IDENTIFIER  */
 #line 949 "parser.yacc"
     {
         string s = (yyvsp[-2].node)->attr + (yyvsp[-1].lexeme) + (yyvsp[0].lexeme);
@@ -4186,16 +4268,16 @@ yyreduce:
             (yyval.node)->type = symb->type;
         }
     }
-#line 4190 "y.tab.c"
+#line 4272 "y.tab.c"
     break;
 
-  case 43:
+  case 43: /* DotIdentifiers: %empty  */
 #line 1006 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 4196 "y.tab.c"
+#line 4278 "y.tab.c"
     break;
 
-  case 44:
+  case 44: /* DotIdentifiers: DOT IDENTIFIER DotIdentifiers  */
 #line 1007 "parser.yacc"
                                        {
     vector<struct Node*> temp;
@@ -4214,16 +4296,16 @@ yyreduce:
     else (yyval.node) = t;
     verbose(v,"DOT IDENTIFIER DotIdentifiers->DotIdentifiers");
 }
-#line 4218 "y.tab.c"
+#line 4300 "y.tab.c"
     break;
 
-  case 45:
+  case 45: /* CommaNames: %empty  */
 #line 1027 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 4224 "y.tab.c"
+#line 4306 "y.tab.c"
     break;
 
-  case 46:
+  case 46: /* CommaNames: COMMA Name CommaNames  */
 #line 1028 "parser.yacc"
                             {
         vector<struct Node*> temp;
@@ -4242,10 +4324,10 @@ yyreduce:
         else (yyval.node) = new Node("Names", temp);
         verbose(v,"COMMA Name CommaNames ->CommaNames");
 }
-#line 4246 "y.tab.c"
+#line 4328 "y.tab.c"
     break;
 
-  case 47:
+  case 47: /* Class: CLASS IDENTIFIER  */
 #line 1054 "parser.yacc"
                      {
         (yyval.lexeme) = (yyvsp[0].lexeme);
@@ -4254,19 +4336,19 @@ yyreduce:
         ircode.push_back(q);
        
     }
-#line 4258 "y.tab.c"
+#line 4340 "y.tab.c"
     break;
 
-  case 48:
+  case 48: /* ClassDeclaration: NormalClassDeclaration  */
 #line 1064 "parser.yacc"
                             {
         (yyval.node)= (yyvsp[0].node);
         verbose(v,"NormalClassDeclaration->ClassDeclaration");
     }
-#line 4267 "y.tab.c"
+#line 4349 "y.tab.c"
     break;
 
-  case 49:
+  case 49: /* NormalClassDeclaration: Class ClassBody  */
 #line 1074 "parser.yacc"
     {
         
@@ -4288,10 +4370,10 @@ yyreduce:
         verbose(v,"Class ClassBody->NormalClassDeclaration");
         
     }
-#line 4292 "y.tab.c"
+#line 4374 "y.tab.c"
     break;
 
-  case 50:
+  case 50: /* NormalClassDeclaration: Class TypeParameters ClassBody  */
 #line 1095 "parser.yacc"
     {
         
@@ -4311,10 +4393,10 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
         verbose(v,"Class TypeParameters ClassBody->NormalClassDeclaration");
     }
-#line 4315 "y.tab.c"
+#line 4397 "y.tab.c"
     break;
 
-  case 51:
+  case 51: /* NormalClassDeclaration: Class ClassExtends ClassBody  */
 #line 1113 "parser.yacc"
                                   {
     vector<struct Node*> temp;
@@ -4343,10 +4425,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4347 "y.tab.c"
+#line 4429 "y.tab.c"
     break;
 
-  case 52:
+  case 52: /* NormalClassDeclaration: Class ClassPermits ClassBody  */
 #line 1140 "parser.yacc"
                                   {
     vector<struct Node*> temp;
@@ -4366,10 +4448,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Class ClassPermits ClassBody->NormalClassDeclaration");
 }
-#line 4370 "y.tab.c"
+#line 4452 "y.tab.c"
     break;
 
-  case 53:
+  case 53: /* NormalClassDeclaration: Class TypeParameters ClassExtends ClassBody  */
 #line 1158 "parser.yacc"
                                                   {
     vector<struct Node*> temp;
@@ -4403,10 +4485,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4407 "y.tab.c"
+#line 4489 "y.tab.c"
     break;
 
-  case 54:
+  case 54: /* NormalClassDeclaration: Class TypeParameters ClassPermits ClassBody  */
 #line 1190 "parser.yacc"
                                                   {
     vector<struct Node*> temp;
@@ -4444,10 +4526,10 @@ yyreduce:
     list_class[(yyvsp[-3].lexeme)]=res;
     root->insert(r->lexeme, r);
 }
-#line 4448 "y.tab.c"
+#line 4530 "y.tab.c"
     break;
 
-  case 55:
+  case 55: /* NormalClassDeclaration: Class ClassExtends ClassPermits ClassBody  */
 #line 1226 "parser.yacc"
                                                   {
     vector<struct Node*> temp;
@@ -4483,10 +4565,10 @@ yyreduce:
     
     root->currNode->parent=r;
 }
-#line 4487 "y.tab.c"
+#line 4569 "y.tab.c"
     break;
 
-  case 56:
+  case 56: /* NormalClassDeclaration: Class TypeParameters ClassExtends ClassPermits ClassBody  */
 #line 1260 "parser.yacc"
                                                              {
     vector<struct Node*> temp;
@@ -4528,10 +4610,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4532 "y.tab.c"
+#line 4614 "y.tab.c"
     break;
 
-  case 57:
+  case 57: /* NormalClassDeclaration: Modifier Modifiers Class ClassBody  */
 #line 1300 "parser.yacc"
                                          {
     vector<struct Node*> temp;
@@ -4550,10 +4632,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class ClassBody->NormalClassDeclaration");
 }
-#line 4554 "y.tab.c"
+#line 4636 "y.tab.c"
     break;
 
-  case 58:
+  case 58: /* NormalClassDeclaration: Modifier Modifiers Class TypeParameters ClassBody  */
 #line 1317 "parser.yacc"
                                                          {
     vector<struct Node*> temp;
@@ -4573,10 +4655,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class TypeParameters ClassBody->NormalClassDeclaration");
 }
-#line 4577 "y.tab.c"
+#line 4659 "y.tab.c"
     break;
 
-  case 59:
+  case 59: /* NormalClassDeclaration: Modifier Modifiers Class ClassExtends ClassBody  */
 #line 1335 "parser.yacc"
                                                      {
     vector<struct Node*> temp;
@@ -4605,10 +4687,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4609 "y.tab.c"
+#line 4691 "y.tab.c"
     break;
 
-  case 60:
+  case 60: /* NormalClassDeclaration: Modifier Modifiers Class ClassPermits ClassBody  */
 #line 1362 "parser.yacc"
                                                      {
     vector<struct Node*> temp;
@@ -4628,10 +4710,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class ClassPermits ClassBody->NormalClassDeclaration");
 }
-#line 4632 "y.tab.c"
+#line 4714 "y.tab.c"
     break;
 
-  case 61:
+  case 61: /* NormalClassDeclaration: Modifier Modifiers Class TypeParameters ClassExtends ClassBody  */
 #line 1380 "parser.yacc"
                                                                      {
     vector<struct Node*> temp;
@@ -4661,10 +4743,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4665 "y.tab.c"
+#line 4747 "y.tab.c"
     break;
 
-  case 62:
+  case 62: /* NormalClassDeclaration: Modifier Modifiers Class TypeParameters ClassPermits ClassBody  */
 #line 1408 "parser.yacc"
                                                                      {
     vector<struct Node*> temp;
@@ -4685,10 +4767,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class TypeParameters ClassPermits ClassBody->NormalClassDeclaration");
 }
-#line 4689 "y.tab.c"
+#line 4771 "y.tab.c"
     break;
 
-  case 63:
+  case 63: /* NormalClassDeclaration: Modifier Modifiers Class ClassExtends ClassPermits ClassBody  */
 #line 1427 "parser.yacc"
                                                                  {
     vector<struct Node*> temp;
@@ -4718,10 +4800,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4722 "y.tab.c"
+#line 4804 "y.tab.c"
     break;
 
-  case 64:
+  case 64: /* NormalClassDeclaration: Modifier Modifiers Class TypeParameters ClassExtends ClassPermits ClassBody  */
 #line 1455 "parser.yacc"
                                                                                  {
     vector<struct Node*> temp;
@@ -4752,10 +4834,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4756 "y.tab.c"
+#line 4838 "y.tab.c"
     break;
 
-  case 65:
+  case 65: /* NormalClassDeclaration: FINAL Modifiers Class TypeParameters ClassExtends ClassPermits ClassBody  */
 #line 1484 "parser.yacc"
                                                                               {
     struct Node * g= new Node("Keyword",(yyvsp[-6].lexeme));
@@ -4786,10 +4868,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4790 "y.tab.c"
+#line 4872 "y.tab.c"
     break;
 
-  case 66:
+  case 66: /* NormalClassDeclaration: FINAL Modifiers Class ClassBody  */
 #line 1513 "parser.yacc"
                                       {
     struct Node * g= new Node("Keyword",(yyvsp[-3].lexeme));
@@ -4809,10 +4891,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class ClassBody->NormalClassDeclaration");
 }
-#line 4813 "y.tab.c"
+#line 4895 "y.tab.c"
     break;
 
-  case 67:
+  case 67: /* NormalClassDeclaration: FINAL Modifiers Class TypeParameters ClassBody  */
 #line 1531 "parser.yacc"
                                                       {
     struct Node * g= new Node("Keyword",(yyvsp[-4].lexeme));
@@ -4833,10 +4915,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class TypeParameters ClassBody->NormalClassDeclaration");
 }
-#line 4837 "y.tab.c"
+#line 4919 "y.tab.c"
     break;
 
-  case 68:
+  case 68: /* NormalClassDeclaration: FINAL Modifiers Class ClassExtends ClassBody  */
 #line 1550 "parser.yacc"
                                                   {
     struct Node * g= new Node("Keyword",(yyvsp[-4].lexeme));
@@ -4866,10 +4948,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4870 "y.tab.c"
+#line 4952 "y.tab.c"
     break;
 
-  case 69:
+  case 69: /* NormalClassDeclaration: FINAL Modifiers Class ClassPermits ClassBody  */
 #line 1578 "parser.yacc"
                                                   {
     struct Node * g= new Node("Keyword",(yyvsp[-4].lexeme));
@@ -4886,10 +4968,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"Modifier Modifiers Class ClassPermits ClassBody->NormalClassDeclaration");
 }
-#line 4890 "y.tab.c"
+#line 4972 "y.tab.c"
     break;
 
-  case 70:
+  case 70: /* NormalClassDeclaration: FINAL Modifiers Class TypeParameters ClassExtends ClassBody  */
 #line 1593 "parser.yacc"
                                                                   {
     vector<struct Node*> temp;
@@ -4916,10 +4998,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4920 "y.tab.c"
+#line 5002 "y.tab.c"
     break;
 
-  case 71:
+  case 71: /* NormalClassDeclaration: FINAL Modifiers Class TypeParameters ClassPermits ClassBody  */
 #line 1618 "parser.yacc"
                                                                   {
     vector<struct Node*> temp;
@@ -4941,10 +5023,10 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Modifier Modifiers Class TypeParameters ClassPermits ClassBody->NormalClassDeclaration");
 }
-#line 4945 "y.tab.c"
+#line 5027 "y.tab.c"
     break;
 
-  case 72:
+  case 72: /* NormalClassDeclaration: FINAL Modifiers Class ClassExtends ClassPermits ClassBody  */
 #line 1638 "parser.yacc"
                                                               {
     vector<struct Node*> temp;
@@ -4975,10 +5057,10 @@ yyreduce:
     }
     root->currNode->parent=r;
 }
-#line 4979 "y.tab.c"
+#line 5061 "y.tab.c"
     break;
 
-  case 73:
+  case 73: /* Modifier: PUBLIC  */
 #line 1670 "parser.yacc"
             {
     vector<struct Node*> temp;
@@ -4987,10 +5069,10 @@ yyreduce:
     verbose(v,"PUBLIC ->Modifier");
     
 }
-#line 4991 "y.tab.c"
+#line 5073 "y.tab.c"
     break;
 
-  case 74:
+  case 74: /* Modifier: PROTECTED  */
 #line 1677 "parser.yacc"
                 {
     vector<struct Node*> temp;
@@ -4998,10 +5080,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"PROTECTED ->Modifier");
 }
-#line 5002 "y.tab.c"
+#line 5084 "y.tab.c"
     break;
 
-  case 75:
+  case 75: /* Modifier: PRIVATE  */
 #line 1683 "parser.yacc"
             {
     vector<struct Node*> temp;
@@ -5009,10 +5091,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"PRIVATE ->Modifier");
 }
-#line 5013 "y.tab.c"
+#line 5095 "y.tab.c"
     break;
 
-  case 76:
+  case 76: /* Modifier: STATIC  */
 #line 1690 "parser.yacc"
             {
     vector<struct Node*> temp;
@@ -5020,16 +5102,16 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"STATIC ->Modifier");
 }
-#line 5024 "y.tab.c"
+#line 5106 "y.tab.c"
     break;
 
-  case 77:
+  case 77: /* Modifiers: %empty  */
 #line 1699 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 5030 "y.tab.c"
+#line 5112 "y.tab.c"
     break;
 
-  case 78:
+  case 78: /* Modifiers: Modifier Modifiers  */
 #line 1700 "parser.yacc"
                         {
         vector<struct Node*> temp;
@@ -5048,10 +5130,10 @@ yyreduce:
         else (yyval.node) = new Node("Modifiers", temp);
         verbose(v,"Modifier Modifiers->Modifiers");
     }
-#line 5052 "y.tab.c"
+#line 5134 "y.tab.c"
     break;
 
-  case 79:
+  case 79: /* TypeParameters: LSS TypeParameterList GRT  */
 #line 1720 "parser.yacc"
                                 {
     vector<struct Node*> temp;
@@ -5062,19 +5144,19 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"LSS TypeParameterList GRT ->TypeParameters");
 }
-#line 5066 "y.tab.c"
+#line 5148 "y.tab.c"
     break;
 
-  case 80:
+  case 80: /* TypeParameterList: TypeParameter  */
 #line 1732 "parser.yacc"
                      {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"TypeParameter->TypeParameterList");
     }
-#line 5075 "y.tab.c"
+#line 5157 "y.tab.c"
     break;
 
-  case 81:
+  case 81: /* TypeParameterList: TypeParameter COMMA TypeParameter CommaTypeParameters  */
 #line 1736 "parser.yacc"
                                                           {
     vector<struct Node*> temp;
@@ -5091,10 +5173,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"TypeParameter COMMA TypeParameter CommaTypeParameters->TypeParameterList");
 }
-#line 5095 "y.tab.c"
+#line 5177 "y.tab.c"
     break;
 
-  case 82:
+  case 82: /* ClassExtends: EXTENDS Name  */
 #line 1754 "parser.yacc"
                     {
     // vector<struct Node*> temp;
@@ -5119,10 +5201,10 @@ yyreduce:
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"EXTENDS Name->ClassExtends");
 }
-#line 5123 "y.tab.c"
+#line 5205 "y.tab.c"
     break;
 
-  case 83:
+  case 83: /* ClassPermits: PERMITS Name  */
 #line 1781 "parser.yacc"
                     {
     vector<struct Node*> temp;
@@ -5133,10 +5215,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"PERMITS Name->ClassPermits");
 }
-#line 5137 "y.tab.c"
+#line 5219 "y.tab.c"
     break;
 
-  case 84:
+  case 84: /* ClassPermits: PERMITS Name COMMA Name CommaNames  */
 #line 1790 "parser.yacc"
                                        {
     vector<struct Node*> temp;
@@ -5156,20 +5238,20 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"PERMITS Name COMMA Name CommaNames->ClassPermits");
 }
-#line 5160 "y.tab.c"
+#line 5242 "y.tab.c"
     break;
 
-  case 85:
+  case 85: /* ClassBody: LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
 #line 1811 "parser.yacc"
                                            {
         vector<Node*>temp;
         (yyval.node) = new struct Node("ClassBody", temp);
         verbose(v,"LEFTCURLYBRACKET RIGHTCURLYBRACKET->ClassBody");
     }
-#line 5170 "y.tab.c"
+#line 5252 "y.tab.c"
     break;
 
-  case 86:
+  case 86: /* ClassBody: LEFTCURLYBRACKET ClassBodyDeclaration ClassBodyDeclarations RIGHTCURLYBRACKET  */
 #line 1817 "parser.yacc"
     {
         //struct Node* t1 = new Node ("Separator",  "{");
@@ -5186,52 +5268,52 @@ yyreduce:
         (yyval.node) = new Node("ClassBody", temp);
         verbose(v,"LEFTCURLYBRACKET ClassBodyDeclaration ClassBodyDeclarations RIGHTCURLYBRACKET->ClassBody");
     }
-#line 5190 "y.tab.c"
+#line 5272 "y.tab.c"
     break;
 
-  case 87:
+  case 87: /* ClassBodyDeclaration: ClassMemberDeclaration  */
 #line 1835 "parser.yacc"
                           {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ClassMemberDeclaration->ClassBodyDeclaration");
     }
-#line 5199 "y.tab.c"
+#line 5281 "y.tab.c"
     break;
 
-  case 88:
+  case 88: /* ClassBodyDeclaration: InstanceInitializer  */
 #line 1839 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"InstanceInitializer->ClassBodyDeclaration");
     }
-#line 5208 "y.tab.c"
+#line 5290 "y.tab.c"
     break;
 
-  case 89:
+  case 89: /* ClassBodyDeclaration: StaticInitializer  */
 #line 1843 "parser.yacc"
                         {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"StaticInitializer->ClassBodyDeclaration");
     }
-#line 5217 "y.tab.c"
+#line 5299 "y.tab.c"
     break;
 
-  case 90:
+  case 90: /* ClassBodyDeclaration: ConstructorDeclaration  */
 #line 1847 "parser.yacc"
                              {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"ConstructorDeclaration->ClassBodyDeclaration");
     }
-#line 5226 "y.tab.c"
+#line 5308 "y.tab.c"
     break;
 
-  case 91:
+  case 91: /* ClassBodyDeclarations: %empty  */
 #line 1854 "parser.yacc"
     {(yyval.node) =NULL;}
-#line 5232 "y.tab.c"
+#line 5314 "y.tab.c"
     break;
 
-  case 92:
+  case 92: /* ClassBodyDeclarations: ClassBodyDeclaration ClassBodyDeclarations  */
 #line 1855 "parser.yacc"
                                                 {
         vector<struct Node*> temp;
@@ -5250,37 +5332,37 @@ yyreduce:
         else (yyval.node) = new Node("BlockStatements", temp);
         verbose(v,"ClassBodyDeclaration ClassBodyDeclarations->ClassBodyDeclarations");
     }
-#line 5254 "y.tab.c"
+#line 5336 "y.tab.c"
     break;
 
-  case 93:
+  case 93: /* ClassMemberDeclaration: FieldDeclaration  */
 #line 1875 "parser.yacc"
                         {
        (yyval.node) = (yyvsp[0].node);
         verbose(v,"FieldDeclaration->ClassMemberDeclaration");
     }
-#line 5263 "y.tab.c"
+#line 5345 "y.tab.c"
     break;
 
-  case 94:
+  case 94: /* ClassMemberDeclaration: MethodDeclaration  */
 #line 1879 "parser.yacc"
                         {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"MethodDeclaration->ClassMemberDeclaration");
     }
-#line 5272 "y.tab.c"
+#line 5354 "y.tab.c"
     break;
 
-  case 95:
+  case 95: /* ClassMemberDeclaration: ClassDeclaration  */
 #line 1883 "parser.yacc"
                      {
         (yyval.node)=(yyvsp[0].node);
         verbose(v,"ClassDeclaration->ClassMemberDeclaration");
  }
-#line 5281 "y.tab.c"
+#line 5363 "y.tab.c"
     break;
 
-  case 96:
+  case 96: /* FieldDeclaration: Type VariableDeclaratorList SEMICOLON  */
 #line 1893 "parser.yacc"
     {
         //struct Node* t = new Node("Separator", ";");
@@ -5342,10 +5424,10 @@ yyreduce:
         }
         processPostIncre((yyval.node));
     }
-#line 5346 "y.tab.c"
+#line 5428 "y.tab.c"
     break;
 
-  case 97:
+  case 97: /* FieldDeclaration: Modifier Modifiers Type VariableDeclaratorList SEMICOLON  */
 #line 1953 "parser.yacc"
                                                                   {
        // struct Node* t = new struct Node("Separator", $5);
@@ -5427,10 +5509,10 @@ yyreduce:
         }
         processPostIncre((yyval.node));
     }
-#line 5431 "y.tab.c"
+#line 5513 "y.tab.c"
     break;
 
-  case 98:
+  case 98: /* FieldDeclaration: FINAL Modifiers Type VariableDeclaratorList SEMICOLON  */
 #line 2033 "parser.yacc"
                                                                {
        // struct Node* t = new struct Node("Separator", $5);
@@ -5491,10 +5573,10 @@ yyreduce:
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
     }
-#line 5495 "y.tab.c"
+#line 5577 "y.tab.c"
     break;
 
-  case 99:
+  case 99: /* VariableDeclaratorList: VariableDeclarator CommaVariableDeclarators  */
 #line 2101 "parser.yacc"
     {
         //struct Node* t = new Node("Separator", ",");
@@ -5515,19 +5597,19 @@ yyreduce:
         (yyval.node) = n;
         verbose(v,"VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList");
     }
-#line 5519 "y.tab.c"
+#line 5601 "y.tab.c"
     break;
 
-  case 100:
+  case 100: /* VariableDeclarator: VariableDeclaratorId  */
 #line 2125 "parser.yacc"
     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"VariableDeclaratorId->VariableDeclarator");
     }
-#line 5528 "y.tab.c"
+#line 5610 "y.tab.c"
     break;
 
-  case 101:
+  case 101: /* VariableDeclarator: VariableDeclaratorId ASSIGN Expression  */
 #line 2130 "parser.yacc"
     {
         vector<struct Node*> temp;
@@ -5576,10 +5658,10 @@ yyreduce:
         isCond = 0;
        
     }
-#line 5580 "y.tab.c"
+#line 5662 "y.tab.c"
     break;
 
-  case 102:
+  case 102: /* VariableDeclarator: VariableDeclaratorId ASSIGN ArrayInitializer  */
 #line 2177 "parser.yacc"
                                                      {
         vector<struct Node*> temp;
@@ -5618,16 +5700,16 @@ yyreduce:
         (yyval.node)->width3 = (yyvsp[0].node)->width3;
         verbose(v,"VariableDeclaratorId ASSIGN ArrayInitializer->VariableDeclaratorId");
 }
-#line 5622 "y.tab.c"
+#line 5704 "y.tab.c"
     break;
 
-  case 103:
+  case 103: /* CommaVariableDeclarators: %empty  */
 #line 2217 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 5628 "y.tab.c"
+#line 5710 "y.tab.c"
     break;
 
-  case 104:
+  case 104: /* CommaVariableDeclarators: COMMA VariableDeclarator CommaVariableDeclarators  */
 #line 2218 "parser.yacc"
                                                         {
         vector<struct Node*> temp;
@@ -5646,20 +5728,20 @@ yyreduce:
         else (yyval.node) = new Node("VariableDeclarators", temp);
         verbose(v,"COMMA VariableDeclarator CommaVariableDeclarators->CommaVariableDeclarators");
 }
-#line 5650 "y.tab.c"
+#line 5732 "y.tab.c"
     break;
 
-  case 105:
+  case 105: /* VariableDeclaratorId: IDENTIFIER  */
 #line 2239 "parser.yacc"
     {
         (yyval.node) = new Node("Identifier", (yyvsp[0].lexeme));
         verbose(v,"IDENTIFIER->VariableDeclaratorId");
         condvar = (yyvsp[0].lexeme);
     }
-#line 5660 "y.tab.c"
+#line 5742 "y.tab.c"
     break;
 
-  case 106:
+  case 106: /* VariableDeclaratorId: IDENTIFIER Dims  */
 #line 2244 "parser.yacc"
                      {
     vector<struct Node*> temp;
@@ -5673,36 +5755,36 @@ yyreduce:
     printf("\n\n%d\n\n", (yyvsp[0].node)->arrayType);
     verbose(v,"IDENTIFIER Dims->VariableDeclaratorId");
 }
-#line 5677 "y.tab.c"
+#line 5759 "y.tab.c"
     break;
 
-  case 107:
+  case 107: /* VariableInitializer: Expression  */
 #line 2260 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Expression->VariableInitializer");
     }
-#line 5686 "y.tab.c"
+#line 5768 "y.tab.c"
     break;
 
-  case 108:
+  case 108: /* VariableInitializer: ArrayInitializer  */
 #line 2264 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ArrayInitializer->VariableInitializer");
     }
-#line 5695 "y.tab.c"
+#line 5777 "y.tab.c"
     break;
 
-  case 109:
+  case 109: /* CommaVariableInitializers: %empty  */
 #line 2271 "parser.yacc"
     {(yyval.node) = NULL;
         cout<< "epsilon -> CommaVariableInitializers\n";
     }
-#line 5703 "y.tab.c"
+#line 5785 "y.tab.c"
     break;
 
-  case 110:
+  case 110: /* CommaVariableInitializers: COMMA VariableInitializer CommaVariableInitializers  */
 #line 2274 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
@@ -5721,10 +5803,10 @@ yyreduce:
         else (yyval.node) = new Node("StatementExpressions", temp);
     verbose(v,"COMMA VariableInitializer CommaVariableInitializers->CommaVariableInitializers");
 }
-#line 5725 "y.tab.c"
+#line 5807 "y.tab.c"
     break;
 
-  case 111:
+  case 111: /* leftcurl: LEFTCURLYBRACKET  */
 #line 2291 "parser.yacc"
                            {
     isarrayinit++;
@@ -5732,10 +5814,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"LEFTCURLYBRACKET->leftcurl");
 }
-#line 5736 "y.tab.c"
+#line 5818 "y.tab.c"
     break;
 
-  case 112:
+  case 112: /* ArrayInitializer: leftcurl RIGHTCURLYBRACKET  */
 #line 2298 "parser.yacc"
                                  {
     
@@ -5744,10 +5826,10 @@ yyreduce:
     (yyval.node)->arrayType = 1;
     verbose(v,"LEFTCURLYBRACKET RIGHTCURLYBRACKET->ArrayInitializer");
 }
-#line 5748 "y.tab.c"
+#line 5830 "y.tab.c"
     break;
 
-  case 113:
+  case 113: /* ArrayInitializer: leftcurl VariableInitializer CommaVariableInitializers RIGHTCURLYBRACKET  */
 #line 2305 "parser.yacc"
                                                                                 {
     vector<struct Node*> temp;
@@ -5783,10 +5865,10 @@ yyreduce:
     //if($3)
     verbose(v,"LEFTCURLYBRACKET VariableInitializer CommaVariableInitializers RIGHTCURLYBRACKET->ArrayInitializer");
 }
-#line 5787 "y.tab.c"
+#line 5869 "y.tab.c"
     break;
 
-  case 114:
+  case 114: /* ArrayInitializer: leftcurl COMMA RIGHTCURLYBRACKET  */
 #line 2340 "parser.yacc"
                                        {
     struct Node* n = new struct Node("ArrayInitializer");
@@ -5794,10 +5876,10 @@ yyreduce:
     (yyval.node)->type = 202;
     verbose(v,"LEFTCURLYBRACKET COMMA RIGHTCURLYBRACKET->ArrayInitializer");
 }
-#line 5798 "y.tab.c"
+#line 5880 "y.tab.c"
     break;
 
-  case 115:
+  case 115: /* MethodDeclaration: MethodHeader MethodBody  */
 #line 2354 "parser.yacc"
                              {
         vector<struct Node*> temp;
@@ -5815,10 +5897,10 @@ yyreduce:
         verbose(v," MethodHeader MethodBody->MethodDeclaration");
         
     }
-#line 5819 "y.tab.c"
+#line 5901 "y.tab.c"
     break;
 
-  case 116:
+  case 116: /* MethodDeclaration: Modifier Modifiers MethodHeader MethodBody  */
 #line 2370 "parser.yacc"
                                                  {
         vector<struct Node*> temp;
@@ -5854,10 +5936,10 @@ yyreduce:
         }
         root->currNode->childscopes.back()->node_acc_type = acc;
     }
-#line 5858 "y.tab.c"
+#line 5940 "y.tab.c"
     break;
 
-  case 117:
+  case 117: /* MethodDeclaration: FINAL Modifiers MethodHeader MethodBody  */
 #line 2404 "parser.yacc"
                                               {
         vector<struct Node*> temp;
@@ -5878,10 +5960,10 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
     }
-#line 5882 "y.tab.c"
+#line 5964 "y.tab.c"
     break;
 
-  case 118:
+  case 118: /* MethodHeader: Type MethodDeclarator  */
 #line 2427 "parser.yacc"
                              {
         vector<struct Node*> temp;
@@ -5944,10 +6026,10 @@ yyreduce:
         ircode.push_back(q);
         (yyval.node)->last = ircode.size() - 1;
     }
-#line 5948 "y.tab.c"
+#line 6030 "y.tab.c"
     break;
 
-  case 119:
+  case 119: /* MethodHeader: VOID MethodDeclarator  */
 #line 2488 "parser.yacc"
                               {
         vector<struct Node*> temp;
@@ -6008,10 +6090,10 @@ yyreduce:
         ircode.push_back(q);
         (yyval.node)->last = ircode.size() - 1;
     }
-#line 6012 "y.tab.c"
+#line 6094 "y.tab.c"
     break;
 
-  case 120:
+  case 120: /* MethodHeader: TypeParameters Result MethodDeclarator  */
 #line 2547 "parser.yacc"
                                              {
         vector<struct Node*> temp;
@@ -6061,19 +6143,19 @@ yyreduce:
         ircode.push_back(q);
         (yyval.node)->last = ircode.size() - 1;
     }
-#line 6065 "y.tab.c"
+#line 6147 "y.tab.c"
     break;
 
-  case 121:
+  case 121: /* Result: Type  */
 #line 2599 "parser.yacc"
             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Type->Result");
     }
-#line 6074 "y.tab.c"
+#line 6156 "y.tab.c"
     break;
 
-  case 122:
+  case 122: /* Result: VOID  */
 #line 2603 "parser.yacc"
             {
     vector<struct Node*> temp;
@@ -6083,10 +6165,10 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"VOID->Result");
 }
-#line 6087 "y.tab.c"
+#line 6169 "y.tab.c"
     break;
 
-  case 123:
+  case 123: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS  */
 #line 2614 "parser.yacc"
                                                 {
     vector<struct Node*> temp;
@@ -6098,10 +6180,10 @@ yyreduce:
     (yyval.node)->attr = (yyval.node)->varName = (yyvsp[-2].lexeme);
     verbose(v,"IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS->MethodDeclarator");
 }
-#line 6102 "y.tab.c"
+#line 6184 "y.tab.c"
     break;
 
-  case 124:
+  case 124: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS  */
 #line 2624 "parser.yacc"
                                                                         {
     vector<struct Node*> temp;
@@ -6116,10 +6198,10 @@ yyreduce:
     verbose(v,"IDENTIFIER LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS->MethodDeclarator");
 
 }
-#line 6120 "y.tab.c"
+#line 6202 "y.tab.c"
     break;
 
-  case 125:
+  case 125: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS  */
 #line 2637 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
@@ -6135,10 +6217,10 @@ yyreduce:
     (yyval.node)->attr = (yyval.node)->varName = (yyvsp[-3].lexeme);
     verbose(v,"IDENTIFIER LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS->MethodDeclarator");
 }
-#line 6139 "y.tab.c"
+#line 6221 "y.tab.c"
     break;
 
-  case 126:
+  case 126: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS  */
 #line 2651 "parser.yacc"
                                                                                                     {
     vector<struct Node*> temp;
@@ -6155,10 +6237,10 @@ yyreduce:
     (yyval.node)->attr = (yyval.node)->varName = (yyvsp[-5].lexeme);
     verbose(v,"IDENTIFIER LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS->MethodDeclarator");
 }
-#line 6159 "y.tab.c"
+#line 6241 "y.tab.c"
     break;
 
-  case 127:
+  case 127: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS Dims  */
 #line 2666 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
@@ -6177,10 +6259,10 @@ yyreduce:
     //     yyerror("Error");
     // }
 }
-#line 6181 "y.tab.c"
+#line 6263 "y.tab.c"
     break;
 
-  case 128:
+  case 128: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS Dims  */
 #line 2683 "parser.yacc"
                                                                                 {
     vector<struct Node*> temp;
@@ -6202,10 +6284,10 @@ yyreduce:
     //     yyerror("Error");
     // }
 }
-#line 6206 "y.tab.c"
+#line 6288 "y.tab.c"
     break;
 
-  case 129:
+  case 129: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS Dims  */
 #line 2703 "parser.yacc"
                                                                             {
     vector<struct Node*> temp;
@@ -6228,10 +6310,10 @@ yyreduce:
     //     yyerror("Error");
     // }
 }
-#line 6232 "y.tab.c"
+#line 6314 "y.tab.c"
     break;
 
-  case 130:
+  case 130: /* MethodDeclarator: IDENTIFIER LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS Dims  */
 #line 2724 "parser.yacc"
                                                                                                     {
     vector<struct Node*> temp;
@@ -6258,10 +6340,10 @@ yyreduce:
     //     yyerror("Error");
     // }
 }
-#line 6262 "y.tab.c"
+#line 6344 "y.tab.c"
     break;
 
-  case 131:
+  case 131: /* ReceiverParameter: Type IDENTIFIER DOT THIS  */
 #line 2752 "parser.yacc"
                                 {
     vector<struct Node*> temp;
@@ -6275,10 +6357,10 @@ yyreduce:
     (yyval.node) = (yyvsp[-3].node);
     verbose(v,"Type IDENTIFIER DOT THIS->ReceiverParameter");
 }
-#line 6279 "y.tab.c"
+#line 6361 "y.tab.c"
     break;
 
-  case 132:
+  case 132: /* ReceiverParameter: Type THIS  */
 #line 2764 "parser.yacc"
                 {
     // vector<struct Node*> temp;
@@ -6289,10 +6371,10 @@ yyreduce:
     (yyval.node) = (yyvsp[-1].node);
     verbose(v,"Type THIS->ReceiverParameter");
 }
-#line 6293 "y.tab.c"
+#line 6375 "y.tab.c"
     break;
 
-  case 133:
+  case 133: /* FormalParameterList: FormalParameter  */
 #line 2776 "parser.yacc"
                     {
         vector<struct Node*> temp;
@@ -6301,10 +6383,10 @@ yyreduce:
         (yyval.node) = n;
         verbose(v,"FormalParameter->FormalParameterList");
     }
-#line 6305 "y.tab.c"
+#line 6387 "y.tab.c"
     break;
 
-  case 134:
+  case 134: /* FormalParameterList: FormalParameter COMMA FormalParameter CommaFormalParameters  */
 #line 2783 "parser.yacc"
                                                                 {
     // vector<struct Node*> temp;
@@ -6330,16 +6412,16 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"FormalParameter COMMA FormalParameter CommaFormalParameter->FormalParameterList");
 }
-#line 6334 "y.tab.c"
+#line 6416 "y.tab.c"
     break;
 
-  case 135:
+  case 135: /* CommaFormalParameters: %empty  */
 #line 2810 "parser.yacc"
 {(yyval.node) = NULL;}
-#line 6340 "y.tab.c"
+#line 6422 "y.tab.c"
     break;
 
-  case 136:
+  case 136: /* CommaFormalParameters: COMMA FormalParameter CommaFormalParameters  */
 #line 2811 "parser.yacc"
                                                 {
     vector<struct Node*> temp;
@@ -6358,10 +6440,10 @@ yyreduce:
     else (yyval.node) = new Node("FormalParameters", temp);
     verbose(v,"COMMA FormalParameter CommaFormalParameters->CommaFormalParameters");
 }
-#line 6362 "y.tab.c"
+#line 6444 "y.tab.c"
     break;
 
-  case 137:
+  case 137: /* FormalParameter: Type VariableDeclaratorId  */
 #line 2831 "parser.yacc"
                                 {
         vector<struct Node*> temp;
@@ -6370,10 +6452,10 @@ yyreduce:
         (yyval.node) = n;
         verbose(v,"Type VariableDeclaratorId->FormalParameter");
     }
-#line 6374 "y.tab.c"
+#line 6456 "y.tab.c"
     break;
 
-  case 138:
+  case 138: /* FormalParameter: VariableModifier VariableModifiers Type VariableDeclaratorId  */
 #line 2838 "parser.yacc"
                                                                    {
     vector<struct Node*>temp;
@@ -6408,19 +6490,19 @@ yyreduce:
         (yyval.node) = n;        
         verbose(v,"VariableModifier VariableModifiers Type VariableDeclaratorId->FormalParameter");
     }
-#line 6412 "y.tab.c"
+#line 6494 "y.tab.c"
     break;
 
-  case 139:
+  case 139: /* FormalParameter: VariableArityParameter  */
 #line 2871 "parser.yacc"
                             {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"VariableArityParameter->FormalParameter");
     }
-#line 6421 "y.tab.c"
+#line 6503 "y.tab.c"
     break;
 
-  case 140:
+  case 140: /* VariableArityParameter: Type ELLIPSIS IDENTIFIER  */
 #line 2878 "parser.yacc"
                                 {
     // vector<struct Node*> temp;
@@ -6432,10 +6514,10 @@ yyreduce:
     (yyval.node) = (yyvsp[-2].node);
     verbose(v,"Type ELLIPSIS IDENTIFIER->VariableArityParameter");
 }
-#line 6436 "y.tab.c"
+#line 6518 "y.tab.c"
     break;
 
-  case 141:
+  case 141: /* VariableArityParameter: VariableModifier VariableModifiers Type ELLIPSIS IDENTIFIER  */
 #line 2888 "parser.yacc"
                                                                 {
     vector<struct Node*> temp;
@@ -6452,10 +6534,10 @@ yyreduce:
     (yyval.node) = (yyvsp[-2].node);
     verbose(v,"VariableModifier VariableModifiers Type ELLIPSIS IDENTIFIER->VariableArityParameter");
 }
-#line 6456 "y.tab.c"
+#line 6538 "y.tab.c"
     break;
 
-  case 142:
+  case 142: /* VariableModifier: FINAL  */
 #line 2906 "parser.yacc"
             {
     vector<struct Node*> temp;
@@ -6465,16 +6547,16 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"FINAL->VariableModifier");
 }
-#line 6469 "y.tab.c"
+#line 6551 "y.tab.c"
     break;
 
-  case 143:
+  case 143: /* VariableModifiers: %empty  */
 #line 2917 "parser.yacc"
 {(yyval.node) = NULL;}
-#line 6475 "y.tab.c"
+#line 6557 "y.tab.c"
     break;
 
-  case 144:
+  case 144: /* VariableModifiers: VariableModifier VariableModifiers  */
 #line 2918 "parser.yacc"
                                         {
         vector<struct Node*> temp;
@@ -6493,13 +6575,26 @@ yyreduce:
         else (yyval.node) = new Node("VariableModifiers", temp);
         verbose(v,"VariableModifier VariableModifiers->VariableModifiers");
     }
-#line 6497 "y.tab.c"
+#line 6579 "y.tab.c"
     break;
 
-  case 145:
+  case 145: /* MethodBody: Block  */
 #line 2939 "parser.yacc"
             {
-        if(root->currNode->childscopes.back()->returntype!=VOID_TYPE && (yyvsp[0].node)->children[(yyvsp[0].node)->children.size()-1]->children.back()->label!="ReturnStatement")
+
+        if((yyvsp[0].node)->children.size()==0 && root->currNode->childscopes.back()->returntype!=VOID_TYPE)
+        {
+            cout<<"Error on line number "<<yylineno<<". This method must return a result of type "<<typeroot->inv_types[root->currNode->childscopes.back()->returntype]<<endl;
+            yyerror("Error");           
+        }     
+
+        if((yyvsp[0].node)->children.size()>0 && (yyvsp[0].node)->children[0]->label!="BlockStatements" && root->currNode->childscopes.back()->returntype!=VOID_TYPE && (yyvsp[0].node)->children[(yyvsp[0].node)->children.size()-1]->label!="ReturnStatement")
+        {
+            cout<<"Error on line number "<<yylineno<<". This method must return a result of type "<<typeroot->inv_types[root->currNode->childscopes.back()->returntype]<<endl;
+            yyerror("Error");
+        }
+
+        else if((yyvsp[0].node)->children.size()>0 && root->currNode->childscopes.back()->returntype!=VOID_TYPE && (yyvsp[0].node)->children[0]->label=="BlockStatements" && (yyvsp[0].node)->children[(yyvsp[0].node)->children.size()-1]->children.back()->label!="ReturnStatement")
         {
             cout<<"Error on line number "<<yylineno<<". This method must return a result of type "<<typeroot->inv_types[root->currNode->childscopes.back()->returntype]<<endl;
             yyerror("Error");
@@ -6507,11 +6602,11 @@ yyreduce:
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Block->MethodBody");
     }
-#line 6511 "y.tab.c"
+#line 6606 "y.tab.c"
     break;
 
-  case 146:
-#line 2948 "parser.yacc"
+  case 146: /* MethodBody: SEMICOLON  */
+#line 2961 "parser.yacc"
                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("","");
@@ -6521,20 +6616,20 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"SEMICOLON->MethodBody");
 }
-#line 6525 "y.tab.c"
+#line 6620 "y.tab.c"
     break;
 
-  case 147:
-#line 2961 "parser.yacc"
+  case 147: /* InstanceInitializer: Block  */
+#line 2974 "parser.yacc"
             {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"Block->InstanceInitializer");
     }
-#line 6534 "y.tab.c"
+#line 6629 "y.tab.c"
     break;
 
-  case 148:
-#line 2968 "parser.yacc"
+  case 148: /* StaticInitializer: STATIC Block  */
+#line 2981 "parser.yacc"
                   {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-1].lexeme));
@@ -6544,11 +6639,11 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"STATIC Block->StaticInitializer");
 }
-#line 6548 "y.tab.c"
+#line 6643 "y.tab.c"
     break;
 
-  case 149:
-#line 2982 "parser.yacc"
+  case 149: /* ConstructorDeclaration: ConstructorDeclarator ConstructorBody  */
+#line 2995 "parser.yacc"
                                             {
         vector<struct Node*> temp;
         temp = {(yyvsp[-1].node), (yyvsp[0].node)};
@@ -6570,11 +6665,11 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
         verbose(v,"ConstructorDeclarator ConstructorBody->ConstructorDeclaration");
     }
-#line 6574 "y.tab.c"
+#line 6669 "y.tab.c"
     break;
 
-  case 150:
-#line 3003 "parser.yacc"
+  case 150: /* ConstructorDeclaration: Modifier Modifiers ConstructorDeclarator ConstructorBody  */
+#line 3016 "parser.yacc"
                                                                  {
         vector<struct Node*> temp;
         if((yyvsp[-2].node)) {
@@ -6610,11 +6705,11 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers ConstructorDeclarator ConstructorBody ->ConstructorDeclaration");
     }
-#line 6614 "y.tab.c"
+#line 6709 "y.tab.c"
     break;
 
-  case 151:
-#line 3047 "parser.yacc"
+  case 151: /* ConstructorDeclarator: Name LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 3060 "parser.yacc"
                                            {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -6649,11 +6744,11 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
 
 }
-#line 6653 "y.tab.c"
+#line 6748 "y.tab.c"
     break;
 
-  case 152:
-#line 3081 "parser.yacc"
+  case 152: /* ConstructorDeclarator: Name LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS  */
+#line 3094 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-4].node));
@@ -6668,11 +6763,11 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Name LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS->ConstructorDeclarator");
 }
-#line 6672 "y.tab.c"
+#line 6767 "y.tab.c"
     break;
 
-  case 153:
-#line 3095 "parser.yacc"
+  case 153: /* ConstructorDeclarator: Name LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS  */
+#line 3108 "parser.yacc"
                                                                 {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-3].node));
@@ -6732,11 +6827,11 @@ yyreduce:
             root->insert(sym->lexeme, sym);
         }
 }
-#line 6736 "y.tab.c"
+#line 6831 "y.tab.c"
     break;
 
-  case 154:
-#line 3154 "parser.yacc"
+  case 154: /* ConstructorDeclarator: Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS  */
+#line 3167 "parser.yacc"
                                                                                         {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-5].node));
@@ -6790,11 +6885,11 @@ yyreduce:
             root->insert(sym->lexeme, sym);
         }
 }
-#line 6794 "y.tab.c"
+#line 6889 "y.tab.c"
     break;
 
-  case 155:
-#line 3207 "parser.yacc"
+  case 155: /* ConstructorDeclarator: TypeParameters Name LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 3220 "parser.yacc"
                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-3].node));
@@ -6808,11 +6903,11 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
     verbose(v,"TypeParameters Name LEFTPARENTHESIS RIGHTPARENTHESIS->ConstructorDeclarator");
 }
-#line 6812 "y.tab.c"
+#line 6907 "y.tab.c"
     break;
 
-  case 156:
-#line 3220 "parser.yacc"
+  case 156: /* ConstructorDeclarator: TypeParameters Name LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS  */
+#line 3233 "parser.yacc"
                                                                                     {
     vector<struct Node*> temp;
     // temp.push_back($1);
@@ -6828,11 +6923,11 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
     verbose(v,"TypeParameters Name LEFTPARENTHESIS ReceiverParameter COMMA RIGHTPARENTHESIS->ConstructorDeclarator");
 }
-#line 6832 "y.tab.c"
+#line 6927 "y.tab.c"
     break;
 
-  case 157:
-#line 3235 "parser.yacc"
+  case 157: /* ConstructorDeclarator: TypeParameters Name LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS  */
+#line 3248 "parser.yacc"
                                                                                 {
     vector<struct Node*> temp;
     // temp.push_back($1);
@@ -6886,11 +6981,11 @@ yyreduce:
             root->insert(sym->lexeme, sym);
         }
 }
-#line 6890 "y.tab.c"
+#line 6985 "y.tab.c"
     break;
 
-  case 158:
-#line 3288 "parser.yacc"
+  case 158: /* ConstructorDeclarator: TypeParameters Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS  */
+#line 3301 "parser.yacc"
                                                                                                          {
     vector<struct Node*> temp;
     // temp.push_back($1);
@@ -6948,11 +7043,11 @@ yyreduce:
             root->insert(sym->lexeme, sym);
         }
 }
-#line 6952 "y.tab.c"
+#line 7047 "y.tab.c"
     break;
 
-  case 159:
-#line 3348 "parser.yacc"
+  case 159: /* ConstructorBody: LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
+#line 3361 "parser.yacc"
                                         {
     vector<struct Node*> temp;
     
@@ -6972,11 +7067,11 @@ yyreduce:
         }
     }
 }
-#line 6976 "y.tab.c"
+#line 7071 "y.tab.c"
     break;
 
-  case 160:
-#line 3367 "parser.yacc"
+  case 160: /* ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocation RIGHTCURLYBRACKET  */
+#line 3380 "parser.yacc"
                                                                         {
     vector<struct Node*> temp;
     
@@ -6992,11 +7087,11 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"LEFTCURLYBRACKET ExplicitConstructorInvocation RIGHTCURLYBRACKET->ConstructorBody");
 }
-#line 6996 "y.tab.c"
+#line 7091 "y.tab.c"
     break;
 
-  case 161:
-#line 3382 "parser.yacc"
+  case 161: /* ConstructorBody: LEFTCURLYBRACKET BlockStatement BlockStatements RIGHTCURLYBRACKET  */
+#line 3395 "parser.yacc"
                                                                         {
     vector<struct Node*> temp;
    
@@ -7021,11 +7116,11 @@ yyreduce:
         }
     }
 }
-#line 7025 "y.tab.c"
+#line 7120 "y.tab.c"
     break;
 
-  case 162:
-#line 3406 "parser.yacc"
+  case 162: /* ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocation BlockStatement BlockStatements RIGHTCURLYBRACKET  */
+#line 3419 "parser.yacc"
                                                                                                     {
     vector<struct Node*> temp;
     
@@ -7040,11 +7135,11 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"LEFTCURLYBRACKET ExplicitConstructorInvocation BlockStatement BlockStatements RIGHTCURLYBRACKET>ConstructorBody");
 }
-#line 7044 "y.tab.c"
+#line 7139 "y.tab.c"
     break;
 
-  case 163:
-#line 3423 "parser.yacc"
+  case 163: /* ExplicitConstructorInvocation: THIS LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON  */
+#line 3436 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-3].lexeme));
@@ -7076,11 +7171,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 7080 "y.tab.c"
+#line 7175 "y.tab.c"
     break;
 
-  case 164:
-#line 3454 "parser.yacc"
+  case 164: /* ExplicitConstructorInvocation: THIS LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON  */
+#line 3467 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -7118,11 +7213,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 7122 "y.tab.c"
+#line 7217 "y.tab.c"
     break;
 
-  case 165:
-#line 3491 "parser.yacc"
+  case 165: /* ExplicitConstructorInvocation: SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON  */
+#line 3504 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-3].lexeme));
@@ -7154,11 +7249,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 7158 "y.tab.c"
+#line 7253 "y.tab.c"
     break;
 
-  case 166:
-#line 3522 "parser.yacc"
+  case 166: /* ExplicitConstructorInvocation: SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON  */
+#line 3535 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -7194,11 +7289,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 7198 "y.tab.c"
+#line 7293 "y.tab.c"
     break;
 
-  case 167:
-#line 3557 "parser.yacc"
+  case 167: /* ExplicitConstructorInvocation: Name DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON  */
+#line 3570 "parser.yacc"
                                                                 {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-5].node));
@@ -7219,11 +7314,11 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"Name DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
 }
-#line 7223 "y.tab.c"
+#line 7318 "y.tab.c"
     break;
 
-  case 168:
-#line 3577 "parser.yacc"
+  case 168: /* ExplicitConstructorInvocation: Name DOT SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON  */
+#line 3590 "parser.yacc"
                                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-6].node));
@@ -7243,11 +7338,11 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"Name DOT SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
 }
-#line 7247 "y.tab.c"
+#line 7342 "y.tab.c"
     break;
 
-  case 169:
-#line 3596 "parser.yacc"
+  case 169: /* ExplicitConstructorInvocation: Primary DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON  */
+#line 3609 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-5].node));
@@ -7272,11 +7367,11 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"Primary DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
 }
-#line 7276 "y.tab.c"
+#line 7371 "y.tab.c"
     break;
 
-  case 170:
-#line 3620 "parser.yacc"
+  case 170: /* ExplicitConstructorInvocation: Primary DOT SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON  */
+#line 3633 "parser.yacc"
                                                                                 {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-6].node));
@@ -7303,11 +7398,11 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"Primary DOT SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
 }
-#line 7307 "y.tab.c"
+#line 7402 "y.tab.c"
     break;
 
-  case 171:
-#line 3646 "parser.yacc"
+  case 171: /* ExplicitConstructorInvocation: THIS LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON  */
+#line 3659 "parser.yacc"
                                                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -7350,11 +7445,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 7354 "y.tab.c"
+#line 7449 "y.tab.c"
     break;
 
-  case 172:
-#line 3688 "parser.yacc"
+  case 172: /* ExplicitConstructorInvocation: SUPER LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON  */
+#line 3701 "parser.yacc"
                                                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -7395,11 +7490,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 7399 "y.tab.c"
+#line 7494 "y.tab.c"
     break;
 
-  case 173:
-#line 3728 "parser.yacc"
+  case 173: /* ExplicitConstructorInvocation: Name DOT SUPER LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON  */
+#line 3741 "parser.yacc"
                                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-6].node));
@@ -7428,11 +7523,11 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"Name DOT SUPER LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
 }
-#line 7432 "y.tab.c"
+#line 7527 "y.tab.c"
     break;
 
-  case 174:
-#line 3756 "parser.yacc"
+  case 174: /* ExplicitConstructorInvocation: Primary DOT SUPER LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON  */
+#line 3769 "parser.yacc"
                                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-6].node));
@@ -7461,11 +7556,11 @@ yyreduce:
     processPostIncre((yyval.node));
     verbose(v,"Primary DOT SUPER LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
 }
-#line 7465 "y.tab.c"
+#line 7560 "y.tab.c"
     break;
 
-  case 175:
-#line 3788 "parser.yacc"
+  case 175: /* ArgumentList: Expression COMMA Expression CommaExpressions  */
+#line 3801 "parser.yacc"
                                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-3].node));
@@ -7486,23 +7581,22 @@ yyreduce:
 
 
 }
-#line 7490 "y.tab.c"
+#line 7585 "y.tab.c"
     break;
 
-  case 176:
-#line 3817 "parser.yacc"
+  case 176: /* Block: LEFTCURLYBRACKET RIGHTCURLYBRACKET  */
+#line 3830 "parser.yacc"
                                         {
     vector<struct Node*> temp;
-    struct Node* n1 = new struct Node("<empty>" );
-    temp.push_back(n1);
+    struct Node* n1 = new struct Node("<empty>", temp);
     (yyval.node) = n1;
     verbose(v,"LEFTCURLYBRACKET RIGHTCURLYBRACKET->Block");
 }
-#line 7502 "y.tab.c"
+#line 7596 "y.tab.c"
     break;
 
-  case 177:
-#line 3825 "parser.yacc"
+  case 177: /* Block: LEFTCURLYBRACKET BlockStatement BlockStatements RIGHTCURLYBRACKET  */
+#line 3837 "parser.yacc"
     {
          vector<struct Node*> temp;
         //struct Node* n1 = new struct Node("Identifier", $1);
@@ -7521,44 +7615,44 @@ yyreduce:
         if((yyvsp[-1].node)) {(yyval.node)->nextlist = (yyvsp[-1].node)->nextlist; }
         verbose(v,"LEFTCURLYBRACKET BlockStatement BlockStatements RIGHTCURLYBRACKET->Block");
     }
-#line 7525 "y.tab.c"
+#line 7619 "y.tab.c"
     break;
 
-  case 178:
-#line 3846 "parser.yacc"
+  case 178: /* BlockStatement: LocalClassOrInterfaceDeclaration  */
+#line 3858 "parser.yacc"
                                         {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"LocalClassOrInterfaceDeclaration->BlockStatement");
     }
-#line 7534 "y.tab.c"
+#line 7628 "y.tab.c"
     break;
 
-  case 179:
-#line 3850 "parser.yacc"
+  case 179: /* BlockStatement: LocalVariableDeclarationStatement  */
+#line 3862 "parser.yacc"
                                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"LocalVariableDeclarationStatement->BlockStatement");
     }
-#line 7543 "y.tab.c"
+#line 7637 "y.tab.c"
     break;
 
-  case 180:
-#line 3854 "parser.yacc"
+  case 180: /* BlockStatement: Statement  */
+#line 3866 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Statement->BlockStatement");
     }
-#line 7552 "y.tab.c"
+#line 7646 "y.tab.c"
     break;
 
-  case 181:
-#line 3861 "parser.yacc"
+  case 181: /* BlockStatements: %empty  */
+#line 3873 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 7558 "y.tab.c"
+#line 7652 "y.tab.c"
     break;
 
-  case 182:
-#line 3862 "parser.yacc"
+  case 182: /* BlockStatements: BlockStatement BlockStatements  */
+#line 3874 "parser.yacc"
                                     {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -7579,22 +7673,22 @@ yyreduce:
         if((yyvsp[0].node)) (yyval.node)->nextlist = (yyvsp[0].node)->nextlist;
         verbose(v,"BlockStatement BlockStatements->BlockStatements");
     }
-#line 7583 "y.tab.c"
+#line 7677 "y.tab.c"
     break;
 
-  case 183:
-#line 3885 "parser.yacc"
+  case 183: /* LocalClassOrInterfaceDeclaration: ClassDeclaration  */
+#line 3897 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ClassDeclaration->LocalClassOrInterfaceDeclaration");
 
         (yyval.node)->type = VOID_TYPE;
     }
-#line 7594 "y.tab.c"
+#line 7688 "y.tab.c"
     break;
 
-  case 184:
-#line 3894 "parser.yacc"
+  case 184: /* LocalVariableDeclarationStatement: LocalVariableDeclaration SEMICOLON  */
+#line 3906 "parser.yacc"
                                         {
         vector<struct Node*> temp;
         temp.push_back((yyvsp[-1].node));
@@ -7606,11 +7700,11 @@ yyreduce:
         processPostIncre((yyval.node));
         (yyval.node)->type = VOID_TYPE;
     }
-#line 7610 "y.tab.c"
+#line 7704 "y.tab.c"
     break;
 
-  case 185:
-#line 3908 "parser.yacc"
+  case 185: /* LocalVariableDeclaration: LocalVariableType VariableDeclaratorList  */
+#line 3920 "parser.yacc"
                                                  {
         vector<struct Node*> temp = {(yyvsp[-1].node), (yyvsp[0].node)};
         /*****************************
@@ -7673,11 +7767,11 @@ yyreduce:
         }
         (yyval.node)->last = ircode.size() - 1;
     }
-#line 7677 "y.tab.c"
+#line 7771 "y.tab.c"
     break;
 
-  case 186:
-#line 3970 "parser.yacc"
+  case 186: /* LocalVariableDeclaration: VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList  */
+#line 3982 "parser.yacc"
                                                                                 {
         vector<struct Node*> temp;
          if((yyvsp[-2].node)) {
@@ -7746,29 +7840,29 @@ yyreduce:
         (yyval.node)->last = ircode.size() - 1;
         //($1);
     }
-#line 7750 "y.tab.c"
+#line 7844 "y.tab.c"
     break;
 
-  case 187:
-#line 4041 "parser.yacc"
+  case 187: /* LocalVariableType: PrimitiveType  */
+#line 4053 "parser.yacc"
                     {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"PrimitiveType->LocalVariableType");
     }
-#line 7759 "y.tab.c"
+#line 7853 "y.tab.c"
     break;
 
-  case 188:
-#line 4045 "parser.yacc"
+  case 188: /* LocalVariableType: ReferenceType  */
+#line 4057 "parser.yacc"
                     {
       (yyval.node) = (yyvsp[0].node);
       verbose(v,"ReferenceType->LocalVariableType");
     }
-#line 7768 "y.tab.c"
+#line 7862 "y.tab.c"
     break;
 
-  case 189:
-#line 4049 "parser.yacc"
+  case 189: /* LocalVariableType: VAR  */
+#line 4061 "parser.yacc"
         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[0].lexeme));
@@ -7777,182 +7871,182 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"VAR->LocalVariableType");
 }
-#line 7781 "y.tab.c"
+#line 7875 "y.tab.c"
     break;
 
-  case 190:
-#line 4060 "parser.yacc"
+  case 190: /* Statement: StatementWithoutTrailingSubstatement  */
+#line 4072 "parser.yacc"
                                             {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"StatementWithoutTrailingSubstatement->Statement");
     }
-#line 7790 "y.tab.c"
+#line 7884 "y.tab.c"
     break;
 
-  case 191:
-#line 4064 "parser.yacc"
+  case 191: /* Statement: LabeledStatement  */
+#line 4076 "parser.yacc"
                         {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"LabeledStatement->Statement");
     }
-#line 7799 "y.tab.c"
+#line 7893 "y.tab.c"
     break;
 
-  case 192:
-#line 4068 "parser.yacc"
+  case 192: /* Statement: IfThenStatement  */
+#line 4080 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"IfThenStatement->Statement");
     }
-#line 7808 "y.tab.c"
+#line 7902 "y.tab.c"
     break;
 
-  case 193:
-#line 4072 "parser.yacc"
+  case 193: /* Statement: IfThenElseStatement  */
+#line 4084 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"IfThenElseStatement->Statement");
     }
-#line 7817 "y.tab.c"
+#line 7911 "y.tab.c"
     break;
 
-  case 194:
-#line 4076 "parser.yacc"
+  case 194: /* Statement: WhileStatement  */
+#line 4088 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"WhileStatement->Statement");
     }
-#line 7826 "y.tab.c"
+#line 7920 "y.tab.c"
     break;
 
-  case 195:
-#line 4080 "parser.yacc"
+  case 195: /* Statement: ForStatement  */
+#line 4092 "parser.yacc"
                     {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"ForStatement->Statement");
     }
-#line 7835 "y.tab.c"
+#line 7929 "y.tab.c"
     break;
 
-  case 196:
-#line 4087 "parser.yacc"
+  case 196: /* StatementNoShortIf: StatementWithoutTrailingSubstatement  */
+#line 4099 "parser.yacc"
                                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"StatementWithoutTrailingSubstatement->StatementNoShortIf");
     }
-#line 7844 "y.tab.c"
+#line 7938 "y.tab.c"
     break;
 
-  case 197:
-#line 4091 "parser.yacc"
+  case 197: /* StatementNoShortIf: LabeledStatementNoShortIf  */
+#line 4103 "parser.yacc"
                                 {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"StatementWithoutTrailingSubstatement->StatementNoShortIf");
     }
-#line 7853 "y.tab.c"
+#line 7947 "y.tab.c"
     break;
 
-  case 198:
-#line 4095 "parser.yacc"
+  case 198: /* StatementNoShortIf: IfThenElseStatementNoShortIf  */
+#line 4107 "parser.yacc"
                                     {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"StatementWithoutTrailingSubstatement->StatementNoShortIf");
     }
-#line 7862 "y.tab.c"
+#line 7956 "y.tab.c"
     break;
 
-  case 199:
-#line 4099 "parser.yacc"
+  case 199: /* StatementNoShortIf: WhileStatementNoShortIf  */
+#line 4111 "parser.yacc"
                             {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"StatementWithoutTrailingSubstatement->StatementNoShortIf");
     }
-#line 7871 "y.tab.c"
+#line 7965 "y.tab.c"
     break;
 
-  case 200:
-#line 4103 "parser.yacc"
+  case 200: /* StatementNoShortIf: ForStatementNoShortIf  */
+#line 4115 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"StatementWithoutTrailingSubstatement->StatementNoShortIf");
     }
-#line 7880 "y.tab.c"
+#line 7974 "y.tab.c"
     break;
 
-  case 201:
-#line 4110 "parser.yacc"
+  case 201: /* StatementWithoutTrailingSubstatement: Block  */
+#line 4122 "parser.yacc"
             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Block->StatementWithoutTrailingSubstatement");
     }
-#line 7889 "y.tab.c"
+#line 7983 "y.tab.c"
     break;
 
-  case 202:
-#line 4114 "parser.yacc"
+  case 202: /* StatementWithoutTrailingSubstatement: EmptyStatement  */
+#line 4126 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"EmptyStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7898 "y.tab.c"
+#line 7992 "y.tab.c"
     break;
 
-  case 203:
-#line 4118 "parser.yacc"
+  case 203: /* StatementWithoutTrailingSubstatement: ExpressionStatement  */
+#line 4130 "parser.yacc"
                         {
        (yyval.node) = (yyvsp[0].node);
         verbose(v,"ExpressionStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7907 "y.tab.c"
+#line 8001 "y.tab.c"
     break;
 
-  case 204:
-#line 4122 "parser.yacc"
+  case 204: /* StatementWithoutTrailingSubstatement: AssertStatement  */
+#line 4134 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"AssertStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7916 "y.tab.c"
+#line 8010 "y.tab.c"
     break;
 
-  case 205:
-#line 4127 "parser.yacc"
+  case 205: /* StatementWithoutTrailingSubstatement: DoStatement  */
+#line 4139 "parser.yacc"
                    {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"DoStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7925 "y.tab.c"
+#line 8019 "y.tab.c"
     break;
 
-  case 206:
-#line 4131 "parser.yacc"
+  case 206: /* StatementWithoutTrailingSubstatement: BreakStatement  */
+#line 4143 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"BreakStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7934 "y.tab.c"
+#line 8028 "y.tab.c"
     break;
 
-  case 207:
-#line 4135 "parser.yacc"
+  case 207: /* StatementWithoutTrailingSubstatement: ContinueStatement  */
+#line 4147 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ContinueStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7943 "y.tab.c"
+#line 8037 "y.tab.c"
     break;
 
-  case 208:
-#line 4139 "parser.yacc"
+  case 208: /* StatementWithoutTrailingSubstatement: ReturnStatement  */
+#line 4151 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ReturnStatement->StatementWithoutTrailingSubstatement");
     }
-#line 7952 "y.tab.c"
+#line 8046 "y.tab.c"
     break;
 
-  case 209:
-#line 4152 "parser.yacc"
+  case 209: /* DoStatement: DO Statement WHILE LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON  */
+#line 4164 "parser.yacc"
                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-6].lexeme));
@@ -7994,11 +8088,11 @@ yyreduce:
     (yyval.node)->code.push_back(jmp);
     processPostIncre((yyval.node));
 }
-#line 7998 "y.tab.c"
+#line 8092 "y.tab.c"
     break;
 
-  case 210:
-#line 4196 "parser.yacc"
+  case 210: /* EmptyStatement: SEMICOLON  */
+#line 4208 "parser.yacc"
                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("<empty>");
@@ -8010,11 +8104,11 @@ yyreduce:
     (yyval.node)->type = VOID_TYPE;
     processPostIncre((yyval.node));
 }
-#line 8014 "y.tab.c"
+#line 8108 "y.tab.c"
     break;
 
-  case 211:
-#line 4210 "parser.yacc"
+  case 211: /* LabeledStatement: IDENTIFIER COL Statement  */
+#line 4222 "parser.yacc"
                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Identifier", (yyvsp[-2].lexeme));
@@ -8028,11 +8122,11 @@ yyreduce:
 
     (yyval.node)->type = VOID_TYPE;
 }
-#line 8032 "y.tab.c"
+#line 8126 "y.tab.c"
     break;
 
-  case 212:
-#line 4226 "parser.yacc"
+  case 212: /* LabeledStatementNoShortIf: IDENTIFIER COL StatementNoShortIf  */
+#line 4238 "parser.yacc"
                                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Identifier", (yyvsp[-2].lexeme));
@@ -8046,11 +8140,11 @@ yyreduce:
 
     (yyval.node)->type = VOID_TYPE;
 }
-#line 8050 "y.tab.c"
+#line 8144 "y.tab.c"
     break;
 
-  case 213:
-#line 4242 "parser.yacc"
+  case 213: /* ExpressionStatement: StatementExpression SEMICOLON  */
+#line 4254 "parser.yacc"
                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-1].node));
@@ -8065,80 +8159,80 @@ yyreduce:
     (yyval.node)->nextlist = (yyvsp[-1].node)->nextlist;
     processPostIncre((yyval.node));
 }
-#line 8069 "y.tab.c"
+#line 8163 "y.tab.c"
     break;
 
-  case 214:
-#line 4259 "parser.yacc"
+  case 214: /* StatementExpression: Assignment  */
+#line 4271 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Assignment->StatementExpression");
     }
-#line 8078 "y.tab.c"
+#line 8172 "y.tab.c"
     break;
 
-  case 215:
-#line 4263 "parser.yacc"
+  case 215: /* StatementExpression: PreIncrementExpression  */
+#line 4275 "parser.yacc"
                             {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"PreIncrementExpression->StatementExpression");
     }
-#line 8087 "y.tab.c"
+#line 8181 "y.tab.c"
     break;
 
-  case 216:
-#line 4267 "parser.yacc"
+  case 216: /* StatementExpression: PreDecrementExpression  */
+#line 4279 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"PreDecrementExpression->StatementExpression");
     }
-#line 8096 "y.tab.c"
+#line 8190 "y.tab.c"
     break;
 
-  case 217:
-#line 4271 "parser.yacc"
+  case 217: /* StatementExpression: PostIncrementExpression  */
+#line 4283 "parser.yacc"
                             {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"PostIncrementExpression->StatementExpression");
     }
-#line 8105 "y.tab.c"
+#line 8199 "y.tab.c"
     break;
 
-  case 218:
-#line 4275 "parser.yacc"
+  case 218: /* StatementExpression: PostDecrementExpression  */
+#line 4287 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"PostDecrementExpression->StatementExpression");
     }
-#line 8114 "y.tab.c"
+#line 8208 "y.tab.c"
     break;
 
-  case 219:
-#line 4279 "parser.yacc"
+  case 219: /* StatementExpression: MethodInvocation  */
+#line 4291 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"MethodInvocation->StatementExpression");
     }
-#line 8123 "y.tab.c"
+#line 8217 "y.tab.c"
     break;
 
-  case 220:
-#line 4283 "parser.yacc"
+  case 220: /* StatementExpression: ClassInstanceCreationExpression  */
+#line 4295 "parser.yacc"
                                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ClassInstanceCreationExpression->StatementExpression");
     }
-#line 8132 "y.tab.c"
+#line 8226 "y.tab.c"
     break;
 
-  case 221:
-#line 4290 "parser.yacc"
+  case 221: /* CommaStatementExpressions: %empty  */
+#line 4302 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 8138 "y.tab.c"
+#line 8232 "y.tab.c"
     break;
 
-  case 222:
-#line 4291 "parser.yacc"
+  case 222: /* CommaStatementExpressions: COMMA StatementExpression CommaStatementExpressions  */
+#line 4303 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -8156,11 +8250,11 @@ yyreduce:
         else (yyval.node) = new Node("StatementExpressions", temp);
         verbose(v,"COMMA StatementExpression CommaStatementExpressions->CommaStatementExpressions");
 }
-#line 8160 "y.tab.c"
+#line 8254 "y.tab.c"
     break;
 
-  case 223:
-#line 4312 "parser.yacc"
+  case 223: /* IfThenStatement: IF LEFTPARENTHESIS Expression RIGHTPARENTHESIS Statement  */
+#line 4324 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-4].lexeme));
         //struct Node* t2 = new Node("Separator", $2);
@@ -8187,11 +8281,11 @@ yyreduce:
         }
             // yyerror("Error in statements");
     }
-#line 8191 "y.tab.c"
+#line 8285 "y.tab.c"
     break;
 
-  case 224:
-#line 4342 "parser.yacc"
+  case 224: /* _StatementNoShortIf: StatementNoShortIf ELSE  */
+#line 4354 "parser.yacc"
 {
     struct Node* t = new Node("Keyword", (yyvsp[0].lexeme));
     vector<Node*> temp = {(yyvsp[-1].node), t};
@@ -8205,11 +8299,11 @@ yyreduce:
     (yyval.node)->code.push_back(q);
     (yyval.node)->last = ircode.size() - 1;
 }
-#line 8209 "y.tab.c"
+#line 8303 "y.tab.c"
     break;
 
-  case 225:
-#line 4358 "parser.yacc"
+  case 225: /* IfThenElseStatement: IF LEFTPARENTHESIS Expression RIGHTPARENTHESIS _StatementNoShortIf Statement  */
+#line 4370 "parser.yacc"
     {
         
         struct Node* t1 = new Node("Keyword", (yyvsp[-5].lexeme));
@@ -8237,11 +8331,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 8241 "y.tab.c"
+#line 8335 "y.tab.c"
     break;
 
-  case 226:
-#line 4391 "parser.yacc"
+  case 226: /* IfThenElseStatementNoShortIf: IF LEFTPARENTHESIS Expression RIGHTPARENTHESIS _StatementNoShortIf StatementNoShortIf  */
+#line 4403 "parser.yacc"
     {struct Node* t1 = new Node("Keyword", (yyvsp[-5].lexeme));
         vector<Node* > temp = {t1, (yyvsp[-3].node), (yyvsp[-1].node), (yyvsp[0].node)};
         (yyval.node) = new Node("IfThenElseStatement", temp);
@@ -8268,11 +8362,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 8272 "y.tab.c"
+#line 8366 "y.tab.c"
     break;
 
-  case 227:
-#line 4420 "parser.yacc"
+  case 227: /* AssertStatement: ASSERT Expression SEMICOLON  */
+#line 4432 "parser.yacc"
                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -8292,11 +8386,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 8296 "y.tab.c"
+#line 8390 "y.tab.c"
     break;
 
-  case 228:
-#line 4439 "parser.yacc"
+  case 228: /* AssertStatement: ASSERT Expression COL Expression SEMICOLON  */
+#line 4451 "parser.yacc"
                                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -8319,11 +8413,11 @@ yyreduce:
         yyerror("Error");
     }
 }
-#line 8323 "y.tab.c"
+#line 8417 "y.tab.c"
     break;
 
-  case 229:
-#line 4464 "parser.yacc"
+  case 229: /* WhileStatement: WHILE LEFTPARENTHESIS Expression RIGHTPARENTHESIS Statement  */
+#line 4476 "parser.yacc"
                                                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -8348,11 +8442,11 @@ yyreduce:
     }
     processWhile((yyval.node), (yyvsp[-2].node), (yyvsp[0].node));
 }
-#line 8352 "y.tab.c"
+#line 8446 "y.tab.c"
     break;
 
-  case 230:
-#line 4491 "parser.yacc"
+  case 230: /* WhileStatementNoShortIf: WHILE LEFTPARENTHESIS Expression RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4503 "parser.yacc"
                                                                             {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -8382,47 +8476,47 @@ yyreduce:
     
     processWhile((yyval.node), (yyvsp[-2].node), (yyvsp[0].node));
 }
-#line 8386 "y.tab.c"
+#line 8480 "y.tab.c"
     break;
 
-  case 231:
-#line 4524 "parser.yacc"
+  case 231: /* ForStatement: BasicForStatement  */
+#line 4536 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"BasicForStatement->ForStatement");
     }
-#line 8395 "y.tab.c"
+#line 8489 "y.tab.c"
     break;
 
-  case 232:
-#line 4528 "parser.yacc"
+  case 232: /* ForStatement: EnhancedForStatement  */
+#line 4540 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"EnhancedForStatement->ForStatement");
     }
-#line 8404 "y.tab.c"
+#line 8498 "y.tab.c"
     break;
 
-  case 233:
-#line 4535 "parser.yacc"
+  case 233: /* ForStatementNoShortIf: BasicForStatementNoShortIf  */
+#line 4547 "parser.yacc"
                                 {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"BasicForStatementNoShortIf->ForStatementNoShortIf");
     }
-#line 8413 "y.tab.c"
+#line 8507 "y.tab.c"
     break;
 
-  case 234:
-#line 4539 "parser.yacc"
+  case 234: /* ForStatementNoShortIf: EnhancedForStatementNoShortIf  */
+#line 4551 "parser.yacc"
                                     {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"EnhancedForStatementNoShortIf->BasicForStatement");
     }
-#line 8422 "y.tab.c"
+#line 8516 "y.tab.c"
     break;
 
-  case 235:
-#line 4547 "parser.yacc"
+  case 235: /* BasicForStatement: FOR LEFTPARENTHESIS ForInit SEMICOLON Expression SEMICOLON ForUpdate RIGHTPARENTHESIS Statement  */
+#line 4559 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-8].lexeme));
         /*************************************************
@@ -8463,11 +8557,11 @@ yyreduce:
     }
 
     }
-#line 8467 "y.tab.c"
+#line 8561 "y.tab.c"
     break;
 
-  case 236:
-#line 4588 "parser.yacc"
+  case 236: /* BasicForStatement: FOR LEFTPARENTHESIS SEMICOLON SEMICOLON RIGHTPARENTHESIS Statement  */
+#line 4600 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-5].lexeme));
         /********************************************
@@ -8490,11 +8584,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8494 "y.tab.c"
+#line 8588 "y.tab.c"
     break;
 
-  case 237:
-#line 4611 "parser.yacc"
+  case 237: /* BasicForStatement: FOR LEFTPARENTHESIS ForInit SEMICOLON SEMICOLON RIGHTPARENTHESIS Statement  */
+#line 4623 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /**********************************************
@@ -8517,11 +8611,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8521 "y.tab.c"
+#line 8615 "y.tab.c"
     break;
 
-  case 238:
-#line 4634 "parser.yacc"
+  case 238: /* BasicForStatement: FOR LEFTPARENTHESIS SEMICOLON Expression SEMICOLON RIGHTPARENTHESIS Statement  */
+#line 4646 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /***********************************************
@@ -8554,11 +8648,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8558 "y.tab.c"
+#line 8652 "y.tab.c"
     break;
 
-  case 239:
-#line 4667 "parser.yacc"
+  case 239: /* BasicForStatement: FOR LEFTPARENTHESIS SEMICOLON SEMICOLON ForUpdate RIGHTPARENTHESIS Statement  */
+#line 4679 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /**************************************************
@@ -8592,11 +8686,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8596 "y.tab.c"
+#line 8690 "y.tab.c"
     break;
 
-  case 240:
-#line 4701 "parser.yacc"
+  case 240: /* BasicForStatement: FOR LEFTPARENTHESIS ForInit SEMICOLON Expression SEMICOLON RIGHTPARENTHESIS Statement  */
+#line 4713 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-7].lexeme));
         /**************************************************
@@ -8629,11 +8723,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8633 "y.tab.c"
+#line 8727 "y.tab.c"
     break;
 
-  case 241:
-#line 4734 "parser.yacc"
+  case 241: /* BasicForStatement: FOR LEFTPARENTHESIS ForInit SEMICOLON SEMICOLON ForUpdate RIGHTPARENTHESIS Statement  */
+#line 4746 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-7].lexeme));
         /***********************************************
@@ -8664,11 +8758,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8668 "y.tab.c"
+#line 8762 "y.tab.c"
     break;
 
-  case 242:
-#line 4765 "parser.yacc"
+  case 242: /* BasicForStatement: FOR LEFTPARENTHESIS SEMICOLON Expression SEMICOLON ForUpdate RIGHTPARENTHESIS Statement  */
+#line 4777 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-7].lexeme));
         /***********************************************
@@ -8704,11 +8798,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8708 "y.tab.c"
+#line 8802 "y.tab.c"
     break;
 
-  case 243:
-#line 4804 "parser.yacc"
+  case 243: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS ForInit SEMICOLON Expression SEMICOLON ForUpdate RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4816 "parser.yacc"
     {
        struct Node* t1 = new Node("Keyword", (yyvsp[-8].lexeme));
         vector<Node* > temp = {t1, (yyvsp[-6].node), (yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node)};
@@ -8736,11 +8830,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8740 "y.tab.c"
+#line 8834 "y.tab.c"
     break;
 
-  case 244:
-#line 4832 "parser.yacc"
+  case 244: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS SEMICOLON SEMICOLON RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4844 "parser.yacc"
     {
        struct Node* t1 = new Node("Keyword", (yyvsp[-5].lexeme));
         /********************************************
@@ -8764,11 +8858,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8768 "y.tab.c"
+#line 8862 "y.tab.c"
     break;
 
-  case 245:
-#line 4856 "parser.yacc"
+  case 245: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS ForInit SEMICOLON SEMICOLON RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4868 "parser.yacc"
     {
          struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /**********************************************
@@ -8792,11 +8886,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8796 "y.tab.c"
+#line 8890 "y.tab.c"
     break;
 
-  case 246:
-#line 4880 "parser.yacc"
+  case 246: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS SEMICOLON Expression SEMICOLON RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4892 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /***********************************************
@@ -8823,11 +8917,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8827 "y.tab.c"
+#line 8921 "y.tab.c"
     break;
 
-  case 247:
-#line 4907 "parser.yacc"
+  case 247: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS SEMICOLON SEMICOLON ForUpdate RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4919 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /**************************************************
@@ -8860,11 +8954,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8864 "y.tab.c"
+#line 8958 "y.tab.c"
     break;
 
-  case 248:
-#line 4940 "parser.yacc"
+  case 248: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS ForInit SEMICOLON Expression SEMICOLON RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4952 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-7].lexeme));
         /**************************************************
@@ -8891,11 +8985,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8895 "y.tab.c"
+#line 8989 "y.tab.c"
     break;
 
-  case 249:
-#line 4967 "parser.yacc"
+  case 249: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS ForInit SEMICOLON SEMICOLON ForUpdate RIGHTPARENTHESIS StatementNoShortIf  */
+#line 4979 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-7].lexeme));
         /***********************************************
@@ -8927,11 +9021,11 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8931 "y.tab.c"
+#line 9025 "y.tab.c"
     break;
 
-  case 250:
-#line 4999 "parser.yacc"
+  case 250: /* BasicForStatementNoShortIf: FOR LEFTPARENTHESIS SEMICOLON Expression SEMICOLON ForUpdate RIGHTPARENTHESIS StatementNoShortIf  */
+#line 5011 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-7].lexeme));
         /***********************************************
@@ -8966,29 +9060,29 @@ yyreduce:
         yyerror("Error");
     }
     }
-#line 8970 "y.tab.c"
+#line 9064 "y.tab.c"
     break;
 
-  case 251:
-#line 5036 "parser.yacc"
+  case 251: /* ForInit: StatementExpressionList  */
+#line 5048 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"StatementExpressionList->ForInit");
     }
-#line 8979 "y.tab.c"
+#line 9073 "y.tab.c"
     break;
 
-  case 252:
-#line 5040 "parser.yacc"
+  case 252: /* ForInit: LocalVariableDeclaration  */
+#line 5052 "parser.yacc"
                                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"LocalVariableDeclaration->ForInit");
     }
-#line 8988 "y.tab.c"
+#line 9082 "y.tab.c"
     break;
 
-  case 253:
-#line 5047 "parser.yacc"
+  case 253: /* ForUpdate: StatementExpressionList  */
+#line 5059 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         processPostIncre((yyvsp[0].node));
@@ -8999,20 +9093,20 @@ yyreduce:
         
         verbose(v,"StatementExpressionList->ForUpdate");
     }
-#line 9003 "y.tab.c"
+#line 9097 "y.tab.c"
     break;
 
-  case 254:
-#line 5060 "parser.yacc"
+  case 254: /* StatementExpressionList: StatementExpression  */
+#line 5072 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"StatementExpression->StatementExpressionList");
     }
-#line 9012 "y.tab.c"
+#line 9106 "y.tab.c"
     break;
 
-  case 255:
-#line 5065 "parser.yacc"
+  case 255: /* StatementExpressionList: StatementExpression COMMA StatementExpression CommaStatementExpressions  */
+#line 5077 "parser.yacc"
     {
        
         vector<Node*> temp = {(yyvsp[-3].node), (yyvsp[-1].node)};
@@ -9020,11 +9114,11 @@ yyreduce:
         (yyval.node) = new Node("StatementExpressionList", temp);
         verbose(v,"StatementExpression COMMA StatementExpression CommaStatementExpressions->StatementExpressionList");
     }
-#line 9024 "y.tab.c"
+#line 9118 "y.tab.c"
     break;
 
-  case 256:
-#line 5076 "parser.yacc"
+  case 256: /* EnhancedForStatement: FOR LEFTPARENTHESIS LocalVariableDeclaration COL Expression RIGHTPARENTHESIS Statement  */
+#line 5088 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         /*************************************************
@@ -9037,11 +9131,11 @@ yyreduce:
         (yyval.node) = new Node("EnhancedForStatement", temp);
         verbose(v,"FOR LEFTPARENTHESIS LocalVariableDeclaration COL Expression RIGHTPARENTHESIS Statement->EnhancedForStatement");
     }
-#line 9041 "y.tab.c"
+#line 9135 "y.tab.c"
     break;
 
-  case 257:
-#line 5092 "parser.yacc"
+  case 257: /* EnhancedForStatementNoShortIf: FOR LEFTPARENTHESIS LocalVariableDeclaration COL Expression RIGHTPARENTHESIS StatementNoShortIf  */
+#line 5104 "parser.yacc"
     {
         struct Node* t1 = new Node("Keyword", (yyvsp[-6].lexeme));
         //struct Node* t2 = new Node("Separator", $2);
@@ -9052,11 +9146,11 @@ yyreduce:
         (yyval.node) = new Node("EnhancedForStatement", temp);
         verbose(v,"FOR LEFTPARENTHESIS LocalVariableDeclaration COL Expression RIGHTPARENTHESIS StatementNoShortIf->EnhancedForStatementNoShortIf");
     }
-#line 9056 "y.tab.c"
+#line 9150 "y.tab.c"
     break;
 
-  case 258:
-#line 5105 "parser.yacc"
+  case 258: /* BreakStatement: BREAK SEMICOLON  */
+#line 5117 "parser.yacc"
                     {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-1].lexeme));
@@ -9073,11 +9167,11 @@ yyreduce:
     }
     (yyval.node)->type = VOID_TYPE;
 }
-#line 9077 "y.tab.c"
+#line 9171 "y.tab.c"
     break;
 
-  case 259:
-#line 5121 "parser.yacc"
+  case 259: /* BreakStatement: BREAK IDENTIFIER SEMICOLON  */
+#line 5133 "parser.yacc"
                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -9092,11 +9186,11 @@ yyreduce:
 
     (yyval.node)->type = VOID_TYPE;
 }
-#line 9096 "y.tab.c"
+#line 9190 "y.tab.c"
     break;
 
-  case 260:
-#line 5139 "parser.yacc"
+  case 260: /* ContinueStatement: CONTINUE SEMICOLON  */
+#line 5151 "parser.yacc"
                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-1].lexeme));
@@ -9113,11 +9207,11 @@ yyreduce:
     }
     (yyval.node)->type = VOID_TYPE;
 }
-#line 9117 "y.tab.c"
+#line 9211 "y.tab.c"
     break;
 
-  case 261:
-#line 5155 "parser.yacc"
+  case 261: /* ContinueStatement: CONTINUE IDENTIFIER SEMICOLON  */
+#line 5167 "parser.yacc"
                                     {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -9132,11 +9226,11 @@ yyreduce:
 
     (yyval.node)->type = VOID_TYPE;
 }
-#line 9136 "y.tab.c"
+#line 9230 "y.tab.c"
     break;
 
-  case 262:
-#line 5172 "parser.yacc"
+  case 262: /* ReturnStatement: RETURN SEMICOLON  */
+#line 5184 "parser.yacc"
                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-1].lexeme));
@@ -9160,11 +9254,11 @@ yyreduce:
     }
     (yyval.node)->type = VOID_TYPE;
 }
-#line 9164 "y.tab.c"
+#line 9258 "y.tab.c"
     break;
 
-  case 263:
-#line 5195 "parser.yacc"
+  case 263: /* ReturnStatement: RETURN Expression SEMICOLON  */
+#line 5207 "parser.yacc"
                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -9195,17 +9289,17 @@ yyreduce:
     }
     (yyval.node)->type = VOID_TYPE;
 }
-#line 9199 "y.tab.c"
+#line 9293 "y.tab.c"
     break;
 
-  case 264:
-#line 5228 "parser.yacc"
+  case 264: /* LeftRightSquareBrackets: %empty  */
+#line 5240 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 9205 "y.tab.c"
+#line 9299 "y.tab.c"
     break;
 
-  case 265:
-#line 5229 "parser.yacc"
+  case 265: /* LeftRightSquareBrackets: LRSQUAREBRACKET LeftRightSquareBrackets  */
+#line 5241 "parser.yacc"
                                             {
     vector<struct Node*> temp;
     
@@ -9221,57 +9315,57 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"LRSQUAREBRACKET LeftRightSquareBrackets->LeftRightSquareBrackets");
 }
-#line 9225 "y.tab.c"
+#line 9319 "y.tab.c"
     break;
 
-  case 266:
-#line 5252 "parser.yacc"
+  case 266: /* Primary: PrimaryNoNewArray  */
+#line 5264 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"PrimaryNoNewArray->Primary");
     }
-#line 9234 "y.tab.c"
+#line 9328 "y.tab.c"
     break;
 
-  case 267:
-#line 5256 "parser.yacc"
+  case 267: /* Primary: ArrayCreationExpression  */
+#line 5268 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ArrayCreationExpression->Primary");
     }
-#line 9243 "y.tab.c"
+#line 9337 "y.tab.c"
     break;
 
-  case 268:
-#line 5263 "parser.yacc"
+  case 268: /* PrimaryNoNewArray: Literal  */
+#line 5275 "parser.yacc"
             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Literal->PrimaryNoNewArray");
     }
-#line 9252 "y.tab.c"
+#line 9346 "y.tab.c"
     break;
 
-  case 269:
-#line 5267 "parser.yacc"
+  case 269: /* PrimaryNoNewArray: ClassLiteral  */
+#line 5279 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ClassLiteral->PrimaryNoNewArray");
     }
-#line 9261 "y.tab.c"
+#line 9355 "y.tab.c"
     break;
 
-  case 270:
-#line 5271 "parser.yacc"
+  case 270: /* PrimaryNoNewArray: THIS  */
+#line 5283 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"THIS->PrimaryNoNewArray");
 }
-#line 9271 "y.tab.c"
+#line 9365 "y.tab.c"
     break;
 
-  case 271:
-#line 5276 "parser.yacc"
+  case 271: /* PrimaryNoNewArray: Name DOT THIS  */
+#line 5288 "parser.yacc"
                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -9283,11 +9377,11 @@ yyreduce:
     (yyval.node) = n;
     verbose(v,"Name DOT THIS ->PrimaryNoNewArray");
 }
-#line 9287 "y.tab.c"
+#line 9381 "y.tab.c"
     break;
 
-  case 272:
-#line 5287 "parser.yacc"
+  case 272: /* PrimaryNoNewArray: LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 5299 "parser.yacc"
                                                 {
     vector<struct Node*> temp;
     //struct Node* n1 = new struct Node("Separator", $1);
@@ -9306,56 +9400,56 @@ yyreduce:
 
     (yyval.node)->type = (yyvsp[-1].node)->type;
 }
-#line 9310 "y.tab.c"
+#line 9404 "y.tab.c"
     break;
 
-  case 273:
-#line 5305 "parser.yacc"
+  case 273: /* PrimaryNoNewArray: ClassInstanceCreationExpression  */
+#line 5317 "parser.yacc"
                                     {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"ClassInstanceCreationExpression->PrimaryNoNewArray");
     }
-#line 9319 "y.tab.c"
+#line 9413 "y.tab.c"
     break;
 
-  case 274:
-#line 5309 "parser.yacc"
+  case 274: /* PrimaryNoNewArray: FieldAccess  */
+#line 5321 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"FieldAccess->PrimaryNoNewArray");
     }
-#line 9328 "y.tab.c"
+#line 9422 "y.tab.c"
     break;
 
-  case 275:
-#line 5313 "parser.yacc"
+  case 275: /* PrimaryNoNewArray: ArrayAccess  */
+#line 5325 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ArrayAccess->PrimaryNoNewArray");
     }
-#line 9337 "y.tab.c"
+#line 9431 "y.tab.c"
     break;
 
-  case 276:
-#line 5317 "parser.yacc"
+  case 276: /* PrimaryNoNewArray: MethodInvocation  */
+#line 5329 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"MethodInvocation->PrimaryNoNewArray");
     }
-#line 9346 "y.tab.c"
+#line 9440 "y.tab.c"
     break;
 
-  case 277:
-#line 5321 "parser.yacc"
+  case 277: /* PrimaryNoNewArray: MethodReference  */
+#line 5333 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"MethodReference->PrimaryNoNewArray");
     }
-#line 9355 "y.tab.c"
+#line 9449 "y.tab.c"
     break;
 
-  case 278:
-#line 5328 "parser.yacc"
+  case 278: /* ClassLiteral: Name DOT CLASS  */
+#line 5340 "parser.yacc"
                    {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -9369,11 +9463,11 @@ yyreduce:
 
     (yyval.node)->type = CLASS_LITERAL;
 }
-#line 9373 "y.tab.c"
+#line 9467 "y.tab.c"
     break;
 
-  case 279:
-#line 5341 "parser.yacc"
+  case 279: /* ClassLiteral: Name LRSQUAREBRACKET LeftRightSquareBrackets DOT CLASS  */
+#line 5353 "parser.yacc"
                                                            {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-4].node));
@@ -9390,11 +9484,11 @@ yyreduce:
     verbose(v,"Name LRSQUAREBRACKET LeftRightSquareBrackets DOT CLASS");
     (yyval.node)->type = CLASS_LITERAL;
 }
-#line 9394 "y.tab.c"
+#line 9488 "y.tab.c"
     break;
 
-  case 280:
-#line 5357 "parser.yacc"
+  case 280: /* ClassLiteral: PrimitiveType DOT CLASS  */
+#line 5369 "parser.yacc"
                             {
     vector<struct Node*> temp;
     if((yyvsp[-2].node)->useful == false) {
@@ -9415,11 +9509,11 @@ yyreduce:
     (yyval.node)->type = CLASS_LITERAL;
 
 }
-#line 9419 "y.tab.c"
+#line 9513 "y.tab.c"
     break;
 
-  case 281:
-#line 5377 "parser.yacc"
+  case 281: /* ClassLiteral: PrimitiveType LRSQUAREBRACKET LeftRightSquareBrackets DOT CLASS  */
+#line 5389 "parser.yacc"
                                                                        {
     vector<struct Node*> temp;
     if((yyvsp[-4].node)->useful == false) {
@@ -9443,11 +9537,11 @@ yyreduce:
     (yyval.node)->type = CLASS_LITERAL;
 
 }
-#line 9447 "y.tab.c"
+#line 9541 "y.tab.c"
     break;
 
-  case 282:
-#line 5400 "parser.yacc"
+  case 282: /* ClassLiteral: VOID DOT CLASS  */
+#line 5412 "parser.yacc"
                     {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -9462,116 +9556,116 @@ yyreduce:
 
     (yyval.node)->type = CLASS_LITERAL;
 }
-#line 9466 "y.tab.c"
+#line 9560 "y.tab.c"
     break;
 
-  case 283:
-#line 5417 "parser.yacc"
+  case 283: /* NumericType: IntegralType  */
+#line 5429 "parser.yacc"
                     {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"IntegralType->NumericType");
 
     }
-#line 9476 "y.tab.c"
+#line 9570 "y.tab.c"
     break;
 
-  case 284:
-#line 5422 "parser.yacc"
+  case 284: /* NumericType: FloatingPointType  */
+#line 5434 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"FloatingPointType->NumericType");
     }
-#line 9485 "y.tab.c"
+#line 9579 "y.tab.c"
     break;
 
-  case 285:
-#line 5429 "parser.yacc"
+  case 285: /* IntegralType: BYTE  */
+#line 5441 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = BYTE_NUM;
     verbose(v,"BYTE->IntegralType");
 }
-#line 9496 "y.tab.c"
+#line 9590 "y.tab.c"
     break;
 
-  case 286:
-#line 5435 "parser.yacc"
+  case 286: /* IntegralType: SHORT  */
+#line 5447 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = SHORT_NUM;
     verbose(v,"SHORT->IntegralType");
 }
-#line 9507 "y.tab.c"
+#line 9601 "y.tab.c"
     break;
 
-  case 287:
-#line 5441 "parser.yacc"
+  case 287: /* IntegralType: INT  */
+#line 5453 "parser.yacc"
         {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = INT_NUM;
     verbose(v,"INT->IntegralType");
 }
-#line 9518 "y.tab.c"
+#line 9612 "y.tab.c"
     break;
 
-  case 288:
-#line 5447 "parser.yacc"
+  case 288: /* IntegralType: LONG  */
+#line 5459 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = LONG_NUM;
     verbose(v,"LONG->IntegralType");
 }
-#line 9529 "y.tab.c"
+#line 9623 "y.tab.c"
     break;
 
-  case 289:
-#line 5453 "parser.yacc"
+  case 289: /* IntegralType: CHAR  */
+#line 5465 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = CHAR_NUM;
     verbose(v,"CHAR->IntegralType");
 }
-#line 9540 "y.tab.c"
+#line 9634 "y.tab.c"
     break;
 
-  case 290:
-#line 5462 "parser.yacc"
+  case 290: /* FloatingPointType: FLOAT  */
+#line 5474 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = FLOAT_NUM;
     verbose(v,"FLOAT->FloatingPointType");
 }
-#line 9551 "y.tab.c"
+#line 9645 "y.tab.c"
     break;
 
-  case 291:
-#line 5468 "parser.yacc"
+  case 291: /* FloatingPointType: DOUBLE  */
+#line 5480 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", (yyvsp[0].lexeme));
     (yyval.node) = n;
     (yyval.node)->type = DOUBLE_NUM;
     verbose(v,"DOUBLE->FloatingPointType");
 }
-#line 9562 "y.tab.c"
+#line 9656 "y.tab.c"
     break;
 
-  case 292:
-#line 5477 "parser.yacc"
+  case 292: /* ClassInstanceCreationExpression: UnqualifiedClassInstanceCreationExpression  */
+#line 5489 "parser.yacc"
                                                  {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"UnqualifiedClassInstanceCreationExpression->ClassInstanceCreationExpression");
     }
-#line 9571 "y.tab.c"
+#line 9665 "y.tab.c"
     break;
 
-  case 293:
-#line 5481 "parser.yacc"
+  case 293: /* ClassInstanceCreationExpression: Name DOT UnqualifiedClassInstanceCreationExpression  */
+#line 5493 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -9588,11 +9682,11 @@ yyreduce:
     verbose(v,"Name DOT UnqualifiedClassInstanceCreationExpression->ClassInstanceCreationExpression"); 
 
 }
-#line 9592 "y.tab.c"
+#line 9686 "y.tab.c"
     break;
 
-  case 294:
-#line 5497 "parser.yacc"
+  case 294: /* ClassInstanceCreationExpression: Primary DOT UnqualifiedClassInstanceCreationExpression  */
+#line 5509 "parser.yacc"
                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -9609,11 +9703,11 @@ yyreduce:
     verbose(v,"Primary DOT UnqualifiedClassInstanceCreationExpression->ClassInstanceCreationExpression");
 
 }
-#line 9613 "y.tab.c"
+#line 9707 "y.tab.c"
     break;
 
-  case 295:
-#line 5516 "parser.yacc"
+  case 295: /* UnqualifiedClassInstanceCreationExpression: NEW Name LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS ClassBody  */
+#line 5528 "parser.yacc"
                                                                       {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-5].lexeme));
@@ -9650,11 +9744,11 @@ yyreduce:
     }
     (yyval.node)->type = res->type;
 }
-#line 9654 "y.tab.c"
+#line 9748 "y.tab.c"
     break;
 
-  case 296:
-#line 5552 "parser.yacc"
+  case 296: /* UnqualifiedClassInstanceCreationExpression: NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS ClassBody  */
+#line 5564 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -9688,11 +9782,11 @@ yyreduce:
     
     (yyval.node)->type = sym->type;
 }
-#line 9692 "y.tab.c"
+#line 9786 "y.tab.c"
     break;
 
-  case 297:
-#line 5585 "parser.yacc"
+  case 297: /* UnqualifiedClassInstanceCreationExpression: NEW Name LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS  */
+#line 5597 "parser.yacc"
                                                             {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -9728,11 +9822,11 @@ yyreduce:
     }
     (yyval.node)->type = res->type;
 }
-#line 9732 "y.tab.c"
+#line 9826 "y.tab.c"
     break;
 
-  case 298:
-#line 5620 "parser.yacc"
+  case 298: /* UnqualifiedClassInstanceCreationExpression: NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 5632 "parser.yacc"
                                                 {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-3].lexeme));
@@ -9767,11 +9861,11 @@ yyreduce:
     }
     (yyval.node)->type = res->type;
 }
-#line 9771 "y.tab.c"
+#line 9865 "y.tab.c"
     break;
 
-  case 299:
-#line 5654 "parser.yacc"
+  case 299: /* UnqualifiedClassInstanceCreationExpression: NEW Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS ClassBody  */
+#line 5666 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-5].lexeme));
@@ -9805,11 +9899,11 @@ yyreduce:
     }
     (yyval.node)->type = res->type;
 }
-#line 9809 "y.tab.c"
+#line 9903 "y.tab.c"
     break;
 
-  case 300:
-#line 5687 "parser.yacc"
+  case 300: /* UnqualifiedClassInstanceCreationExpression: NEW Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 5699 "parser.yacc"
                                                             {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -9842,11 +9936,11 @@ yyreduce:
     }
     (yyval.node)->type = res->type;
 }
-#line 9846 "y.tab.c"
+#line 9940 "y.tab.c"
     break;
 
-  case 301:
-#line 5722 "parser.yacc"
+  case 301: /* FieldAccess: Primary DOT IDENTIFIER  */
+#line 5734 "parser.yacc"
                             {
     vector<struct Node*> temp;
     if((yyvsp[-2].node)->useful == false) {
@@ -9868,11 +9962,11 @@ yyreduce:
         yyerror("Variable not declared before");
     (yyval.node)->type = res->type;
 }
-#line 9872 "y.tab.c"
+#line 9966 "y.tab.c"
     break;
 
-  case 302:
-#line 5743 "parser.yacc"
+  case 302: /* FieldAccess: SUPER DOT IDENTIFIER  */
+#line 5755 "parser.yacc"
                            {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -9894,11 +9988,11 @@ yyreduce:
         yyerror("Field with specified name not found");
     (yyval.node)->type = res->type;
 }
-#line 9898 "y.tab.c"
+#line 9992 "y.tab.c"
     break;
 
-  case 303:
-#line 5764 "parser.yacc"
+  case 303: /* FieldAccess: Name DOT SUPER DOT IDENTIFIER  */
+#line 5776 "parser.yacc"
                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-4].node));
@@ -9923,11 +10017,11 @@ yyreduce:
         yyerror("Field with specified name not found");
     (yyval.node)->type = res->type;
 }
-#line 9927 "y.tab.c"
+#line 10021 "y.tab.c"
     break;
 
-  case 304:
-#line 5791 "parser.yacc"
+  case 304: /* ArrayAccess: Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET  */
+#line 5803 "parser.yacc"
                                                           {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-3].node));
@@ -9964,11 +10058,11 @@ yyreduce:
     (yyval.node)->cnt++;
     
 }
-#line 9968 "y.tab.c"
+#line 10062 "y.tab.c"
     break;
 
-  case 305:
-#line 5827 "parser.yacc"
+  case 305: /* ArrayAccess: Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET  */
+#line 5839 "parser.yacc"
                                                                                                           {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-6].node));
@@ -10012,11 +10106,11 @@ yyreduce:
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     (yyval.node)->cnt++;
 }
-#line 10016 "y.tab.c"
+#line 10110 "y.tab.c"
     break;
 
-  case 306:
-#line 5870 "parser.yacc"
+  case 306: /* ArrayAccess: Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET  */
+#line 5882 "parser.yacc"
                                                                                                                                                           {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-9].node));
@@ -10075,11 +10169,11 @@ yyreduce:
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     (yyval.node)->cnt++;
 }
-#line 10079 "y.tab.c"
+#line 10173 "y.tab.c"
     break;
 
-  case 307:
-#line 5930 "parser.yacc"
+  case 307: /* MethodInvocation: Name LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 5942 "parser.yacc"
                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -10126,11 +10220,11 @@ yyreduce:
    
     
 }
-#line 10130 "y.tab.c"
+#line 10224 "y.tab.c"
     break;
 
-  case 308:
-#line 5976 "parser.yacc"
+  case 308: /* MethodInvocation: Name LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS  */
+#line 5988 "parser.yacc"
                                                          {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-3].node));
@@ -10177,11 +10271,11 @@ yyreduce:
     ircode.push_back(q);
     (yyval.node)->last = ircode.size() - 1;
 }
-#line 10181 "y.tab.c"
+#line 10275 "y.tab.c"
     break;
 
-  case 309:
-#line 6022 "parser.yacc"
+  case 309: /* MethodInvocation: Primary DOT IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 6034 "parser.yacc"
                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-4].node));
@@ -10205,11 +10299,11 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Primary DOT IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS->MethodInvocation");
 }
-#line 10209 "y.tab.c"
+#line 10303 "y.tab.c"
     break;
 
-  case 310:
-#line 6045 "parser.yacc"
+  case 310: /* MethodInvocation: Primary DOT IDENTIFIER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS  */
+#line 6057 "parser.yacc"
                                                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-5].node));
@@ -10235,11 +10329,11 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Primary DOT IDENTIFIER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS->MethodInvocation");
 }
-#line 10239 "y.tab.c"
+#line 10333 "y.tab.c"
     break;
 
-  case 311:
-#line 6070 "parser.yacc"
+  case 311: /* MethodInvocation: SUPER DOT IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 6082 "parser.yacc"
                                                             {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-4].lexeme));
@@ -10281,11 +10375,11 @@ yyreduce:
         yyerror("No such function declared before.");
     (yyval.node)->type = res->returntype;
 }
-#line 10285 "y.tab.c"
+#line 10379 "y.tab.c"
     break;
 
-  case 312:
-#line 6111 "parser.yacc"
+  case 312: /* MethodInvocation: SUPER DOT IDENTIFIER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS  */
+#line 6123 "parser.yacc"
                                                                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-5].lexeme));
@@ -10329,11 +10423,11 @@ yyreduce:
         yyerror("No such function declared before.");
     (yyval.node)->type = res->returntype;
 }
-#line 10333 "y.tab.c"
+#line 10427 "y.tab.c"
     break;
 
-  case 313:
-#line 6154 "parser.yacc"
+  case 313: /* MethodInvocation: Name DOT SUPER DOT IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 6166 "parser.yacc"
                                                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-6].node));
@@ -10377,11 +10471,11 @@ yyreduce:
         yyerror("No such function declared before.");
     (yyval.node)->type = res->returntype;
 }
-#line 10381 "y.tab.c"
+#line 10475 "y.tab.c"
     break;
 
-  case 314:
-#line 6197 "parser.yacc"
+  case 314: /* MethodInvocation: Name DOT SUPER DOT IDENTIFIER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS  */
+#line 6209 "parser.yacc"
                                                                                 {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-7].node));
@@ -10429,11 +10523,11 @@ yyreduce:
         yyerror("No such function declared before.");
     (yyval.node)->type = res->returntype;
 }
-#line 10433 "y.tab.c"
+#line 10527 "y.tab.c"
     break;
 
-  case 315:
-#line 6244 "parser.yacc"
+  case 315: /* MethodInvocation: Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 6256 "parser.yacc"
                                                         {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-3].node));
@@ -10490,11 +10584,11 @@ yyreduce:
     // $$->type = res->returntype;
     (yyval.node)->type = ex->returntype;
 }
-#line 10494 "y.tab.c"
+#line 10588 "y.tab.c"
     break;
 
-  case 316:
-#line 6300 "parser.yacc"
+  case 316: /* MethodInvocation: Primary DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 6312 "parser.yacc"
                                                                         {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-5].node));
@@ -10522,11 +10616,11 @@ yyreduce:
     (yyval.node)->last = ircode.size() - 1;
     verbose(v,"Primary DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
 }
-#line 10526 "y.tab.c"
+#line 10620 "y.tab.c"
     break;
 
-  case 317:
-#line 6327 "parser.yacc"
+  case 317: /* MethodInvocation: SUPER DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 6339 "parser.yacc"
                                                                         {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-5].lexeme));
@@ -10572,11 +10666,11 @@ yyreduce:
         yyerror("No such function declared before.");
     (yyval.node)->type = res->returntype;
 }
-#line 10576 "y.tab.c"
+#line 10670 "y.tab.c"
     break;
 
-  case 318:
-#line 6372 "parser.yacc"
+  case 318: /* MethodInvocation: Name DOT SUPER DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 6384 "parser.yacc"
                                                                                 {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-7].node));
@@ -10619,11 +10713,11 @@ yyreduce:
         yyerror("No such function declared before.");
     (yyval.node)->type = res->returntype;
 }
-#line 10623 "y.tab.c"
+#line 10717 "y.tab.c"
     break;
 
-  case 319:
-#line 6414 "parser.yacc"
+  case 319: /* MethodInvocation: SYSTEMOUTPRINTLN LEFTPARENTHESIS Expression RIGHTPARENTHESIS  */
+#line 6426 "parser.yacc"
                                                                  {
     vector<struct Node*> temp;
     struct Node* n1 = new Node("Keyword", (yyvsp[-3].lexeme));
@@ -10656,11 +10750,11 @@ yyreduce:
     args.push_back((yyvsp[-1].node)->type);
     (yyval.node)->type = 8;
 }
-#line 10660 "y.tab.c"
+#line 10754 "y.tab.c"
     break;
 
-  case 320:
-#line 6446 "parser.yacc"
+  case 320: /* MethodInvocation: SYSTEMOUTPRINTLN LEFTPARENTHESIS RIGHTPARENTHESIS  */
+#line 6458 "parser.yacc"
                                                        {
     vector<struct Node*> temp;
     struct Node* n1 = new Node("Keyword", (yyvsp[-2].lexeme));
@@ -10670,11 +10764,11 @@ yyreduce:
     verbose(v,"Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
     (yyval.node)->type = 8;
 }
-#line 10674 "y.tab.c"
+#line 10768 "y.tab.c"
     break;
 
-  case 321:
-#line 6459 "parser.yacc"
+  case 321: /* MethodReference: Name DOUBLECOLON IDENTIFIER  */
+#line 6471 "parser.yacc"
                                   {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -10686,11 +10780,11 @@ yyreduce:
     (yyval.node)->varName = (yyvsp[-2].node)->varName + string("::") + string((yyvsp[0].lexeme)); 
     verbose(1,"Name DOUBLECOLON IDENTIFIER->MethodReference");
 }
-#line 10690 "y.tab.c"
+#line 10784 "y.tab.c"
     break;
 
-  case 322:
-#line 6470 "parser.yacc"
+  case 322: /* MethodReference: Primary DOUBLECOLON IDENTIFIER  */
+#line 6482 "parser.yacc"
                                     {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -10702,11 +10796,11 @@ yyreduce:
     (yyval.node)->varName = (yyvsp[-2].node)->varName + string("::") + string((yyvsp[0].lexeme)); 
     verbose(1,"Primary DOUBLECOLON IDENTIFIER->MethodReference");
 }
-#line 10706 "y.tab.c"
+#line 10800 "y.tab.c"
     break;
 
-  case 323:
-#line 6481 "parser.yacc"
+  case 323: /* MethodReference: ArrayType DOUBLECOLON IDENTIFIER  */
+#line 6493 "parser.yacc"
                                        {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -10717,11 +10811,11 @@ yyreduce:
     (yyval.node) = n;
     verbose(1,"ArrayType DOUBLECOLON IDENTIFIER->MethodReference");
 }
-#line 10721 "y.tab.c"
+#line 10815 "y.tab.c"
     break;
 
-  case 324:
-#line 6491 "parser.yacc"
+  case 324: /* MethodReference: SUPER DOUBLECOLON IDENTIFIER  */
+#line 6503 "parser.yacc"
                                   {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -10734,11 +10828,11 @@ yyreduce:
     //$$->varName = $1->varName + string("::") + string($3); 
     verbose(1,"SUPER DOUBLECOLON IDENTIFIER->MethodReference");
 }
-#line 10738 "y.tab.c"
+#line 10832 "y.tab.c"
     break;
 
-  case 325:
-#line 6503 "parser.yacc"
+  case 325: /* MethodReference: Name DOT SUPER DOUBLECOLON IDENTIFIER  */
+#line 6515 "parser.yacc"
                                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-4].node));
@@ -10754,11 +10848,11 @@ yyreduce:
     (yyval.node)->varName = (yyvsp[-4].node)->varName + string(".") + string("super") + string("::") + string((yyvsp[-2].lexeme)); 
     verbose(1,"Name DOT SUPER DOUBLECOLON IDENTIFIER->MethodReference");
 }
-#line 10758 "y.tab.c"
+#line 10852 "y.tab.c"
     break;
 
-  case 326:
-#line 6518 "parser.yacc"
+  case 326: /* MethodReference: Name DOUBLECOLON NEW  */
+#line 6530 "parser.yacc"
                             {
     vector<struct Node*> temp;
     temp.push_back((yyvsp[-2].node));
@@ -10770,11 +10864,11 @@ yyreduce:
     (yyval.node)->varName = (yyvsp[-2].node)->varName + string("::") + (yyvsp[0].lexeme); 
     verbose(1,"Name DOUBLECOLON NEW->MethodReference");
 }
-#line 10774 "y.tab.c"
+#line 10868 "y.tab.c"
     break;
 
-  case 327:
-#line 6529 "parser.yacc"
+  case 327: /* MethodReference: ArrayType DOUBLECOLON NEW  */
+#line 6541 "parser.yacc"
                                 {
     vector<struct Node*> temp;
     if((yyvsp[-2].node)->useful == false) {
@@ -10790,11 +10884,11 @@ yyreduce:
     (yyval.node) = n;
     verbose(1,"ArrayType DOUBLECOLON NEW->MethodReference");
 }
-#line 10794 "y.tab.c"
+#line 10888 "y.tab.c"
     break;
 
-  case 328:
-#line 6547 "parser.yacc"
+  case 328: /* ArrayCreationExpression: NEW PrimitiveType DimExpr_  */
+#line 6559 "parser.yacc"
                                  {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -10811,11 +10905,11 @@ yyreduce:
     (yyval.node)->varName = string("new ") + (yyvsp[-1].node)->attr ;
     verbose(v,"NEW PrimitiveType DimExpr_ ->ArrayCreationExpression");
 }
-#line 10815 "y.tab.c"
+#line 10909 "y.tab.c"
     break;
 
-  case 329:
-#line 6563 "parser.yacc"
+  case 329: /* ArrayCreationExpression: NEW Name DimExpr_  */
+#line 6575 "parser.yacc"
                         {
         vector<struct Node*> temp;
         struct Node* n1 = new struct Node("Keyword", (yyvsp[-2].lexeme));
@@ -10832,11 +10926,11 @@ yyreduce:
         (yyval.node)->varName = string("new ") + (yyvsp[-1].node)->attr ;
         verbose(v,"NEW Name DimExpr_->ArrayCreationExpression");
     }
-#line 10836 "y.tab.c"
+#line 10930 "y.tab.c"
     break;
 
-  case 330:
-#line 6579 "parser.yacc"
+  case 330: /* ArrayCreationExpression: NEW PrimitiveType Dims ArrayInitializer  */
+#line 6591 "parser.yacc"
                                             {
     vector<struct Node*> temp;
     struct Node* n1 = new struct Node("Keyword", (yyvsp[-3].lexeme));
@@ -10859,20 +10953,20 @@ yyreduce:
     (yyval.node)->varName = string("new ") + (yyvsp[-2].node)->attr ;
     verbose(v,"NEW PrimitiveType Dims ArrayInitializer->ArrayCreationExpression");
 }
-#line 10863 "y.tab.c"
+#line 10957 "y.tab.c"
     break;
 
-  case 331:
-#line 6604 "parser.yacc"
+  case 331: /* DimExpr_: LRSQUAREBRACKET  */
+#line 6616 "parser.yacc"
                    {
     (yyval.node) = NULL;
     verbose(v,"LRSQUAREBRACKET->DimExpr_");
 }
-#line 10872 "y.tab.c"
+#line 10966 "y.tab.c"
     break;
 
-  case 332:
-#line 6608 "parser.yacc"
+  case 332: /* DimExpr_: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET  */
+#line 6620 "parser.yacc"
                                                     {
     vector<struct Node*> temp;
 
@@ -10891,20 +10985,20 @@ yyreduce:
     cout << "\n\nvarname ="<< (yyvsp[-1].node)->varName << "\n\n";
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->DimExpr_");
 }
-#line 10895 "y.tab.c"
+#line 10989 "y.tab.c"
     break;
 
-  case 333:
-#line 6626 "parser.yacc"
+  case 333: /* DimExpr_: LRSQUAREBRACKET LRSQUAREBRACKET  */
+#line 6638 "parser.yacc"
                                       {
         (yyval.node) = NULL;
         verbose(v,"LRSQUAREBRACKET LRSQUAREBRACKET->DimExpr_");
     }
-#line 10904 "y.tab.c"
+#line 10998 "y.tab.c"
     break;
 
-  case 334:
-#line 6630 "parser.yacc"
+  case 334: /* DimExpr_: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LRSQUAREBRACKET  */
+#line 6642 "parser.yacc"
                                                                        {
     vector<struct Node*> temp;
     
@@ -10921,11 +11015,11 @@ yyreduce:
     (yyval.node)->width1 = (yyvsp[-2].node)->varName;
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LRSQUAREBRACKET->DimExpr_");
 }
-#line 10925 "y.tab.c"
+#line 11019 "y.tab.c"
     break;
 
-  case 335:
-#line 6646 "parser.yacc"
+  case 335: /* DimExpr_: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET  */
+#line 6658 "parser.yacc"
                                                                                                        {
     vector<struct Node*> temp;
     
@@ -10948,20 +11042,20 @@ yyreduce:
     (yyval.node)->width2 = (yyvsp[-1].node)->varName;
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression->DimExpr_");
 }
-#line 10952 "y.tab.c"
+#line 11046 "y.tab.c"
     break;
 
-  case 336:
-#line 6668 "parser.yacc"
+  case 336: /* DimExpr_: LRSQUAREBRACKET LRSQUAREBRACKET LRSQUAREBRACKET  */
+#line 6680 "parser.yacc"
                                                        {
     (yyval.node) = NULL;
     verbose(v,"LRSQUAREBRACKET LRSQUAREBRACKET LRSQUAREBRACKET->DimExpr_");
 }
-#line 10961 "y.tab.c"
+#line 11055 "y.tab.c"
     break;
 
-  case 337:
-#line 6672 "parser.yacc"
+  case 337: /* DimExpr_: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LRSQUAREBRACKET LRSQUAREBRACKET  */
+#line 6684 "parser.yacc"
                                                                                     {
     vector<struct Node*> temp;
    
@@ -10979,11 +11073,11 @@ yyreduce:
    
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LRSQUAREBRACKET LRSQUAREBRACKET->DimExpr_");
 }
-#line 10983 "y.tab.c"
+#line 11077 "y.tab.c"
     break;
 
-  case 338:
-#line 6689 "parser.yacc"
+  case 338: /* DimExpr_: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LRSQUAREBRACKET  */
+#line 6701 "parser.yacc"
                                                                                                                      {
     vector<struct Node*> temp;
     
@@ -11008,11 +11102,11 @@ yyreduce:
     (yyval.node)->width2 = (yyvsp[-2].node)->varName;
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LRSQUAREBRACKET->DimExpr_");
 }
-#line 11012 "y.tab.c"
+#line 11106 "y.tab.c"
     break;
 
-  case 339:
-#line 6713 "parser.yacc"
+  case 339: /* DimExpr_: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET  */
+#line 6725 "parser.yacc"
                                                                                                                                                       {
     vector<struct Node*> temp;
    
@@ -11046,11 +11140,11 @@ yyreduce:
     (yyval.node)->width3 = (yyvsp[-1].node)->varName;
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->DimExpr_");
 }
-#line 11050 "y.tab.c"
+#line 11144 "y.tab.c"
     break;
 
-  case 340:
-#line 6748 "parser.yacc"
+  case 340: /* Dims: LRSQUAREBRACKET  */
+#line 6760 "parser.yacc"
                        {
        
         (yyval.node) = new Node("Dims");
@@ -11058,11 +11152,11 @@ yyreduce:
     
         verbose(v,"LRSQUAREBRACKET->Dims");
     }
-#line 11062 "y.tab.c"
+#line 11156 "y.tab.c"
     break;
 
-  case 341:
-#line 6755 "parser.yacc"
+  case 341: /* Dims: LRSQUAREBRACKET Dims  */
+#line 6767 "parser.yacc"
                            {
         
         
@@ -11070,26 +11164,26 @@ yyreduce:
         (yyval.node)->arrayType = (yyvsp[0].node)->arrayType+ 1;
         verbose(v,"LRSQUAREBRACKET Dims->Dims");
     }
-#line 11074 "y.tab.c"
+#line 11168 "y.tab.c"
     break;
 
-  case 342:
-#line 6765 "parser.yacc"
+  case 342: /* Expression: AssignmentExpression  */
+#line 6777 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"AssignmentExpression->Expression");
     }
-#line 11083 "y.tab.c"
+#line 11177 "y.tab.c"
     break;
 
-  case 343:
-#line 6772 "parser.yacc"
+  case 343: /* CommaExpressions: %empty  */
+#line 6784 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 11089 "y.tab.c"
+#line 11183 "y.tab.c"
     break;
 
-  case 344:
-#line 6773 "parser.yacc"
+  case 344: /* CommaExpressions: COMMA Expression CommaExpressions  */
+#line 6785 "parser.yacc"
                                         {
         vector<struct Node*> temp;
             if((yyvsp[-1].node)->useful == false) {
@@ -11107,29 +11201,29 @@ yyreduce:
             else (yyval.node) = new Node("Expressions", temp);
             verbose(v,"COMMA Expression CommaExpressions->CommaExpressions");
 }
-#line 11111 "y.tab.c"
+#line 11205 "y.tab.c"
     break;
 
-  case 345:
-#line 6794 "parser.yacc"
+  case 345: /* AssignmentExpression: ConditionalExpression  */
+#line 6806 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ConditionalExpression->AssignmentExpression");
     }
-#line 11120 "y.tab.c"
+#line 11214 "y.tab.c"
     break;
 
-  case 346:
-#line 6798 "parser.yacc"
+  case 346: /* AssignmentExpression: Assignment  */
+#line 6810 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"Assignment->AssignmentExpression");
     }
-#line 11129 "y.tab.c"
+#line 11223 "y.tab.c"
     break;
 
-  case 347:
-#line 6805 "parser.yacc"
+  case 347: /* Assignment: LeftHandSide AssignmentOperatorEqual Expression  */
+#line 6817 "parser.yacc"
                                                     {
         vector<Node*> temp;
         if((yyvsp[-2].node)->useful == false) {
@@ -11191,11 +11285,11 @@ yyreduce:
         isCond = 0;
         (yyval.node)->nextlist = (yyvsp[0].node)->nextlist;
     }
-#line 11195 "y.tab.c"
+#line 11289 "y.tab.c"
     break;
 
-  case 348:
-#line 6866 "parser.yacc"
+  case 348: /* Assignment: LeftHandSide AssignmentOperator Expression  */
+#line 6878 "parser.yacc"
                                                 {
         vector<Node*> temp;
         if((yyvsp[-2].node)->useful == false) {
@@ -11252,29 +11346,29 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11256 "y.tab.c"
+#line 11350 "y.tab.c"
     break;
 
-  case 349:
-#line 6925 "parser.yacc"
+  case 349: /* LeftHandSide: Name  */
+#line 6937 "parser.yacc"
             {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"Name->LeftHandSide");
     }
-#line 11265 "y.tab.c"
+#line 11359 "y.tab.c"
     break;
 
-  case 350:
-#line 6929 "parser.yacc"
+  case 350: /* LeftHandSide: FieldAccess  */
+#line 6941 "parser.yacc"
                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"FieldAccess->LeftHandSide");
     }
-#line 11274 "y.tab.c"
+#line 11368 "y.tab.c"
     break;
 
-  case 351:
-#line 6933 "parser.yacc"
+  case 351: /* LeftHandSide: ArrayAccess  */
+#line 6945 "parser.yacc"
                 {
        
        (yyval.node) = (yyvsp[0].node);
@@ -11289,131 +11383,131 @@ yyreduce:
        (yyval.node)->varName = "*(" + (yyval.node)->attr + "+" + (yyval.node)->varName + ")";
        verbose(v,"ArrayAccess->LeftHandSide");
     }
-#line 11293 "y.tab.c"
+#line 11387 "y.tab.c"
     break;
 
-  case 352:
-#line 6950 "parser.yacc"
+  case 352: /* AssignmentOperatorEqual: ASSIGN  */
+#line 6962 "parser.yacc"
            {
         struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
         (yyval.node) = n;
         verbose(v,"MULTEQUAL->AssignmentOperator");
     }
-#line 11303 "y.tab.c"
+#line 11397 "y.tab.c"
     break;
 
-  case 353:
-#line 6958 "parser.yacc"
+  case 353: /* AssignmentOperator: MULTEQUAL  */
+#line 6970 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"MULTEQUAL->AssignmentOperator");
 }
-#line 11313 "y.tab.c"
+#line 11407 "y.tab.c"
     break;
 
-  case 354:
-#line 6963 "parser.yacc"
+  case 354: /* AssignmentOperator: DIVEQUAL  */
+#line 6975 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"DIVEQUAL->AssignmentOperator");
 }
-#line 11323 "y.tab.c"
+#line 11417 "y.tab.c"
     break;
 
-  case 355:
-#line 6968 "parser.yacc"
+  case 355: /* AssignmentOperator: MODEQUAL  */
+#line 6980 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"MODEQUAL->AssignmentOperator");
 }
-#line 11333 "y.tab.c"
+#line 11427 "y.tab.c"
     break;
 
-  case 356:
-#line 6973 "parser.yacc"
+  case 356: /* AssignmentOperator: PLUSEQUAL  */
+#line 6985 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"PLUSEQUAL->AssignmentOperator");
 }
-#line 11343 "y.tab.c"
+#line 11437 "y.tab.c"
     break;
 
-  case 357:
-#line 6978 "parser.yacc"
+  case 357: /* AssignmentOperator: MINUSEQUAL  */
+#line 6990 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"MINUSEQUAL->AssignmentOperator");
 }
-#line 11353 "y.tab.c"
+#line 11447 "y.tab.c"
     break;
 
-  case 358:
-#line 6983 "parser.yacc"
+  case 358: /* AssignmentOperator: LSHIFTEQUAL  */
+#line 6995 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"LSHIFTEQUAL->AssignmentOperator");
 }
-#line 11363 "y.tab.c"
+#line 11457 "y.tab.c"
     break;
 
-  case 359:
-#line 6988 "parser.yacc"
+  case 359: /* AssignmentOperator: RSHIFTEQUAL  */
+#line 7000 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"RSHIFTEQUAL->AssignmentOperator");
 }
-#line 11373 "y.tab.c"
+#line 11467 "y.tab.c"
     break;
 
-  case 360:
-#line 6993 "parser.yacc"
+  case 360: /* AssignmentOperator: UNRSHIFTEQUAL  */
+#line 7005 "parser.yacc"
                     {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"UNRSHIFTEQUAL->AssignmentOperator");
 }
-#line 11383 "y.tab.c"
+#line 11477 "y.tab.c"
     break;
 
-  case 361:
-#line 6998 "parser.yacc"
+  case 361: /* AssignmentOperator: BANDEQUAL  */
+#line 7010 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"BANDEQUAL->AssignmentOperator");
 }
-#line 11393 "y.tab.c"
+#line 11487 "y.tab.c"
     break;
 
-  case 362:
-#line 7003 "parser.yacc"
+  case 362: /* AssignmentOperator: BOREQUAL  */
+#line 7015 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"BOREQUAL->AssignmentOperator");
 }
-#line 11403 "y.tab.c"
+#line 11497 "y.tab.c"
     break;
 
-  case 363:
-#line 7008 "parser.yacc"
+  case 363: /* AssignmentOperator: BXOREQUAL  */
+#line 7020 "parser.yacc"
                 {
     struct Node* n = new struct Node("Operator", (yyvsp[0].lexeme));
     (yyval.node) = n;
     verbose(v,"BXOREQUAL->AssignmentOperator");
 }
-#line 11413 "y.tab.c"
+#line 11507 "y.tab.c"
     break;
 
-  case 364:
-#line 7017 "parser.yacc"
+  case 364: /* ColConditional: Expression COL  */
+#line 7029 "parser.yacc"
     {
         //$$ = new Node("ColConditional", )
         for(int i = 0; i < (yyvsp[-1].node)->code.size(); i++) {
@@ -11436,20 +11530,20 @@ yyreduce:
         
 
     }
-#line 11440 "y.tab.c"
+#line 11534 "y.tab.c"
     break;
 
-  case 365:
-#line 7042 "parser.yacc"
+  case 365: /* ConditionalExpression: ConditionalOrExpression  */
+#line 7054 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ConditionalOrExpression->ConditionalExpression");
     }
-#line 11449 "y.tab.c"
+#line 11543 "y.tab.c"
     break;
 
-  case 366:
-#line 7046 "parser.yacc"
+  case 366: /* ConditionalExpression: ConditionalOrExpression QUES ColConditional ConditionalExpression  */
+#line 7058 "parser.yacc"
                                                                        {
         vector<struct Node*> temp;
         
@@ -11508,20 +11602,20 @@ yyreduce:
             yyerror("Type Mismatch");
         }*/
     }
-#line 11512 "y.tab.c"
+#line 11606 "y.tab.c"
     break;
 
-  case 367:
-#line 7107 "parser.yacc"
+  case 367: /* ConditionalOrExpression: ConditionalAndExpression  */
+#line 7119 "parser.yacc"
                                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ConditionalAndExpression->ConditionalOrExpression");
     }
-#line 11521 "y.tab.c"
+#line 11615 "y.tab.c"
     break;
 
-  case 368:
-#line 7111 "parser.yacc"
+  case 368: /* ConditionalOrExpression: ConditionalOrExpression OR ConditionalAndExpression  */
+#line 7123 "parser.yacc"
                                                         {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11565,20 +11659,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11569 "y.tab.c"
+#line 11663 "y.tab.c"
     break;
 
-  case 369:
-#line 7157 "parser.yacc"
+  case 369: /* ConditionalAndExpression: InclusiveOrExpression  */
+#line 7169 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"InclusiveOrExpression->ConditionalAndExpression");
     }
-#line 11578 "y.tab.c"
+#line 11672 "y.tab.c"
     break;
 
-  case 370:
-#line 7161 "parser.yacc"
+  case 370: /* ConditionalAndExpression: ConditionalAndExpression AND InclusiveOrExpression  */
+#line 7173 "parser.yacc"
                                                         {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11621,20 +11715,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11625 "y.tab.c"
+#line 11719 "y.tab.c"
     break;
 
-  case 371:
-#line 7206 "parser.yacc"
+  case 371: /* InclusiveOrExpression: ExclusiveOrExpression  */
+#line 7218 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ExclusiveOrExpression->InclusiveOrExpression");
     }
-#line 11634 "y.tab.c"
+#line 11728 "y.tab.c"
     break;
 
-  case 372:
-#line 7210 "parser.yacc"
+  case 372: /* InclusiveOrExpression: InclusiveOrExpression BOR ExclusiveOrExpression  */
+#line 7222 "parser.yacc"
                                                     {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11674,20 +11768,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11678 "y.tab.c"
+#line 11772 "y.tab.c"
     break;
 
-  case 373:
-#line 7252 "parser.yacc"
+  case 373: /* ExclusiveOrExpression: AndExpression  */
+#line 7264 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"AndExpression->ExclusiveOrExpression");
     }
-#line 11687 "y.tab.c"
+#line 11781 "y.tab.c"
     break;
 
-  case 374:
-#line 7256 "parser.yacc"
+  case 374: /* ExclusiveOrExpression: ExclusiveOrExpression BXOR AndExpression  */
+#line 7268 "parser.yacc"
                                                 {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11727,20 +11821,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11731 "y.tab.c"
+#line 11825 "y.tab.c"
     break;
 
-  case 375:
-#line 7298 "parser.yacc"
+  case 375: /* AndExpression: EqualityExpression  */
+#line 7310 "parser.yacc"
                         {
        (yyval.node) = (yyvsp[0].node);
        verbose(v,"EqualityExpression->AndExpression");
     }
-#line 11740 "y.tab.c"
+#line 11834 "y.tab.c"
     break;
 
-  case 376:
-#line 7302 "parser.yacc"
+  case 376: /* AndExpression: AndExpression BAND EqualityExpression  */
+#line 7314 "parser.yacc"
                                             {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11780,20 +11874,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11784 "y.tab.c"
+#line 11878 "y.tab.c"
     break;
 
-  case 377:
-#line 7344 "parser.yacc"
+  case 377: /* EqualityExpression: RelationalExpression  */
+#line 7356 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"RelationalExpression->EqualityExpression");
     }
-#line 11793 "y.tab.c"
+#line 11887 "y.tab.c"
     break;
 
-  case 378:
-#line 7348 "parser.yacc"
+  case 378: /* EqualityExpression: EqualityExpression EQUAL RelationalExpression  */
+#line 7360 "parser.yacc"
                                                     {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11832,11 +11926,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11836 "y.tab.c"
+#line 11930 "y.tab.c"
     break;
 
-  case 379:
-#line 7386 "parser.yacc"
+  case 379: /* EqualityExpression: EqualityExpression NEQUAL RelationalExpression  */
+#line 7398 "parser.yacc"
                                                      {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11876,20 +11970,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11880 "y.tab.c"
+#line 11974 "y.tab.c"
     break;
 
-  case 380:
-#line 7428 "parser.yacc"
+  case 380: /* RelationalExpression: ShiftExpression  */
+#line 7440 "parser.yacc"
                     {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"ShiftExpression->RelationalExpression");
     }
-#line 11889 "y.tab.c"
+#line 11983 "y.tab.c"
     break;
 
-  case 381:
-#line 7432 "parser.yacc"
+  case 381: /* RelationalExpression: RelationalExpression LSS ShiftExpression  */
+#line 7444 "parser.yacc"
                                                  {
          vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11929,11 +12023,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11933 "y.tab.c"
+#line 12027 "y.tab.c"
     break;
 
-  case 382:
-#line 7471 "parser.yacc"
+  case 382: /* RelationalExpression: RelationalExpression GRT ShiftExpression  */
+#line 7483 "parser.yacc"
                                                  {
          vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -11972,11 +12066,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 11976 "y.tab.c"
+#line 12070 "y.tab.c"
     break;
 
-  case 383:
-#line 7509 "parser.yacc"
+  case 383: /* RelationalExpression: RelationalExpression LEQ ShiftExpression  */
+#line 7521 "parser.yacc"
                                                 {
        vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12016,11 +12110,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12020 "y.tab.c"
+#line 12114 "y.tab.c"
     break;
 
-  case 384:
-#line 7548 "parser.yacc"
+  case 384: /* RelationalExpression: RelationalExpression GEQ ShiftExpression  */
+#line 7560 "parser.yacc"
                                                 {
        vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12061,20 +12155,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12065 "y.tab.c"
+#line 12159 "y.tab.c"
     break;
 
-  case 385:
-#line 7588 "parser.yacc"
+  case 385: /* RelationalExpression: InstanceofExpression  */
+#line 7600 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"InstanceofExpression->RelationalExpression");
     }
-#line 12074 "y.tab.c"
+#line 12168 "y.tab.c"
     break;
 
-  case 386:
-#line 7595 "parser.yacc"
+  case 386: /* InstanceofExpression: RelationalExpression INSTANCEOF ReferenceType  */
+#line 7607 "parser.yacc"
                                                     {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Keyword", (yyvsp[-1].lexeme));
@@ -12098,20 +12192,20 @@ yyreduce:
         (yyval.node) = n;
         verbose(v,"RelationalExpression INSTANCEOF ReferenceType->InstanceofExpression");
     }
-#line 12102 "y.tab.c"
+#line 12196 "y.tab.c"
     break;
 
-  case 387:
-#line 7621 "parser.yacc"
+  case 387: /* ShiftExpression: AdditiveExpression  */
+#line 7633 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"AdditiveExpression->ShiftExpression");
     }
-#line 12111 "y.tab.c"
+#line 12205 "y.tab.c"
     break;
 
-  case 388:
-#line 7625 "parser.yacc"
+  case 388: /* ShiftExpression: ShiftExpression LSHIFT AdditiveExpression  */
+#line 7637 "parser.yacc"
                                                 {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12151,11 +12245,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12155 "y.tab.c"
+#line 12249 "y.tab.c"
     break;
 
-  case 389:
-#line 7664 "parser.yacc"
+  case 389: /* ShiftExpression: ShiftExpression RSHIFT AdditiveExpression  */
+#line 7676 "parser.yacc"
                                                 {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12195,11 +12289,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12199 "y.tab.c"
+#line 12293 "y.tab.c"
     break;
 
-  case 390:
-#line 7703 "parser.yacc"
+  case 390: /* ShiftExpression: ShiftExpression UNRSHIFT AdditiveExpression  */
+#line 7715 "parser.yacc"
                                                 {
        vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12240,20 +12334,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12244 "y.tab.c"
+#line 12338 "y.tab.c"
     break;
 
-  case 391:
-#line 7746 "parser.yacc"
+  case 391: /* AdditiveExpression: MultiplicativeExpression  */
+#line 7758 "parser.yacc"
                                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"MultiplicativeExpression->AdditiveExpression");
     }
-#line 12253 "y.tab.c"
+#line 12347 "y.tab.c"
     break;
 
-  case 392:
-#line 7750 "parser.yacc"
+  case 392: /* AdditiveExpression: AdditiveExpression PLUS MultiplicativeExpression  */
+#line 7762 "parser.yacc"
                                                         {
       vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12298,11 +12392,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12302 "y.tab.c"
+#line 12396 "y.tab.c"
     break;
 
-  case 393:
-#line 7794 "parser.yacc"
+  case 393: /* AdditiveExpression: AdditiveExpression MINUS MultiplicativeExpression  */
+#line 7806 "parser.yacc"
                                                         {
        vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12344,20 +12438,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12348 "y.tab.c"
+#line 12442 "y.tab.c"
     break;
 
-  case 394:
-#line 7838 "parser.yacc"
+  case 394: /* MultiplicativeExpression: UnaryExpression  */
+#line 7850 "parser.yacc"
                     {
         (yyval.node) =(yyvsp[0].node);
         verbose(v,"UnaryExpression->MultiplicativeExpression");
     }
-#line 12357 "y.tab.c"
+#line 12451 "y.tab.c"
     break;
 
-  case 395:
-#line 7842 "parser.yacc"
+  case 395: /* MultiplicativeExpression: MultiplicativeExpression MULT UnaryExpression  */
+#line 7854 "parser.yacc"
                                                     {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12398,11 +12492,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12402 "y.tab.c"
+#line 12496 "y.tab.c"
     break;
 
-  case 396:
-#line 7882 "parser.yacc"
+  case 396: /* MultiplicativeExpression: MultiplicativeExpression DIV UnaryExpression  */
+#line 7894 "parser.yacc"
                                                    {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12442,11 +12536,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12446 "y.tab.c"
+#line 12540 "y.tab.c"
     break;
 
-  case 397:
-#line 7921 "parser.yacc"
+  case 397: /* MultiplicativeExpression: MultiplicativeExpression MOD UnaryExpression  */
+#line 7933 "parser.yacc"
                                                     {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12486,29 +12580,29 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12490 "y.tab.c"
+#line 12584 "y.tab.c"
     break;
 
-  case 398:
-#line 7963 "parser.yacc"
+  case 398: /* UnaryExpression: PreIncrementExpression  */
+#line 7975 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"PreIncrementExpression->UnaryExpression");
     }
-#line 12499 "y.tab.c"
+#line 12593 "y.tab.c"
     break;
 
-  case 399:
-#line 7967 "parser.yacc"
+  case 399: /* UnaryExpression: PreDecrementExpression  */
+#line 7979 "parser.yacc"
                             {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"PreDecrementExpression->UnaryExpression");
     }
-#line 12508 "y.tab.c"
+#line 12602 "y.tab.c"
     break;
 
-  case 400:
-#line 7971 "parser.yacc"
+  case 400: /* UnaryExpression: PLUS UnaryExpression  */
+#line 7983 "parser.yacc"
                             {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12533,11 +12627,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12537 "y.tab.c"
+#line 12631 "y.tab.c"
     break;
 
-  case 401:
-#line 7995 "parser.yacc"
+  case 401: /* UnaryExpression: MINUS UnaryExpression  */
+#line 8007 "parser.yacc"
                             {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12562,20 +12656,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12566 "y.tab.c"
+#line 12660 "y.tab.c"
     break;
 
-  case 402:
-#line 8019 "parser.yacc"
+  case 402: /* UnaryExpression: UnaryExpressionNotPlusMinus  */
+#line 8031 "parser.yacc"
                                 {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"UnaryExpressionNotPlusMinus->UnaryExpression");
     }
-#line 12575 "y.tab.c"
+#line 12669 "y.tab.c"
     break;
 
-  case 403:
-#line 8025 "parser.yacc"
+  case 403: /* PreIncrementExpression: INCRE UnaryExpression  */
+#line 8037 "parser.yacc"
                             {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12606,11 +12700,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12610 "y.tab.c"
+#line 12704 "y.tab.c"
     break;
 
-  case 404:
-#line 8058 "parser.yacc"
+  case 404: /* PreDecrementExpression: DECRE UnaryExpression  */
+#line 8070 "parser.yacc"
                             {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12640,20 +12734,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12644 "y.tab.c"
+#line 12738 "y.tab.c"
     break;
 
-  case 405:
-#line 8090 "parser.yacc"
+  case 405: /* UnaryExpressionNotPlusMinus: PostfixExpression  */
+#line 8102 "parser.yacc"
                         {
         (yyval.node) = (yyvsp[0].node);
         verbose(v,"PostfixExpression->UnaryExpressionNotPlusMinus");
     }
-#line 12653 "y.tab.c"
+#line 12747 "y.tab.c"
     break;
 
-  case 406:
-#line 8094 "parser.yacc"
+  case 406: /* UnaryExpressionNotPlusMinus: TIL UnaryExpression  */
+#line 8106 "parser.yacc"
                         {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12678,11 +12772,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12682 "y.tab.c"
+#line 12776 "y.tab.c"
     break;
 
-  case 407:
-#line 8118 "parser.yacc"
+  case 407: /* UnaryExpressionNotPlusMinus: NOT UnaryExpression  */
+#line 8130 "parser.yacc"
                         {
         vector<struct Node*> temp;
         struct Node* t = new struct Node("Operator", (yyvsp[-1].lexeme));
@@ -12708,20 +12802,20 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12712 "y.tab.c"
+#line 12806 "y.tab.c"
     break;
 
-  case 408:
-#line 8143 "parser.yacc"
+  case 408: /* UnaryExpressionNotPlusMinus: CastExpression  */
+#line 8155 "parser.yacc"
                     {
     (yyval.node) = (yyvsp[0].node);
     verbose(v, "CastExpression->UnaryExpressionNotPlusMinus");
 }
-#line 12721 "y.tab.c"
+#line 12815 "y.tab.c"
     break;
 
-  case 409:
-#line 8150 "parser.yacc"
+  case 409: /* CastExpression: LEFTPARENTHESIS PrimitiveType RIGHTPARENTHESIS UnaryExpression  */
+#line 8162 "parser.yacc"
                                                                     {
         vector<struct Node*> temp;
       
@@ -12767,47 +12861,47 @@ yyreduce:
             yyerror("Type Conversion");
         }
     }
-#line 12771 "y.tab.c"
+#line 12865 "y.tab.c"
     break;
 
-  case 410:
-#line 8198 "parser.yacc"
+  case 410: /* PostfixExpression: Primary  */
+#line 8210 "parser.yacc"
             {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"Primary->PostfixExpression");
 }
-#line 12780 "y.tab.c"
+#line 12874 "y.tab.c"
     break;
 
-  case 411:
-#line 8202 "parser.yacc"
+  case 411: /* PostfixExpression: Name  */
+#line 8214 "parser.yacc"
             {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"Name->PostfixExpression");
 }
-#line 12789 "y.tab.c"
+#line 12883 "y.tab.c"
     break;
 
-  case 412:
-#line 8206 "parser.yacc"
+  case 412: /* PostfixExpression: PostIncrementExpression  */
+#line 8218 "parser.yacc"
                             {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"PostIncrementExpression->PostfixExpression");
 }
-#line 12798 "y.tab.c"
+#line 12892 "y.tab.c"
     break;
 
-  case 413:
-#line 8210 "parser.yacc"
+  case 413: /* PostfixExpression: PostDecrementExpression  */
+#line 8222 "parser.yacc"
                             {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"PostDecrementExpression->PostfixExpression");
 }
-#line 12807 "y.tab.c"
+#line 12901 "y.tab.c"
     break;
 
-  case 414:
-#line 8217 "parser.yacc"
+  case 414: /* PostIncrementExpression: PostfixExpression INCRE  */
+#line 8229 "parser.yacc"
                             {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -12842,11 +12936,11 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12846 "y.tab.c"
+#line 12940 "y.tab.c"
     break;
 
-  case 415:
-#line 8254 "parser.yacc"
+  case 415: /* PostDecrementExpression: PostfixExpression DECRE  */
+#line 8266 "parser.yacc"
                             {
         
         vector<struct Node*> temp;
@@ -12875,78 +12969,78 @@ yyreduce:
             yyerror("Error");
         }
     }
-#line 12879 "y.tab.c"
+#line 12973 "y.tab.c"
     break;
 
-  case 416:
-#line 8288 "parser.yacc"
+  case 416: /* Type: PrimitiveType  */
+#line 8300 "parser.yacc"
                     {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"PrimitiveType->Type");
 }
-#line 12888 "y.tab.c"
+#line 12982 "y.tab.c"
     break;
 
-  case 417:
-#line 8292 "parser.yacc"
+  case 417: /* Type: ReferenceType  */
+#line 8304 "parser.yacc"
                     {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"ReferenceType->Type");
 }
-#line 12897 "y.tab.c"
+#line 12991 "y.tab.c"
     break;
 
-  case 418:
-#line 8299 "parser.yacc"
+  case 418: /* PrimitiveType: NumericType  */
+#line 8311 "parser.yacc"
                 {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"NumericType->PrimitiveType");
 }
-#line 12906 "y.tab.c"
+#line 13000 "y.tab.c"
     break;
 
-  case 419:
-#line 8303 "parser.yacc"
+  case 419: /* PrimitiveType: BOOLEAN  */
+#line 8315 "parser.yacc"
             {
     struct Node* n = new struct Node("Keyword", "boolean");
     (yyval.node) = n;
     (yyval.node)->type = BOOL_NUM;
     verbose(v,"BOOLEAN->PrimitiveType");
 }
-#line 12917 "y.tab.c"
+#line 13011 "y.tab.c"
     break;
 
-  case 420:
-#line 8309 "parser.yacc"
+  case 420: /* PrimitiveType: STRING  */
+#line 8321 "parser.yacc"
            {
     struct Node* n = new struct Node("Keyword", "String");
     (yyval.node) = n;
     (yyval.node)->type = STRING_NUM;
     verbose(v, "STRING->PrimitiveType");
 }
-#line 12928 "y.tab.c"
+#line 13022 "y.tab.c"
     break;
 
-  case 421:
-#line 8318 "parser.yacc"
+  case 421: /* ReferenceType: Name  */
+#line 8330 "parser.yacc"
             {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"Name->ReferenceType");
 }
-#line 12937 "y.tab.c"
+#line 13031 "y.tab.c"
     break;
 
-  case 422:
-#line 8322 "parser.yacc"
+  case 422: /* ReferenceType: ArrayType  */
+#line 8334 "parser.yacc"
                 {
     (yyval.node) = (yyvsp[0].node);
     verbose(v,"ArrayType->ReferenceType");
 }
-#line 12946 "y.tab.c"
+#line 13040 "y.tab.c"
     break;
 
-  case 423:
-#line 8335 "parser.yacc"
+  case 423: /* ArrayType: PrimitiveType Dims  */
+#line 8347 "parser.yacc"
                         {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -12971,11 +13065,11 @@ yyreduce:
         (yyval.node)->arrayType = (yyvsp[0].node)->arrayType;
         verbose(v,"PrimitiveType Dims->ArrayType");
     }
-#line 12975 "y.tab.c"
+#line 13069 "y.tab.c"
     break;
 
-  case 424:
-#line 8359 "parser.yacc"
+  case 424: /* ArrayType: Name Dims  */
+#line 8371 "parser.yacc"
                 {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -13000,38 +13094,38 @@ yyreduce:
         (yyval.node)->arrayType = (yyvsp[0].node)->arrayType;
         verbose(v,"Name Dims->ArrayType");
     }
-#line 13004 "y.tab.c"
+#line 13098 "y.tab.c"
     break;
 
-  case 425:
-#line 8386 "parser.yacc"
+  case 425: /* TypeParameter: IDENTIFIER  */
+#line 8398 "parser.yacc"
                 {
         struct Node* n = new Node("Identifier", (yyvsp[0].lexeme));
         (yyval.node) = n;
         verbose(v,"IDENTIFIER->TypeParameter");
     }
-#line 13014 "y.tab.c"
+#line 13108 "y.tab.c"
     break;
 
-  case 426:
-#line 8391 "parser.yacc"
+  case 426: /* TypeParameter: IDENTIFIER ClassExtends  */
+#line 8403 "parser.yacc"
                             {
         struct Node* t1 = new Node ("Identifier", (yyvsp[-1].lexeme));
         vector<Node*> t = {t1, (yyvsp[0].node)};
         (yyval.node) = new Node("TypeParameter", t);
         verbose(v,"IDENTIFIER ClassExtends->TypeParameter");
     }
-#line 13025 "y.tab.c"
+#line 13119 "y.tab.c"
     break;
 
-  case 427:
-#line 8399 "parser.yacc"
+  case 427: /* CommaTypeParameters: %empty  */
+#line 8411 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 13031 "y.tab.c"
+#line 13125 "y.tab.c"
     break;
 
-  case 428:
-#line 8400 "parser.yacc"
+  case 428: /* CommaTypeParameters: COMMA TypeParameters CommaTypeParameters  */
+#line 8412 "parser.yacc"
                                                 {
     vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -13049,11 +13143,11 @@ yyreduce:
         else (yyval.node) = new Node("TypeParameters", temp);
         verbose(v,"COMMA TypeParameters CommaTypeParameters->CommaTypeParameters");
 }
-#line 13053 "y.tab.c"
+#line 13147 "y.tab.c"
     break;
 
-  case 429:
-#line 8437 "parser.yacc"
+  case 429: /* Literal: INTEGERLITERAL  */
+#line 8449 "parser.yacc"
                     {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
         n->attr = n->varName = (yyvsp[0].lexeme);
@@ -13063,11 +13157,11 @@ yyreduce:
 
         (yyval.node)->type = INT_NUM;
     }
-#line 13067 "y.tab.c"
+#line 13161 "y.tab.c"
     break;
 
-  case 430:
-#line 8446 "parser.yacc"
+  case 430: /* Literal: FLOATINGPOINTLITERAL  */
+#line 8458 "parser.yacc"
                             {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
         n->attr = (yyvsp[0].lexeme);
@@ -13076,11 +13170,11 @@ yyreduce:
 
         (yyval.node)->type = FLOAT_NUM;
     }
-#line 13080 "y.tab.c"
+#line 13174 "y.tab.c"
     break;
 
-  case 431:
-#line 8454 "parser.yacc"
+  case 431: /* Literal: BOOLEANLITERAL  */
+#line 8466 "parser.yacc"
                     {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
         n->attr = (yyvsp[0].lexeme);
@@ -13089,11 +13183,11 @@ yyreduce:
 
         (yyval.node)->type = BOOL_NUM;
     }
-#line 13093 "y.tab.c"
+#line 13187 "y.tab.c"
     break;
 
-  case 432:
-#line 8462 "parser.yacc"
+  case 432: /* Literal: STRINGLITERAL  */
+#line 8474 "parser.yacc"
                     {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
 
@@ -13103,11 +13197,11 @@ yyreduce:
 
         (yyval.node)->type = STRING_NUM;
     }
-#line 13107 "y.tab.c"
+#line 13201 "y.tab.c"
     break;
 
-  case 433:
-#line 8471 "parser.yacc"
+  case 433: /* Literal: CHARACTERLITERAL  */
+#line 8483 "parser.yacc"
                         {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
         n->attr = (yyvsp[0].lexeme);
@@ -13116,11 +13210,11 @@ yyreduce:
 
         (yyval.node)->type = CHAR_NUM;
     }
-#line 13120 "y.tab.c"
+#line 13214 "y.tab.c"
     break;
 
-  case 434:
-#line 8479 "parser.yacc"
+  case 434: /* Literal: NULLLITERAL  */
+#line 8491 "parser.yacc"
                 {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
         n->attr = (yyvsp[0].lexeme);
@@ -13129,11 +13223,11 @@ yyreduce:
 
         (yyval.node)->type = NULL_LIT;
     }
-#line 13133 "y.tab.c"
+#line 13227 "y.tab.c"
     break;
 
-  case 435:
-#line 8487 "parser.yacc"
+  case 435: /* Literal: TEXTBLOCK  */
+#line 8499 "parser.yacc"
                  {
         struct Node* n = new Node("Literal", (yyvsp[0].lexeme));
         n->attr = (yyvsp[0].lexeme);
@@ -13148,17 +13242,17 @@ yyreduce:
 
         (yyval.node)->type = TEXT_BLOCK;
     }
-#line 13152 "y.tab.c"
+#line 13246 "y.tab.c"
     break;
 
-  case 436:
-#line 8507 "parser.yacc"
+  case 436: /* ImportDeclarations: %empty  */
+#line 8519 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 13158 "y.tab.c"
+#line 13252 "y.tab.c"
     break;
 
-  case 437:
-#line 8508 "parser.yacc"
+  case 437: /* ImportDeclarations: ImportDeclaration ImportDeclarations  */
+#line 8520 "parser.yacc"
                                             {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -13175,17 +13269,17 @@ yyreduce:
         }
         else (yyval.node) = new Node("ImportDeclarations", temp);
     }
-#line 13179 "y.tab.c"
+#line 13273 "y.tab.c"
     break;
 
-  case 438:
-#line 8527 "parser.yacc"
+  case 438: /* ModuleDirectives: %empty  */
+#line 8539 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 13185 "y.tab.c"
+#line 13279 "y.tab.c"
     break;
 
-  case 439:
-#line 8528 "parser.yacc"
+  case 439: /* ModuleDirectives: ModuleDirective ModuleDirectives  */
+#line 8540 "parser.yacc"
                                         {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -13202,17 +13296,17 @@ yyreduce:
         }
         else (yyval.node) = new Node("ModuleDirectives", temp);
     }
-#line 13206 "y.tab.c"
+#line 13300 "y.tab.c"
     break;
 
-  case 440:
-#line 8547 "parser.yacc"
+  case 440: /* RequiresModifiers: %empty  */
+#line 8559 "parser.yacc"
     {(yyval.node) = NULL;}
-#line 13212 "y.tab.c"
+#line 13306 "y.tab.c"
     break;
 
-  case 441:
-#line 8548 "parser.yacc"
+  case 441: /* RequiresModifiers: RequiresModifier RequiresModifiers  */
+#line 8560 "parser.yacc"
                                         {
         vector<struct Node*> temp;
         if((yyvsp[-1].node)->useful == false) {
@@ -13229,11 +13323,11 @@ yyreduce:
         }
         else (yyval.node) = new Node("RequiresModifiers", temp);
     }
-#line 13233 "y.tab.c"
+#line 13327 "y.tab.c"
     break;
 
 
-#line 13237 "y.tab.c"
+#line 13331 "y.tab.c"
 
       default: break;
     }
@@ -13248,11 +13342,10 @@ yyreduce:
      case of YYERROR or YYBACKUP, subsequent parser actions might lead
      to an incorrect destructor call or verbose syntax error message
      before the lookahead is translated.  */
-  YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
+  YY_SYMBOL_PRINT ("-> $$ =", YY_CAST (yysymbol_kind_t, yyr1[yyn]), &yyval, &yyloc);
 
   YYPOPSTACK (yylen);
   yylen = 0;
-  YY_STACK_PRINT (yyss, yyssp);
 
   *++yyvsp = yyval;
   *++yylsp = yyloc;
@@ -13277,50 +13370,15 @@ yyreduce:
 yyerrlab:
   /* Make sure we have latest lookahead translation.  See comments at
      user semantic actions for why this is necessary.  */
-  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
-
+  yytoken = yychar == YYEMPTY ? YYSYMBOL_YYEMPTY : YYTRANSLATE (yychar);
   /* If not already recovering from an error, report this error.  */
   if (!yyerrstatus)
     {
       ++yynerrs;
-#if ! YYERROR_VERBOSE
       yyerror (YY_("syntax error"));
-#else
-# define YYSYNTAX_ERROR yysyntax_error (&yymsg_alloc, &yymsg, \
-                                        yyssp, yytoken)
-      {
-        char const *yymsgp = YY_("syntax error");
-        int yysyntax_error_status;
-        yysyntax_error_status = YYSYNTAX_ERROR;
-        if (yysyntax_error_status == 0)
-          yymsgp = yymsg;
-        else if (yysyntax_error_status == 1)
-          {
-            if (yymsg != yymsgbuf)
-              YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
-            if (!yymsg)
-              {
-                yymsg = yymsgbuf;
-                yymsg_alloc = sizeof yymsgbuf;
-                yysyntax_error_status = 2;
-              }
-            else
-              {
-                yysyntax_error_status = YYSYNTAX_ERROR;
-                yymsgp = yymsg;
-              }
-          }
-        yyerror (yymsgp);
-        if (yysyntax_error_status == 2)
-          goto yyexhaustedlab;
-      }
-# undef YYSYNTAX_ERROR
-#endif
     }
 
   yyerror_range[1] = yylloc;
-
   if (yyerrstatus == 3)
     {
       /* If just tried and failed to reuse lookahead token after an
@@ -13353,6 +13411,7 @@ yyerrorlab:
      label yyerrorlab therefore never appears in user code.  */
   if (0)
     YYERROR;
+  ++yynerrs;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -13369,13 +13428,14 @@ yyerrorlab:
 yyerrlab1:
   yyerrstatus = 3;      /* Each real token shifted decrements this.  */
 
+  /* Pop stack until we find a state that shifts the error token.  */
   for (;;)
     {
       yyn = yypact[yystate];
       if (!yypact_value_is_default (yyn))
         {
-          yyn += YYTERROR;
-          if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
+          yyn += YYSYMBOL_YYerror;
+          if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYSYMBOL_YYerror)
             {
               yyn = yytable[yyn];
               if (0 < yyn)
@@ -13389,7 +13449,7 @@ yyerrlab1:
 
       yyerror_range[1] = *yylsp;
       yydestruct ("Error: popping",
-                  yystos[yystate], yyvsp, yylsp);
+                  YY_ACCESSING_SYMBOL (yystate), yyvsp, yylsp);
       YYPOPSTACK (1);
       yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
@@ -13400,13 +13460,11 @@ yyerrlab1:
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
   yyerror_range[2] = yylloc;
-  /* Using YYLLOC is tempting, but would change the location of
-     the lookahead.  YYLOC is available though.  */
-  YYLLOC_DEFAULT (yyloc, yyerror_range, 2);
-  *++yylsp = yyloc;
+  ++yylsp;
+  YYLLOC_DEFAULT (*yylsp, yyerror_range, 2);
 
   /* Shift the error token.  */
-  YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
+  YY_SYMBOL_PRINT ("Shifting", YY_ACCESSING_SYMBOL (yyn), yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
@@ -13417,7 +13475,7 @@ yyerrlab1:
 `-------------------------------------*/
 yyacceptlab:
   yyresult = 0;
-  goto yyreturn;
+  goto yyreturnlab;
 
 
 /*-----------------------------------.
@@ -13425,24 +13483,22 @@ yyacceptlab:
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
-  goto yyreturn;
+  goto yyreturnlab;
 
 
-#if !defined yyoverflow || YYERROR_VERBOSE
-/*-------------------------------------------------.
-| yyexhaustedlab -- memory exhaustion comes here.  |
-`-------------------------------------------------*/
+/*-----------------------------------------------------------.
+| yyexhaustedlab -- YYNOMEM (memory exhaustion) comes here.  |
+`-----------------------------------------------------------*/
 yyexhaustedlab:
   yyerror (YY_("memory exhausted"));
   yyresult = 2;
-  /* Fall through.  */
-#endif
+  goto yyreturnlab;
 
 
-/*-----------------------------------------------------.
-| yyreturn -- parsing is finished, return the result.  |
-`-----------------------------------------------------*/
-yyreturn:
+/*----------------------------------------------------------.
+| yyreturnlab -- parsing is finished, clean up and return.  |
+`----------------------------------------------------------*/
+yyreturnlab:
   if (yychar != YYEMPTY)
     {
       /* Make sure we have latest lookahead translation.  See comments at
@@ -13458,20 +13514,18 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[+*yyssp], yyvsp, yylsp);
+                  YY_ACCESSING_SYMBOL (+*yyssp), yyvsp, yylsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
   if (yyss != yyssa)
     YYSTACK_FREE (yyss);
 #endif
-#if YYERROR_VERBOSE
-  if (yymsg != yymsgbuf)
-    YYSTACK_FREE (yymsg);
-#endif
+
   return yyresult;
 }
-#line 8567 "parser.yacc"
+
+#line 8579 "parser.yacc"
 
 
 

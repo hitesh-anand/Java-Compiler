@@ -1,0 +1,24 @@
+0	:	beginclass Test 
+1	:	beginfunc foobar
+2	:	t0=a+int 2
+3	:	xx=t0
+4	:	t1=b+int 3
+5	:	yy=t1
+6	:	t2=c+int 4
+7	:	zz=t2
+8	:	t3=xx+int yy
+9	:	t4=t3+int zz
+10	:	sum=t4
+11	:	t5=xx*int yy
+12	:	t6=t5*int zz
+13	:	t7=t6+int sum
+14	:	return t7
+15	:	endfunc 
+16	:	beginfunc main
+17	:	param 77
+18	:	param 88
+19	:	param 99
+20	:	t8=call foobar, 3
+21	:	return t8
+22	:	endfunc 
+23	:	endclass 
