@@ -2275,6 +2275,17 @@ MethodHeader:
         $$->code.push_back(qb);
         ircode.push_back(qb);
 
+
+        int last = $2->children.size()-1;
+        if(last%2)
+            last--;
+        for(int i=last; i>=1; i-=2)
+        {
+            Quadruple* q = new Quadruple(13, $2->children[i]->attr);
+            $$->code.push_back(q);
+            ircode.push_back(q);            
+        }
+
         // int space = 0;
 
         // for(int i=0; i<args.size(); i++)
@@ -2347,6 +2358,16 @@ MethodHeader:
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
+
+        //push ebp
+        Quadruple* qa = new Quadruple(9, "ebp");
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+
+        //move ebp, esp
+        Quadruple* qb = new Quadruple(10, "ebp", "esp");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
     }  
 |   TypeParameters Result MethodDeclarator   {
         vector<struct Node*> temp;
@@ -2395,6 +2416,16 @@ MethodHeader:
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
+
+        //push ebp
+        Quadruple* qa = new Quadruple(9, "ebp");
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+
+        //move ebp, esp
+        Quadruple* qb = new Quadruple(10, "ebp", "esp");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
     }  
 ;
 
@@ -3617,22 +3648,6 @@ ArgumentList:
         temp.push_back($1);
         temp.push_back($3);
         $$ = new Node("ArgumentList", temp);
-    }
-    
-    int space = 0;
-    vector<int> args;
-    for(auto ch : $$->children)
-        args.push_back(ch->type);
-    for(int i=0; i<args.size(); i++)
-    {
-        space += typeroot->widths[args[i]];
-    }
-
-    if(space>0)
-    {
-        Quadruple* qa = new Quadruple(8, "esp" ,to_string(space));
-        $$->code.push_back(qa);
-        ircode.push_back(qa);
     }
 
     generateArgumentList($$->children, $$);
@@ -5824,7 +5839,18 @@ MethodInvocation:
     }
     $$->type = ex->returntype;
 
+    int space = 0;
+    for(int i=0; i<args.size(); i++)
+    {
+        space += typeroot->widths[args[i]];
+    }
 
+    if(space>0)
+    {
+        Quadruple* qa = new Quadruple(8, "esp" ,to_string(space));
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+    }
 
     Quadruple* q;
     if($$->type != VOID_TYPE) {

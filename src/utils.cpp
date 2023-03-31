@@ -100,6 +100,10 @@ void ir_gen(vector<Quadruple*> ircode, string fln)
     {
         myFile << "ret  "<<"\n"; continue;
     }
+    else if(it->type==13)
+    {
+        myFile << it->arg1<<" = popparam"<<"\n"; continue;
+    }
     
     if(it->label != "")
     {

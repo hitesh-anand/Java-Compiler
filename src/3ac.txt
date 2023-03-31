@@ -1,29 +1,38 @@
 0	:	beginclass Test 
 1	:	beginfunc foobar
-2	:	t0=a+int 2
-3	:	xx=t0
-4	:	t1=b+int 3
-5	:	yy=t1
-6	:	t2=c+int 4
-7	:	zz=t2
-8	:	t3=xx+int yy
-9	:	t4=t3+int zz
-10	:	sum=t4
-11	:	mov  esp, ebp
-12	:	pop  ebp
-13	:	ret  
-14	:	endfunc 
-15	:	beginfunc main
-16	:	push  ebp
-17	:	mov  ebp, esp
-18	:	sub  esp, 12
-19	:	pushparam 77
-20	:	pushparam 88
-21	:	pushparam 99
-22	:	call foobar, 3
-23	:	return 1
-24	:	mov  esp, ebp
-25	:	pop  ebp
-26	:	ret  
-27	:	endfunc 
-28	:	endclass 
+2	:	push  ebp
+3	:	mov  ebp, esp
+4	:	c = popparam
+5	:	b = popparam
+6	:	a = popparam
+7	:	t0=a+int 2
+8	:	xx=t0
+9	:	t1=b+int 3
+10	:	yy=t1
+11	:	t2=c+int 4
+12	:	zz=t2
+13	:	t3=xx+int yy
+14	:	t4=t3+int zz
+15	:	sum=t4
+16	:	t5=xx*int yy
+17	:	t6=t5*int zz
+18	:	t7=t6+int sum
+19	:	return t7
+20	:	mov  esp, ebp
+21	:	pop  ebp
+22	:	ret  
+23	:	endfunc 
+24	:	beginfunc main
+25	:	push  ebp
+26	:	mov  ebp, esp
+27	:	pushparam 77
+28	:	pushparam 88
+29	:	pushparam 99
+30	:	sub  esp, 12
+31	:	t8=call foobar, 3
+32	:	return t8
+33	:	mov  esp, ebp
+34	:	pop  ebp
+35	:	ret  
+36	:	endfunc 
+37	:	endclass 
