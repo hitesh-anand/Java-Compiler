@@ -2097,6 +2097,19 @@ MethodDeclaration:
         temp = {$1, $2};
         struct Node* n = new struct Node("MethodDeclaration", temp);
         $$ = n;
+
+        Quadruple* qa = new Quadruple(10, "esp", "ebp");
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+
+        Quadruple* qb = new Quadruple(11, "ebp");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+
+        qb = new Quadruple(12, "ret");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+
         Quadruple* q = new Quadruple(7, string("endfunc"));
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -2119,6 +2132,19 @@ MethodDeclaration:
         temp.push_back($4);
         struct Node* n = new struct Node("MethodDeclaration", temp);
         $$ = n;
+
+        Quadruple* qa = new Quadruple(10, "esp", "ebp");
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+
+        Quadruple* qb = new Quadruple(11, "ebp");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+
+        qb = new Quadruple(12, "ret");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+
         Quadruple* q = new Quadruple(7, string("endfunc"));
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -2154,6 +2180,19 @@ MethodDeclaration:
         temp.push_back($4);
         struct Node* n = new struct Node("MethodDeclaration", temp);
         $$ = n;
+
+        Quadruple* qa = new Quadruple(10, "esp", "ebp");
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+
+        Quadruple* qb = new Quadruple(11, "ebp");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+
+        qb = new Quadruple(12, "ret");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+    
         Quadruple* q = new Quadruple(7, string("endfunc"));
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -2225,6 +2264,30 @@ MethodHeader:
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
+
+        //push ebp
+        Quadruple* qa = new Quadruple(9, "ebp");
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+
+        //move ebp, esp
+        Quadruple* qb = new Quadruple(10, "ebp", "esp");
+        $$->code.push_back(qb);
+        ircode.push_back(qb);
+
+        // int space = 0;
+
+        // for(int i=0; i<args.size(); i++)
+        // {
+        //     space += typeroot->widths[args[i]];
+        // }
+
+        // if(space>0)
+        // {
+        //     Quadruple* qa = new Quadruple(8, "esp" ,to_string(space));
+        //     $$->code.push_back(qa);
+        //     ircode.push_back(qa);
+        // }
     }   
 |    VOID MethodDeclarator    {
         vector<struct Node*> temp;
@@ -3556,7 +3619,22 @@ ArgumentList:
         $$ = new Node("ArgumentList", temp);
     }
     
-    
+    int space = 0;
+    vector<int> args;
+    for(auto ch : $$->children)
+        args.push_back(ch->type);
+    for(int i=0; i<args.size(); i++)
+    {
+        space += typeroot->widths[args[i]];
+    }
+
+    if(space>0)
+    {
+        Quadruple* qa = new Quadruple(8, "esp" ,to_string(space));
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+    }
+
     generateArgumentList($$->children, $$);
     verbose(v,"Expression COMMA Expression CommaExpressions->ArgumentList");
 
@@ -5725,6 +5803,7 @@ MethodInvocation:
     vector<int> args;
     for(auto ch : $3->children)
         args.push_back(ch->type);
+
     string sp = spacestrip($1->attr);
     if(sp.length()<$1->attr.length() && !magic_ptr)
     {
@@ -5744,6 +5823,9 @@ MethodInvocation:
         yyerror("Error");
     }
     $$->type = ex->returntype;
+
+
+
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
@@ -6010,6 +6092,21 @@ MethodInvocation:
     vector<int> args;
     args.push_back($3->type);
     string sp = spacestrip($1->attr);
+
+    cout<<"This method invocation"<<endl;
+    int space = 0;
+
+    for(int i=0; i<args.size(); i++)
+    {
+        space += typeroot->widths[args[i]];
+    }
+
+    if(space>0)
+    {
+        Quadruple* qa = new Quadruple(8, "esp" ,to_string(space));
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
+    }
 
     if(sp.length()<$1->attr.length() && !magic_ptr)
     {

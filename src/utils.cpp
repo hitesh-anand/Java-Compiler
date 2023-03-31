@@ -80,6 +80,26 @@ void ir_gen(vector<Quadruple*> ircode, string fln)
     else if(it->type == 7) {
         myFile << it->arg1 << " " << it->arg2 <<"\n"; continue;
     }
+    else if(it->type==8)
+    {
+        myFile << "sub  "<<it->arg1<<", "<<it->arg2<<"\n"; continue;
+    }
+    else if(it->type==9)
+    {
+        myFile << "push  "<<it->arg1<<"\n"; continue;
+    }
+    else if(it->type==10)
+    {
+        myFile << "mov  "<<it->arg1<<", "<<it->arg2<<"\n"; continue;
+    }
+    else if(it->type==11)
+    {
+        myFile << "pop  "<<it->arg1<<"\n"; continue;
+    }
+    else if(it->type==12)
+    {
+        myFile << "ret  "<<"\n"; continue;
+    }
     
     if(it->label != "")
     {

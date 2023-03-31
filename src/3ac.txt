@@ -1,0 +1,29 @@
+0	:	beginclass Test 
+1	:	beginfunc foobar
+2	:	t0=a+int 2
+3	:	xx=t0
+4	:	t1=b+int 3
+5	:	yy=t1
+6	:	t2=c+int 4
+7	:	zz=t2
+8	:	t3=xx+int yy
+9	:	t4=t3+int zz
+10	:	sum=t4
+11	:	mov  esp, ebp
+12	:	pop  ebp
+13	:	ret  
+14	:	endfunc 
+15	:	beginfunc main
+16	:	push  ebp
+17	:	mov  ebp, esp
+18	:	sub  esp, 12
+19	:	pushparam 77
+20	:	pushparam 88
+21	:	pushparam 99
+22	:	call foobar, 3
+23	:	return 1
+24	:	mov  esp, ebp
+25	:	pop  ebp
+26	:	ret  
+27	:	endfunc 
+28	:	endclass 

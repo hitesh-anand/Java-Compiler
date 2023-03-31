@@ -60,6 +60,7 @@ int Quadruple::pos = 0;
 
 void Quadruple::print()
 {
+    std::cout<<"Hemlo"<<std::endl;
     if(type == 1) {
         std::cout << "if" << arg1 << "then ";
         return;
