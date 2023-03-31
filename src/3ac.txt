@@ -7,32 +7,36 @@
 6	:	a = popparam
 7	:	t0=a+int 2
 8	:	xx=t0
-9	:	t1=b+int 3
-10	:	yy=t1
-11	:	t2=c+int 4
-12	:	zz=t2
-13	:	t3=xx+int yy
-14	:	t4=t3+int zz
-15	:	sum=t4
-16	:	t5=xx*int yy
-17	:	t6=t5*int zz
-18	:	t7=t6+int sum
-19	:	return t7
-20	:	mov  esp, ebp
-21	:	pop  ebp
-22	:	ret  
-23	:	endfunc 
-24	:	beginfunc main
-25	:	push  ebp
-26	:	mov  ebp, esp
-27	:	pushparam 77
-28	:	pushparam 88
-29	:	pushparam 99
-30	:	sub  esp, 12
-31	:	t8=call foobar, 3
-32	:	return t8
-33	:	mov  esp, ebp
-34	:	pop  ebp
-35	:	ret  
-36	:	endfunc 
-37	:	endclass 
+9	:	sub  esp, 4
+10	:	t1=b+int 3
+11	:	yy=t1
+12	:	sub  esp, 4
+13	:	t2=c+int 4
+14	:	zz=t2
+15	:	sub  esp, 4
+16	:	t3=xx+int yy
+17	:	t4=t3+int zz
+18	:	sum=t4
+19	:	sub  esp, 4
+20	:	t5=xx*int yy
+21	:	t6=t5*int zz
+22	:	t7=t6+int sum
+23	:	return t7
+24	:	mov  esp, ebp
+25	:	pop  ebp
+26	:	ret  
+27	:	endfunc 
+28	:	beginfunc main
+29	:	push  ebp
+30	:	mov  ebp, esp
+31	:	pushparam 77
+32	:	pushparam 88
+33	:	pushparam 99
+34	:	sub  esp, 12
+35	:	t8=call foobar, 3
+36	:	return t8
+37	:	mov  esp, ebp
+38	:	pop  ebp
+39	:	ret  
+40	:	endfunc 
+41	:	endclass 

@@ -3815,6 +3815,12 @@ LocalVariableDeclaration:
             cc++;
         }
         $$->last = ircode.size() - 1;
+
+        int space = typeroot->widths[$1->type] * $2->children.size();
+
+        Quadruple* qa = new Quadruple(8, "esp" ,to_string(space));
+        $$->code.push_back(qa);
+        ircode.push_back(qa);
     }
 |   VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList {
         vector<struct Node*> temp;
