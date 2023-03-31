@@ -2097,8 +2097,8 @@ MethodDeclaration:
         temp = {$1, $2};
         struct Node* n = new struct Node("MethodDeclaration", temp);
         $$ = n;
-
-        Quadruple* qa = new Quadruple(10, "esp", "ebp");
+        
+        Quadruple* qa = new Quadruple(10, "rbp", "rsp");
         $$->code.push_back(qa);
         ircode.push_back(qa);
 
@@ -2279,11 +2279,12 @@ MethodHeader:
         int last = $2->children.size()-1;
         if(last%2)
             last--;
-        for(int i=last; i>=1; i-=2)
+        for(int i=2; i<=last; i+=2)
         {
             Quadruple* q = new Quadruple(13, $2->children[i]->attr);
             $$->code.push_back(q);
-            ircode.push_back(q);            
+            ircode.push_back(q);       
+            cout << "i = " << i << endl;     
         }
 
         // int space = 0;
