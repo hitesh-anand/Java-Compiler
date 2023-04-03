@@ -271,7 +271,7 @@ void processArithmetic(vector<Node*> nodes, string op)
     varCnt++;        
     int type1 = typeroot->categorize(nodes[1]->type);
     int type2 = typeroot->categorize(nodes[2]->type);
-    int flag = 1;
+    int flag = 0;
     if(type1 == FLOATING_TYPE && type2 == INTEGER_TYPE) {
         string resName = string("t") + to_string(varCnt++);
         Quadruple* q = new Quadruple("", "cast_to_float ", nodes[2]->varName, resName);
@@ -287,7 +287,8 @@ void processArithmetic(vector<Node*> nodes, string op)
         flag = 2;
     }
     if(type1 == FLOATING_TYPE || type2 == FLOATING_TYPE) flag=2;
-    Quadruple* q = new Quadruple(op + (flag == 1?string("int "): string("float ")), nodes[1]->varName, nodes[2]->varName, resName);
+    if(type1 == INTEGER_TYPE && type2 == INTEGER_TYPE ) flag = 1;
+    Quadruple* q = new Quadruple(op + (flag == 1?string("int "): ((flag == 2) ? string("float "): string())), nodes[1]->varName, nodes[2]->varName, resName);
     nodes[0]->varName = resName;
     nodes[0]->code.push_back(q );
     ircode.push_back(q);
@@ -326,7 +327,7 @@ int generateArgumentList(vector<Node*> nodes, Node* n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
+    Quadruple* q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
     n->code.push_back(q);
     ircode.push_back(q);
     n->last = ircode.size() - 1;
