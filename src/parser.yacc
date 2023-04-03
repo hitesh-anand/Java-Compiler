@@ -1907,6 +1907,7 @@ VariableDeclarator:
         $$->width1 = $3->width1;
         $$->width2 = $3->width2;
         $$->width3 = $3->width3;
+        cout<<"The widths are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
         $$->arrayType = $1->arrayType;
         $$->last = ircode.size() - 1;
         verbose(v,"VariableDeclaratorId ASSIGN Expression->VariableDeclarator");
@@ -1990,6 +1991,7 @@ VariableDeclaratorId:
     struct Node* n = new struct Node("VariableDeclaratorId", $1, temp);
     $$ = n;
     $$->arrayType= $2->arrayType;
+    cout<<"array with name : "<<$1<<" and type is "<<$$->arrayType<<endl;
     //$$->type = $1->type + 100*$2->arrayType;
     printf("\n\n%d\n\n", $2->arrayType);
     verbose(v,"IDENTIFIER Dims->VariableDeclaratorId");
@@ -2064,6 +2066,7 @@ ArrayInitializer:
         $$->_width1 = 1 + (($3 != NULL) ? $3->children.size() : 0);
         $$->width2 = to_string($$->_width2);
         $$->width2 = to_string($$->_width2);
+        // cout<<"widths are "<<$$->width1<<", "<<$$->width2<<endl;
     }
     else{
         $$->_width3 = $2->_width2;
@@ -2073,7 +2076,7 @@ ArrayInitializer:
         $$->width2 = to_string($$->_width2);
         $$->width3 = to_string($$->_width3);
     }
-    
+    cout<<"The widths here3 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     //if($3)
     verbose(v,"LEFTCURLYBRACKET VariableInitializer CommaVariableInitializers RIGHTCURLYBRACKET->ArrayInitializer");
 } 
@@ -2243,7 +2246,7 @@ MethodHeader:
         root->currNode->name="method";
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            Symbol* sym = new Symbol($2->children[i]->attr,args[(i-1)/2], yylineno, typeroot->widths[args[(i-1)/2]]);
+            Symbol* sym = new Symbol($2->children[i]->attr,args[(i-1)/2], yylineno, typeroot->widths[args[(i-1)/2]%100]);
             cout << typeroot->widths[args[(i-1)/2]] << "######################\n";
             Symbol* res = root->currNode->scope_lookup(sym->lexeme);
             if(res)
@@ -3786,7 +3789,8 @@ LocalVariableDeclaration:
                 }
             
             }
-            
+
+            cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$1->attr].second);
             if(sym->lexeme=="=")
             {
@@ -3808,11 +3812,13 @@ LocalVariableDeclaration:
                 sym->width1 = ch->width1;
                 sym->width2 = ch->width2;
                 sym->width3 = ch->width3;
+                cout<<"Updated the widths hihi : "<<sym->width1<<sym->width2<<sym->width3<<endl;
                 
                 //sym->calcWidths();
            }
             
             root->insert(sym->lexeme, sym);
+            cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
             //if(cc) backpatch((ch-1)->nextlist,(ch-1)->last + 1);
             cc++;
         }
@@ -5645,6 +5651,8 @@ ArrayAccess:
         yyerror("Error");
     }
     cout << ss->width1 << "947t9wefih\n";
+    cout<<"For "<<$1->attr<<", Type is "<<root->lookup($1->attr)->type<<endl;
+    cout<<"For "<<$1->attr<<", Width is "<<root->lookup($1->attr)->width<<endl;
     Quadruple* q= new Quadruple(string("*int"), $3->varName, to_string(root->lookup($1->attr)->width),  resName);
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6457,6 +6465,7 @@ ArrayCreationExpression:
     $$->width1 = $3->width1;
     $$->width2 = $3->width2;
     $$->width3 = $3->width3;
+    cout<<"The widths here1 are : "<<$$->width1<<", "<<$$->width1<<", "<<$$->width1<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
     $$->varName = string("new ") + $2->attr ;
@@ -6492,9 +6501,10 @@ ArrayCreationExpression:
     temp.push_back($4);
     struct Node* n = new struct Node("ArrayCreationExpression", temp);
     $$ = $4;
-    $$->width1 = $3->width1;
-    $$->width2 = $3->width2;
-    $$->width3 = $3->width3;
+    $$->width1 = $4->width1;
+    $$->width2 = $4->width2;
+    $$->width3 = $4->width3;
+    cout<<"The widths here2 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
     $$->varName = string("new ") + $2->attr ;

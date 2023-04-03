@@ -1,42 +1,38 @@
 0	:	beginclass Test 
 1	:	beginfunc foobar
-2	:	push  ebp
-3	:	mov  ebp, esp
+2	:	a = popparam
+3	:	b = popparam
 4	:	c = popparam
-5	:	b = popparam
-6	:	a = popparam
-7	:	t0=a+int 2
-8	:	xx=t0
-9	:	sub  esp, 4
-10	:	t1=b+int 3
-11	:	yy=t1
-12	:	sub  esp, 4
-13	:	t2=c+int 4
-14	:	zz=t2
-15	:	sub  esp, 4
-16	:	t3=xx+int yy
-17	:	t4=t3+int zz
-18	:	sum=t4
-19	:	sub  esp, 4
-20	:	t5=xx*int yy
-21	:	t6=t5*int zz
-22	:	t7=t6+int sum
-23	:	return t7
-24	:	mov  esp, ebp
-25	:	pop  ebp
-26	:	ret  
-27	:	endfunc 
-28	:	beginfunc main
-29	:	push  ebp
-30	:	mov  ebp, esp
-31	:	pushparam 77
-32	:	pushparam 88
-33	:	pushparam 99
-34	:	sub  esp, 12
-35	:	t8=call foobar, 3
-36	:	return t8
-37	:	mov  esp, ebp
-38	:	pop  ebp
-39	:	ret  
-40	:	endfunc 
-41	:	endclass 
+5	:	t0=w2*4
+6	:	t1=1*intt0
+7	:	t2=3*int4
+8	:	t3=t1+intt2
+9	:	t4=a[t3]
+10	:	t5=t4+int b
+11	:	t6=t5+int c
+12	:	x=t6
+13	:	stackpointer=stackpointer+int4
+14	:	print x
+15	:	stackpointer=stackpointer-int4
+16	:	return 1
+17	:	endfunc 
+18	:	beginfunc main
+19	:	b[0]=1
+20	:	b[4]=2
+21	:	b[8]=3
+22	:	b[12]=4
+23	:	b[16]=5
+24	:	b[20]=1
+25	:	b[24]=2
+26	:	b[28]=3
+27	:	b[32]=4
+28	:	b[36]=5
+29	:	pushparam 99
+30	:	pushparam 88
+31	:	pushparam b
+32	:	stackpointer=stackpointer+int12
+33	:	t7=call foobar, 3
+34	:	stackpointer=stackpointer-int12
+35	:	return t7
+36	:	endfunc 
+37	:	endclass 
