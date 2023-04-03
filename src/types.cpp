@@ -53,6 +53,13 @@ TypeHandler :: TypeHandler()
         {
             inv_types.insert({it.second.first, it.first});
         }
+        
+        for(int i=0; i<8; i++)
+        {
+            inv_types.insert({100+i, inv_types[i]+"[]"});
+            inv_types.insert({200+i, inv_types[i]+"[][]"});
+            inv_types.insert({300+i, inv_types[i]+"[][][]"});
+        }
 }
 
 int TypeHandler::maxtype(string lex1, string lex2)

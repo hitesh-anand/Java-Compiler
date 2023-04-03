@@ -2247,7 +2247,7 @@ MethodHeader:
         for(int i=2; i<$2->children.size(); i+=2)
         {
             Symbol* sym = new Symbol($2->children[i]->attr,args[(i-1)/2], yylineno, typeroot->widths[args[(i-1)/2]%100]);
-            cout << typeroot->widths[args[(i-1)/2]] << "######################\n";
+            // cout << typeroot->widths[args[(i-1)/2]] << "######################\n";
             Symbol* res = root->currNode->scope_lookup(sym->lexeme);
             if(res)
             {
@@ -3790,7 +3790,7 @@ LocalVariableDeclaration:
             
             }
 
-            cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
+            // cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$1->attr].second);
             if(sym->lexeme=="=")
             {
@@ -3812,13 +3812,13 @@ LocalVariableDeclaration:
                 sym->width1 = ch->width1;
                 sym->width2 = ch->width2;
                 sym->width3 = ch->width3;
-                cout<<"Updated the widths hihi : "<<sym->width1<<sym->width2<<sym->width3<<endl;
+                // cout<<"Updated the widths hihi : "<<sym->width1<<sym->width2<<sym->width3<<endl;
                 
                 //sym->calcWidths();
            }
             
             root->insert(sym->lexeme, sym);
-            cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
+            // cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
             //if(cc) backpatch((ch-1)->nextlist,(ch-1)->last + 1);
             cc++;
         }
@@ -5641,6 +5641,12 @@ ArrayAccess:
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
     $$->attr = $1->attr;
+
+    if(typeroot->categorize($3->type) != INTEGER_TYPE)
+    {
+        cout<<"Error on line number"<<yylineno<<"! Array index should be of type int"<<endl;
+        yyerror("Error");
+    }
     
     string resName = string("t") + to_string(varCnt);
     varCnt++;
@@ -5650,9 +5656,7 @@ ArrayAccess:
         cout<<"Error on line number "<<yylineno<<". Name "<<ss->lexeme<<" has not been declared before."<<endl;
         yyerror("Error");
     }
-    cout << ss->width1 << "947t9wefih\n";
-    cout<<"For "<<$1->attr<<", Type is "<<root->lookup($1->attr)->type<<endl;
-    cout<<"For "<<$1->attr<<", Width is "<<root->lookup($1->attr)->width<<endl;
+    // cout << ss->width1 << "947t9wefih\n";
     Quadruple* q= new Quadruple(string("*int"), $3->varName, to_string(root->lookup($1->attr)->width),  resName);
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -5676,6 +5680,12 @@ ArrayAccess:
     
     temp.push_back($3);
     temp.push_back($6);
+
+    if(typeroot->categorize($3->type) != INTEGER_TYPE || typeroot->categorize($6->type) != INTEGER_TYPE)
+    {
+        cout<<"Error on line number"<<yylineno<<"! Array index should be of type int"<<endl;
+        yyerror("Error");
+    }
    
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
@@ -5720,6 +5730,12 @@ ArrayAccess:
     temp.push_back($3);
     temp.push_back($6);
     temp.push_back($9);
+
+    if(typeroot->categorize($3->type) != INTEGER_TYPE || typeroot->categorize($6->type) != INTEGER_TYPE || typeroot->categorize($9->type) != INTEGER_TYPE)
+    {
+        cout<<"Error on line number"<<yylineno<<"! Array index should be of type int"<<endl;
+        yyerror("Error");
+    }    
    
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
@@ -8569,11 +8585,11 @@ void yyerror(const char* sp)
     char str[1000];
     strcpy(str, yytext);
     int strn = strlen(str); 
-    if(strn>0)
+    /* if(strn>0) */
     /* { */
         /* printf("Error : %s of length %d\n", yytext, strn); */
         // if(yytext[strn-1]=='\0')
-        printf("Error due to %s at line number %d.  Aborting...\n", sp, yylineno);
+        /* printf("Error due to %s at line number %d.  Aborting...\n", sp, yylineno); */
         // printf("Error due to : %s ", sp);
         // errorlineno();
         // printf("Aborting....\n");
