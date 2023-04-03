@@ -35,6 +35,7 @@ void processArithmetic(vector<Node*> nodes, string op);
 void processWhile(Node* n, Node* n1, Node* n2);
 void processDoWhile(Node* n, Node* n1, Node* n2);
 
-void generateArgumentList(vector<Node*> nodes, Node* n);
+int generateArgumentList(vector<Node*> nodes, Node* n);
 
 void verbose(int v,string h);
+

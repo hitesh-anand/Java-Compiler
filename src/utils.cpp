@@ -94,11 +94,11 @@ void ir_gen(vector<Quadruple*> ircode, string fln)
     }
     else if(it->type==11)
     {
-        myFile << "pop  "<<it->arg1<<"\n"; continue;
+        myFile << "popparam "<<it->arg1<<"\n"; continue;
     }
     else if(it->type==12)
     {
-        myFile << "ret  "<<"\n"; continue;
+        ;
     }
     else if(it->type==13)
     {
@@ -316,14 +316,21 @@ void processWhile(Node* n, Node* n1, Node* n2)
     n->last = ircode.size() - 1;
 }
 
-void generateArgumentList(vector<Node*> nodes, Node* n)
+int generateArgumentList(vector<Node*> nodes, Node* n)
 {
-    for(auto node: nodes) {
+    int space = 0;
+    for(int i = nodes.size()-1; i >= 0; i--) {
+        Node* node = nodes[i];
         Quadruple* q = new Quadruple(5, node->varName);
+        space += typeroot->widths[node->type];
         n->code.push_back(q);
         ircode.push_back(q);
     }
+    Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
+    n->code.push_back(q);
+    ircode.push_back(q);
     n->last = ircode.size() - 1;
+    return space;
 }
 
 
