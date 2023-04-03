@@ -24,6 +24,7 @@ typedef struct Node {
     int _width2 = 0;
     int _width3 = 0;
     int arrayType= 0;
+    int len = 0;    // for strings
     int cnt = 0;    // used to count dimensions in array access
     int last = -1;   // last index of global IR code
     string next="fall"; //stores the label of next statement to jump

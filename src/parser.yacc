@@ -6316,14 +6316,10 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-    int space = typeroot->widths[$3->type];
-
-    if(space > 0) {
-        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer" );
-        $$->code.push_back(q);
-        ircode.push_back(q);
-    }
-    Quadruple* q = new Quadruple(7, "", "print", $3->varName, "");
+    Quadruple* q = new Quadruple("+", "stackpointer", "4", "stackpointer" );
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    q = new Quadruple(7, "", "print", $3->varName, "");
    
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6339,6 +6335,9 @@ MethodInvocation:
 
     // $$->code.push_back(q);
     // ircode.push_back(q);
+    q = new Quadruple("-", "stackpointer", "4", "stackpointer" );
+    $$->code.push_back(q);
+    ircode.push_back(q);
     $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
 
