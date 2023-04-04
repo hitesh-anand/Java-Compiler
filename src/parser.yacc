@@ -2852,6 +2852,8 @@ ConstructorDeclaration:
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
         verbose(v,"ConstructorDeclarator ConstructorBody->ConstructorDeclaration");
+
+        // cout<<"THISTISHTISHTSIOTHSOT"<<endl;
     }
 |   Modifier Modifiers ConstructorDeclarator ConstructorBody     {
         vector<struct Node*> temp;
@@ -2972,9 +2974,14 @@ ConstructorDeclarator:
             if(it->children[1]->arrayType > 0)
             {
                 args.push_back(typeroot->typewidth[it->children[0]->attr].first+100);
-            }
+            }        
             else
                 args.push_back(typeroot->typewidth[it->children[0]->attr].first);
+                
+                cout<<"THISHTIS "<<it->children[1]->attr<<endl;
+                Quadruple* q = new Quadruple(13, it->children[1]->attr);
+                $$->code.push_back(q);
+                ircode.push_back(q); 
         }
 
         bool check = root->currNode->scope_constrlookup(args);
@@ -5392,6 +5399,13 @@ UnqualifiedClassInstanceCreationExpression:
         yyerror("Error");
     }
     $$->type = res->type;
+
+    int space = generateArgumentList($4->children, $4);
+    Quadruple* q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS ClassBody {
     vector<struct Node*> temp;
@@ -5460,6 +5474,12 @@ UnqualifiedClassInstanceCreationExpression:
         yyerror("Error");
     }
     $$->type = res->type;
+
+    int space = generateArgumentList($4->children, $4);
+    Quadruple* q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
@@ -5527,6 +5547,23 @@ UnqualifiedClassInstanceCreationExpression:
         yyerror("Error");
     }
     $$->type = res->type;
+
+
+    int space = 8;
+    Quadruple* q = new Quadruple(5, $4->varName);
+
+    $$->code.push_back(q);
+    ircode.push_back(q);
+
+    q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
+    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 } 
 |   NEW Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
@@ -5559,6 +5596,22 @@ UnqualifiedClassInstanceCreationExpression:
         yyerror("Error");
     }
     $$->type = res->type;
+
+    int space = 8;
+    Quadruple* q = new Quadruple(5, $4->varName);
+
+    $$->code.push_back(q);
+    ircode.push_back(q);
+
+    q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
+    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 } 
 ;
 
@@ -5867,7 +5920,6 @@ MethodInvocation:
         yyerror("Error");
     }
     $$->type = ex->returntype;
-    int space = generateArgumentList($3->children, $3);
 
     Quadruple* q;
    
@@ -5884,6 +5936,8 @@ MethodInvocation:
 
     $$->code.push_back(q);
     ircode.push_back(q);
+
+    int space = generateArgumentList($3->children, $3);
     q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -5945,6 +5999,7 @@ MethodInvocation:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
     verbose(v,"Primary DOT IDENTIFIER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS->MethodInvocation");
+    
 } 
 |   SUPER DOT IDENTIFIER LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
@@ -6194,6 +6249,22 @@ MethodInvocation:
     //     yyerror("No such function declared before.");
     // $$->type = res->returntype;
     $$->type = ex->returntype;
+
+    space = 8;
+    q = new Quadruple(5, $3->varName);
+
+    $$->code.push_back(q);
+    ircode.push_back(q);
+
+    q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
+    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 } 
 |   Primary DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS  {
     vector<struct Node*> temp;
@@ -6227,6 +6298,22 @@ MethodInvocation:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
     verbose(v,"Primary DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
+
+    space = 8;
+    q = new Quadruple(5, $5->varName);
+
+    $$->code.push_back(q);
+    ircode.push_back(q);
+
+    q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
+    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 } 
 |   SUPER DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
@@ -6280,6 +6367,22 @@ MethodInvocation:
     if(!res)
         yyerror("No such function declared before.");
     $$->type = res->returntype;
+
+    space = 8;
+    q = new Quadruple(5, $5->varName);
+
+    $$->code.push_back(q);
+    ircode.push_back(q);
+
+    q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
+    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 }
 |   Name DOT SUPER DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
