@@ -1679,9 +1679,9 @@ FieldDeclaration:
 
             }
             else {
-                if(!ch->arrayType) {
+                
                     processUninitDec($$, ch);
-                }
+                
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -1764,9 +1764,9 @@ FieldDeclaration:
 
             }
              else {
-                if(!ch->arrayType) {
+                
                     processUninitDec($$, ch);
-                }
+                
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -1829,9 +1829,9 @@ FieldDeclaration:
 
             }
              else {
-                if(!ch->arrayType) {
-                    processUninitDec($$, ch);
-                }
+               
+                  processUninitDec($$, ch);
+                
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -3828,9 +3828,9 @@ LocalVariableDeclaration:
 
             }
              else {
-                if(!ch->arrayType) {
+              
                     processUninitDec($$, ch);
-                }
+             
             }
             //sym->type += ch->arrayType * 100;
             if(ch->arrayType > 0) {
@@ -3889,7 +3889,7 @@ LocalVariableDeclaration:
         {
             int _type = $3->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
-            if(ch->children[1]->arrayType) {ch->children[1]->type = $3->type%100 + 100 * ch->children[1]->arrayType;
+            if(ch->children.size() > 1 &&  ch->children[1]->arrayType) {ch->children[1]->type = $3->type%100 + 100 * ch->children[1]->arrayType;
                 if(ch->children[1]->label == "ArrayInitializer"){    
                     if(ch->arrayType == 1) init1DArray(ch, $3->attr);
                     else if(ch->arrayType == 2) init2DArray(ch, $3->attr);
@@ -3912,9 +3912,9 @@ LocalVariableDeclaration:
 
             }
              else {
-                if(!ch->arrayType) {
+                
                     processUninitDec($$, ch);
-                }
+                
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
