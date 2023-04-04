@@ -323,7 +323,7 @@ int generateArgumentList(vector<Node*> nodes, Node* n)
     for(int i = nodes.size()-1; i >= 0; i--) {
         Node* node = nodes[i];
         Quadruple* q = new Quadruple(5, node->varName);
-        if(typeroot->widths[node->type] == 0) space += 4;
+        if(typeroot->widths[node->type] == 0) space += 8;
         else space += 8;
 
         n->code.push_back(q);
