@@ -1,146 +1,115 @@
 1) PUBLIC ->Modifier
-2) PUBLIC ->Modifier
-3) STATIC ->Modifier
-4) Modifier Modifiers->Modifiers
-5) STRING->PrimitiveType
-6) PrimitiveType->Type
-7) LRSQUAREBRACKET->Dims
+2) STATIC ->Modifier
+3) Modifier Modifiers->Modifiers
+4) INT->IntegralType
+5) IntegralType->NumericType
+6) NumericType->PrimitiveType
+7) PrimitiveType->Type
+8) STRING->PrimitiveType
+9) PrimitiveType->Type
+10) LRSQUAREBRACKET->Dims
 array with name : args and type is 1
 
 
 1
 
-8) IDENTIFIER Dims->VariableDeclaratorId
-9) Type VariableDeclaratorId->FormalParameter
-10) FormalParameter->FormalParameterList
-11) IDENTIFIER LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS->MethodDeclarator
-12) VOID MethodDeclarator->MethodHeader
-13) INT->IntegralType
-14) IntegralType->NumericType
-15) NumericType->PrimitiveType
-16) PrimitiveType->LocalVariableType
-17) LRSQUAREBRACKET->Dims
-array with name : arr and type is 1
-
-
-1
-
-18) IDENTIFIER Dims->VariableDeclaratorId
-19) VariableDeclaratorId->VariableDeclarator
-20) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
-21) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
-22) LocalVariableDeclaration SEMICOLON->LocalVariableDeclarationStatement
-23) LocalVariableDeclarationStatement->BlockStatement
-24) INT->IntegralType
-25) IntegralType->NumericType
-26) NumericType->PrimitiveType
-27) PrimitiveType->LocalVariableType
-28) IDENTIFIER->VariableDeclaratorId
-4
-29) INTEGERLITERAL->Literal
-30) Literal->PrimaryNoNewArray
-31) PrimaryNoNewArray->Primary
-32) Primary->PostfixExpression
-33) PostfixExpression->UnaryExpressionNotPlusMinus
-34) UnaryExpressionNotPlusMinus->UnaryExpression
-35) UnaryExpression->MultiplicativeExpression
-36) MultiplicativeExpression->AdditiveExpression
-37) AdditiveExpression->ShiftExpression
-38) ShiftExpression->RelationalExpression
-39) RelationalExpression->EqualityExpression
-40) EqualityExpression->AndExpression
-41) AndExpression->ExclusiveOrExpression
-42) ExclusiveOrExpression->InclusiveOrExpression
-43) InclusiveOrExpression->ConditionalAndExpression
-44) ConditionalAndExpression->ConditionalOrExpression
-45) ConditionalOrExpression->ConditionalExpression
-46) ConditionalExpression->AssignmentExpression
-47) AssignmentExpression->Expression
+11) IDENTIFIER Dims->VariableDeclaratorId
+12) Type VariableDeclaratorId->FormalParameter
+13) FormalParameter->FormalParameterList
+14) IDENTIFIER LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS->MethodDeclarator
+15) Type MethodDeclarator->MethodHeader
+i = 2
+16) INT->IntegralType
+17) IntegralType->NumericType
+18) NumericType->PrimitiveType
+19) PrimitiveType->LocalVariableType
+20) IDENTIFIER->VariableDeclaratorId
+9
+21) INTEGERLITERAL->Literal
+22) Literal->PrimaryNoNewArray
+23) PrimaryNoNewArray->Primary
+24) Primary->PostfixExpression
+25) PostfixExpression->UnaryExpressionNotPlusMinus
+26) UnaryExpressionNotPlusMinus->UnaryExpression
+27) UnaryExpression->MultiplicativeExpression
+28) MultiplicativeExpression->AdditiveExpression
+29) AdditiveExpression->ShiftExpression
+30) ShiftExpression->RelationalExpression
+31) RelationalExpression->EqualityExpression
+32) EqualityExpression->AndExpression
+33) AndExpression->ExclusiveOrExpression
+34) ExclusiveOrExpression->InclusiveOrExpression
+35) InclusiveOrExpression->ConditionalAndExpression
+36) ConditionalAndExpression->ConditionalOrExpression
+37) ConditionalOrExpression->ConditionalExpression
+38) ConditionalExpression->AssignmentExpression
+39) AssignmentExpression->Expression
 The widths are : w1, w2, w3
-48) VariableDeclaratorId ASSIGN Expression->VariableDeclarator
-49) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
-50) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
-51) LocalVariableDeclaration SEMICOLON->LocalVariableDeclarationStatement
-52) LocalVariableDeclarationStatement->BlockStatement
-53) BlockStatement BlockStatements->BlockStatements
-54) LEFTCURLYBRACKET BlockStatement BlockStatements RIGHTCURLYBRACKET->Block
-55) Block->MethodBody
-56) Modifier Modifiers MethodHeader MethodBody->MethodDeclaration
-57) MethodDeclaration->ClassMemberDeclaration
-58) ClassMemberDeclaration->ClassBodyDeclaration
-59) LEFTCURLYBRACKET ClassBodyDeclaration ClassBodyDeclarations RIGHTCURLYBRACKET->ClassBody
-60) Modifier Modifiers Class ClassBody->NormalClassDeclaration
-61) NormalClassDeclaration->ClassDeclaration
-62) ClassDeclaration->TopLevelClassOrInterfaceDeclaration
-63) TopLevelClassOrInterfaceDeclaration TopLevelClassOrInterfaceDeclarations->TopLevelClassOrInterfaceDeclarations
-64) ImportDeclarations TopLevelClassOrInterfaceDeclarations->OrdinaryCompilationUnit
-65) OrdinaryCompilationUnit->CompilationUnit
-Scope level : 0 
-The variables are : 
-lexeme : MyClass, record : MyClass 35 1
--------------------------------------
-The functions are : 
--------------------------------------
-The classes are : 
-Class name is : MyClass
-
-The constructors are : 
--------------------------------------
-
--------------------------------------
--------------------------------------
-
-Scope level : 1 
-The variables are : 
--------------------------------------
-The functions are : 
-Function name is : main
-Return type is : 8
-The argument types are : 133 
--------------------------------------
-The classes are : 
-The constructors are : 
--------------------------------------
-
--------------------------------------
--------------------------------------
-
-Scope level : 2 
-The variables are : 
-lexeme : a, record : a 2 5
-lexeme : args, record : args 133 2
-lexeme : arr, record : arr 102 4
-w1 w2 w3
--------------------------------------
-The functions are : 
--------------------------------------
-The classes are : 
-The constructors are : 
--------------------------------------
-
--------------------------------------
--------------------------------------
--------------------------------------
-Function name is : main
-Return type is : 8
-The argument types are : 133 
-Hemlo
-beginfunc main
-Hemlo
-a=4
-Hemlo
-endfunc 
-Hemlo
-endclass 
-Incremental IR 
-
-0	:	Hemlo
-beginclass MyClass 
-1	:	Hemlo
-beginfunc main
-2	:	Hemlo
-a=4
-3	:	Hemlo
-endfunc 
-4	:	Hemlo
-endclass 
+40) VariableDeclaratorId ASSIGN Expression->VariableDeclarator
+41) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
+42) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
+hey
+hey
+43) LocalVariableDeclaration SEMICOLON->LocalVariableDeclarationStatement
+44) LocalVariableDeclarationStatement->BlockStatement
+45) DOUBLE->FloatingPointType
+46) FloatingPointType->NumericType
+47) NumericType->PrimitiveType
+48) PrimitiveType->LocalVariableType
+49) IDENTIFIER->VariableDeclaratorId
+50) IDENTIFIER->Name
+51) Name->PostfixExpression
+52) PostfixExpression->UnaryExpressionNotPlusMinus
+53) UnaryExpressionNotPlusMinus->UnaryExpression
+54) UnaryExpression->MultiplicativeExpression
+55) MultiplicativeExpression->AdditiveExpression
+56) AdditiveExpression->ShiftExpression
+57) ShiftExpression->RelationalExpression
+58) RelationalExpression->EqualityExpression
+59) EqualityExpression->AndExpression
+60) AndExpression->ExclusiveOrExpression
+61) ExclusiveOrExpression->InclusiveOrExpression
+62) InclusiveOrExpression->ConditionalAndExpression
+63) ConditionalAndExpression->ConditionalOrExpression
+64) ConditionalOrExpression->ConditionalExpression
+65) ConditionalExpression->AssignmentExpression
+66) AssignmentExpression->Expression
+The widths are : w1, w2, w3
+67) VariableDeclaratorId ASSIGN Expression->VariableDeclarator
+68) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
+69) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
+hey
+hey
+70) LocalVariableDeclaration SEMICOLON->LocalVariableDeclarationStatement
+71) LocalVariableDeclarationStatement->BlockStatement
+72) BOOLEAN->PrimitiveType
+73) PrimitiveType->LocalVariableType
+74) IDENTIFIER->VariableDeclaratorId
+75) FLOAT->FloatingPointType
+76) FloatingPointType->NumericType
+77) NumericType->PrimitiveType
+78) IDENTIFIER->Name
+79) Name->PostfixExpression
+80) PostfixExpression->UnaryExpressionNotPlusMinus
+81) UnaryExpressionNotPlusMinus->UnaryExpression
+82) LEFTPARENTHESIS PrimitiveType RIGHTPARENTHESIS UnaryExpression->CastExpression
+83) CastExpression->UnaryExpressionNotPlusMinus
+84) UnaryExpressionNotPlusMinus->UnaryExpression
+85) UnaryExpression->MultiplicativeExpression
+86) MultiplicativeExpression->AdditiveExpression
+87) AdditiveExpression->ShiftExpression
+88) ShiftExpression->RelationalExpression
+89) RelationalExpression->EqualityExpression
+90) EqualityExpression->AndExpression
+91) AndExpression->ExclusiveOrExpression
+92) ExclusiveOrExpression->InclusiveOrExpression
+93) InclusiveOrExpression->ConditionalAndExpression
+94) ConditionalAndExpression->ConditionalOrExpression
+95) ConditionalOrExpression->ConditionalExpression
+96) ConditionalExpression->AssignmentExpression
+97) AssignmentExpression->Expression
+The widths are : w1, w2, w3
+98) VariableDeclaratorId ASSIGN Expression->VariableDeclarator
+99) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
+100) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
+Type Mismatch : cannot convert from float to boolean on line number 8

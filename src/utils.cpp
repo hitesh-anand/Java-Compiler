@@ -234,12 +234,17 @@ void processPostIncre(Node* n)
 void processAssignment(Node* n1, Node* n2, Node* n3, Node* n)
 {
     char oper = n2->attr[0];
-    cout << oper<< " dsad\n";
-    Quadruple* q = new Quadruple(string(1, oper), n1->varName, n3->varName, n1->varName);
+    vector<Node*> nodes=  {n, n1, n3};
+    
+    processArithmetic(nodes, string(1, oper));
+    // cout << oper<< " dsad\n";
+    // if(oper != "=")
+    Quadruple* q = new Quadruple("=", n->varName, n1->varName);
+    n->varName = n1->varName;
     n->code.push_back(q);
     ircode.push_back(  q );
     n->last = ircode.size() - 1;
-    n->varName = n1->varName;
+    
     
     return;
 }
@@ -343,7 +348,7 @@ int generateArgumentList(vector<Node*> nodes, Node* n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple* q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
     n->code.push_back(q);
     ircode.push_back(q);
     n->last = ircode.size() - 1;
