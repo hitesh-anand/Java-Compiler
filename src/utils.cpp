@@ -130,9 +130,12 @@ void backpatch(vector<int>& lst, int n)
 
 void processFieldDec(Node* n, Node* n1, int type)
 {
+    
     if(n1->isCond == 1) return;
-    string resName = n1->children[1]->varName;
-    if(type != n1->children[1]->type) {
+    cout << "hey\n";
+    string resName =(n1->children.size() > 1) ? n1->children[1]->varName: "0";
+    cout << "hey\n";
+    if(n1->children.size() > 1 && type != n1->children[1]->type) {
         resName = string("t") + to_string(varCnt++);
         Quadruple* q = new Quadruple("", "cast_to_" + castName[type] + " ", n1->children[1]->varName, resName);
         n->code.push_back(q);
@@ -141,6 +144,16 @@ void processFieldDec(Node* n, Node* n1, int type)
     
     
     Quadruple* q = new Quadruple("=", resName, n1->children[0]->varName); 
+    n->code.push_back(q);
+    ircode.push_back(q);
+    n->last = ircode.size() - 1;
+}
+
+void processUninitDec(Node* n, Node* n1)
+{
+    if(!n || !n1) return;
+    string var = n1->attr;
+    Quadruple* q = new Quadruple("=", "0", var);
     n->code.push_back(q);
     ircode.push_back(q);
     n->last = ircode.size() - 1;
@@ -227,6 +240,7 @@ void processAssignment(Node* n1, Node* n2, Node* n3, Node* n)
     ircode.push_back(  q );
     n->last = ircode.size() - 1;
     n->varName = n1->varName;
+    
     return;
 }
 

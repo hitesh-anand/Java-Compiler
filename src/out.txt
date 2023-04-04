@@ -1,0 +1,146 @@
+1) PUBLIC ->Modifier
+2) PUBLIC ->Modifier
+3) STATIC ->Modifier
+4) Modifier Modifiers->Modifiers
+5) STRING->PrimitiveType
+6) PrimitiveType->Type
+7) LRSQUAREBRACKET->Dims
+array with name : args and type is 1
+
+
+1
+
+8) IDENTIFIER Dims->VariableDeclaratorId
+9) Type VariableDeclaratorId->FormalParameter
+10) FormalParameter->FormalParameterList
+11) IDENTIFIER LEFTPARENTHESIS FormalParameterList RIGHTPARENTHESIS->MethodDeclarator
+12) VOID MethodDeclarator->MethodHeader
+13) INT->IntegralType
+14) IntegralType->NumericType
+15) NumericType->PrimitiveType
+16) PrimitiveType->LocalVariableType
+17) LRSQUAREBRACKET->Dims
+array with name : arr and type is 1
+
+
+1
+
+18) IDENTIFIER Dims->VariableDeclaratorId
+19) VariableDeclaratorId->VariableDeclarator
+20) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
+21) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
+22) LocalVariableDeclaration SEMICOLON->LocalVariableDeclarationStatement
+23) LocalVariableDeclarationStatement->BlockStatement
+24) INT->IntegralType
+25) IntegralType->NumericType
+26) NumericType->PrimitiveType
+27) PrimitiveType->LocalVariableType
+28) IDENTIFIER->VariableDeclaratorId
+4
+29) INTEGERLITERAL->Literal
+30) Literal->PrimaryNoNewArray
+31) PrimaryNoNewArray->Primary
+32) Primary->PostfixExpression
+33) PostfixExpression->UnaryExpressionNotPlusMinus
+34) UnaryExpressionNotPlusMinus->UnaryExpression
+35) UnaryExpression->MultiplicativeExpression
+36) MultiplicativeExpression->AdditiveExpression
+37) AdditiveExpression->ShiftExpression
+38) ShiftExpression->RelationalExpression
+39) RelationalExpression->EqualityExpression
+40) EqualityExpression->AndExpression
+41) AndExpression->ExclusiveOrExpression
+42) ExclusiveOrExpression->InclusiveOrExpression
+43) InclusiveOrExpression->ConditionalAndExpression
+44) ConditionalAndExpression->ConditionalOrExpression
+45) ConditionalOrExpression->ConditionalExpression
+46) ConditionalExpression->AssignmentExpression
+47) AssignmentExpression->Expression
+The widths are : w1, w2, w3
+48) VariableDeclaratorId ASSIGN Expression->VariableDeclarator
+49) VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList
+50) LocalVariableType VariableDeclaratorList->LocalVariableDeclaration
+51) LocalVariableDeclaration SEMICOLON->LocalVariableDeclarationStatement
+52) LocalVariableDeclarationStatement->BlockStatement
+53) BlockStatement BlockStatements->BlockStatements
+54) LEFTCURLYBRACKET BlockStatement BlockStatements RIGHTCURLYBRACKET->Block
+55) Block->MethodBody
+56) Modifier Modifiers MethodHeader MethodBody->MethodDeclaration
+57) MethodDeclaration->ClassMemberDeclaration
+58) ClassMemberDeclaration->ClassBodyDeclaration
+59) LEFTCURLYBRACKET ClassBodyDeclaration ClassBodyDeclarations RIGHTCURLYBRACKET->ClassBody
+60) Modifier Modifiers Class ClassBody->NormalClassDeclaration
+61) NormalClassDeclaration->ClassDeclaration
+62) ClassDeclaration->TopLevelClassOrInterfaceDeclaration
+63) TopLevelClassOrInterfaceDeclaration TopLevelClassOrInterfaceDeclarations->TopLevelClassOrInterfaceDeclarations
+64) ImportDeclarations TopLevelClassOrInterfaceDeclarations->OrdinaryCompilationUnit
+65) OrdinaryCompilationUnit->CompilationUnit
+Scope level : 0 
+The variables are : 
+lexeme : MyClass, record : MyClass 35 1
+-------------------------------------
+The functions are : 
+-------------------------------------
+The classes are : 
+Class name is : MyClass
+
+The constructors are : 
+-------------------------------------
+
+-------------------------------------
+-------------------------------------
+
+Scope level : 1 
+The variables are : 
+-------------------------------------
+The functions are : 
+Function name is : main
+Return type is : 8
+The argument types are : 133 
+-------------------------------------
+The classes are : 
+The constructors are : 
+-------------------------------------
+
+-------------------------------------
+-------------------------------------
+
+Scope level : 2 
+The variables are : 
+lexeme : a, record : a 2 5
+lexeme : args, record : args 133 2
+lexeme : arr, record : arr 102 4
+w1 w2 w3
+-------------------------------------
+The functions are : 
+-------------------------------------
+The classes are : 
+The constructors are : 
+-------------------------------------
+
+-------------------------------------
+-------------------------------------
+-------------------------------------
+Function name is : main
+Return type is : 8
+The argument types are : 133 
+Hemlo
+beginfunc main
+Hemlo
+a=4
+Hemlo
+endfunc 
+Hemlo
+endclass 
+Incremental IR 
+
+0	:	Hemlo
+beginclass MyClass 
+1	:	Hemlo
+beginfunc main
+2	:	Hemlo
+a=4
+3	:	Hemlo
+endfunc 
+4	:	Hemlo
+endclass 

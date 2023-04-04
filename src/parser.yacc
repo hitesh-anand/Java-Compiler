@@ -1678,6 +1678,11 @@ FieldDeclaration:
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
 
             }
+            else {
+                if(!ch->arrayType) {
+                    processUninitDec($$, ch);
+                }
+            }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
                 //sym->type += 100*ch->arrayType;
@@ -1758,6 +1763,11 @@ FieldDeclaration:
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
 
             }
+             else {
+                if(!ch->arrayType) {
+                    processUninitDec($$, ch);
+                }
+            }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
                 sym->width1 = ch->width1;
@@ -1817,6 +1827,11 @@ FieldDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
 
+            }
+             else {
+                if(!ch->arrayType) {
+                    processUninitDec($$, ch);
+                }
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -3805,6 +3820,11 @@ LocalVariableDeclaration:
                 
 
             }
+             else {
+                if(!ch->arrayType) {
+                    processUninitDec($$, ch);
+                }
+            }
             //sym->type += ch->arrayType * 100;
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -3868,6 +3888,7 @@ LocalVariableDeclaration:
                     else if(ch->arrayType == 2) init2DArray(ch, $3->attr);
                     else if(ch->arrayType == 3) init3DArray(ch, $3->attr);
                 }
+                
             
             }
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second);
@@ -3882,6 +3903,11 @@ LocalVariableDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
 
+            }
+             else {
+                if(!ch->arrayType) {
+                    processUninitDec($$, ch);
+                }
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -6817,6 +6843,7 @@ Assignment:
         //struct Node* n = new struct Node("ExclusiveOrExpression", temp);
         $$ = $2;
         processAssignment($1, $2, $3, $$);
+        cout<< "handled\n";
         $$->last = ircode.size() - 1;
         verbose(v,"LeftHandSide AssignmentOperator Expression->Assignment");
         cout << $1->type << " " << $3->type << endl;
