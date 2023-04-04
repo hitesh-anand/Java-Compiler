@@ -1,38 +1,63 @@
-0	:	beginclass Test 
-1	:	beginfunc foobar
+0	:	beginclass Person 
+1	:	beginfunc Person
 2	:	a = popparam
-3	:	b = popparam
-4	:	c = popparam
-5	:	t0=w2*4
-6	:	t1=1*intt0
-7	:	t2=3*int4
-8	:	t3=t1+intt2
-9	:	t4=a[t3]
-10	:	t5=t4+int b
-11	:	t6=t5+int c
-12	:	x=t6
-13	:	stackpointer=stackpointer+int4
-14	:	print x
-15	:	stackpointer=stackpointer-int4
-16	:	return 1
-17	:	endfunc 
-18	:	beginfunc main
-19	:	b[0]=1
-20	:	b[4]=2
-21	:	b[8]=3
-22	:	b[12]=4
-23	:	b[16]=5
-24	:	b[20]=1
-25	:	b[24]=2
-26	:	b[28]=3
-27	:	b[32]=4
-28	:	b[36]=5
-29	:	pushparam 99
-30	:	pushparam 88
-31	:	pushparam b
-32	:	stackpointer=stackpointer+int12
-33	:	t7=call foobar, 3
-34	:	stackpointer=stackpointer-int12
-35	:	return t7
-36	:	endfunc 
-37	:	endclass 
+3	:	t0=a+int 1
+4	:	id=t0
+5	:	endfunc 
+6	:	endclass 
+7	:	beginclass Employee 
+8	:	beginfunc Employee
+9	:	d = popparam
+10	:	c = popparam
+11	:	pushparam d
+12	:	call super, 1
+13	:	t1=c+int 1
+14	:	d=t1
+15	:	d=d+int 1
+16	:	endfunc 
+17	:	endclass 
+18	:	beginclass Vehicle 
+19	:	maxSpeed=120
+20	:	beginfunc display
+21	:	t2="Maximum Speed of Vehicle: "+maxSpeed
+22	:	stackpointer=stackpointer+int 8
+23	:	print t2
+24	:	stackpointer=stackpointer-int 4
+25	:	endfunc 
+26	:	endclass 
+27	:	beginclass animal 
+28	:	legs=5
+29	:	beginfunc animal
+30	:	a = popparam
+31	:	legs=a
+32	:	endfunc 
+33	:	beginfunc display
+34	:	pushparam legs
+35	:	stackpointer=stackpointer+int8
+36	:	stackpointer=stackpointer-int8
+37	:	p=new Person
+38	:	t3="Number of legs: "+legs
+39	:	stackpointer=stackpointer+int 8
+40	:	print t3
+41	:	stackpointer=stackpointer-int 4
+42	:	endfunc 
+43	:	endclass 
+44	:	beginclass dog 
+45	:	legs=4
+46	:	beginfunc dog
+47	:	a = popparam
+48	:	pushparam a
+49	:	call super, 1
+50	:	legs=a
+51	:	endfunc 
+52	:	beginfunc display
+53	:	t4="Number of legs: "+legs
+54	:	stackpointer=stackpointer+int 8
+55	:	print t4
+56	:	stackpointer=stackpointer-int 4
+57	:	t5="Number of legs of general animal: "+super.legs
+58	:	stackpointer=stackpointer+int 8
+59	:	print t5
+60	:	stackpointer=stackpointer-int 4
+61	:	endfunc 
+62	:	endclass 
