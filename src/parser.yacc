@@ -5924,7 +5924,7 @@ MethodInvocation:
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
     verbose(v,"Name LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS->MethodInvocation");
-
+    int space = generateArgumentList($3->children, $3);
     vector<int> args;
     for(auto it: $3->children) {args.push_back(it->type);}
     string sp = spacestrip($1->attr);
@@ -5963,7 +5963,7 @@ MethodInvocation:
     $$->code.push_back(q);
     ircode.push_back(q);
 
-    int space = generateArgumentList($3->children, $3);
+  
     q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6218,6 +6218,9 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
+     Quadruple* q = new Quadruple(5, $3->varName);
+    $$->code.push_back(q);
+    ircode.push_back(q);
     int space = 8;
     if(space > 0) {
         Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
@@ -6225,9 +6228,7 @@ MethodInvocation:
         ircode.push_back(q);
     }
     
-    Quadruple* q = new Quadruple(5, $3->varName);
-    $$->code.push_back(q);
-    ircode.push_back(q);
+   
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr, to_string(1), resName);
@@ -6303,15 +6304,16 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
+    Quadruple* q = new Quadruple(5, $5->varName);
+    $$->code.push_back(q);
+    ircode.push_back(q);
     int space = 8;
     if(space > 0) {
         Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
         $$->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple* q = new Quadruple(5, $5->varName);
-    $$->code.push_back(q);
-    ircode.push_back(q);
+    
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(1), resName);
@@ -6353,6 +6355,9 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
+     Quadruple* q = new Quadruple(5, $5->varName);
+    $$->code.push_back(q);
+    ircode.push_back(q);
     int space = 8;
 
     if(space > 0) {
@@ -6361,9 +6366,7 @@ MethodInvocation:
         ircode.push_back(q);
     }
     
-    Quadruple* q = new Quadruple(5, $5->varName);
-    $$->code.push_back(q);
-    ircode.push_back(q);
+   
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1 + string(".") + $3, to_string(1), resName);
@@ -6424,15 +6427,16 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
+    Quadruple* q = new Quadruple(5, $7->varName);
+    $$->code.push_back(q);
+    ircode.push_back(q);
     int space = 8;
     if(space > 0) {
         Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
         $$->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple* q = new Quadruple(5, $7->varName);
-    $$->code.push_back(q);
-    ircode.push_back(q);
+    
     if($$->type != VOID_TYPE) {
         string resName = string("t") + to_string(varCnt++);
         q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string(1), resName);
@@ -6467,7 +6471,10 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple("+int ", "stackpointer", "8", "stackpointer" );
+    Quadruple* q = new Quadruple(5, $3->varName);
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    q = new Quadruple("+int ", "stackpointer", "8", "stackpointer" );
     $$->code.push_back(q);
     ircode.push_back(q);
     q = new Quadruple(7, "", "print", $3->varName, "");
@@ -6486,7 +6493,7 @@ MethodInvocation:
 
     // $$->code.push_back(q);
     // ircode.push_back(q);
-    q = new Quadruple("-int ", "stackpointer", "4", "stackpointer" );
+    q = new Quadruple("-int ", "stackpointer", "8", "stackpointer" );
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
