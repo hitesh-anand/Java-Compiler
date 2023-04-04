@@ -324,7 +324,7 @@ int generateArgumentList(vector<Node*> nodes, Node* n)
         Node* node = nodes[i];
         Quadruple* q = new Quadruple(5, node->varName);
         if(typeroot->widths[node->type] == 0) space += 4;
-        else space += typeroot->widths[node->type];
+        else space += 8;
 
         n->code.push_back(q);
         ircode.push_back(q);
