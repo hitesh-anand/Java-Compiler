@@ -2386,6 +2386,24 @@ MethodHeader:
         $$->code.push_back(qb);
         ircode.push_back(qb);
         **************************************************/
+
+        int last = $2->children.size()-1;
+        if(last%2)
+            last--;
+        for(int i=2; i<=last; i+=2)
+        {
+            Quadruple* q = new Quadruple(13, $2->children[i]->attr);
+            $$->code.push_back(q);
+            ircode.push_back(q);       
+            cout << "i = " << i << endl;     
+        }
+
+        int space = 0;
+
+        for(int i=0; i<args.size(); i++)
+        {
+            space += typeroot->widths[args[i]];
+        }
     }  
 |   TypeParameters Result MethodDeclarator   {
         vector<struct Node*> temp;
@@ -3344,7 +3362,7 @@ ExplicitConstructorInvocation:
     $$->last = ircode.size() - 1;
     processPostIncre($$);
     verbose(v,"THIS LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON ->ExplicitConstructorInvocation");
-
+    int space = generateArgumentList($3->children, $3);
     SymNode* r = root->currNode->parent;
     vector<int> args;
 
@@ -3362,6 +3380,12 @@ ExplicitConstructorInvocation:
         cout<<"Error on line number "<<yylineno<<". Recursive constructor invocation is not allowed"<<endl;
         yyerror("Error");
     }
+
+    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
+
 } 
 |   SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON    {
     vector<struct Node*> temp;
@@ -3405,13 +3429,15 @@ ExplicitConstructorInvocation:
     //temp.push_back(n4); 
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(4, "super", "0");
-    $$->code.push_back(q);
+    // Quadruple* q = new Quadruple(4, "super", "0");
+    // $$->code.push_back(q);
 
-    ircode.push_back(q);
+    // ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
     verbose(v,"SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
+
+    int space = generateArgumentList($3->children, $3);
 
     SymNode* r = root->currNode->parent->parent;
     if(root->currNode->parent->name != "classextends")
@@ -3428,6 +3454,15 @@ ExplicitConstructorInvocation:
         cout<<"Error on line number "<<yylineno<<". Constructor with specified arguments has not been declared in this class"<<endl;
         yyerror("Error");
     }
+
+    Quadruple* q = new Quadruple(4, "super", to_string(args.size()));
+    $$->code.push_back(q);
+    ircode.push_back(q);
+
+    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 } 
 |   Name DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON   {
     vector<struct Node*> temp;
@@ -3441,10 +3476,10 @@ ExplicitConstructorInvocation:
     //temp.push_back(n5); 
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(4, $1->varName + "." +"super", "0");
-    $$->code.push_back(q);
+    // Quadruple* q = new Quadruple(4, $1->varName + "." +"super", "0");
+    // $$->code.push_back(q);
 
-    ircode.push_back(q);
+    // ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
     verbose(v,"Name DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
@@ -3460,10 +3495,10 @@ ExplicitConstructorInvocation:
    
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(4, $1->varName + "." +"super", "0");
-    $$->code.push_back(q);
+    // Quadruple* q = new Quadruple(4, $1->varName + "." +"super", "0");
+    // $$->code.push_back(q);
 
-    ircode.push_back(q);
+    // ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
     verbose(v,"Name DOT SUPER LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
@@ -3484,10 +3519,10 @@ ExplicitConstructorInvocation:
     //temp.push_back(n5); 
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(4, $1->varName + "." +"super", "0");
-    $$->code.push_back(q);
+    // Quadruple* q = new Quadruple(4, $1->varName + "." +"super", "0");
+    // $$->code.push_back(q);
 
-    ircode.push_back(q);
+    // ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
     verbose(v,"Primary DOT SUPER LEFTPARENTHESIS RIGHTPARENTHESIS SEMICOLON->ExplicitConstructorInvocation");
@@ -3559,6 +3594,13 @@ ExplicitConstructorInvocation:
         cout<<"Error on line number "<<yylineno<<". Recursive constructor invocation is not allowed"<<endl;
         yyerror("Error");
     }
+
+    int space = 8;
+    if(space > 0) {
+        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
+        $$->code.push_back(q);
+        ircode.push_back(q);
+    }
 }
 |   SUPER LEFTPARENTHESIS Expression RIGHTPARENTHESIS SEMICOLON {
     vector<struct Node*> temp;
@@ -3575,11 +3617,22 @@ ExplicitConstructorInvocation:
     $$ = n;
     Quadruple* q = new Quadruple(5, $3->varName);
     $$->code.push_back(q);
-
     ircode.push_back(q);
+
+    int space = 8;
+    if(space > 0) {
+        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
+        $$->code.push_back(q);
+        ircode.push_back(q);
+    }
+
     q = new Quadruple(4, "super", "1");
     $$->code.push_back(q);
+    ircode.push_back(q);
+    $$->last = ircode.size() - 1;
 
+    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer" );
+    $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
@@ -6278,15 +6331,15 @@ MethodInvocation:
     $$->type = ex->returntype;
 
     space = 8;
-    q = new Quadruple(5, $3->varName);
+    // q = new Quadruple(5, $3->varName);
 
-    $$->code.push_back(q);
-    ircode.push_back(q);
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
 
-    q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
 
     q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);

@@ -1,63 +1,81 @@
 0	:	beginclass Person 
-1	:	beginfunc Person
-2	:	a = popparam
-3	:	t0=a+int 1
-4	:	id=t0
-5	:	endfunc 
-6	:	endclass 
-7	:	beginclass Employee 
-8	:	beginfunc Employee
-9	:	d = popparam
-10	:	c = popparam
-11	:	pushparam d
-12	:	call super, 1
-13	:	t1=c+int 1
-14	:	d=t1
-15	:	d=d+int 1
-16	:	endfunc 
-17	:	endclass 
-18	:	beginclass Vehicle 
-19	:	maxSpeed=120
-20	:	beginfunc display
-21	:	t2="Maximum Speed of Vehicle: "+maxSpeed
-22	:	stackpointer=stackpointer+int 8
-23	:	print t2
-24	:	stackpointer=stackpointer-int 4
-25	:	endfunc 
-26	:	endclass 
-27	:	beginclass animal 
-28	:	legs=5
-29	:	beginfunc animal
-30	:	a = popparam
-31	:	legs=a
-32	:	endfunc 
-33	:	beginfunc display
-34	:	pushparam legs
-35	:	stackpointer=stackpointer+int8
-36	:	stackpointer=stackpointer-int8
-37	:	p=new Person
-38	:	t3="Number of legs: "+legs
-39	:	stackpointer=stackpointer+int 8
-40	:	print t3
-41	:	stackpointer=stackpointer-int 4
-42	:	endfunc 
-43	:	endclass 
-44	:	beginclass dog 
-45	:	legs=4
-46	:	beginfunc dog
-47	:	a = popparam
-48	:	pushparam a
-49	:	call super, 1
-50	:	legs=a
-51	:	endfunc 
-52	:	beginfunc display
-53	:	t4="Number of legs: "+legs
-54	:	stackpointer=stackpointer+int 8
-55	:	print t4
-56	:	stackpointer=stackpointer-int 4
-57	:	t5="Number of legs of general animal: "+super.legs
-58	:	stackpointer=stackpointer+int 8
-59	:	print t5
-60	:	stackpointer=stackpointer-int 4
-61	:	endfunc 
-62	:	endclass 
+1	:	id=0
+2	:	beginfunc Person
+3	:	a = popparam
+4	:	b = popparam
+5	:	t0=a+int 1
+6	:	id=t0
+7	:	endfunc 
+8	:	beginfunc help
+9	:	b = popparam
+10	:	b=b+int 1
+11	:	endfunc 
+12	:	endclass 
+13	:	beginclass Employee 
+14	:	name=0
+15	:	beginfunc Employee
+16	:	d = popparam
+17	:	c = popparam
+18	:	pushparam 1
+19	:	pushparam d
+20	:	stackpointer=stackpointer+int16
+21	:	call super, 2
+22	:	stackpointer=stackpointer-int 16
+23	:	t1=c+int 1
+24	:	d=t1
+25	:	d=d+int 1
+26	:	endfunc 
+27	:	endclass 
+28	:	beginclass Vehicle 
+29	:	maxSpeed=120
+30	:	beginfunc display
+31	:	t2="Maximum Speed of Vehicle: "+maxSpeed
+32	:	pushparam t2
+33	:	stackpointer=stackpointer+int 8
+34	:	print t2
+35	:	stackpointer=stackpointer-int 8
+36	:	endfunc 
+37	:	endclass 
+38	:	beginclass animal 
+39	:	legs=5
+40	:	beginfunc animal
+41	:	a = popparam
+42	:	legs=a
+43	:	endfunc 
+44	:	beginfunc display
+45	:	t3=legs+int 2
+46	:	pushparam t3
+47	:	pushparam legs
+48	:	stackpointer=stackpointer+int16
+49	:	stackpointer=stackpointer-int 16
+50	:	p=new Person
+51	:	t4="Number of legs: "+legs
+52	:	pushparam t4
+53	:	stackpointer=stackpointer+int 8
+54	:	print t4
+55	:	stackpointer=stackpointer-int 8
+56	:	endfunc 
+57	:	endclass 
+58	:	beginclass dog 
+59	:	legs=4
+60	:	beginfunc dog
+61	:	a = popparam
+62	:	pushparam a
+63	:	stackpointer=stackpointer+int 8
+64	:	call super, 1
+65	:	stackpointer=stackpointer-int 8
+66	:	legs=a
+67	:	endfunc 
+68	:	beginfunc display
+69	:	t5="Number of legs: "+legs
+70	:	pushparam t5
+71	:	stackpointer=stackpointer+int 8
+72	:	print t5
+73	:	stackpointer=stackpointer-int 8
+74	:	t6="Number of legs of general animal: "+super.legs
+75	:	pushparam t6
+76	:	stackpointer=stackpointer+int 8
+77	:	print t6
+78	:	stackpointer=stackpointer-int 8
+79	:	endfunc 
+80	:	endclass 

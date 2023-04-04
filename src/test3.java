@@ -2,10 +2,10 @@
 // demo for use of final  and super modifier
 class Person {
     int id;
-	Person(int a, int b)
-	{
-		id = a+1;
-	}
+	// Person(int a, int b)
+	// {
+	// 	id = a+1;
+	// }
 
 	void help(int b)
 	{
@@ -13,15 +13,15 @@ class Person {
 	}
 }
 
-class Employee extends Person{
-    String name;
-	Employee(int d, int c)
-	{
-		super(d, 1);
-		d = c+1;
-		d++;
-	}
-}
+// class Employee extends Person{
+//     String name;
+// 	Employee(int d, int c)
+// 	{
+// 		super(d, 1);
+// 		d = c+1;
+// 		d++;
+// 	}
+// }
 
 class Vehicle {
     int maxSpeed = 120;
@@ -38,7 +38,7 @@ class animal{
 		legs=a;
 	}
 	void display(){
-		Person p = new Person(legs, legs+2);
+		// Person p = new Person(legs, legs+2);
 		System.out.println("Number of legs: "+legs);
 	}
 }
