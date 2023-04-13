@@ -12,11 +12,11 @@ void main ()
 }  
 void printName(int a, int b)  
 {  
-    printf("Javatpoint");  
+    // printf("Javatpoint");  
 	int c= a + b;
-	char s[] = "The sum is knsdknsdk kn knwefkn kwnk fwekqwldnowj ewnflwnfoerklnm  ";
-	printf("%s", s);
-	printf("%d\n",c);
+	// char s[] = "The sum is knsdknsdk kn knwefkn kwnk fwekqwldnowj ewnflwnfoerklnm  ";
+	// printf("%s", s);
+	// printf("%d\n",c);
 	return;
 
 }  

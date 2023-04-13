@@ -7,6 +7,11 @@
 #define RSP "%rsp"
 using namespace std;
 
+vector<char> ops = {'+', '-', '*', '/', '^', '&', '%'};
+
+map<string, int> addressRegDes;    // address descriptor
+map<string, int> addressDes;    // describes the address relative to rbp for a given variable
+
 /*
 General tips:
 - %rsi and %rdi are used for passing function arguments
@@ -19,7 +24,7 @@ General tips:
 class reg {
     int id;
     string regName;
-    map<string, int> regDes;    // register descriptor, as in slides
+    map<string, int> regDes;    // register descriptor, as in slides, assuming a reg
     public:
         reg() {};
         void init(int id, string regName);
@@ -29,6 +34,8 @@ class reg {
         bool getRegDes(string s);
     
 }r[16];
+
+vector<int> genregs = {0, 1, 2, 3, 8, 9, 10, 11, 12, 13, 14, 15};
 
 reg::reg(int id, string regName)
 {
@@ -90,9 +97,26 @@ void declareRegs()
 
 
 // get a free register for calculations
-int getreg()
+vector<int> getreg(string res, string a, string b)
 {
+    // check in address descriptor
+    vector<int> ans;
+    if(addressDes.find(res) != addressDes.end()) {
+        ans.push_back(addressDes[res]);
+    }
+    else {
+        int flag = 0;
+        for(auto it: genregs) {
+            if(r[it].getRegDes(res) == 1) {
+                ans.push_back(it);
+                flag = 1;
+                break;
+            }
+            else if(r[it]) {
 
+            }
+        }
+    }
 }
 
 // function to translate a print statement to generate the assembly file
@@ -135,7 +159,7 @@ vector<string> genfunc(string funcName)
 
         data.push_back(row);
     }
-
+    file.close();
     int numVariables = data.size() - 1;
     // assuming all int variables
 
@@ -146,7 +170,46 @@ vector<string> genfunc(string funcName)
     funcCode.push_back(string(MOVQ) + string(RSP) + string(",") + string(RBP));
 
     funcCode.push_back(string(SUBQ) + string(RSP) + string(",") + to_string(stackSpace));
-    
+
+
+    // opening the 3ac file
+    ifstream file(funcName + string(".3ac"));
+
+    if (!file.is_open()) {
+        cout << "Error opening file" << endl;
+        return ;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        if(line.find("=") != string::npos) {
+            // processing arithmetic ops 
+            for(auto ch: ops) {
+                if(line.find(ch) != string::npos) {
+
+                    size_t eqpos = line.find("=");
+                    size_t oppos = line.find(ch);
+                    string res = line.substr(0,eqpos);  // variabel storing the result
+                    string t = line.substr(eqpos+1);
+                    string a = t.substr(0, oppos);      // first operand
+                    string b = t.substr(oppos+1);       // second operand
+                    vector<int> rs = getreg(res, a, b);
+                    int resReg = rs[0], aReg = rs[1], bReg = rs[2];
+
+
+                    
+                }
+            }
+        }
+    }
+
+    file.close();
+
+
+    // closing the function code
+    funcCode.push_back("leave");
+    funcCode.push_back("ret");
+
 
 
     // Access the data by index
