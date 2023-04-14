@@ -685,7 +685,7 @@ void SymGlob::dumpSymbolTable()
                 queue<pair<SymNode*, int> > q;
                 q.push({res, 0});
                 int c = 0;
-                fout<<"Num, Syntactic Category, Lexeme, Type, Line of Declaration"<<endl;
+                fout<<"Num,Syntactic Category,Lexeme,Type,Line of Declaration"<<endl;
                 while(!q.empty()) 
                 {
                     pair<SymNode*, int> p = q.front();
@@ -698,13 +698,13 @@ void SymGlob::dumpSymbolTable()
                     q.pop();
                     for(auto ch : p.first->mp)
                     {
-                        fout<<scope_num++<<", ";
+                        fout<<scope_num++<<",";
                         fout<<"Identifier, ";   
                         Symbol* temp = ch.second;
-                        fout<<temp->lexeme<<", ";
+                        fout<<temp->lexeme<<",";
                         if(temp->type<100)
                         {
-                            fout<<typeroot->inv_types[temp->type]<<", ";
+                            fout<<typeroot->inv_types[temp->type]<<",";
                         }
                         else
                         {  
@@ -736,7 +736,7 @@ void SymGlob::dumpSymbolTable()
                             }
                             fout<<"]";
                         }
-                            fout<<", ";
+                            fout<<",";
                         }   
                         fout<<temp->decl_line_no<<endl;
                     }
