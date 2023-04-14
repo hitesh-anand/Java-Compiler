@@ -1,8 +1,0 @@
-bison -d -t -y parser.yacc
-g++ -c y.tab.c
-parser.yacc: In function ‘int yyparse()’:
-parser.yacc:187:89: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-  187 |         $$ = new Node("PackageDeclaration", strcat($1, strcat(" ", $2)));
-      |                                                                                         ^  
-g++ -c utils.cpp 	
-g++ lex.yy.o y.tab.o node.o dotgen.o symbols.o irtype.o types.o utils.o -o parser 
