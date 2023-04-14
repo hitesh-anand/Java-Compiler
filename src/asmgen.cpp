@@ -383,7 +383,7 @@ vector<string> genfunc(string funcName)
             string t;
             if(checkRegsForVar(varName) >= 0) t=r[checkRegsForVar(varName)].getname();
             else t=to_string(addressDes[varName]) + string("(%rbp)");
-            string instr2 = MOVQ + string("printfmt, %rdi");
+            string instr2 = MOVQ + string("$printfmt, %rdi");
             string instr3 = MOVQ + t+ string(", %rsi");
             funcCode.push_back(instr);
             funcCode.push_back(instr2);
@@ -420,7 +420,7 @@ void finalCodeGen(vector<string>& funcCode)
     cout << "syscall\n";
 
     cout<< "printfmt: \n";
-    cout << ".ascii \"%d\"";
+    cout << ".string \"%d\"";
     return;
 }
 
@@ -430,10 +430,10 @@ void finalCodeGen(vector<string>& funcCode)
 int main(int argc, char* argv[])
 {
     
-    if(argc < 2) {
-        cout << "Wrong input format\n";
-        return 0;
-    }
+    // if(argc < 2) {
+    //     cout << "Wrong input format\n";
+    //     return 0;
+    // }
     declareRegs();
     opConv['+'] = ADDQ;
     opConv['-'] = SUBQ;
