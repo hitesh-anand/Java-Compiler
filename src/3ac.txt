@@ -1,10 +1,42 @@
-0	:	beginclass MyClass 
-1	:	beginfunc main
-2	:	args = popparam
-3	:	arr=0
-4	:	x=5
-5	:	r=0
-6	:	aa=0
-7	:	b=0
-8	:	endfunc 
-9	:	endclass 
+0	:	beginclass Test 
+1	:	beginfunc foobar
+2	:	a`2 = popparam
+3	:	b`2 = popparam
+4	:	c`2 = popparam
+5	:	t0=w2*4
+6	:	t1=1*int t0
+7	:	t2=2*int 4
+8	:	t3=t1+int t2
+9	:	t4=a[t3]`2
+10	:	t5=t4+int b`2
+11	:	t6=t5+int c`2
+12	:	x`2=t6
+13	:	pushparam x`2
+14	:	stackpointer=stackpointer+int 8
+15	:	print x
+16	:	stackpointer=stackpointer-int 8
+17	:	return 1
+18	:	endfunc 
+19	:	beginfunc foob
+20	:	b`3 = popparam
+21	:	x`3=b`3
+22	:	return 1
+23	:	endfunc 
+24	:	beginfunc main
+25	:	b[0]`4=1
+26	:	b[4]`4=2
+27	:	b[8]`4=3
+28	:	b[12]`4=4
+29	:	b[16]`4=5
+30	:	b[20]`4=1
+31	:	b[24]`4=2
+32	:	b[28]`4=3
+33	:	b[32]`4=4
+34	:	b[36]`4=5
+35	:	pushparam 23
+36	:	stackpointer=stackpointer+int 8
+37	:	t7=call foob`4, 1
+38	:	stackpointer=stackpointer-int8
+39	:	return t7
+40	:	endfunc 
+41	:	endclass 

@@ -2,11 +2,22 @@
 #include "types.h"
 using namespace std;
 extern int yylineno;
-extern void yyerror(const char* sp);
-extern SymGlob* orig_root;
+extern void yyerror(const char *sp);
+extern SymGlob *orig_root;
 map<string, int> csv_gen;
 
-extern TypeHandler* typeroot;
+extern TypeHandler *typeroot;
+int conv_int(string a)
+{
+    int ans = 0;
+    int x = 1;
+    for (int j = a.size() - 1; j >= 0; j--)
+    {
+        ans += (a[j] - '0') * x;
+        x = x * 10;
+    }
+    return ans;
+}
 //----Constructors----//
 Symbol::Symbol(string lexeme, int type, int lineno, int width)
 {
@@ -21,15 +32,15 @@ Symbol::Symbol(string lexeme, int type, int lineno, int width)
     width3 = "w3";
 }
 
-bool argsMatch(vector<int> def, vector<int> given) //def->as defined, given->passed as arguments
+bool argsMatch(vector<int> def, vector<int> given) // def->as defined, given->passed as arguments
 {
-    if(def.size()!=given.size())
+    if (def.size() != given.size())
         return false;
-    for(int i=0; i<def.size(); i++)
+    for (int i = 0; i < def.size(); i++)
     {
-        if(def[i]!=given[i])
+        if (def[i] != given[i])
         {
-            if(!(typeroot->categorize(def[i])==FLOATING_TYPE && typeroot->categorize(given[i])==INTEGER_TYPE))
+            if (!(typeroot->categorize(def[i]) == FLOATING_TYPE && typeroot->categorize(given[i]) == INTEGER_TYPE))
                 return false;
         }
     }
@@ -61,7 +72,6 @@ Symbol::Symbol(string lexeme, int type, int lineno, int width, int access_type)
     width3 = "w3";
 }
 
-
 /****************************************
 void Symbol::calcWidths()
 {
@@ -69,7 +79,7 @@ void Symbol::calcWidths()
     _width2 = width2;
     _width1 = width1;
     if(width3) {
-        _width2 = width * _width3; 
+        _width2 = width * _width3;
         _width1 = _width2* width1;
         _width3 = width;
     }
@@ -80,39 +90,39 @@ void Symbol::calcWidths()
     else {
         _width1 = width * width1;
     }
-    
-    
+
+
 }
 ***********************************************/
 
-SymNode::SymNode(SymNode* _parent, string _name)
+SymNode::SymNode(SymNode *_parent, string _name)
 {
     this->parent = _parent;
     this->name = _name;
 }
 
-SymNode::SymNode(SymNode* _parent, string _name, int _symtype)
-{
-    this->parent = _parent;
-    this->name = _name;
-    this->symtype = _symtype;
-}
-
-SymNode::SymNode(SymNode* _parent, string _name, int _symtype, vector<int> _args)
+SymNode::SymNode(SymNode *_parent, string _name, int _symtype)
 {
     this->parent = _parent;
     this->name = _name;
     this->symtype = _symtype;
-    this->args = _args;
 }
 
-SymNode::SymNode(SymNode* _parent, string _name, int _symtype, vector<int> _args, int _returntype)
+SymNode::SymNode(SymNode *_parent, string _name, int _symtype, vector<int> _args)
 {
     this->parent = _parent;
     this->name = _name;
     this->symtype = _symtype;
     this->args = _args;
-    this->returntype = _returntype;   
+}
+
+SymNode::SymNode(SymNode *_parent, string _name, int _symtype, vector<int> _args, int _returntype)
+{
+    this->parent = _parent;
+    this->name = _name;
+    this->symtype = _symtype;
+    this->args = _args;
+    this->returntype = _returntype;
 }
 
 SymGlob::SymGlob()
@@ -120,34 +130,33 @@ SymGlob::SymGlob()
     this->currNode = new SymNode(nullptr, "Global");
 }
 
-
-
 //---Methods-------//
 void Symbol::printSym()
 {
-    cout<<this->lexeme<<" "<<this->type<<" "<<this->decl_line_no<<endl;
-    if(this->isArray) {
-        cout<< this->width1 << " " << this->width2 << " " << this->width3 << "\n";
+    cout << this->lexeme << " " << this->type << " " << this->decl_line_no << endl;
+    if (this->isArray)
+    {
+        cout << this->width1 << " " << this->width2 << " " << this->width3 << "\n";
     }
 }
 
-Symbol* SymGlob::lookup(string lex)
+Symbol *SymGlob::lookup(string lex)
 {
-    SymNode* temp = currNode;
-    while(temp)
+    SymNode *temp = currNode;
+    while (temp)
     {
         auto mp = temp->mp;
-        if(mp.find(lex)!=mp.end())
+        if (mp.find(lex) != mp.end())
         {
-            Symbol* ret = mp[lex];
-            if(ret->access_type==PUBLIC_ACCESS)
+            Symbol *ret = mp[lex];
+            if (ret->access_type == PUBLIC_ACCESS)
                 return ret;
-            if((ret->access_type==PRIVATE_ACCESS && (temp==currNode || (find(temp->childscopes.begin(), temp->childscopes.end(), currNode) != temp->childscopes.end()))))
+            if ((ret->access_type == PRIVATE_ACCESS && (temp == currNode || (find(temp->childscopes.begin(), temp->childscopes.end(), currNode) != temp->childscopes.end()))))
                 return ret;
-            else if(ret->access_type==PRIVATE_ACCESS)
+            else if (ret->access_type == PRIVATE_ACCESS)
             {
                 // cout<<"Identifier "<<lex<<" has access type "<<ret->access_type<<endl;
-                cout<<"Access Permission Denied for the name : "<<lex<<" !"<<endl;
+                cout << "Access Permission Denied for the name : " << lex << " !" << endl;
                 yyerror("Error");
                 return nullptr;
             }
@@ -158,12 +167,13 @@ Symbol* SymGlob::lookup(string lex)
     return nullptr;
 }
 
-SymNode* SymGlob::nlookup(string name)    //look for the scope with given name
+SymNode *SymGlob::nlookup(string name) // look for the scope with given name
 {
-    SymNode* temp = currNode;
-    while(temp)
+    SymNode *temp = currNode;
+    while (temp)
     {
-        if(temp->name==name){
+        if (temp->name == name)
+        {
             return temp;
         }
         temp = temp->parent;
@@ -171,35 +181,35 @@ SymNode* SymGlob::nlookup(string name)    //look for the scope with given name
     return nullptr;
 }
 
-SymNode* SymGlob::flookup(string lex, vector<int> args, int returntype)
+SymNode *SymGlob::flookup(string lex, vector<int> args, int returntype)
 {
-    SymNode* temp = currNode;
-    SymNode* res;
-    while(temp)
+    SymNode *temp = currNode;
+    SymNode *res;
+    while (temp)
     {
         res = temp->scope_flookup(lex);
-        if(res && res->returntype == returntype && argsMatch(res->args, args))
+        if (res && res->returntype == returntype && argsMatch(res->args, args))
         {
-            if(res->node_acc_type==PUBLIC_ACCESS)
+            if (res->node_acc_type == PUBLIC_ACCESS)
                 return res;
-            if((res->node_acc_type==PRIVATE_ACCESS && (temp==currNode || (find(temp->childscopes.begin(), temp->childscopes.end(), currNode) != temp->childscopes.end()))))
+            if ((res->node_acc_type == PRIVATE_ACCESS && (temp == currNode || (find(temp->childscopes.begin(), temp->childscopes.end(), currNode) != temp->childscopes.end()))))
                 return res;
-            else if(res->node_acc_type==PRIVATE_ACCESS)
+            else if (res->node_acc_type == PRIVATE_ACCESS)
             {
                 // cout<<"Identifier "<<lex<<" has access type "<<ret->access_type<<endl;
-                cout<<"Access Permission Denied for the name : "<<lex<<" !"<<endl;
+                cout << "Access Permission Denied for the name : " << lex << " !" << endl;
                 yyerror("Error");
                 return nullptr;
             }
             break;
         }
         // cout<<"Searching serching searchinng"<<endl;
-        if(temp->name=="Global")
+        if (temp->name == "Global")
             break;
         temp = temp->parent;
     }
 
-    if(res && temp && argsMatch(res->args, args) && res->returntype==returntype)
+    if (res && temp && argsMatch(res->args, args) && res->returntype == returntype)
     {
         return res;
     }
@@ -216,33 +226,33 @@ SymNode* SymGlob::flookup(string lex, vector<int> args, int returntype)
     // return nullptr;
 }
 
-SymNode* SymGlob::flookup(string lex, vector<int> args)
+SymNode *SymGlob::flookup(string lex, vector<int> args)
 {
 
-    SymNode* temp = currNode;
-    SymNode* res;
-    while(temp)
+    SymNode *temp = currNode;
+    SymNode *res;
+    while (temp)
     {
         res = temp->scope_flookup(lex);
-        if(res && argsMatch(res->args, args))
+        if (res && argsMatch(res->args, args))
         {
-            if(res->node_acc_type==PUBLIC_ACCESS)
+            if (res->node_acc_type == PUBLIC_ACCESS)
                 return res;
-            if((res->node_acc_type==PRIVATE_ACCESS && (temp==currNode || (find(temp->childscopes.begin(), temp->childscopes.end(), currNode) != temp->childscopes.end()))))
+            if ((res->node_acc_type == PRIVATE_ACCESS && (temp == currNode || (find(temp->childscopes.begin(), temp->childscopes.end(), currNode) != temp->childscopes.end()))))
                 return res;
-            else if(res->node_acc_type==PRIVATE_ACCESS)
+            else if (res->node_acc_type == PRIVATE_ACCESS)
             {
                 // cout<<"Identifier "<<lex<<" has access type "<<ret->access_type<<endl;
-                cout<<"Access Permission Denied for the name : "<<lex<<" !"<<endl;
+                cout << "Access Permission Denied for the name : " << lex << " !" << endl;
                 yyerror("Error");
                 return nullptr;
-            } 
+            }
             break;
         }
         temp = temp->parent;
     }
 
-    if(res && temp && argsMatch(res->args, args))
+    if (res && temp && argsMatch(res->args, args))
     {
         return res;
     }
@@ -260,20 +270,20 @@ SymNode* SymGlob::flookup(string lex, vector<int> args)
     // return nullptr;
 }
 
-SymNode* SymGlob::flookup(string lex)
+SymNode *SymGlob::flookup(string lex)
 {
 
-    SymNode* temp = currNode;
-    SymNode* res;
-    while(temp)
+    SymNode *temp = currNode;
+    SymNode *res;
+    while (temp)
     {
         res = temp->scope_flookup(lex);
-        if(res)
+        if (res)
             break;
         temp = temp->parent;
     }
 
-    if(res && temp)
+    if (res && temp)
     {
         return res;
     }
@@ -288,14 +298,14 @@ SymNode* SymGlob::flookup(string lex)
     // return temp;
 }
 
-SymNode* SymGlob::clookup(string lex)
+SymNode *SymGlob::clookup(string lex)
 {
-    SymNode* temp = currNode;
-    while(temp)
+    SymNode *temp = currNode;
+    while (temp)
     {
-        if(temp->cmp.find(lex)!=temp->cmp.end())
+        if (temp->cmp.find(lex) != temp->cmp.end())
         {
-        // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
+            // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
             return temp->cmp[lex];
         }
         temp = temp->parent;
@@ -303,31 +313,34 @@ SymNode* SymGlob::clookup(string lex)
     return nullptr;
 }
 
-void SymGlob::update(string lex, Symbol* sym)
+void SymGlob::update(string lex, Symbol *sym)
 {
-    Symbol* res = lookup(lex);
-    if(res==nullptr)
+    Symbol *res = lookup(lex);
+    if (res == nullptr)
     {
-        cout<<"Error! The name "<<lex<<" hasn't been declared before!!"<<endl;
+        cout << "Error! The name " << lex << " hasn't been declared before!!" << endl;
         return;
     }
     currNode->mp[lex] = sym;
 }
 
-void SymGlob::insert(string lex, Symbol* sym)
+void SymGlob::insert(string lex, Symbol *sym)
 {
-    Symbol* res = currNode->scope_lookup(lex);
-    if(res)
+    Symbol *res = currNode->scope_lookup(lex);
+    if (res)
     {
-        cout<<"Error! The name "<<lex<<" has been declared already on line number : "<<res->decl_line_no<<endl;
+        cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
         yyerror("Error");
         return;
     }
-    if(currNode->isThisDead==true&&currNode->vulnerable==true){
-        while(currNode->vulnerable==true){
-            currNode=currNode->parent;
-            if(!currNode){
-                cout<<"Error!! No global scope defined."<<endl;
+    if (currNode->isThisDead == true && currNode->vulnerable == true)
+    {
+        while (currNode->vulnerable == true)
+        {
+            currNode = currNode->parent;
+            if (!currNode)
+            {
+                cout << "Error!! No global scope defined." << endl;
                 break;
             }
         }
@@ -335,20 +348,23 @@ void SymGlob::insert(string lex, Symbol* sym)
     (currNode->mp).insert({lex, sym});
 }
 
-void SymGlob::par_insert(string lex, Symbol* sym)
+void SymGlob::par_insert(string lex, Symbol *sym)
 {
-    Symbol* res = currNode->parent->scope_lookup(lex);
-    if(res)
+    Symbol *res = currNode->parent->scope_lookup(lex);
+    if (res)
     {
-        cout<<"Error! The name "<<lex<<" has been declared already on line number : "<<res->decl_line_no<<endl;
+        cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
         yyerror("Error");
         return;
     }
-    if(currNode->isThisDead==true&&currNode->vulnerable==true){
-        while(currNode->vulnerable==true){
-            currNode=currNode->parent;
-            if(!currNode){
-                cout<<"Error!! No global scope defined."<<endl;
+    if (currNode->isThisDead == true && currNode->vulnerable == true)
+    {
+        while (currNode->vulnerable == true)
+        {
+            currNode = currNode->parent;
+            if (!currNode)
+            {
+                cout << "Error!! No global scope defined." << endl;
                 break;
             }
         }
@@ -356,12 +372,12 @@ void SymGlob::par_insert(string lex, Symbol* sym)
     (currNode->parent->mp).insert({lex, sym});
 }
 
-void SymGlob::finsert(string lex, SymNode* symfunc)
+void SymGlob::finsert(string lex, SymNode *symfunc)
 {
-    SymNode* res = currNode->parent->scope_flookup(lex, symfunc->args, symfunc->returntype);
-    if(res)
+    SymNode *res = currNode->parent->scope_flookup(lex, symfunc->args, symfunc->returntype);
+    if (res)
     {
-        cout<<"Error!! Method with name "<<lex<<" and specified parameters has already been declared."<<endl;
+        cout << "Error!! Method with name " << lex << " and specified parameters has already been declared." << endl;
         yyerror("Error");
         return;
     }
@@ -369,12 +385,12 @@ void SymGlob::finsert(string lex, SymNode* symfunc)
     currNode->parent->fmp.insert({lex, symfunc});
 }
 
-void SymGlob::cinsert(string lex, SymNode* symclass)
+void SymGlob::cinsert(string lex, SymNode *symclass)
 {
-    SymNode* res = currNode->scope_clookup(lex);
-    if(res)
+    SymNode *res = currNode->scope_clookup(lex);
+    if (res)
     {
-        cout<<"Error!! class with name "<<lex<<" and specified parameters has already been declared."<<endl;
+        cout << "Error!! class with name " << lex << " and specified parameters has already been declared." << endl;
         yyerror("Error");
         return;
     }
@@ -382,275 +398,285 @@ void SymGlob::cinsert(string lex, SymNode* symclass)
     currNode->parent->cmp.insert({lex, symclass});
 }
 
-
 void SymGlob::addNewScope()
 {
-    SymNode* temp = new SymNode(currNode, "New Scope");
+    SymNode *temp = new SymNode(currNode, "New Scope");
     currNode->childscopes.push_back(temp);
     currNode = temp;
 }
 
 void SymGlob::endcurrScope()
-{      
-    if(currNode->name=="classextends"){
-        if(currNode&&currNode->ogparent)
+{
+    if (currNode->name == "classextends")
+    {
+        if (currNode && currNode->ogparent)
             currNode = currNode->ogparent;
         else
-            cout<<"Error!! No global scope defined."<<endl;
+            cout << "Error!! No global scope defined." << endl;
     }
-    else{
-        if(currNode&&currNode->parent)
+    else
+    {
+        if (currNode && currNode->parent)
             currNode = currNode->parent;
         else
-            cout<<"Error!! No global scope defined."<<endl;
+            cout << "Error!! No global scope defined." << endl;
     }
 }
 void SymGlob::end_all_vulnerable()
-{   
+{
     // cout<<">>>>"<<currNode->name<<"\n";
-    if(currNode->name=="classextends"){
-        if(currNode&&currNode->ogparent)
+    if (currNode->name == "classextends")
+    {
+        if (currNode && currNode->ogparent)
             currNode = currNode->ogparent;
         else
-            cout<<"Error!! No global scope defined."<<endl;
+            cout << "Error!! No global scope defined." << endl;
     }
-    else{
-        if(currNode&&currNode->parent)
+    else
+    {
+        if (currNode && currNode->parent)
             currNode = currNode->parent;
         else
-            cout<<"Error!! No global scope defined."<<endl;
+            cout << "Error!! No global scope defined." << endl;
     }
-    
-    while(currNode!=NULL&&currNode->vulnerable==true){
-        if(currNode->name=="classextends"){
-            if(currNode&&currNode->ogparent)
-                    currNode = currNode->ogparent;
-                else
-                    cout<<"Error!! No global scope defined."<<endl;
+
+    while (currNode != NULL && currNode->vulnerable == true)
+    {
+        if (currNode->name == "classextends")
+        {
+            if (currNode && currNode->ogparent)
+                currNode = currNode->ogparent;
+            else
+                cout << "Error!! No global scope defined." << endl;
         }
-        else{
-            if(currNode&&currNode->parent)
+        else
+        {
+            if (currNode && currNode->parent)
                 currNode = currNode->parent;
             else
-                cout<<"Error!! No global scope defined."<<endl;
+                cout << "Error!! No global scope defined." << endl;
         }
-        if(!currNode){
-            cout<<"Error!! No global scope defined."<<endl;
+        if (!currNode)
+        {
+            cout << "Error!! No global scope defined." << endl;
             break;
         }
     }
 }
-void SymGlob::printTree() {
-        queue<pair<SymNode*, int> > q;
-        q.push({currNode, 0});
-        int c = 0;
-        while(!q.empty()) {
-            // cout<<"Entering "<<endl;
-            pair<SymNode*, int> p = q.front();
-            
-            if(p.second > c) {
-                c++;
-                cout << '\n';
-            }
-            
-            q.pop();
-            cout <<"Scope level : " << p.second << " "<<endl;
-            cout<<"The variables are : "<<endl;
-            for(auto it : p.first->mp)
-            {
-                cout<<"lexeme : "<<it.first<<", record : ";
-                it.second->printSym();
-            }
-            cout<<"-------------------------------------"<<endl;
+void SymGlob::printTree()
+{
+    queue<pair<SymNode *, int>> q;
+    q.push({currNode, 0});
+    int c = 0;
+    while (!q.empty())
+    {
+        // cout<<"Entering "<<endl;
+        pair<SymNode *, int> p = q.front();
 
-            cout<<"The functions are : "<<endl;
-            for(auto it : p.first->fmp)
-            {
-                cout<<"Function name is : "<<it.first<<endl;
-                cout<<"Return type is : "<<it.second->returntype<<endl;
-                cout<<"The argument types are : ";
-                for(auto arg : it.second->args)
-                {
-                    cout<<arg<<" ";
-                }      
-                cout<<endl;
-            }
-            cout<<"-------------------------------------"<<endl;
-
-
-            cout<<"The classes are : "<<endl;
-            for(auto it : p.first->cmp)
-            {
-                cout<<"Class name is : "<<it.first<<endl;  
-                cout<<endl;
-            }
-
-            cout<<"The constructors are : "<<endl;
-            for(auto it : p.first->constr_args)
-            {
-                for(auto typ : it)
-                {
-                    cout<<typ<<", ";
-                }
-                cout<<endl;
-            }
-            cout<<"-------------------------------------"<<endl;
-            for(auto it : p.first->childscopes) {
-                q.push({it, p.second+1});
-            }
-            cout<<endl;
-            cout<<"-------------------------------------"<<endl;
-            cout<<"-------------------------------------"<<endl;
+        if (p.second > c)
+        {
+            c++;
+            cout << '\n';
         }
-        cout<<"-------------------------------------"<<endl;
+
+        q.pop();
+        cout << "Scope level : " << p.second << " " << endl;
+        cout << "The variables are : " << endl;
+        for (auto it : p.first->mp)
+        {
+            cout << "lexeme : " << it.first << ", record : ";
+            it.second->printSym();
+        }
+        cout << "-------------------------------------" << endl;
+
+        cout << "The functions are : " << endl;
+        for (auto it : p.first->fmp)
+        {
+            cout << "Function name is : " << it.first << endl;
+            cout << "Return type is : " << it.second->returntype << endl;
+            cout << "The argument types are : ";
+            for (auto arg : it.second->args)
+            {
+                cout << arg << " ";
+            }
+            cout << endl;
+        }
+        cout << "-------------------------------------" << endl;
+
+        cout << "The classes are : " << endl;
+        for (auto it : p.first->cmp)
+        {
+            cout << "Class name is : " << it.first << endl;
+            cout << endl;
+        }
+
+        cout << "The constructors are : " << endl;
+        for (auto it : p.first->constr_args)
+        {
+            for (auto typ : it)
+            {
+                cout << typ << ", ";
+            }
+            cout << endl;
+        }
+        cout << "-------------------------------------" << endl;
+        for (auto it : p.first->childscopes)
+        {
+            q.push({it, p.second + 1});
+        }
+        cout << endl;
+        cout << "-------------------------------------" << endl;
+        cout << "-------------------------------------" << endl;
+    }
+    cout << "-------------------------------------" << endl;
 }
 
 void SymGlob::printFuncs()
 {
-    for(auto it : func_map)
+    for (auto it : func_map)
     {
-        cout<<"Function name is : "<<it.first<<endl;
-        cout<<"Return type is : "<<it.second->returntype<<endl;
-        cout<<"The argument types are : ";
-        for(auto arg : it.second->args)
+        cout << "Function name is : " << it.first << endl;
+        cout << "Return type is : " << it.second->returntype << endl;
+        cout << "The argument types are : ";
+        for (auto arg : it.second->args)
         {
-            cout<<arg<<" ";
+            cout << arg << " ";
         }
-        cout<<endl;
+        cout << endl;
     }
 }
 
-Symbol* SymNode::scope_lookup(string lex)
+Symbol *SymNode::scope_lookup(string lex)
 {
-    if(mp.find(lex)==mp.end())
+    if (mp.find(lex) == mp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    Symbol* temp = mp[lex];
-    return temp;  
+    Symbol *temp = mp[lex];
+    return temp;
 }
 
-SymNode* SymNode::scope_flookup(string lex, vector<int> args, int returntype)
+SymNode *SymNode::scope_flookup(string lex, vector<int> args, int returntype)
 {
-    if(fmp.find(lex)==fmp.end())
+    if (fmp.find(lex) == fmp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    SymNode* temp = fmp[lex];
+    SymNode *temp = fmp[lex];
 
-    if(temp->args == args && temp->returntype==returntype)
+    if (temp->args == args && temp->returntype == returntype)
     {
-        if(temp->node_acc_type==PRIVATE_ACCESS)
+        if (temp->node_acc_type == PRIVATE_ACCESS)
         {
-            cout<<"Error on line number "<<yylineno<<". Access Permission denied."<<endl;
+            cout << "Error on line number " << yylineno << ". Access Permission denied." << endl;
             yyerror("Error");
         }
         return temp;
     }
     // cout<<"Error! No matching function to call. "<<endl;
-    return nullptr;    
+    return nullptr;
 }
 
-SymNode* SymNode::scope_flookup(string lex, vector<int> args)
+SymNode *SymNode::scope_flookup(string lex, vector<int> args)
 {
-    if(fmp.find(lex)==fmp.end())
+    if (fmp.find(lex) == fmp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    SymNode* temp = fmp[lex];
-    if(temp && temp->node_acc_type==PRIVATE_ACCESS)
+    SymNode *temp = fmp[lex];
+    if (temp && temp->node_acc_type == PRIVATE_ACCESS)
     {
-        cout<<"Error on line number "<<yylineno<<". Access Permission denied."<<endl;
+        cout << "Error on line number " << yylineno << ". Access Permission denied." << endl;
         yyerror("Error");
     }
-    if(temp->args == args)
+    if (temp->args == args)
     {
-        if(temp->node_acc_type==PRIVATE_ACCESS)
+        if (temp->node_acc_type == PRIVATE_ACCESS)
         {
-            cout<<"Error on line number "<<yylineno<<". Access Permission denied."<<endl;
+            cout << "Error on line number " << yylineno << ". Access Permission denied." << endl;
             yyerror("Error");
         }
         return temp;
     }
     // cout<<"Error! No matching function to call. "<<endl;
-    return nullptr;    
+    return nullptr;
 }
 
-SymNode* SymNode::scope_flookup(string lex)
+SymNode *SymNode::scope_flookup(string lex)
 {
-    if(fmp.find(lex)==fmp.end())
+    if (fmp.find(lex) == fmp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    SymNode* temp = fmp[lex];
-    if(temp && temp->node_acc_type==PRIVATE_ACCESS)
+    SymNode *temp = fmp[lex];
+    if (temp && temp->node_acc_type == PRIVATE_ACCESS)
     {
-        cout<<"Error on line number "<<yylineno<<". Access Permission denied."<<endl;
+        cout << "Error on line number " << yylineno << ". Access Permission denied." << endl;
         yyerror("Error");
     }
-    return temp;   
+    return temp;
 }
 
-SymNode* SymNode::scope_flookup(string lex, vector<int> args, int returntype, bool strict)
+SymNode *SymNode::scope_flookup(string lex, vector<int> args, int returntype, bool strict)
 {
-    if(fmp.find(lex)==fmp.end())
+    if (fmp.find(lex) == fmp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    SymNode* temp = fmp[lex];
-    if(!strict)
+    SymNode *temp = fmp[lex];
+    if (!strict)
     {
-        if(argsMatch(temp->args, args) && temp->returntype==returntype)
+        if (argsMatch(temp->args, args) && temp->returntype == returntype)
             return temp;
         return nullptr;
     }
-    if(temp->args == args && temp->returntype==returntype)
+    if (temp->args == args && temp->returntype == returntype)
         return temp;
     // cout<<"Error! No matching function to call. "<<endl;
     return nullptr;
 }
 
-SymNode* SymNode::scope_flookup(string lex, vector<int> args, bool strict)
+SymNode *SymNode::scope_flookup(string lex, vector<int> args, bool strict)
 {
-    if(fmp.find(lex)==fmp.end())
+    if (fmp.find(lex) == fmp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    SymNode* temp = fmp[lex];
-    if(!strict)
+    SymNode *temp = fmp[lex];
+    if (!strict)
     {
-        if(argsMatch(temp->args, args))
+        if (argsMatch(temp->args, args))
             return temp;
         return nullptr;
     }
-    if(temp->args == args)
+    if (temp->args == args)
         return temp;
     // cout<<"Error! No matching function to call. "<<endl;
     return nullptr;
 }
 
-SymNode* SymNode::scope_clookup(string lex)
+SymNode *SymNode::scope_clookup(string lex)
 {
-    if(cmp.find(lex)==cmp.end())
+    if (cmp.find(lex) == cmp.end())
     {
         // cout<<"Error! the function with name "<<lex<<" has not been declared!"<<endl;
         return nullptr;
     }
-    SymNode* temp = cmp[lex];
-    return temp;    
+    SymNode *temp = cmp[lex];
+    return temp;
 }
 
 bool SymNode::scope_constrlookup(vector<int> args)
 {
-    for(auto it : constr_args)
+    for (auto it : constr_args)
     {
-        if(it==args)
+        if (it == args)
             return true;
     }
     return false;
@@ -660,103 +686,116 @@ void SymNode::constr_insert(vector<int> args)
     constr_args.push_back(args);
 }
 
-
 void SymGlob::dumpSymbolTable()
 {
 
-    queue<SymNode*> qg;
+    queue<SymNode *> qg;
     qg.push(orig_root->currNode);
-    while(!qg.empty())
+    while (!qg.empty())
     {
-    
-        SymNode* cu = qg.front();
+
+        SymNode *cu = qg.front();
         qg.pop();
-        if(cu->name=="class" || cu->name=="classextends")
+        if (cu->name == "class" || cu->name == "classextends")
         {
 
             auto cfmp = cu->fmp;
-            for(auto it : cfmp)
+            for (auto it : cfmp)
             {
-                int scope_num=0;
+                int scope_num = 0;
                 ofstream fout;
-                string nm = (it.first)+"_"+to_string(csv_gen[it.first]++)+".csv";
+                string nm = (it.first) + "_" + to_string(csv_gen[it.first]++) + ".csv";
                 fout.open(nm);
-                SymNode* res = it.second;
-                queue<pair<SymNode*, int> > q;
+                SymNode *res = it.second;
+                queue<pair<SymNode *, int>> q;
                 q.push({res, 0});
                 int c = 0;
-                fout<<"Num,Syntactic Category,Lexeme,Type,Line of Declaration"<<endl;
-                while(!q.empty()) 
+                fout << "Num,Syntactic Category,Lexeme,Type,Line of Declaration" << endl;
+                while (!q.empty())
                 {
-                    pair<SymNode*, int> p = q.front();
-            
-                    if(p.second > c) {
+                    pair<SymNode *, int> p = q.front();
+
+                    if (p.second > c)
+                    {
                         c++;
                         cout << '\n';
                     }
-            
+
                     q.pop();
-                    for(auto ch : p.first->mp)
+                    for (auto ch : p.first->mp)
                     {
-                        fout<<scope_num++<<",";
-                        fout<<"Identifier, ";   
-                        Symbol* temp = ch.second;
-                        fout<<temp->lexeme<<",";
-                        if(temp->type<100)
+                        fout << scope_num++ << ",";
+                        fout << "Identifier, ";
+                        Symbol *temp = ch.second;
+                        fout << temp->lexeme << ",";
+                        if (temp->type < 100)
                         {
-                            fout<<typeroot->inv_types[temp->type]<<",";
+                            fout << typeroot->inv_types[temp->type] << ",";
                         }
                         else
-                        {  
-                            fout<<typeroot->inv_types[temp->type%100];  
-                            if(temp->type>100)
+                        {
+                            fout << typeroot->inv_types[temp->type % 100];
+
+                            if (temp->type > 100)
                             {
-                                fout<<"[";
-                                if(temp->num_elems1>0)
+                                fout << "[";
+                                temp->num_elems1 = conv_int(temp->width1);
+                                if (temp->num_elems1 > 0 && temp->width1 != "w1")
                                 {
-                                    fout<<temp->num_elems1;
+                                    fout << temp->num_elems1;
                                 }
-                                fout<<"]";
+                                else
+                                {
+                                    fout << temp->width1;
+                                }
+                                fout << "]";
                             }
-                        if(temp->type>200)
-                        {
-                            fout<<"[";
-                            if(temp->num_elems2>0)
+                            if (temp->type > 200)
                             {
-                                fout<<temp->num_elems2;
+                                fout << "[";
+                                temp->num_elems2 = conv_int(temp->width2);
+                                if (temp->num_elems2 > 0 && temp->width2 != "w2")
+                                {
+                                    fout << temp->num_elems2;
+                                }
+                                else
+                                {
+                                    fout << temp->width2;
+                                }
+                                fout << "]";
                             }
-                            fout<<"]";
-                        }
-                        if(temp->type>300)
-                        {
-                            fout<<"[";
-                            if(temp->num_elems3>0)
+                            if (temp->type > 300)
                             {
-                                fout<<temp->num_elems3;
+                                fout << "[";
+                                temp->num_elems3 = conv_int(temp->width3);
+                                if (temp->num_elems3 > 0 && temp->width3 != "w3")
+                                {
+                                    fout << temp->num_elems3;
+                                }
+                                else
+                                {
+                                    fout << temp->width3;
+                                }
+                                fout << "]";
                             }
-                            fout<<"]";
+                            fout << ",";
                         }
-                            fout<<",";
-                        }   
-                        fout<<temp->decl_line_no<<endl;
+                        fout << temp->decl_line_no << endl;
                     }
-                    
-                    for(auto it : p.first->childscopes) {
-                        q.push({it, p.second+1});
+
+                    for (auto it : p.first->childscopes)
+                    {
+                        q.push({it, p.second + 1});
                     }
                 }
-            // fout.close();
+                // fout.close();
             }
-
         }
 
-
-            for(auto ch : cu->childscopes)
-            {
-                if(ch->name!="method")
-                    qg.push(ch);
-            }
-
+        for (auto ch : cu->childscopes)
+        {
+            if (ch->name != "method")
+                qg.push(ch);
+        }
     }
 }
-

@@ -11,6 +11,7 @@
     extern int importflag;
     extern int isarrayinit;
     int fin=0;
+    extern int scope_level;
 %}
 
 %x COMMENT1 COMMENT2
@@ -133,6 +134,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
 "String"           {yylval.lexeme = strdup(yytext); return STRING;}
 "class"         {   
                     root->addNewScope();
+                    scope_level++;
                     if(fin==1){
                         fin=0;
                         root->currNode->isFinalClass=true;
@@ -158,22 +160,23 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
 "strictfp"      {yylval.lexeme = strdup(yytext); return STRICTFP;}
 "throws"        {yylval.lexeme = strdup(yytext); return THROWS;}
 "assert"        {yylval.lexeme = strdup(yytext); return ASSERT;}
-"if"            {root->addNewScope();root->currNode->vulnerable=true;root->currNode->isIfScope=true;root->currNode->name="if";yylval.lexeme = strdup(yytext); return IF;}
-"else"          {root->addNewScope();root->currNode->vulnerable=true;root->currNode->name="else";yylval.lexeme = strdup(yytext); return ELSE;}
+"if"            {root->addNewScope();root->currNode->vulnerable=true;scope_level++;root->currNode->isIfScope=true;root->currNode->name="if";yylval.lexeme = strdup(yytext); return IF;}
+"else"          {root->addNewScope();root->currNode->vulnerable=true;scope_level++;root->currNode->name="else";yylval.lexeme = strdup(yytext); return ELSE;}
 "while"         {
                     if(!(root->currNode->isDoRun==true&&root->currNode->cnt_paran==0)){
                         root->addNewScope();
+                        scope_level++;
                         root->currNode->vulnerable=true;
                         root->currNode->name="while";
                     }
                     yylval.lexeme = strdup(yytext); 
                     return WHILE;
                 }
-"for"           {root->addNewScope();root->currNode->vulnerable=true;root->currNode->isForScope=true;root->currNode->name="for";yylval.lexeme = strdup(yytext); return FOR;}
+"for"           {root->addNewScope();scope_level++;root->currNode->vulnerable=true;root->currNode->isForScope=true;root->currNode->name="for";yylval.lexeme = strdup(yytext); return FOR;}
 "return"        {yylval.lexeme = strdup(yytext); return RETURN;}
 "continue"      {yylval.lexeme = strdup(yytext); return CONTINUE;}
 "break"         {yylval.lexeme = strdup(yytext); return BREAK;}
-"do"            {root->addNewScope();root->currNode->isDoRun=true;root->currNode->name="do";yylval.lexeme = strdup(yytext); return DO;}
+"do"            {root->addNewScope();scope_level++;root->currNode->isDoRun=true;root->currNode->name="do";yylval.lexeme = strdup(yytext); return DO;}
 "true"          {yylval.lexeme = strdup(yytext);return BOOLEANLITERAL;}
 "false"         {yylval.lexeme = strdup(yytext); return BOOLEANLITERAL;}
 
@@ -184,7 +187,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
 "uses"          {yylval.lexeme = strdup(yytext); return USES;}
 "requires"      {yylval.lexeme = strdup(yytext); return REQUIRES;}
 "yield"         {yylval.lexeme = strdup(yytext); return YIELD;}
-"module"        {root->addNewScope();yylval.lexeme = strdup(yytext); return MODULE;}
+"module"        {root->addNewScope();scope_level++;yylval.lexeme = strdup(yytext); return MODULE;}
 "sealed"        {yylval.lexeme = strdup(yytext); return SEALED;}
 "non-sealed"    {yylval.lexeme = strdup(yytext); return NONSEALED;}
 "permits"       {yylval.lexeme = strdup(yytext); return PERMITS;}

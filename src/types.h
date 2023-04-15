@@ -36,9 +36,6 @@ using namespace std;
 
 // for arrays add 100 to the basic types
 
-
-
-
 #define PACKAGE_TYPE 28
 #define IMPORT_TYPE 29
 
@@ -49,45 +46,42 @@ using namespace std;
 
 #define UNKNOWN_TYPE 34
 
-
 #ifndef ARRAYTYPE
 #define ARRAYTYPE
-class Arraytype{
-    public:
+class Arraytype
+{
+public:
+    //     int base_type;
+    //     int num_elems;
+    //     string class_type;
 
-//     int base_type;
-//     int num_elems;
-//     string class_type;
-
-//     Arraytype(int base_type, int num_elems);
-//     Arraytype(string class_type, int num_elems);
+    //     Arraytype(int base_type, int num_elems);
+    //     Arraytype(string class_type, int num_elems);
 
     int get_size();
     int get_basetype();
-    string get_classtype(); 
+    string get_classtype();
 };
 #endif
 
-
 #ifndef TYPEHANDLER
 #define TYPEHANDLER
-class TypeHandler{
+class TypeHandler
+{
 
-    public:
-
+public:
     map<string, pair<int, int>> typewidth;
     map<int, int> widths;
     map<int, string> inv_types;
-    int max_type = UNKNOWN_TYPE; //always keep the unknown_type to be the last number so that adding more basic types doesn't change this line
-
+    int max_type = UNKNOWN_TYPE; // always keep the unknown_type to be the last number so that adding more basic types doesn't change this line
 
     TypeHandler();
 
-    int maxtype(string lex1, string lex2); //returns the type having max precision between the types of lex1 and lex2
+    int maxtype(string lex1, string lex2); // returns the type having max precision between the types of lex1 and lex2
     int maxtype(int type1, int type2);
     int categorize(int type);
     int categorize(string type);
-    int addNewClassType(); //returns the code of the newly added type
-    int addNewClassType(string nm); //returns the code of the newly added type
+    int addNewClassType();          // returns the code of the newly added type
+    int addNewClassType(string nm); // returns the code of the newly added type
 };
 #endif

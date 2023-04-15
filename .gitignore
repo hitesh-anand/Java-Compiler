@@ -9,3 +9,13 @@ src/lex.yy.c
 src/y.tab.h
 src/parser
 .vscode/
+*.o
+*.exe
+*.out
+*.csv
+*.tab.c
+*.3ac
+*.dot
+lex.yy.c
+y.tab.h
+parser
