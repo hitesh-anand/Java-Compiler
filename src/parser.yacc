@@ -2327,12 +2327,27 @@ MethodHeader:
         //($1);
         //($2);
         verbose(v,"VOID MethodDeclarator->MethodHeader");
+
+
+        // vector<int> args;
+        // for(int i=1; i<$2->children.size(); i+=2)
+        // {
+        //     if($2->children[i+1]->arrayType > 0)
+        //     {
+        //         args.push_back(typeroot->typewidth[$2->children[i]->attr].first+100*$2->children[i+1]->arrayType);
+        //     }
+        //     else
+        //     {
+        //         args.push_back(typeroot->typewidth[$2->children[i]->attr].first);
+        //     }
+        // }
+
         vector<int> args;
         for(int i=1; i<$2->children.size(); i+=2)
         {
             if($2->children[i+1]->arrayType > 0)
             {
-                args.push_back(typeroot->typewidth[$2->children[i]->attr].first+100);
+                args.push_back(typeroot->typewidth[$2->children[i]->attr].first+100*$2->children[i+1]->arrayType);
             }
             else
                 args.push_back(typeroot->typewidth[$2->children[i]->attr].first);
@@ -7015,6 +7030,8 @@ Assignment:
 
         int lhstype=$1->type, rhstype=$3->type;
 
+        cout<<"Types are "<<lhstype<<", "<<rhstype<<endl;
+
         if($1->type==$3->type || (typeroot->categorize(lhstype)==FLOATING_TYPE && typeroot->categorize(rhstype)==INTEGER_TYPE) || (lhstype==DOUBLE_NUM && rhstype==FLOAT_NUM))
         {
             $$->type = $1->type;
@@ -7033,7 +7050,7 @@ Assignment:
         }
         else
         {
-            cout<<"Error! Type Mismatch : Cannot convert from "<<typeroot->inv_types[$3->type]<<" to "<<typeroot->inv_types[$1->type]<<endl;
+            cout<<"Error on line number "<<yylineno<<"! Type Mismatch : Cannot convert from "<<typeroot->inv_types[$3->type]<<" to "<<typeroot->inv_types[$1->type]<<endl;
             yyerror("Error");
         }
         isCond = 0;
