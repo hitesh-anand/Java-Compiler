@@ -477,6 +477,27 @@ string consOrVar(string x){
     }
     return ans;
 }
+string funcName(string x){
+    if(x.rfind("call",0)!=0){
+        cout<<"Error the instruction not start with call\n";
+    }
+    string temp;
+    int f=0;
+    for(int j=0;j<x.size();j++){
+        if(f==1&&x[j]==','){
+            break;
+        }
+        if(x[j]==' '){
+            f=1;
+        }
+        else{
+            if(f==1){
+                temp.push_back(x[j]);
+            }
+        }
+    }
+    return temp;
+}
 void func_call(vector<string>a,vector<string>&funcCode){
     int cnt_param=0;
     for(int j=0;j<a.size();j++){
@@ -516,6 +537,7 @@ void func_call(vector<string>a,vector<string>&funcCode){
         string instr="movq  "+consOrVar(a[5])+", %r9";
         funcCode.push_back(instr);
     }
+    string instr="call  "+funcName(a[a.size()-1]);
 }
 int main(int argc, char *argv[])
 {
