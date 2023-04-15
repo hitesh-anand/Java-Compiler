@@ -10,52 +10,70 @@ Quadruple::Quadruple(std::string op, std::string arg1, std::string arg2, std::st
     pos++;
 }
 
-Quadruple::Quadruple(std::string op, std::string arg1, std::string result)
+Quadruple::Quadruple(std::string op, std::string arg1, std::string arg2, std::string result, int scope_level)
+{
+    this->op = op;
+    type = 0;
+    this->arg1 = arg1;
+    this->arg2 = arg2;
+    this->result = result;
+    this->scope_level = scope_level;
+    pos++;
+}
+
+Quadruple::Quadruple(std::string op, std::string arg1, std::string result, int scope_level)
 {
     type = 0;
     this->op = op;
     this->arg1 = arg1;
     this->result = result;
+    this->scope_level = scope_level;
     pos++;
 }
 
-Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string arg2, std::string result)
+Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string arg2, std::string result, int scope_level)
 {
     this->op = op;
     this->type = type;
     this->arg1 = arg1;
     this->arg2 = arg2;
     this->result = result;
+    this->scope_level = scope_level;
     pos++;
 }
 
-Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string result)
+Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string result, int scope_level)
 {
     this->op = op;
     this->type = type;
     this->arg1 = arg1;
     this->result = result;
+    this->scope_level = scope_level;
     pos++;
 }
 
-Quadruple::Quadruple(int type, std::string arg1, std::string arg2)
+Quadruple::Quadruple(int type, std::string arg1, std::string arg2, int scope_level)
 {
     this->type = type;
     this->arg1 = arg1;
+    this->scope_level = scope_level;
     this->arg2 = arg2;
 }
-Quadruple::Quadruple(int type, std::string arg1)
+Quadruple::Quadruple(int type, std::string arg1, int scope_level)
 {
     this->type = type;
+    this->scope_level = scope_level;
     this->arg1 = arg1;
 }
 
-Quadruple::Quadruple(std::string label)
+Quadruple::Quadruple(std::string label, int scope_level)
 {
+    this->scope_level = scope_level;
     this->label = label;
 }
-Quadruple::Quadruple(int type)
+Quadruple::Quadruple(int type, int scope_level)
 {
+    this->scope_level = scope_level;
     this->type = type;
 }
 
@@ -63,6 +81,27 @@ int Quadruple::pos = 0;
 
 void Quadruple::print()
 {
+    std::cout<<"Scope level is "<<scope_level<<std::endl;
+    int last_dig;
+
+    last_dig = arg1[arg1.length()-1];
+    if(last_dig<'0' || last_dig>'9')
+    {
+        arg1 = arg1 + "`" + std::to_string(scope_level);
+    }
+
+    last_dig = arg2[arg2.length()-1];
+    if(last_dig<'0' || last_dig>'9')
+    {
+        arg2 = arg2 + "`" + std::to_string(scope_level);
+    }
+
+    last_dig = result[result.length()-1];
+    if(last_dig<'0' || last_dig>'9')
+    {
+        result = result + "`" + std::to_string(scope_level);
+    }
+
     if (type == 1)
     {
         std::cout << "if" << arg1 << "then ";

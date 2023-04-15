@@ -13,6 +13,7 @@ class Quadruple
 {
 public:
     int type;
+    int scope_level=-1;
     // int pos;
     std::string op;
     std::string arg1;
@@ -21,13 +22,14 @@ public:
     std::string label;
     static int pos;
     Quadruple(std::string op, std::string arg1, std::string arg2, std::string result);
-    Quadruple(std::string op, std::string arg1, std::string result);
-    Quadruple(int type, std::string op, std::string arg1, std::string arg2, std::string result);
-    Quadruple(int type, std::string op, std::string arg1, std::string result);
-    Quadruple(int type, std::string arg1, std::string arg2);
-    Quadruple(int type, std::string arg1);
-    Quadruple(int type);
-    Quadruple(std::string label);
+    Quadruple(std::string op, std::string arg1, std::string arg2, std::string result, int scope_level);
+    Quadruple(std::string op, std::string arg1, std::string result, int scope_level);
+    Quadruple(int type, std::string op, std::string arg1, std::string arg2, std::string result, int scope_level);
+    Quadruple(int type, std::string op, std::string arg1, std::string result, int scope_level);
+    Quadruple(int type, std::string arg1, std::string arg2, int scope_level);
+    Quadruple(int type, std::string arg1, int scope_level);
+    Quadruple(int type, int scope_level);
+    Quadruple(std::string label, int scope_level);
     void print();
     std::string get_op();
     std::string get_arg1();
