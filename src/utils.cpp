@@ -48,7 +48,7 @@ void ir_gen(vector<Quadruple*> ircode, string fln)
     myFile.open(fln);
     int cnt = 0;
     for(auto it: ircode) {
-        myFile << cnt++ << "\t:\t";
+        myFile << cnt++ << "\t:";
 
     if(it->type == 1) {
         myFile << "if" << it->arg1 << "then ";

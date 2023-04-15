@@ -11,6 +11,7 @@
 #define DIVQ "divq\t"
 #define XORQ "xorq\t"
 #define DEBUG 1
+#define DBG if(DEBUG)
 using namespace std;
 
 vector<char> ops = {'+', '-', '*', '/', '^', '&', '%'};
@@ -264,6 +265,167 @@ vector<int> getreg(string res, string a, string b, vector<string>& funcCode)
     
 }
 
+vector<bool> islabel(2e5+1, false);
+
+
+
+bool is_number(const std::string& s)
+{
+    static const std::regex re("-?[0-9]+(\\.[0-9]*)?");
+    return std::regex_match(s, re);
+}
+
+// return move instruction 
+string genMove(string src, string dest) 
+{
+    // check if src is a number
+    if(is_number(src)) {
+        // int val = stoi(src);
+        src = string("$") + src;
+    }
+    else if(src[0] !='%') {
+        src = to_string(addressDes[src]) + string("(%rbp)");
+    }
+    if(dest[0] != '%') {
+        dest = to_string(addressDes[dest]) + string("(%rbp)");
+    } 
+    
+    // else {
+    //     src = to_string(addressDes[src]) + string("(%rbp)");
+    // }
+    return MOVQ + src + ", " + dest;
+}
+
+string genArithmetic(string op, string src, string dest)
+{
+    if(op.size() == 0) return string("error");
+    return opConv[op[0]] + src + ", "+ dest;
+}
+
+
+int getOneReg(string var)
+{
+    int i;
+
+    for(auto it: genregs) {
+        if(r[it].getRegDes(var)) {
+            return it;
+        }
+    }
+    for(auto it: genregs) {
+        if(r[it].getRegDesSize() == 0) {
+
+            return it;
+        }
+    }
+    // free %rbx 
+    r[1].storeall();
+    return 1;
+}
+
+
+
+// get line no of 3ac instruction
+int getLineNo(string instr)
+{
+    int i=0;
+    int lineNo = 0;
+    while(i < instr.size() && isdigit(instr[i])) {
+        lineNo = lineNo * 10 + (instr[i] - '0');
+    }
+    return lineNo;
+}   
+
+vector<string> cmpOps = {"==", "<=", ">=", ">", "<", "!="};
+
+
+vector<string> identifyInstr(string instr)
+{
+    /*
+    case 1: arithmetic instruction of type var = var + var
+    case 2: arithmetic instruction of type var = var + int
+    case 3: arithmetic instruction of type var = int + var
+    case 4: arithmetic instruction of type var = int + int
+    case 5: copy instr var = var
+    case 6: var = int
+    case 7: array element init a[int] = int
+    case 8: a[var] = int
+    case 9: a[var] = var
+    case 10: 
+
+    
+    assume instruction starts immediately after colon
+    */
+    vector<string> ans;
+    if(DEBUG) cout << "hey there\n";
+    size_t colpos= instr.find(":");
+    instr = instr.substr(colpos+1);
+    DBG cout << "hey\n";
+    size_t eqpos = instr.find('=');
+    if(eqpos != string::npos) {
+        //     
+        DBG cout << "hey here\n";
+        string s = instr.substr(eqpos+1);
+        int flag = 0;
+        string x = instr.substr(0, eqpos);
+        if(DEBUG) cout << "x = " << x << "\n";
+        for(auto op: ops) {
+            if(s.find(op)  != string::npos) {
+                string y = s.substr(0, s.find(op));
+                string z = s.substr(s.find(op) + 1);
+                if(DEBUG) cout << "y, z = " << y << ", " << z << "\n";
+                // move to rbx and rcx
+                string ins1 = genMove(y, "%rbx");
+                string ins2 = genMove(z, "%rcx");
+                string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
+                string ins4 = genMove("%rbx", x);
+                ans.push_back(ins1);
+                ans.push_back(ins2);
+                ans.push_back(ins3);
+                ans.push_back(ins4);
+                // add code 
+                // let x, y, x be st x = y + z
+                flag = 1;
+                break;
+
+            }
+        }
+        if(flag == 0) {
+            // copy instruction
+            
+            string s = instr.substr(eqpos+1);
+            string var1 = instr.substr(0, eqpos);
+            if(s.size() && isdigit(s[0])) {
+                // rhs is a number
+                // string var2 = instr.substr(0, eqpos);
+                
+                string ins = MOVQ + string("$") + s +string(", ")+ to_string(addressDes[var1]) + string("(%rbp)");
+                ans.push_back(ins);
+            }
+            else {
+                // rhs is a variable
+                // move rhs to %rbx
+                
+                string ins = MOVQ + to_string(addressDes[s]) + string("(%rbp), %rbx");
+                ans.push_back(ins);
+                ins = MOVQ + string("%rbx, ") + to_string(addressDes[var1]) + string("(%rbp");
+                ans.push_back(ins);
+
+            }
+        }
+    }
+    else {
+        // if then else, goto, call, pushparam, popparam
+        // case 1: if then else 
+        // if(instr.substr(0, 2) == "if") {
+        //     size_t pos = instr.find("then");
+        //     string compInstr = instr.substr(3, pos-2-3+1);
+
+        // }
+    }
+    return ans;
+}
+
 // function to translate a print statement to generate the assembly file
 void print()
 {
@@ -332,65 +494,71 @@ vector<string> genfunc(string funcName)
     }
 
     // string line;
+    cout << "file opened!\n";
     int linecnt = 0;
     
     while (getline(file2, line)) {
         if(DEBUG) cout << linecnt++ << "\n";
-        if(line.find("=") != string::npos) {
-            // processing arithmetic ops 
-            int flag = 0;
-            for(auto ch: ops) {
-                if(line.find(ch) != string::npos) {
-                    // cout << "here\n";
-                    size_t eqpos = line.find("=");
-                    
-                    string res = line.substr(0,eqpos);  // variabel storing the result
-                    string t = line.substr(eqpos+1);
-                    size_t oppos = t.find(ch);
-                    string a = t.substr(0, oppos);      // first operand
-                    
-                    string b = t.substr(oppos+1);       // second operand
-                    if(DEBUG) cout << a << " " << b << "\n";
-                    if(DEBUG) cout << "calling getreg\n";
-                    vector<int> rs = getreg(res, a, b, funcCode);
-                    if(DEBUG) cout << "getreg return " << rs.size() << "\n";
-                    int aReg = rs[0], bReg = rs[1];
-
-                    string instr = opConv[t[oppos]] + r[aReg].getname() + string(", " ) + r[bReg].getname();
-                    // string instr2 = MOVQ + 
-                    funcCode.push_back(instr);
-                    if(DEBUG) cout << "done\n";
-                    flag = 1;
-                    break;
-                }
-            }
-            if(!flag) {
-                // assuming variable initialization
-                size_t eqpos = line.find("=");
-                string varName = line.substr(0, eqpos);
-                string val = line.substr(eqpos + 1);
-                string instr = MOVQ + string("$") + val + string(", ") + to_string(addressDes[varName]) + string("(%rbp)");
-                funcCode.push_back(instr);
-            }
-
-
+        vector<string> t = identifyInstr(line);
+        for (auto it: t) {
+            DBG cout << it <<"\n";
         }
-        if(line.substr(0, 5) == "print") {
-            string instr = MOVQ + string("$0, %rax");
-            string varName = line.substr(6);
-            cout << line << "\n";
-            if(DEBUG) cout << varName << " heree var name\n";
-            string t;
-            if(checkRegsForVar(varName) >= 0) t=r[checkRegsForVar(varName)].getname();
-            else t=to_string(addressDes[varName]) + string("(%rbp)");
-            string instr2 = MOVQ + string("$printfmt, %rdi");
-            string instr3 = MOVQ + t+ string(", %rsi");
-            funcCode.push_back(instr);
-            funcCode.push_back(instr2);
-            funcCode.push_back(instr3);
-            funcCode.push_back("call printf");
+        if(t.size()) { DBG cout << "ret\n";funcCode.insert(funcCode.end(), t.begin(), t.end()); DBG cout << "done\n";}
+        // if(line.find("=") != string::npos) {
+        //     // processing arithmetic ops 
+        //     int flag = 0;
+        //     for(auto ch: ops) {
+        //         if(line.find(ch) != string::npos) {
+        //             // cout << "here\n";
+        //             size_t eqpos = line.find("=");
+                    
+        //             string res = line.substr(0,eqpos);  // variabel storing the result
+        //             string t = line.substr(eqpos+1);
+        //             size_t oppos = t.find(ch);
+        //             string a = t.substr(0, oppos);      // first operand
+                    
+        //             string b = t.substr(oppos+1);       // second operand
+        //             if(DEBUG) cout << a << " " << b << "\n";
+        //             if(DEBUG) cout << "calling getreg\n";
+        //             vector<int> rs = getreg(res, a, b, funcCode);
+        //             if(DEBUG) cout << "getreg return " << rs.size() << "\n";
+        //             int aReg = rs[0], bReg = rs[1];
 
-        }
+        //             string instr = opConv[t[oppos]] + r[aReg].getname() + string(", " ) + r[bReg].getname();
+        //             // string instr2 = MOVQ + 
+        //             funcCode.push_back(instr);
+        //             if(DEBUG) cout << "done\n";
+        //             flag = 1;
+        //             break;
+        //         }
+        //     }
+        //     if(!flag) {
+        //         // assuming variable initialization
+        //         size_t eqpos = line.find("=");
+        //         string varName = line.substr(0, eqpos);
+        //         string val = line.substr(eqpos + 1);
+        //         string instr = MOVQ + string("$") + val + string(", ") + to_string(addressDes[varName]) + string("(%rbp)");
+        //         funcCode.push_back(instr);
+        //     }
+
+
+        // }
+        // if(line.substr(0, 5) == "print") {
+        //     string instr = MOVQ + string("$0, %rax");
+        //     string varName = line.substr(6);
+        //     cout << line << "\n";
+        //     if(DEBUG) cout << varName << " heree var name\n";
+        //     string t;
+        //     if(checkRegsForVar(varName) >= 0) t=r[checkRegsForVar(varName)].getname();
+        //     else t=to_string(addressDes[varName]) + string("(%rbp)");
+        //     string instr2 = MOVQ + string("$printfmt, %rdi");
+        //     string instr3 = MOVQ + t+ string(", %rsi");
+        //     funcCode.push_back(instr);
+        //     funcCode.push_back(instr2);
+        //     funcCode.push_back(instr3);
+        //     funcCode.push_back("call printf");
+
+        // }
     }
 
     file2.close();
