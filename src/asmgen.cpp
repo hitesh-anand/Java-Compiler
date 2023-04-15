@@ -445,7 +445,100 @@ void finalCodeGen(vector<string> &funcCode)
     cout << ".string \"%d\"";
     return;
 }
-
+string consOrVar(string x){
+    if(x.rfind("pushparam",0)!=0){
+        cout<<"Error the instruction not start with pushparam\n";
+    }
+    string temp;
+    int f=0;
+    for(int j=0;j<x.size();j++){
+        if(x[j]==' '){
+            f=1;
+        }
+        else{
+            if(f==1){
+                temp.push_back(x[j]);
+            }
+        }
+    }
+    f=0;
+    for(int j=0;j<temp.size();j++){
+        if((x[j]<48||x[j]>59)&&x[j]!=45){
+            f=1;
+            break;
+        }
+    }
+    string ans;
+    if(f==1){
+        ans=to_string(addressDes[x])+"(%rbp)";
+    }
+    else{
+        ans="$"+x;
+    }
+    return ans;
+}
+string funcName(string x){
+    if(x.rfind("call",0)!=0){
+        cout<<"Error the instruction not start with call\n";
+    }
+    string temp;
+    int f=0;
+    for(int j=0;j<x.size();j++){
+        if(f==1&&x[j]==','){
+            break;
+        }
+        if(x[j]==' '){
+            f=1;
+        }
+        else{
+            if(f==1){
+                temp.push_back(x[j]);
+            }
+        }
+    }
+    return temp;
+}
+void func_call(vector<string>a,vector<string>&funcCode){
+    int cnt_param=0;
+    for(int j=0;j<a.size();j++){
+        if(a[j].rfind("pushparam",0)==0){
+            cnt_param++;
+        }
+    }
+    if(cnt_param>=7){
+        for(int j=a.size()-2;j>=6;j--){
+            string instr="movq  "+consOrVar(a[j])+", %rdx";
+            funcCode.push_back(instr);
+            instr="pushq  %rdx";
+            funcCode.push_back(instr);
+        }
+    }
+    if(cnt_param>=1){
+        string instr="movq  "+consOrVar(a[0])+", %rdi";
+        funcCode.push_back(instr);
+    }
+    if(cnt_param>=2){
+        string instr="movq  "+consOrVar(a[1])+", %rsi";
+        funcCode.push_back(instr);
+    }
+    if(cnt_param>=3){
+        string instr="movq  "+consOrVar(a[2])+", %rdx";
+        funcCode.push_back(instr);
+    }
+    if(cnt_param>=4){
+        string instr="movq  "+consOrVar(a[3])+", %rcx";
+        funcCode.push_back(instr);
+    }
+    if(cnt_param>=5){
+        string instr="movq  "+consOrVar(a[4])+", %r8";
+        funcCode.push_back(instr);
+    }
+    if(cnt_param>=6){
+        string instr="movq  "+consOrVar(a[5])+", %r9";
+        funcCode.push_back(instr);
+    }
+    string instr="call  "+funcName(a[a.size()-1]);
+}
 int main(int argc, char *argv[])
 {
 
