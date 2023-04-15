@@ -1867,8 +1867,6 @@ VariableDeclarator CommaVariableDeclarators //here
 
                 n->addChild(it);
             }
-            //$2->addChildToLeft($1);
-            //temp.push_back($2);
         }
         $$ = n;
         verbose(v,"VariableDeclarator CommaVariableDeclarators->VariableDeclaratorList");
@@ -2079,7 +2077,7 @@ ArrayInitializer:
     else if($$->arrayType == 2) {
         $$->_width2 = $2->_width1;
         $$->_width1 = 1 + (($3 != NULL) ? $3->children.size() : 0);
-        $$->width2 = to_string($$->_width2);
+        $$->width1 = to_string($$->_width1);
         $$->width2 = to_string($$->_width2);
         // cout<<"widths are "<<$$->width1<<", "<<$$->width2<<endl;
     }
@@ -3894,14 +3892,12 @@ LocalVariableDeclaration:
         {
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
-           // cout << ch->children.size() << " dfk " << ch->children[1]->arrayType << endl;
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
                 if(ch->children[1]->label == "ArrayInitializer") {
                     if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
                     else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
-            
             }
 
             // cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
@@ -3925,9 +3921,11 @@ LocalVariableDeclaration:
              
             }
             //sym->type += ch->arrayType * 100;
+            sym->width1 = ch->width1;
+            sym->width2 = ch->width2;
+            sym->width3 = ch->width3;
             if(ch->arrayType > 0) {
                 sym->isArray = true;
-                
                 sym->width1 = ch->width1;
                 sym->width2 = ch->width2;
                 sym->width3 = ch->width3;
@@ -6725,7 +6723,7 @@ ArrayCreationExpression:
     $$->width1 = $3->width1;
     $$->width2 = $3->width2;
     $$->width3 = $3->width3;
-    cout<<"The widths here1 are : "<<$$->width1<<", "<<$$->width1<<", "<<$$->width1<<endl;
+    cout<<"The widths here1 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
     $$->varName = string("new ") + $2->attr ;
