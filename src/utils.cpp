@@ -48,9 +48,8 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
     ofstream myFile;
     myFile.open(fln);
     int cnt = 0;
-    for (auto it : ircode)
-    {
-        myFile << cnt++ << "\t:\t";
+    for(auto it: ircode) {
+        myFile << cnt++ << "\t:";
 
             int last_dig;
 

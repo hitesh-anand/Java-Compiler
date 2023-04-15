@@ -2130,6 +2130,7 @@ MethodDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
         $$->code.push_back(q);
         ircode.push_back(q);
+        varCnt = 0;
         $$->last = ircode.size() - 1;
         //backpatch($2->nextlist, ircode.size() -1);
         
@@ -2163,6 +2164,7 @@ MethodDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
         $$->code.push_back(q);
         ircode.push_back(q);
+        varCnt = 0;
         //backpatch($4->nextlist, ircode.size() -1);
         $$->last = ircode.size() - 1;
         //Quadruple* q = new Quadruple(7);
@@ -2208,6 +2210,7 @@ MethodDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
         $$->code.push_back(q);
         ircode.push_back(q);
+        varCnt = 0;
         //backpatch($4->nextlist, ircode.size() -1);
         $$->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
@@ -2900,6 +2903,7 @@ ConstructorDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
         $$->code.push_back(q);
         ircode.push_back(q);
+        varCnt = 0;
         $$->last = ircode.size() - 1;
         verbose(v,"ConstructorDeclarator ConstructorBody->ConstructorDeclaration");
 
@@ -2937,6 +2941,7 @@ ConstructorDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
         $$->code.push_back(q);
         ircode.push_back(q);
+        varCnt = 0;
         $$->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers ConstructorDeclarator ConstructorBody ->ConstructorDeclaration");
     }
@@ -5836,7 +5841,7 @@ ArrayAccess:
         yyerror("Error");
     }
     
-    string resName = string("t") + to_string(varCnt);
+    string resName = string("_t") + to_string(varCnt);
     varCnt++;
     Symbol* ss = root->lookup($1->attr);
     if(!ss)
@@ -5848,7 +5853,7 @@ ArrayAccess:
     Quadruple* q= new Quadruple(string("*int "), $3->varName, to_string(root->lookup($1->attr)->width),  resName, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("t") + to_string(varCnt);
+    string resName2 = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("="), string($1->varName) + string("[") + resName + string("]") ,  resName2, scope_level);
     //cout << "hi\n";
@@ -5878,27 +5883,27 @@ ArrayAccess:
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
     $$->attr = $1->attr;
-    string resName = string("t") + to_string(varCnt);
+    string resName = string("_t") + to_string(varCnt);
     varCnt++;
     Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width2, to_string(root->lookup($1->varName)->width),  resName, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName1 = string("t") + to_string(varCnt);
+    string resName1 = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("*int "), $3->varName, resName,  resName1, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("t") + to_string(varCnt);
+    string resName2 = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("*int "), $6->varName, to_string(root->lookup($1->varName)->width),  resName2, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName3 = string("t") + to_string(varCnt);
+    string resName3 = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("+int "), resName1, resName2,  resName3, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName4 = string("t") + to_string(varCnt++);
+    string resName4 = string("_t") + to_string(varCnt++);
     
     q= new Quadruple(string("="), string($1->varName) + string("[") + resName3 + string("]") ,  resName4, scope_level);
    
@@ -5929,41 +5934,41 @@ ArrayAccess:
     $$ = n;
     $$->attr = $1->attr;
     
-    string resName = string("t") + to_string(varCnt);
+    string resName = string("_t") + to_string(varCnt);
     varCnt++;
     Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width3 , to_string(root->lookup($1->varName)->width),  resName, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName1 = string("t") + to_string(varCnt);
+    string resName1 = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("*int "), root->lookup($1->varName)->width2 , resName,  resName1, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("t") + to_string(varCnt);
+    string resName2 = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("*int "), $6->varName, resName,  resName2, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    resName = string("t") + to_string(varCnt);
+    resName = string("_t") + to_string(varCnt);
     varCnt++;
     q= new Quadruple(string("*int "), $3->varName, resName1,  resName, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName3 = string("t") + to_string(varCnt++);
+    string resName3 = string("_t") + to_string(varCnt++);
     q= new Quadruple(string("*int "), $9->varName, to_string(root->lookup($1->varName)->width),  resName3, scope_level);
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName4 = string("t") + to_string(varCnt++);
+    string resName4 = string("_t") + to_string(varCnt++);
     q= new Quadruple(string("+int "), resName, resName2,  resName4, scope_level);
 
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName5 = string("t") + to_string(varCnt++);
+    string resName5 = string("_t") + to_string(varCnt++);
     q= new Quadruple(string("+int "), resName4, resName3,  resName5, scope_level);
 
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName6 = string("t") + to_string(varCnt++);
+    string resName6 = string("_t") + to_string(varCnt++);
     q= new Quadruple(string("="), string($1->varName) + string("[") + resName5 + string("]") ,  resName6, scope_level);
    
     $$->code.push_back(q);
@@ -6009,7 +6014,7 @@ MethodInvocation:
     $$->type = ex->returntype;
     Quadruple* q;
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr, to_string(0), resName, scope_level);
         $$->varName = resName;
     }
@@ -6060,7 +6065,7 @@ MethodInvocation:
    
     
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName, scope_level);
         $$->varName = resName;
     }
@@ -6089,7 +6094,7 @@ MethodInvocation:
     $$ = n;
     Quadruple* q; 
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(0), resName, scope_level);
         $$->varName = resName;
     }
@@ -6120,7 +6125,7 @@ MethodInvocation:
     Quadruple* q;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string($5->children.size()), resName, scope_level);
         $$->varName = resName;
     }
@@ -6149,7 +6154,7 @@ MethodInvocation:
     Quadruple* q;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "",  $1 + string(".") + $3, to_string(0), resName, scope_level);
         $$->varName = resName;
     }
@@ -6193,7 +6198,7 @@ MethodInvocation:
     Quadruple* q;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1 + string(".") + $3, to_string($5->children.size()), resName, scope_level);
         $$->varName = resName;
     }
@@ -6237,7 +6242,7 @@ MethodInvocation:
     $$ = n;
     Quadruple* q ;
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr + string(".") + $3 + string(".") + $5, to_string(0), resName, scope_level);
         $$->varName = resName;
     }
@@ -6285,7 +6290,7 @@ MethodInvocation:
     int space = generateArgumentList($7->children, $7);
     Quadruple* q;
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()), resName, scope_level);
         $$->varName = resName;
     }
@@ -6338,12 +6343,12 @@ MethodInvocation:
     }
     // $$->type = ex->returntype;
 
-        //     string resName = string("t") + to_string(varCnt++);
+        //     string resName = string("_t") + to_string(varCnt++);
         // q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName);
         // $$->varName = resName;
    
     // if($$->type != VOID_TYPE) {
-    //     string resName = string("t") + to_string(varCnt++);
+    //     string resName = string("_t") + to_string(varCnt++);
     //     q = new Quadruple(4, "", $1->attr, to_string(1), resName);
     //     $$->varName = resName;
     // }
@@ -6402,7 +6407,7 @@ MethodInvocation:
     // $$->last = ircode.size() - 1;
 
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr, to_string(1), resName, scope_level);
         $$->varName = resName;
     }
@@ -6442,7 +6447,7 @@ MethodInvocation:
     }
     
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(1), resName, scope_level);
         $$->varName = resName;
     }
@@ -6495,7 +6500,7 @@ MethodInvocation:
     
    
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "", $1 + string(".") + $3, to_string(1), resName, scope_level);
         $$->varName = resName;
     }
@@ -6565,7 +6570,7 @@ MethodInvocation:
     }
     
     if($$->type != VOID_TYPE) {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string(1), resName, scope_level);
         $$->varName = resName;
     }
@@ -6609,7 +6614,7 @@ MethodInvocation:
     $$->code.push_back(q);
     ircode.push_back(q);
     // if($$->type != VOID_TYPE) {
-    //     string resName = string("t") + to_string(varCnt++);
+    //     string resName = string("_t") + to_string(varCnt++);
     //     q = new Quadruple(4, "", $1->attr, to_string(1), resName);
     //     $$->varName = resName;
     // }
@@ -7134,7 +7139,7 @@ LeftHandSide:
        ircode.pop_back();
        varCnt-= 2;
        $$->last -= 1;
-       $$->varName = string("t") + to_string(varCnt++);
+       $$->varName = string("_t") + to_string(varCnt++);
        $$->varName = "*(" + $$->attr + "+int " + $$->varName + ")";
        verbose(v,"ArrayAccess->LeftHandSide");
     }
@@ -8363,7 +8368,7 @@ CastExpression:
         else temp.push_back($4);
 
         /*
-        string resName = string("t") + to_string(varCnt);
+        string resName = string("_t") + to_string(varCnt);
         varCnt++;
         Quadruple q(string("cast_to_") + string($2), $4->varName, resName );
         ir.push_back(q);
