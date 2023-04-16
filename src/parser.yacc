@@ -2230,6 +2230,12 @@ MethodHeader:
         verbose(v,"Type MethodDeclarator->MethodHeader");
 
         vector<int> args;
+        vector<string> params;
+        for(int i=2; i<$2->children.size(); i+=2)
+        {
+            params.push_back($2->children[i]->attr);
+        }
+
         for(int i=1; i<$2->children.size(); i+=2)
         {
             if($2->children[i+1]->arrayType > 0)
@@ -2276,7 +2282,7 @@ MethodHeader:
                 // yyerror("Variable already declared");
             root->insert(sym->lexeme, sym);
         }
-        Quadruple* q = new Quadruple(6, $2->varName, scope_level);
+        Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -2390,7 +2396,12 @@ MethodHeader:
                 // yyerror("Variable already declared");
             root->insert(sym->lexeme, sym);
         }
-        Quadruple* q = new Quadruple(6, $2->varName, scope_level);
+        vector<string> params;
+        for(int i=2; i<$2->children.size(); i+=2)
+        {
+            params.push_back($2->children[i]->attr);
+        }
+        Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -2468,7 +2479,12 @@ MethodHeader:
                 // yyerror("Variable already declared");
             root->insert(sym->lexeme, sym);
         }
-        Quadruple* q = new Quadruple(6, $3->varName, scope_level);
+        vector<string> params;
+        for(int i=2; i<$3->children.size(); i+=2)
+        {
+            params.push_back($3->children[i]->attr);
+        }
+        Quadruple* q = new Quadruple(6, $3->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3010,7 +3026,12 @@ ConstructorDeclarator:
     
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-     Quadruple* q = new Quadruple(6, $1->varName, scope_level);
+        vector<string> params;
+        for(auto it : $3->children)
+        {
+            params.push_back(it->children[1]->attr);
+        }
+     Quadruple* q = new Quadruple(6, $1->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3022,7 +3043,6 @@ ConstructorDeclarator:
         // {
         //     args.push_back(typeroot->typewidth[it->children[0]->attr].first);
         // }
-
         vector<int> args;
         for(auto it : $3->children)
         {
@@ -3075,7 +3095,12 @@ ConstructorDeclarator:
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-     Quadruple* q = new Quadruple(6, $1->varName, scope_level);
+        vector<string> params;
+        for(auto it : $5->children)
+        {
+            params.push_back(it->children[1]->attr);
+        }
+     Quadruple* q = new Quadruple(6, $1->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3156,7 +3181,12 @@ ConstructorDeclarator:
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(6, $2->varName, scope_level);
+            vector<string> params;
+        for(auto it : $4->children)
+        {
+            params.push_back(it->children[1]->attr);
+        }
+    Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3213,7 +3243,12 @@ ConstructorDeclarator:
     
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(6, $2->varName, scope_level);
+        vector<string> params;
+        for(auto it : $6->children)
+        {
+            params.push_back(it->children[1]->attr);
+        }
+    Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;

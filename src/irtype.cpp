@@ -66,6 +66,14 @@ Quadruple::Quadruple(int type, std::string arg1, int scope_level)
     this->arg1 = arg1;
 }
 
+Quadruple::Quadruple(int type, std::string arg1, int scope_level, std::vector<std::string> params)
+{
+    this->type = type;
+    this->scope_level = scope_level;
+    this->arg1 = arg1;
+    this->params = params;
+}
+
 Quadruple::Quadruple(std::string label, int scope_level)
 {
     this->scope_level = scope_level;

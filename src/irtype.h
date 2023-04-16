@@ -20,6 +20,7 @@ public:
     std::string arg2;
     std::string result;
     std::string label;
+    std::vector<std::string> params;
     static int pos;
     Quadruple(std::string op, std::string arg1, std::string arg2, std::string result);
     Quadruple(std::string op, std::string arg1, std::string arg2, std::string result, int scope_level);
@@ -28,6 +29,7 @@ public:
     Quadruple(int type, std::string op, std::string arg1, std::string result, int scope_level);
     Quadruple(int type, std::string arg1, std::string arg2, int scope_level);
     Quadruple(int type, std::string arg1, int scope_level);
+    Quadruple(int type, std::string arg1, int scope_level, std::vector<std::string> params);
     Quadruple(int type, int scope_level);
     Quadruple(std::string label, int scope_level);
     void print();
