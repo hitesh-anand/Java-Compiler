@@ -17,7 +17,7 @@ using namespace std;
 vector<char> ops = {'+', '-', '*', '/', '^', '&', '%'};
 
 map<char, string> opConv;
-
+map<string,vector<int>> var;    //it keeps the data 
 map<string, int> addressRegDes; // address descriptor
 map<string, int> addressDes;    // describes the address relative to rbp for a given variable
 map<string, bool> mem;          // whether value in memory is correct value of the variable
@@ -655,8 +655,57 @@ string funcName(string x){
     }
     return temp;
 }
+string smplPush(string x){
+    if(x.rfind("pushparam",0)!=0){
+        cout<<"Not a push instruction";
+    }
+    string ans;
+    int f=0;
+    for(int j=0;j<x.size();j++){
+        if(x[j]==' '){
+            f=1;
+        }
+        else
+        if(f==1){
+            ans.push_back(x[j]);
+        }
+    }
+    return ans;
+}
+vector<int> var_info(string x){
+    string y;
+    for(int j=0;j<x.size();j++){
+        if(x[j]=='`'){
+            break;
+        }
+        y.push_back(x[j]);
+    }
+    vector<int>ans;
+    if(var.find(y)==var.end()){
+        return ans;
+    }
+    return var[y];
+}
+void checkForArray(string x,vector<int>&wdt){
+    vector<int>ans=var_info(x);
+    if(ans.size()==0){
+        cout<<"No such variable exist";
+    }
+    if(ans[0]>=100){
+        wdt.push_back(ans[1]);
+    }
+    if(ans[0]>=200){
+        wdt.push_back(ans[2]);
+    }
+    if(ans[0]>=300){
+        wdt.push_back(ans[3]);
+    }
+}
 void func_call(vector<string>a,vector<string>&funcCode){
     int cnt_param=0;
+    vector<string>ans_reg;//keep all the register instruction
+    vector<string>ans_st;//keep all the psuhq instruction
+    vector<int>wdt;
     for(int j=0;j<a.size();j++){
         if(a[j].rfind("pushparam",0)==0){
             cnt_param++;
@@ -665,37 +714,84 @@ void func_call(vector<string>a,vector<string>&funcCode){
     if(cnt_param>=7){
         for(int j=a.size()-2;j>=6;j--){
             string instr="movq  "+consOrVar(a[j])+", %rdx";
-            funcCode.push_back(instr);
+            ans_st.push_back(instr);
             instr="pushq  %rdx";
-            funcCode.push_back(instr);
+            ans_st.push_back(instr);
+            checkForArray(smplPush(a[j]),wdt);
         }
     }
     if(cnt_param>=1){
         string instr="movq  "+consOrVar(a[0])+", %rdi";
-        funcCode.push_back(instr);
+        ans_reg.push_back(instr);
+        checkForArray(smplPush(a[0]),wdt);
     }
     if(cnt_param>=2){
         string instr="movq  "+consOrVar(a[1])+", %rsi";
-        funcCode.push_back(instr);
+        ans_reg.push_back(instr);
+        checkForArray(smplPush(a[1]),wdt);
     }
     if(cnt_param>=3){
         string instr="movq  "+consOrVar(a[2])+", %rdx";
-        funcCode.push_back(instr);
+        ans_reg.push_back(instr);
+        checkForArray(smplPush(a[2]),wdt);
     }
     if(cnt_param>=4){
         string instr="movq  "+consOrVar(a[3])+", %rcx";
-        funcCode.push_back(instr);
+        ans_reg.push_back(instr);
+        checkForArray(smplPush(a[3]),wdt);
     }
     if(cnt_param>=5){
         string instr="movq  "+consOrVar(a[4])+", %r8";
-        funcCode.push_back(instr);
+        ans_reg.push_back(instr);
+        checkForArray(smplPush(a[4]),wdt);
     }
     if(cnt_param>=6){
         string instr="movq  "+consOrVar(a[5])+", %r9";
-        funcCode.push_back(instr);
+        ans_reg.push_back(instr);
+        checkForArray(smplPush(a[5]),wdt);
     }
     string instr="call  "+funcName(a[a.size()-1]);
+    ans_reg.push_back(instr);
+    for(int j=0;j<wdt.size();j++){
+        if(cnt_param>=6){
+            string instr="pushq  $"+to_string(wdt[j]);
+            ans_st.push_back(instr);
+            cnt_param++;
+        }
+        if(cnt_param==5){
+            string instr="movq  $"+to_string(wdt[j])+", %r9";
+            ans_reg.push_back(instr);
+            cnt_param++;
+        }
+        if(cnt_param==4){
+            string instr="movq  $"+to_string(wdt[j])+", %r8";
+            ans_reg.push_back(instr);
+            cnt_param++;
+        }
+        if(cnt_param==3){
+            string instr="movq  $"+to_string(wdt[j])+", %rcx";
+            ans_reg.push_back(instr);
+            cnt_param++;
+        }
+        if(cnt_param==2){
+            string instr="movq  $"+to_string(wdt[j])+", %rdx";
+            ans_reg.push_back(instr);
+            cnt_param++;
+        }
+        if(cnt_param==1){
+            string instr="movq  $"+to_string(wdt[j])+", %rsi";
+            ans_reg.push_back(instr);
+            cnt_param++;
+        }
+    }
+    for(auto y:ans_st){
+        funcCode.push_back(y);
+    }
+    for(auto y:ans_reg){
+        funcCode.push_back(y);
+    }
 }
+
 int main(int argc, char *argv[])
 {
 
