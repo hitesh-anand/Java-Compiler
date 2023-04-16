@@ -87,15 +87,21 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 6)
         {
+            // cout<<"Entered this"<<endl;
             myFile << "beginfunc " << it->arg1 << " ";
-            for(int i=0; i<it->params.size()-1; i++)
+            // cout << "beginfunc " << it->arg1 << endl;
+            if(it->params.size()==0)
             {
-                myFile<<it->params[i]<<",";
-            }
-            if(it->params.size()>0)
-                myFile<<it->params.back()<<"\n";
-            else
                 myFile<<"\n";
+            }
+            else
+            {
+                for(int i=0; i<it->params.size()-1; i++)
+                {
+                    myFile<<it->params[i]<<",";
+                }
+                myFile<<it->params.back()<<"\n";
+            }
             continue;
         }
         else if (it->type == 7)

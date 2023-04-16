@@ -1,55 +1,39 @@
-0	:beginclass hello 
-1	:beginfunc f a`1,b`1
-2	:a`2 = popparam
-3	:b`2 = popparam
-4	:if a`3<b`3 goto 6
-5	:goto 26
-6	:c`3=0
-7	:if a`4>0 goto 9
-8	:goto 21
-9	:i`5=0
-10	:if i`5<10 goto 12
-11	:goto 23
-12	:if i`6<10 goto 14
-13	:goto 18
-14	:y`6=0
-15	:_t0=c`6+int 1
-16	:c`6=_t0
-17	:goto 12
-18	:i`5=i`5+int 1
-19	:goto 10
-20	:goto 23
-21	:_t1=a`7-int 1
-22	:c`7=_t1
-23	:_t2=a`7+int 1
-24	:a`7=_t2
-25	:goto 4
-26	:return a`7
-27	:a`7=a`7+int 1
-28	:endfunc 
-29	:endclass 
-30	:beginclass hi 
-31	:beginfunc T a`8,b`8
-32	:a`9 = popparam
-33	:b`9 = popparam
-34	:pushparam b`9
-35	:pushparam a`9
-36	:stackpointer=stackpointer+int 16
-37	:_t0=call f, 2
-38	:stackpointer=stackpointer-int 16
-39	:_t1=a`9/int b`9
-40	:w`9=_t1
-41	:w`9=w`9+int 1
-42	:if w`9==2 goto 44
-43	:goto 47
-44	:z=w`9
-45	:w`9=w`9+int 1
-46	:goto 49
-47	:w`9=w`9+int 1
-48	:z`-1=w`9`-1
-49	:ans`9=1
-50	:_t2=ans`9/int z`9
-51	:ans`9=_t2
-52	:return ans`9
-53	:endfunc 
-54	:endclass 
+0	:beginclass NumberToWordExample1 
+1	:beginfunc func 
+2	:len`2=5
+3	:if len`3==0 goto 5
+4	:goto 10
+5	:pushparam "The string is empty."`3
+6	:stackpointer=stackpointer+int 8
+7	:print "The string is empty."`3
+8	:stackpointer=stackpointer-int 8
+9	:return 
+10	:if len`4>4 goto 12
+11	:goto 17
+12	:pushparam "\n The given number has more than 4 digits."`4
+13	:stackpointer=stackpointer+int 8
+14	:print "\n The given number has more than 4 digits."`4
+15	:stackpointer=stackpointer-int 8
+16	:return 
+17	:onedigit`4[0]=1
+18	:onedigit`4[4]=2
+19	:onedigit`4[8]=4
+20	:onedigit`4[12]=5
+21	:onedigit`4[16]=6
+22	:pushparam ": "`4
+23	:stackpointer=stackpointer+int 8
+24	:print ": "`4
+25	:stackpointer=stackpointer-int 8
+26	:if len`5==1 goto 28
+27	:goto 35
+28	:pushparam 1
+29	:stackpointer=stackpointer+int 8
+30	:print 1
+31	:stackpointer=stackpointer-int 8
+32	:_t0=1*int 4
+33	:*(onedigit`5+int _t0)=5
+34	:return 
+35	:x`5=0
+36	:return 
+37	:endfunc 
+38	:endclass 
