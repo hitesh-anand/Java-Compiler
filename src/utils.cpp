@@ -45,9 +45,11 @@ SymNode *magic_ptr = root->currNode;
 
 string append_scope_level(string s)
 {
-    if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
-        return s;
-    return s+"`"+to_string(scope_level);
+    // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
+    //     return s;
+    if((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z'))
+        return s+"`"+to_string(scope_level);
+    return s;
 }
 
 void ir_gen(vector<Quadruple *> ircode, string fln)
