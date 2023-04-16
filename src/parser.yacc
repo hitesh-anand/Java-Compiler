@@ -2231,7 +2231,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back(append_scope_level($2->children[i]->attr));
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
         }
 
         for(int i=1; i<$2->children.size(); i+=2)
@@ -2397,7 +2397,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back(append_scope_level($2->children[i]->attr));
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
         }
         Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -2480,7 +2480,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$3->children.size(); i+=2)
         {
-            params.push_back(append_scope_level($3->children[i]->attr));
+            params.push_back($3->children[i]->attr+"`"+to_string(scope_level+1));
         }
         Quadruple* q = new Quadruple(6, $3->varName , params);
         $$->code.push_back(q);
@@ -3027,7 +3027,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $3->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3096,7 +3096,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $5->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3182,7 +3182,7 @@ ConstructorDeclarator:
             vector<string> params;
         for(auto it : $4->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -3244,7 +3244,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $6->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -5881,7 +5881,7 @@ ArrayAccess:
         yyerror("Error");
     }
     // cout << ss->width1 << "947t9wefih\n";
-    Quadruple* q= new Quadruple(string("*int "),  append_scope_level($3->varName), to_string(root->lookup($1->attr)->width),  resName );
+    Quadruple* q= new Quadruple(string("*int "),  append_scope_level($3->varName), to_string(4),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName2 = string("_t") + to_string(varCnt);
