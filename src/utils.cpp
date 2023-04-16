@@ -165,7 +165,7 @@ void processFieldDec(Node *n, Node *n1, int type)
     cout << "hey\n";
     if (n1->children.size() > 1 && type != n1->children[1]->type)
     {
-        resName = string("t") + to_string(varCnt++);
+        resName = string("_t") + to_string(varCnt++);
         Quadruple *q = new Quadruple("", "cast_to_" + castName[type] + " ", append_scope_level(n1->children[1]->varName), resName);
         n->code.push_back(q);
         ircode.push_back(q);
@@ -321,14 +321,14 @@ void processRelational(vector<Node *> nodes, string op)
 
 void processArithmetic(vector<Node *> nodes, string op)
 {
-    string resName = string("t") + to_string(varCnt);
+    string resName = string("_t") + to_string(varCnt);
     varCnt++;
     int type1 = typeroot->categorize(nodes[1]->type);
     int type2 = typeroot->categorize(nodes[2]->type);
     int flag = 0;
     if (type1 == FLOATING_TYPE && type2 == INTEGER_TYPE)
     {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         Quadruple *q = new Quadruple("", "cast_to_float ",append_scope_level(nodes[2]->varName), resName);
         nodes[0]->code.push_back(q);
         ircode.push_back(q);
@@ -336,7 +336,7 @@ void processArithmetic(vector<Node *> nodes, string op)
     }
     else if (type1 == INTEGER_TYPE && type2 == FLOATING_TYPE)
     {
-        string resName = string("t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++);
         Quadruple *q = new Quadruple("", "cast_to_float",append_scope_level(nodes[1]->varName), resName);
         nodes[0]->code.push_back(q);
         ircode.push_back(q);
