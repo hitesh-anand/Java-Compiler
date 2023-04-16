@@ -1,17 +1,20 @@
-0	:	beginclass Test 
-1	:	beginfunc foobar
-2	:	a`2 = popparam
-3	:	t0=0*int 0
-4	:	*(a+int t0)`2=1
-5	:	b`2=2
-6	:	endfunc 
-7	:	beginfunc foob
-8	:	b`3 = popparam
-9	:	t1=w2*0
-10	:	t2=0*int t1
-11	:	t3=0*int 0
-12	:	t4=t2+int t3
-13	:	*(b+int t4)`3=1
-14	:	a`3=3
-15	:	endfunc 
-16	:	endclass 
+0	:beginclass Test 
+1	:beginfunc foobar a
+2	:a`2 = popparam
+3	:_t0=0*int 0
+4	:*(a+int _t0)`2=1
+5	:b`2=2
+6	:endfunc 
+7	:beginfunc foob b,c,d
+8	:b`3 = popparam
+9	:c`3 = popparam
+10	:d`3 = popparam
+11	:_t0=w2*4
+12	:_t1=0*int _t0
+13	:_t2=0*int 4
+14	:_t3=_t1+int _t2
+15	:*(b+int _t3)`3=1
+16	:a`3=3
+17	:return 0
+18	:endfunc 
+19	:endclass 

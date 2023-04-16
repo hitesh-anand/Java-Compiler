@@ -6,18 +6,11 @@ class Test{
         // return 1;
     }
 
-    void foob(int b[][])
+    int foob(int b[][], int c, boolean d)
     {
         // int x = b;
         b[0][0] = 1;
         int a = 3;
-        // return 0;
+        return 0;
     }
-
-    // int main()
-    // {
-    //     // hello h = new hello(1, 2);
-    //     int b[][] = new int [][] {{1,2,3,4,5},{1,2,3,4,5}};
-    //     return foob(23);
-    // }
 }
