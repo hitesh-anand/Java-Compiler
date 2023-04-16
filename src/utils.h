@@ -5,6 +5,8 @@
 
 void defineCastNames();
 
+string append_scope_level(string s);
+
 void ir_gen(vector<Quadruple *> ircode, string fln);
 
 void backpatch(vector<int> &lst, int n);

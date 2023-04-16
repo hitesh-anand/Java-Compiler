@@ -796,7 +796,7 @@ CommaNames:
 Class:
     CLASS IDENTIFIER {
         $$ = $2;
-        Quadruple* q= new Quadruple(7, "", string("beginclass ") + $2, "", scope_level);
+        Quadruple* q= new Quadruple(7, "", string("beginclass ") + $2, "" );
         
         ircode.push_back(q);
        
@@ -826,7 +826,7 @@ NormalClassDeclaration:
         //vector<Node*> temp = {t1, t2, $3};
         $$ = new Node("NormalClassDeclaration", temp);
         //Quadruple* q = new Quadruple(7, "", "beginclass", $2);
-        Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level); 
+        Quadruple* q1 = new Quadruple(7, "", "endclass", "" ); 
         $$->code.push_back(q1);
         ircode.push_back(q1);
         $$->last = ircode.size() - 1;
@@ -847,7 +847,7 @@ NormalClassDeclaration:
        
         
         $$ = new Node("NormalClassDeclaration", temp);
-        Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+        Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
         $$->code.push_back(q1);
         ircode.push_back(q1);
         $$->last = ircode.size() - 1;
@@ -865,7 +865,7 @@ NormalClassDeclaration:
         
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-   Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+   Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
         $$->code.push_back(q1);
         ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -892,7 +892,7 @@ NormalClassDeclaration:
         
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -916,7 +916,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -948,7 +948,7 @@ NormalClassDeclaration:
    
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -984,7 +984,7 @@ NormalClassDeclaration:
    
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1025,7 +1025,7 @@ NormalClassDeclaration:
         
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1051,7 +1051,7 @@ NormalClassDeclaration:
     temp.push_back($4);
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1069,7 +1069,7 @@ NormalClassDeclaration:
     temp.push_back($5);
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1087,7 +1087,7 @@ NormalClassDeclaration:
     temp.push_back($5);
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1114,7 +1114,7 @@ NormalClassDeclaration:
     temp.push_back($5);
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1133,7 +1133,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1161,7 +1161,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1180,7 +1180,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1209,7 +1209,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-   Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+   Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1239,7 +1239,7 @@ NormalClassDeclaration:
    
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1265,7 +1265,7 @@ NormalClassDeclaration:
   
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1284,7 +1284,7 @@ NormalClassDeclaration:
    
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1303,7 +1303,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1372,7 +1372,7 @@ NormalClassDeclaration:
     
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1392,7 +1392,7 @@ NormalClassDeclaration:
    
     struct Node* n = new struct Node("NormalClassDeclaration", temp);
     $$ = n;
-    Quadruple* q1 = new Quadruple(7, "", "endclass", "", scope_level);
+    Quadruple* q1 = new Quadruple(7, "", "endclass", "" );
     $$->code.push_back(q1);
     ircode.push_back(q1);
     $$->last = ircode.size() - 1;
@@ -1693,7 +1693,6 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }
-            
             root->insert(sym->lexeme, sym);
         }
         processPostIncre($$);
@@ -1776,8 +1775,7 @@ FieldDeclaration:
                 sym->width2 = ch->width2;
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
-           }
-            
+           } 
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -2127,7 +2125,7 @@ MethodDeclaration:
 
         
 
-        Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
+        Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
         varCnt = 0;
@@ -2161,7 +2159,7 @@ MethodDeclaration:
         *******************************************************/
     
 
-        Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
+        Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
         varCnt = 0;
@@ -2207,7 +2205,7 @@ MethodDeclaration:
         ircode.push_back(qb);
         *****************************************************/
 
-        Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
+        Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
         varCnt = 0;
@@ -2233,7 +2231,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back($2->children[i]->attr);
+            params.push_back(append_scope_level($2->children[i]->attr));
         }
 
         for(int i=1; i<$2->children.size(); i+=2)
@@ -2282,7 +2280,7 @@ MethodHeader:
                 // yyerror("Variable already declared");
             root->insert(sym->lexeme, sym);
         }
-        Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
+        Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -2305,7 +2303,7 @@ MethodHeader:
             last--;
         for(int i=2; i<=last; i+=2)
         {
-            Quadruple* q = new Quadruple(13, $2->children[i]->attr, scope_level);
+            Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr ));
             $$->code.push_back(q);
             ircode.push_back(q);       
             cout << "i = " << i << endl;     
@@ -2399,9 +2397,9 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back($2->children[i]->attr);
+            params.push_back(append_scope_level($2->children[i]->attr));
         }
-        Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
+        Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -2423,7 +2421,7 @@ MethodHeader:
             last--;
         for(int i=2; i<=last; i+=2)
         {
-            Quadruple* q = new Quadruple(13, $2->children[i]->attr, scope_level);
+            Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr));
             $$->code.push_back(q);
             ircode.push_back(q);       
             cout << "i = " << i << endl;     
@@ -2482,9 +2480,9 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$3->children.size(); i+=2)
         {
-            params.push_back($3->children[i]->attr);
+            params.push_back(append_scope_level($3->children[i]->attr));
         }
-        Quadruple* q = new Quadruple(6, $3->varName, scope_level, params);
+        Quadruple* q = new Quadruple(6, $3->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -2916,7 +2914,7 @@ ConstructorDeclaration:
         ***************************/
         struct Node* n = new struct Node("ConstructorDeclaration", temp);
         $$ = n;
-        Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
+        Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
         varCnt = 0;
@@ -2954,7 +2952,7 @@ ConstructorDeclaration:
         ***************************/
         struct Node* n = new struct Node("ConstructorDeclaration", temp);
         $$ = n;
-        Quadruple* q = new Quadruple(7, string("endfunc"), scope_level);
+        Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
         varCnt = 0;
@@ -2998,7 +2996,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-        Quadruple* q = new Quadruple(6, $1->varName, scope_level);
+        Quadruple* q = new Quadruple(6,  $1->varName);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3012,7 +3010,7 @@ ConstructorDeclarator:
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(6, $1->varName, scope_level);
+    Quadruple* q = new Quadruple(6, $1->varName );
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3029,9 +3027,9 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $3->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(append_scope_level(it->children[1]->attr));
         }
-     Quadruple* q = new Quadruple(6, $1->varName, scope_level, params);
+     Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3054,7 +3052,7 @@ ConstructorDeclarator:
                 args.push_back(typeroot->typewidth[it->children[0]->attr].first);
                 
                 cout<<"THISHTIS "<<it->children[1]->attr<<endl;
-                Quadruple* q = new Quadruple(13, it->children[1]->attr, scope_level);
+                Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
                 $$->code.push_back(q);
                 ircode.push_back(q); 
         }
@@ -3098,9 +3096,9 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $5->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(append_scope_level(it->children[1]->attr));
         }
-     Quadruple* q = new Quadruple(6, $1->varName, scope_level, params);
+     Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3151,7 +3149,7 @@ ConstructorDeclarator:
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-     Quadruple* q = new Quadruple(6, $2->varName, scope_level);
+     Quadruple* q = new Quadruple(6, $2->varName );
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3166,7 +3164,7 @@ ConstructorDeclarator:
     
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(6, $2->varName, scope_level);
+    Quadruple* q = new Quadruple(6, $2->varName );
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3184,9 +3182,9 @@ ConstructorDeclarator:
             vector<string> params;
         for(auto it : $4->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(append_scope_level(it->children[1]->attr));
         }
-    Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
+    Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3246,9 +3244,9 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $6->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(append_scope_level(it->children[1]->attr));
         }
-    Quadruple* q = new Quadruple(6, $2->varName, scope_level, params);
+    Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -3379,7 +3377,7 @@ ExplicitConstructorInvocation:
     //temp.push_back(n4);    
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(4, "this", "0", scope_level);
+    Quadruple* q = new Quadruple(4, "this", "0" );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3415,7 +3413,7 @@ ExplicitConstructorInvocation:
     
     int space = generateArgumentList($3->children, $3);
     
-    Quadruple* q = new Quadruple(4, "this", to_string(space/8), scope_level);
+    Quadruple* q = new Quadruple(4, "this", to_string(space/8) );
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3455,7 +3453,7 @@ ExplicitConstructorInvocation:
     //temp.push_back(n4);    
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(4, "super", "0", scope_level);
+    Quadruple* q = new Quadruple(4, "super", "0" );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3489,7 +3487,7 @@ ExplicitConstructorInvocation:
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
     int space = generateArgumentList($3->children, $3);
-    Quadruple* q = new Quadruple(4, "super", to_string(space/8), scope_level);
+    Quadruple* q = new Quadruple(4, "super", to_string(space/8) );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3550,7 +3548,7 @@ ExplicitConstructorInvocation:
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
     int space = generateArgumentList( $5->children, $5);
-    Quadruple* q = new Quadruple(4, $1->varName + "." +"super", to_string(space/8), scope_level);
+    Quadruple* q = new Quadruple(4,  append_scope_level($1->varName)+ "." +"super", to_string(space/8) );
     $$->code.push_back(q);
 
     // ircode.push_back(q);
@@ -3605,7 +3603,7 @@ ExplicitConstructorInvocation:
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
     int space = generateArgumentList( $5->children, $5);
-    Quadruple* q = new Quadruple(4, $1->varName + "." +"super", to_string(space/8), scope_level);
+    Quadruple* q = new Quadruple(4,  append_scope_level($1->varName)+ "." +"super", to_string(space/8) );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3632,7 +3630,7 @@ ExplicitConstructorInvocation:
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
 
-    Quadruple* q = new Quadruple(5, $3->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
     $$->code.push_back(q);
 
     q = new Quadruple("+int ", "stackpointer", "8", "stackpointer");
@@ -3641,7 +3639,7 @@ ExplicitConstructorInvocation:
     $$->last = ircode.size() - 1;
 
     ircode.push_back(q);
-    q = new Quadruple(4, "this", "1", scope_level);
+    q = new Quadruple(4, "this", "1" );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3690,7 +3688,7 @@ ExplicitConstructorInvocation:
     //temp.push_back(n4);    
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(5, $3->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
     $$->code.push_back(q);
     ircode.push_back(q);
 
@@ -3701,7 +3699,7 @@ ExplicitConstructorInvocation:
         ircode.push_back(q);
     }
 
-    q = new Quadruple(4, "super", "1", scope_level);
+    q = new Quadruple(4, "super", "1" );
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3747,7 +3745,7 @@ ExplicitConstructorInvocation:
     
 
 
-    Quadruple* q = new Quadruple(5, $5->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($5->varName));
     $$->code.push_back(q);
 
      q = new Quadruple("+int ", "stackpointer", "8", "stackpointer");
@@ -3756,7 +3754,7 @@ ExplicitConstructorInvocation:
     $$->last = ircode.size() - 1;
 
     ircode.push_back(q);
-    q = new Quadruple(4, $1->varName + "." + "super", "1", scope_level);
+    q = new Quadruple(4,  append_scope_level($1->varName)+ "." + "super", "1" );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3785,7 +3783,7 @@ ExplicitConstructorInvocation:
     //temp.push_back(n5); 
     struct Node* n = new struct Node("ExplicitConstructorInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(5, $5->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($5->varName));
     $$->code.push_back(q);
      q = new Quadruple("+int ", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
@@ -3793,7 +3791,7 @@ ExplicitConstructorInvocation:
     $$->last = ircode.size() - 1;
 
     ircode.push_back(q);
-    q = new Quadruple(4, $1->varName + "." + "super", "1", scope_level);
+    q = new Quadruple(4,  append_scope_level($1->varName)+ "." + "super", "1" );
     $$->code.push_back(q);
 
     ircode.push_back(q);
@@ -3992,7 +3990,6 @@ LocalVariableDeclaration:
                 
                 //sym->calcWidths();
            }
-            
             root->insert(sym->lexeme, sym);
             // cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
             //if(cc) backpatch((ch-1)->nextlist,(ch-1)->last + 1);
@@ -4071,8 +4068,7 @@ LocalVariableDeclaration:
                 sym->width2 = ch->width2;
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
-           }
-            
+           }     
             root->insert(sym->lexeme, sym);
         }
         $$->last = ircode.size() - 1;
@@ -4373,7 +4369,7 @@ StatementNoShortIf ELSE
     $$->nextlist = $1->nextlist;
     $$->nextlist.push_back(ircode.size());
     cout << ircode.size()<<"over here\n";
-    Quadruple* q = new Quadruple(3, "", "","", "", scope_level);
+    Quadruple* q = new Quadruple(3, "", "","", "" );
     ircode.push_back(q);
     $$->code.push_back(q);
     $$->last = ircode.size() - 1;
@@ -5204,7 +5200,7 @@ ReturnStatement:
     struct Node* n = new struct Node("ReturnStatement", temp);
     $$ = n;
     
-    Quadruple* q= new Quadruple(7, "return", scope_level);
+    Quadruple* q= new Quadruple(7, "return" );
     $$->code.push_back(q);
     ircode.push_back(q);
     processPostIncre($$);
@@ -5234,7 +5230,7 @@ ReturnStatement:
     struct Node* n = new struct Node("ReturnStatement", temp);
     $$ = n;
    
-    Quadruple* q= new Quadruple(7, "return", $2->varName , scope_level);
+    Quadruple* q= new Quadruple(7, "return",  append_scope_level($2->varName) );
     $$->code.push_back(q);
     ircode.push_back(q);
      processPostIncre($$);
@@ -5725,7 +5721,7 @@ UnqualifiedClassInstanceCreationExpression:
 
 
     int space = 8;
-    Quadruple* q = new Quadruple(5, $4->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($4->varName));
 
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -5773,7 +5769,7 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = 8;
-    Quadruple* q = new Quadruple(5, $4->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($4->varName));
 
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -5885,12 +5881,12 @@ ArrayAccess:
         yyerror("Error");
     }
     // cout << ss->width1 << "947t9wefih\n";
-    Quadruple* q= new Quadruple(string("*int "), $3->varName, to_string(root->lookup($1->attr)->width),  resName, scope_level);
+    Quadruple* q= new Quadruple(string("*int "),  append_scope_level($3->varName), to_string(root->lookup($1->attr)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName2 = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("="), string($1->varName) + string("[") + resName + string("]") ,  resName2, scope_level);
+    q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName + string("]") ,  resName2 );
     //cout << "hi\n";
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -5920,27 +5916,27 @@ ArrayAccess:
     $$->attr = $1->attr;
     string resName = string("_t") + to_string(varCnt);
     varCnt++;
-    Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width2, to_string(root->lookup($1->varName)->width),  resName, scope_level);
+    Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width2, to_string(root->lookup($1->varName)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName1 = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("*int "), $3->varName, resName,  resName1, scope_level);
+    q= new Quadruple(string("*int "),  append_scope_level($3->varName), resName,  resName1 );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName2 = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("*int "), $6->varName, to_string(root->lookup($1->varName)->width),  resName2, scope_level);
+    q= new Quadruple(string("*int "),  append_scope_level($6->varName), to_string(root->lookup($1->varName)->width),  resName2 );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName3 = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("+int "), resName1, resName2,  resName3, scope_level);
+    q= new Quadruple(string("+int "), resName1, resName2,  resName3 );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName4 = string("_t") + to_string(varCnt++);
     
-    q= new Quadruple(string("="), string($1->varName) + string("[") + resName3 + string("]") ,  resName4, scope_level);
+    q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName3 + string("]") ,  resName4 );
    
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -5971,40 +5967,40 @@ ArrayAccess:
     
     string resName = string("_t") + to_string(varCnt);
     varCnt++;
-    Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width3 , to_string(root->lookup($1->varName)->width),  resName, scope_level);
+    Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width3 , to_string(root->lookup($1->varName)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName1 = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("*int "), root->lookup($1->varName)->width2 , resName,  resName1, scope_level);
+    q= new Quadruple(string("*int "), root->lookup($1->varName)->width2 , resName,  resName1 );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName2 = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("*int "), $6->varName, resName,  resName2, scope_level);
+    q= new Quadruple(string("*int "),  append_scope_level($6->varName), resName,  resName2 );
     $$->code.push_back(q);
     ircode.push_back(q);
     resName = string("_t") + to_string(varCnt);
     varCnt++;
-    q= new Quadruple(string("*int "), $3->varName, resName1,  resName, scope_level);
+    q= new Quadruple(string("*int "),  append_scope_level($3->varName), resName1,  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName3 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("*int "), $9->varName, to_string(root->lookup($1->varName)->width),  resName3, scope_level);
+    q= new Quadruple(string("*int "),  append_scope_level($9->varName), to_string(root->lookup($1->varName)->width),  resName3 );
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName4 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("+int "), resName, resName2,  resName4, scope_level);
+    q= new Quadruple(string("+int "), resName, resName2,  resName4 );
 
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName5 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("+int "), resName4, resName3,  resName5, scope_level);
+    q= new Quadruple(string("+int "), resName4, resName3,  resName5 );
 
     $$->code.push_back(q);
     ircode.push_back(q);
     string resName6 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("="), string($1->varName) + string("[") + resName5 + string("]") ,  resName6, scope_level);
+    q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName5 + string("]") ,  resName6 );
    
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6050,12 +6046,12 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string(0), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr, to_string(0), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = q = new Quadruple(4, $1->attr, to_string(0), scope_level);
+        q = q = new Quadruple(4, $1->attr, to_string(0) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6101,12 +6097,12 @@ MethodInvocation:
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = new Quadruple(4, $1->attr, to_string($3->children.size()), scope_level);
+        q = new Quadruple(4, $1->attr, to_string($3->children.size()) );
     }
 
     $$->code.push_back(q);
@@ -6130,11 +6126,11 @@ MethodInvocation:
     Quadruple* q; 
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(0), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(0), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3, to_string(0), scope_level);
+        q = new Quadruple(4, $1->attr + string(".") + $3, to_string(0) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6161,11 +6157,11 @@ MethodInvocation:
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string($5->children.size()), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string($5->children.size()), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3, to_string($5->children.size()), scope_level);
+        q = new Quadruple(4, $1->attr + string(".") + $3, to_string($5->children.size()) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6190,11 +6186,11 @@ MethodInvocation:
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "",  $1 + string(".") + $3, to_string(0), resName, scope_level);
+        q = new Quadruple(4, "",  $1 + string(".") + $3, to_string(0), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4,  $1 + string(".") + $3, to_string(0), scope_level);
+        q = new Quadruple(4,  $1 + string(".") + $3, to_string(0) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6234,11 +6230,11 @@ MethodInvocation:
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1 + string(".") + $3, to_string($5->children.size()), resName, scope_level);
+        q = new Quadruple(4, "", $1 + string(".") + $3, to_string($5->children.size()), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1 + string(".") + $3, to_string($5->children.size()), scope_level);
+        q = new Quadruple(4, $1 + string(".") + $3, to_string($5->children.size()) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6278,12 +6274,12 @@ MethodInvocation:
     Quadruple* q ;
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr + string(".") + $3 + string(".") + $5, to_string(0), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr + string(".") + $3 + string(".") + $5, to_string(0), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string(0), scope_level);
+        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string(0) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6326,11 +6322,11 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()), resName, scope_level);
+        q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()), scope_level);
+        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6367,7 +6363,7 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-     Quadruple* q = new Quadruple(5, $3->varName, scope_level);
+     Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
     $$->code.push_back(q);
     ircode.push_back(q);
     int space = 8;
@@ -6443,12 +6439,12 @@ MethodInvocation:
 
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string(1), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr, to_string(1), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = q = new Quadruple(4, $1->attr, to_string(1), scope_level);
+        q = q = new Quadruple(4, $1->attr, to_string(1) );
     }
 
     $$->code.push_back(q);
@@ -6471,7 +6467,7 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(5, $5->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($5->varName));
     $$->code.push_back(q);
     ircode.push_back(q);
     int space = 8;
@@ -6483,11 +6479,11 @@ MethodInvocation:
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(1), resName, scope_level);
+        q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(1), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3, to_string(1), scope_level);
+        q = new Quadruple(4, $1->attr + string(".") + $3, to_string(1) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6495,7 +6491,7 @@ MethodInvocation:
     verbose(v,"Primary DOT IDENTIFIER LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
 
     space = 8;
-    q = new Quadruple(5, $5->varName, scope_level);
+    q = new Quadruple(5,  append_scope_level($5->varName));
 
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6522,7 +6518,7 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-     Quadruple* q = new Quadruple(5, $5->varName, scope_level);
+     Quadruple* q = new Quadruple(5,  append_scope_level($5->varName));
     $$->code.push_back(q);
     ircode.push_back(q);
     int space = 8;
@@ -6536,11 +6532,11 @@ MethodInvocation:
    
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1 + string(".") + $3, to_string(1), resName, scope_level);
+        q = new Quadruple(4, "", $1 + string(".") + $3, to_string(1), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1 + string(".") + $3, to_string(1), scope_level);
+        q = new Quadruple(4, $1 + string(".") + $3, to_string(1) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6565,7 +6561,7 @@ MethodInvocation:
     $$->type = res->returntype;
 
     space = 8;
-    q = new Quadruple(5, $5->varName, scope_level);
+    q = new Quadruple(5,  append_scope_level($5->varName));
 
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6594,7 +6590,7 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(5, $7->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($7->varName));
     $$->code.push_back(q);
     ircode.push_back(q);
     int space = 8;
@@ -6606,11 +6602,11 @@ MethodInvocation:
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string(1), resName, scope_level);
+        q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string(1), resName );
         $$->varName = resName;
     }
     else {
-        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string(1), scope_level);
+        q = new Quadruple(4, $1->attr + string(".") + $3 + string(".") + $5, to_string(1) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6638,13 +6634,13 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(5, $3->varName, scope_level);
+    Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
     $$->code.push_back(q);
     ircode.push_back(q);
     q = new Quadruple("+int ", "stackpointer", "8", "stackpointer" );
     $$->code.push_back(q);
     ircode.push_back(q);
-    q = new Quadruple(7, "", "print", $3->varName, "", scope_level);
+    q = new Quadruple(7, "", "print",  append_scope_level($3->varName), "" );
    
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -7061,7 +7057,7 @@ Assignment:
         cout<<"HERE MF"<<endl;
         //struct Node* n = new struct Node("ExclusiveOrExpression", temp);
         $$ = $2;
-        Quadruple * q = new Quadruple(string("="), $3->varName, $1->varName, scope_level);
+        Quadruple * q = new Quadruple(string("="),  append_scope_level($3->varName),  append_scope_level($1->varName));
         if(isCond == 0) $$->code.push_back(q);
         if(isCond == 0)ircode.push_back(q);
         $$->last = ircode.size() - 1;
@@ -7175,7 +7171,7 @@ LeftHandSide:
        varCnt-= 2;
        $$->last -= 1;
        $$->varName = string("_t") + to_string(varCnt++);
-       $$->varName = "*(" + $$->attr + "+int " + $$->varName + ")";
+       $$->varName = "*(" + append_scope_level($$->attr) + "+int " + append_scope_level($$->varName) + ")";
        verbose(v,"ArrayAccess->LeftHandSide");
     }
 ;
@@ -7253,7 +7249,7 @@ ColConditional:
         for(int i = 0; i < $1->code.size(); i++) {
             ircode.pop_back();
         }
-        Quadruple* q = new Quadruple("", $1->varName, "", condvar, scope_level);
+        Quadruple* q = new Quadruple("",  append_scope_level($1->varName), "", condvar );
         $1->code.push_back(q);
         
         ircode.insert(ircode.end(), $1->code.begin(), $1->code.end());
@@ -7263,7 +7259,7 @@ ColConditional:
         $$->nextlist = $1->nextlist;
         $$->nextlist.push_back(ircode.size());
         //cout << ircode.size()<<"over here\n";
-        q = new Quadruple(3, "", "","", "", scope_level);
+        q = new Quadruple(3, "", "","", "" );
         ircode.push_back(q);
         $$->code.push_back(q);
         $$->last = ircode.size() - 1;
@@ -7312,7 +7308,7 @@ ConditionalExpression:
         for(int i = 0; i < $4->code.size(); i++) {
             ircode.pop_back();
         }
-        Quadruple* q = new Quadruple("", $4->varName, "", condvar, scope_level);
+        Quadruple* q = new Quadruple("",  append_scope_level($4->varName), "", condvar );
         q->print();
         $4->code.push_back(q);
         ircode.insert(ircode.end(), $4->code.begin(), $4->code.end());
@@ -8269,7 +8265,7 @@ PreIncrementExpression:
         else temp.push_back($2);
         struct Node* n = new struct Node("PreIncrementExpression", temp);
         $$ = n;
-        Quadruple* q = new Quadruple(string("+int "), $2->varName, string("1"), $2->varName, scope_level);
+        Quadruple* q = new Quadruple(string("+int "),  append_scope_level($2->varName), string("1"),  append_scope_level($2->varName));
         $$->code.push_back(q);
         
         ircode.push_back(q);
@@ -8302,7 +8298,7 @@ PreDecrementExpression:
         else temp.push_back($2);
         struct Node* n = new struct Node("PreDecrementExpression", temp);
         $$ = n;
-        Quadruple* q = new Quadruple(string("-int "), $2->varName, string("1"), $2->varName, scope_level);
+        Quadruple* q = new Quadruple(string("-int "),  append_scope_level($2->varName), string("1"),  append_scope_level($2->varName));
         $$->code.push_back(q);
         
         ircode.push_back(q);
@@ -8405,7 +8401,7 @@ CastExpression:
         /*
         string resName = string("_t") + to_string(varCnt);
         varCnt++;
-        Quadruple q(string("cast_to_") + string($2), $4->varName, resName );
+        Quadruple q(string("cast_to_") + string($2),  append_scope_level($4->varName), resName );
         ir.push_back(q);
         $$->varName = resName;
         $$->reduced = true;
@@ -8462,7 +8458,7 @@ PostIncrementExpression:
         struct Node* n = new Node("PostIncrementExpression", temp);
         $$ = n;
         $$->varName= $1->varName;
-        Quadruple* q = new Quadruple(string("+int "), $1->varName, string("1"), $1->varName, scope_level);
+        Quadruple* q = new Quadruple(string("+int "),  append_scope_level($1->varName), string("1"),  append_scope_level($1->varName));
         //$$->code.push_back(q);
         residualCode.push_back(q);
         //ircode.push_back(q);
@@ -8500,7 +8496,7 @@ PostDecrementExpression:
         struct Node* n = new Node("PostDecrementExpression", temp);
         $$ = n;
         $$->varName=$1->varName;
-        Quadruple* q = new Quadruple(string("-int "), $1->varName, string("1"), $1->varName, scope_level);
+        Quadruple* q = new Quadruple(string("-int "),  append_scope_level($1->varName), string("1"),  append_scope_level($1->varName));
         //$$->code.push_back(q);
         residualCode.push_back(q);
         verbose(v,"PostfixExpression DECRE->PostDecrementExpression");

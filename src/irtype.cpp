@@ -10,78 +10,59 @@ Quadruple::Quadruple(std::string op, std::string arg1, std::string arg2, std::st
     pos++;
 }
 
-Quadruple::Quadruple(std::string op, std::string arg1, std::string arg2, std::string result, int scope_level)
-{
-    this->op = op;
-    type = 0;
-    this->arg1 = arg1;
-    this->arg2 = arg2;
-    this->result = result;
-    this->scope_level = scope_level;
-    pos++;
-}
-
-Quadruple::Quadruple(std::string op, std::string arg1, std::string result, int scope_level)
+Quadruple::Quadruple(std::string op, std::string arg1, std::string result)
 {
     type = 0;
     this->op = op;
     this->arg1 = arg1;
     this->result = result;
-    this->scope_level = scope_level;
     pos++;
 }
 
-Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string arg2, std::string result, int scope_level)
+Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string arg2, std::string result)
 {
     this->op = op;
     this->type = type;
     this->arg1 = arg1;
     this->arg2 = arg2;
     this->result = result;
-    this->scope_level = scope_level;
     pos++;
 }
 
-Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string result, int scope_level)
+Quadruple::Quadruple(int type, std::string op, std::string arg1, std::string result)
 {
     this->op = op;
     this->type = type;
     this->arg1 = arg1;
     this->result = result;
-    this->scope_level = scope_level;
     pos++;
 }
 
-Quadruple::Quadruple(int type, std::string arg1, std::string arg2, int scope_level)
+Quadruple::Quadruple(int type, std::string arg1, std::string arg2)
 {
     this->type = type;
     this->arg1 = arg1;
-    this->scope_level = scope_level;
     this->arg2 = arg2;
 }
-Quadruple::Quadruple(int type, std::string arg1, int scope_level)
+Quadruple::Quadruple(int type, std::string arg1)
 {
     this->type = type;
-    this->scope_level = scope_level;
     this->arg1 = arg1;
 }
 
-Quadruple::Quadruple(int type, std::string arg1, int scope_level, std::vector<std::string> params)
+Quadruple::Quadruple(int type, std::string arg1, std::vector<std::string> params)
 {
     this->type = type;
-    this->scope_level = scope_level;
     this->arg1 = arg1;
     this->params = params;
 }
 
-Quadruple::Quadruple(std::string label, int scope_level)
+Quadruple::Quadruple(std::string label)
 {
-    this->scope_level = scope_level;
     this->label = label;
 }
-Quadruple::Quadruple(int type, int scope_level)
+Quadruple::Quadruple(int type)
 {
-    this->scope_level = scope_level;
     this->type = type;
 }
 
