@@ -4,7 +4,7 @@ class Test{
     void foobar(int a[])
     {
         a[2] = 1;
-        int b = 2;
+        if(a[2]==1){int b=2;} int b = 2;
         // return 1;
     }
 

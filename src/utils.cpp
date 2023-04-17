@@ -18,6 +18,7 @@ int tempCnt = 0;
 int labelCnt = 0;
 int importflag = 0;
 extern int scope_level;
+map<string, int> ir_gen_dup;
 
 map<string, int> tempVars;
 
@@ -150,7 +151,7 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
-    otherFile.open(fln+".3ac");
+    otherFile.open(fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
     cout<<"opened"<<endl;
     otherFile<<tempVars[fln]<<endl;
     int cnt=0;

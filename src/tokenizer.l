@@ -256,6 +256,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                     else{
                         isarrayinit--;
                     }
+                    scope_level--;
                     yylval.lexeme = strdup(yytext); 
                     return RIGHTCURLYBRACKET;
                 }
