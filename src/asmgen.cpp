@@ -701,6 +701,15 @@ void checkForArray(string x,vector<int>&wdt){
         wdt.push_back(ans[3]);
     }
 }
+void beg_func(string x){
+    if(x.rfind("beginfunc",0)!=0){
+        cout<<"Not a start of the function\n";
+    }
+    int f=0;
+    for(int j=0;j<x.size();j++){
+
+    }
+}
 void func_call(vector<string>a,vector<string>&funcCode){
     int cnt_param=0;
     vector<string>ans_reg;//keep all the register instruction

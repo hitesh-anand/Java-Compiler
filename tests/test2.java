@@ -1,6 +1,6 @@
 // to show 1 d array usage and initialization
 class NumberToWordExample1 {
-    static void help(int a[]){
+    static void help(int a[],int c){
         a[0]=1;
         a[1]=2;
         a[2]=3;
@@ -13,12 +13,12 @@ class NumberToWordExample1 {
         a[9]=10;
     }
     static void help2(int b[][]){
-        
+
     }
     static void func() {
         int onedigit[]=new int[10];
         int twodigit[][]=new int[10][10];
-        help(onedigit);
+        help(onedigit,1);
         help2(twodigit);
     }
 
