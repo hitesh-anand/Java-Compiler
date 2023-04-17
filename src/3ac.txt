@@ -1,69 +1,55 @@
-0	:beginclass Person 
-1	:id`1=0
-2	:beginfunc Person a`2
-3	:a`1 = popparam
-4	:_t0=a`1+int 1
-5	:id`1=_t0
-6	:endfunc 
-7	:endclass 
-8	:beginclass Employee 
-9	:name`2=0
-10	:beginfunc Employee d`3,c`3
-11	:d`2 = popparam
-12	:c`2 = popparam
-13	:pushparam d`2
-14	:stackpointer=stackpointer+int 8
-15	:call super, 1
-16	:stackpointer=stackpointer-int 8
-17	:_t0=c`2+int 1
-18	:d`2=_t0
-19	:d`2=d`2+int 1
-20	:endfunc 
-21	:endclass 
-22	:beginclass Vehicle 
-23	:maxSpeed`3=120
-24	:beginfunc display 
-25	:_t0="Maximum Speed of Vehicle: "+maxSpeed`4
-26	:pushparam _t0
-27	:stackpointer=stackpointer+int 8
-28	:print _t0
-29	:stackpointer=stackpointer-int 8
-30	:endfunc 
-31	:endclass 
-32	:beginclass animal 
-33	:legs`5=5
-34	:beginfunc animal a`6
-35	:a`5 = popparam
-36	:legs`5=a`5
-37	:endfunc 
-38	:beginfunc display 
-39	:_t0="Number of legs: "+legs`6
-40	:pushparam _t0
-41	:stackpointer=stackpointer+int 8
-42	:print _t0
-43	:stackpointer=stackpointer-int 8
-44	:endfunc 
-45	:endclass 
-46	:beginclass dog 
-47	:legs`7=4
-48	:beginfunc dog a`8
-49	:a`7 = popparam
-50	:pushparam a`7
-51	:stackpointer=stackpointer+int 8
-52	:call super, 1
-53	:stackpointer=stackpointer-int 8
-54	:legs`7=a`7
-55	:endfunc 
-56	:beginfunc display 
-57	:_t0="Number of legs: "+legs`8
-58	:pushparam _t0
-59	:stackpointer=stackpointer+int 8
-60	:print _t0
-61	:stackpointer=stackpointer-int 8
-62	:_t1="Number of legs of general animal: "+super.legs`8
-63	:pushparam _t1
-64	:stackpointer=stackpointer+int 8
-65	:print _t1
-66	:stackpointer=stackpointer-int 8
-67	:endfunc 
-68	:endclass 
+0	:beginclass hello 
+1	:beginfunc f a`2,b`2
+2	:a`2 = popparam
+3	:b`2 = popparam
+4	:if a`3<b`3 goto 6
+5	:goto 26
+6	:c`3=0
+7	:if a`4>0 goto 9
+8	:goto 21
+9	:i`5=0
+10	:if i`5<10 goto 12
+11	:goto 23
+12	:if i`6<10 goto 14
+13	:goto 18
+14	:y`6=0
+15	:_t0=c`6+int 1
+16	:c`6=_t0
+17	:goto 12
+18	:i`5=i`5+int 1
+19	:goto 10
+20	:goto 23
+21	:_t1=a`7-int 1
+22	:c`7=_t1
+23	:_t2=a`7+int 1
+24	:a`7=_t2
+25	:goto 4
+26	:return a`7
+27	:a`7=a`7+int 1
+28	:endfunc 
+29	:endclass 
+30	:beginclass hi 
+31	:beginfunc T a`9,b`9
+32	:a`9 = popparam
+33	:b`9 = popparam
+34	:pushparam b`9
+35	:pushparam a`9
+36	:stackpointer=stackpointer+int 16
+37	:_t0=call f, 2
+38	:stackpointer=stackpointer-int 16
+39	:_t1=a`9/int b`9
+40	:w`9=_t1
+41	:w`9=w`9+int 1
+42	:if w`9==2 goto 44
+43	:goto 47
+44	:z=w`9
+45	:w`9=w`9+int 1
+46	:goto 49
+47	:w`9=w`9+int 1
+48	:z`-1=w`9`-1
+49	:ans`9=1
+50	:_t2=ans`9/int z`9
+51	:ans`9=_t2
+52	:return ans`9
+53	:endfunc 
+54	:endclass 
