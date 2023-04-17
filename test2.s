@@ -1,95 +1,122 @@
 	.file	"test2.c"
 	.text
+	.def	printf;	.scl	3;	.type	32;	.endef
+	.seh_proc	printf
+printf:
+	pushq	%rbp
+	.seh_pushreg	%rbp
+	pushq	%rbx
+	.seh_pushreg	%rbx
+	subq	$56, %rsp
+	.seh_stackalloc	56
+	leaq	48(%rsp), %rbp
+	.seh_setframe	%rbp, 48
+	.seh_endprologue
+	movq	%rcx, 32(%rbp)
+	movq	%rdx, 40(%rbp)
+	movq	%r8, 48(%rbp)
+	movq	%r9, 56(%rbp)
+	leaq	40(%rbp), %rax
+	movq	%rax, -16(%rbp)
+	movq	-16(%rbp), %rbx
+	movl	$1, %ecx
+	movq	__imp___acrt_iob_func(%rip), %rax
+	call	*%rax
+	movq	%rbx, %r8
+	movq	32(%rbp), %rdx
+	movq	%rax, %rcx
+	call	__mingw_vfprintf
+	movl	%eax, -4(%rbp)
+	movl	-4(%rbp), %eax
+	addq	$56, %rsp
+	popq	%rbx
+	popq	%rbp
+	ret
+	.seh_endproc
 	.globl	a
+	.data
+	.align 4
+a:
+	.long	1
+	.globl	bb
 	.bss
 	.align 4
-	.type	a, @object
-	.size	a, 4
-a:
-	.zero	4
-	.globl	bb
-	.align 4
-	.type	bb, @object
-	.size	bb, 4
 bb:
-	.zero	4
-	.section	.rodata
+	.space 4
+	.section .rdata,"dr"
 .LC0:
-	.string	"%d\n"
+	.ascii "%d\12\0"
 	.text
 	.globl	proc
-	.type	proc, @function
+	.def	proc;	.scl	2;	.type	32;	.endef
+	.seh_proc	proc
 proc:
-.LFB0:
-	.cfi_startproc
 	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
+	.seh_pushreg	%rbp
 	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	subq	$16, %rsp
+	.seh_setframe	%rbp, 0
+	subq	$48, %rsp
+	.seh_stackalloc	48
+	.seh_endprologue
 	movl	a(%rip), %eax
 	leal	5(%rax), %edx
 	movl	bb(%rip), %eax
 	addl	%edx, %eax
 	movl	%eax, -4(%rbp)
 	movl	a(%rip), %eax
-	cmpl	$1, %eax
-	jne	.L3
+	testl	%eax, %eax
+	jg	.L5
 	movl	a(%rip), %eax
 	addl	$3, %eax
 	movl	%eax, -8(%rbp)
 	movl	-8(%rbp), %eax
-	movl	%eax, %esi
-	movl	$.LC0, %edi
-	movl	$0, %eax
+	movl	%eax, %edx
+	leaq	.LC0(%rip), %rax
+	movq	%rax, %rcx
 	call	printf
-.L3:
+.L5:
 	nop
-	leave
-	.cfi_restore 6
-	.cfi_def_cfa 7, 8
+	addq	$48, %rsp
+	popq	%rbp
 	ret
-	.cfi_endproc
-.LFE0:
-	.size	proc, .-proc
+	.seh_endproc
+	.def	__main;	.scl	2;	.type	32;	.endef
 	.globl	main
-	.type	main, @function
+	.def	main;	.scl	2;	.type	32;	.endef
+	.seh_proc	main
 main:
-.LFB1:
-	.cfi_startproc
 	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
+	.seh_pushreg	%rbp
 	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	subq	$48, %rsp
-	movq	$1, -8(%rbp)
-	movq	$3, -16(%rbp)
-	movq	$4, -24(%rbp)
-	movq	$5, -32(%rbp)
-	movq	-16(%rbp), %rax
-	cqto
-	idivq	-24(%rbp)
-	movq	%rax, %rdx
-	movq	-8(%rbp), %rax
-	addq	%rax, %rdx
-	movq	-16(%rbp), %rax
-	imulq	-32(%rbp), %rax
-	leaq	(%rdx,%rax), %rcx
-	movq	-16(%rbp), %rax
-	cqto
-	idivq	-32(%rbp)
-	movq	%rdx, %rax
-	addq	%rcx, %rax
-	movq	%rax, -40(%rbp)
+	.seh_setframe	%rbp, 0
+	subq	$64, %rsp
+	.seh_stackalloc	64
+	.seh_endprologue
+	call	__main
+	movl	$1, -4(%rbp)
+	movl	$3, -8(%rbp)
+	movl	$4, -12(%rbp)
+	movl	$5, -16(%rbp)
+	movl	-8(%rbp), %eax
+	cltd
+	idivl	-12(%rbp)
+	movl	%eax, %edx
+	movl	-4(%rbp), %eax
+	addl	%eax, %edx
+	movl	-8(%rbp), %eax
+	imull	-16(%rbp), %eax
+	leal	(%rdx,%rax), %ecx
+	movl	-8(%rbp), %eax
+	cltd
+	idivl	-16(%rbp)
+	movl	%edx, %eax
+	addl	%ecx, %eax
+	movl	%eax, -20(%rbp)
+	call	proc
 	movl	$0, %eax
-	leave
-	.cfi_restore 6
-	.cfi_def_cfa 7, 8
+	addq	$64, %rsp
+	popq	%rbp
 	ret
-	.cfi_endproc
-.LFE1:
-	.size	main, .-main
-	.ident	"GCC: (GNU) 12.2.1 20220819 (Red Hat 12.2.1-2)"
-	.section	.note.GNU-stack,"",@progbits
+	.seh_endproc
+	.ident	"GCC: (Rev1, Built by MSYS2 project) 11.3.0"
+	.def	__mingw_vfprintf;	.scl	2;	.type	32;	.endef
