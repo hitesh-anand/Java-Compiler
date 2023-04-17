@@ -52,6 +52,8 @@ string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
     //     return s;
+    if(scope_level==-1)
+        cout<<-1<<"for "<<s<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && (s!="false" && s!="true"))
         return s+"`"+to_string(scope_level);
     return s;
