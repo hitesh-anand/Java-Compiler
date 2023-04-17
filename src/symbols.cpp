@@ -4,6 +4,7 @@ using namespace std;
 extern int yylineno;
 extern void yyerror(const char *sp);
 extern SymGlob *orig_root;
+extern int scope_level;
 map<string, int> csv_gen;
 
 extern TypeHandler *typeroot;
@@ -407,6 +408,7 @@ void SymGlob::addNewScope()
 
 void SymGlob::endcurrScope()
 {
+    scope_level++;
     if (currNode->name == "classextends")
     {
         if (currNode && currNode->ogparent)
@@ -431,6 +433,7 @@ void SymGlob::end_all_vulnerable()
             currNode = currNode->ogparent;
         else
             cout << "Error!! No global scope defined." << endl;
+        scope_level++;
     }
     else
     {
@@ -438,10 +441,12 @@ void SymGlob::end_all_vulnerable()
             currNode = currNode->parent;
         else
             cout << "Error!! No global scope defined." << endl;
+        scope_level++;
     }
 
     while (currNode != NULL && currNode->vulnerable == true)
     {
+        scope_level++;
         if (currNode->name == "classextends")
         {
             if (currNode && currNode->ogparent)
@@ -480,7 +485,7 @@ void SymGlob::printTree()
         }
 
         q.pop();
-        cout << "Scope level : " << p.second << " " << endl;
+        cout << "Scope level : " << p.second << " bdbjb " << endl;
         cout << "The variables are : " << endl;
         for (auto it : p.first->mp)
         {
@@ -727,7 +732,7 @@ void SymGlob::dumpSymbolTable()
                         fout << scope_num++ << ",";
                         fout << "Identifier, ";
                         Symbol *temp = ch.second;
-                        fout << temp->lexeme << ",";
+                        fout << temp->lexeme<<"`"<<temp->scope_level<< ",";
                         if (temp->type < 100)
                         {
                             fout << typeroot->inv_types[temp->type] << ",";

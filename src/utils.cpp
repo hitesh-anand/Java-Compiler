@@ -20,6 +20,7 @@ int importflag = 0;
 extern int scope_level;
 map<string, int> ir_gen_dup;
 
+map<string, string> classfunc;
 map<string, int> tempVars;
 
 string condvar;
@@ -51,6 +52,8 @@ string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
     //     return s;
+    if(scope_level==-1)
+        cout<<-1<<"for "<<s<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && (s!="false" && s!="true"))
         return s+"`"+to_string(scope_level);
     return s;
@@ -97,13 +100,14 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 6)
         {
+            otherFile<<"endclass\n";
             otherFile.close();
             return;
         }
         else if (it->type == 7)
         {
-            otherFile.close();
-            return;
+            otherFile << it->arg1 << " " << it->arg2 << "\n";
+            continue;
         }
         else if (it->type == 8)
         {
@@ -153,7 +157,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
     ofstream otherFile;
     otherFile.open(fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
     cout<<"opened"<<endl;
-    otherFile<<tempVars[fln]<<endl;
+    otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
     int cnt=0;
     for(int i=index; i<ircode.size(); i++) {
         auto it = ircode[i];
@@ -314,8 +318,9 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 7)
         {
-            if(it->arg1=="beginclass")
-                ir_class_gen(i, ircode, it->arg2);
+            string s = it->arg1;
+            if(s.substr(0, 10)=="beginclass")
+                ir_class_gen(i, ircode, s.substr(11, s.length()-11));
             myFile << it->arg1 << " " << it->arg2 << "\n";
             continue;
         }
@@ -366,7 +371,8 @@ void backpatch(vector<int> &lst, int n)
 {
     for (auto it : lst)
     {
-        ircode[it]->print();
+        std::cout << "calling print\n";
+        //ircode[it]->print();
         ircode[it]->set_result(to_string(n));
     }
 }
@@ -606,9 +612,9 @@ int generateArgumentList(vector<Node *> nodes, Node *n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple *q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
-    n->code.push_back(q);
-    ircode.push_back(q);
+    // Quadruple *q = new Quadruple("+ ", "stackpointer", to_string(space), "stackpointer");
+    // n->code.push_back(q);
+    // ircode.push_back(q);
     n->last = ircode.size() - 1;
     return space;
 }

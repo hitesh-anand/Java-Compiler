@@ -13,7 +13,7 @@ class Quadruple
 {
 public:
     int type;
-    int scope_level=-1;
+    int scope_level=0;
     // int pos;
     std::string op;
     std::string arg1;
