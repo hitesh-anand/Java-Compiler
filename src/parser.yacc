@@ -126,12 +126,15 @@ CompilationUnit:
             
             root->printFuncs();
             for(auto it: $$->code) {
+                cout << "callong print\n";
                 it->print();
+                cout << "print return";
             }
             cout << "Incremental IR \n\n";
             int cnt = 0;
             for(auto it: ircode) {
                 cout << cnt << "\t:\t";
+                cout << "callong print\n";
                 it->print();
                 cnt++;
             }
@@ -6675,9 +6678,9 @@ MethodInvocation:
 
     // $$->code.push_back(q);
     // ircode.push_back(q);
-    q = new Quadruple("-int ", "stackpointer", "8", "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
+    //q = new Quadruple("-int ", "stackpointer", "8", "stackpointer");
+    //$$->code.push_back(q);
+    //ircode.push_back(q);
     $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
 
@@ -7328,7 +7331,9 @@ ConditionalExpression:
             ircode.pop_back();
         }
         Quadruple* q = new Quadruple("",  append_scope_level($4->varName), "", condvar );
+        cout << "called print\n";
         q->print();
+        cout << "hey me\n";
         $4->code.push_back(q);
         ircode.insert(ircode.end(), $4->code.begin(), $4->code.end());
         int lastpos = $1->last + 1;

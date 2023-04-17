@@ -74,6 +74,7 @@ void Quadruple::print()
     int last_dig;
 
     last_dig = arg1[arg1.length()-1];
+    std::cout << "not reaching here\n";
     if(last_dig<'0' || last_dig>'9')
     {
         arg1 = arg1 + "`" + std::to_string(scope_level);

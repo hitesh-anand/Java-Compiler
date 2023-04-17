@@ -517,6 +517,9 @@ vector<string> identifyInstr(string instr)
             ans.push_back("call printf");
 
         }
+        else if(instr.substr(0, 9)=="beginfunc") {
+
+        }
 
 
 
@@ -601,6 +604,25 @@ vector<string> genfunc(string funcName)
     
     while (getline(file2, line)) {
         if(DEBUG) cout << linecnt++ << "\n";
+        vector<string> lines= {line};
+        int isfunc = 0;
+        while(line.find("pushparam") != string::npos) {
+            isfunc=1;
+            getline(file2, line);
+            lines.push_back(line);
+        }
+
+        if(isfunc) {
+            getline(file2, line);
+            getline(file2, line);
+            func_call(lines, funcCode);
+            getline(file2, line);
+            continue;
+        }
+        if(line.substr(0, 4)=="call") {
+            func_call(lines, funcCode);
+            continue;
+        }
         vector<string> t = identifyInstr(line);
         for (auto it: t) {
             DBG cout << it <<"\n";

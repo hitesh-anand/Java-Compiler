@@ -605,9 +605,9 @@ int generateArgumentList(vector<Node *> nodes, Node *n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple *q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
-    n->code.push_back(q);
-    ircode.push_back(q);
+    // Quadruple *q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+    // n->code.push_back(q);
+    // ircode.push_back(q);
     n->last = ircode.size() - 1;
     return space;
 }
