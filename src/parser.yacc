@@ -968,6 +968,7 @@ NormalClassDeclaration:
     root->cinsert($1, res);
     Symbol* r = new Symbol($1, typeroot->addNewClassType(), yylineno);
     list_class[$1]=res;
+    r->scope_level = scope_level;
     root->insert(r->lexeme, r);
 }
 |   Class ClassExtends ClassPermits ClassBody     {
@@ -1697,6 +1698,7 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         processPostIncre($$);
@@ -1780,6 +1782,7 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            } 
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -1845,6 +1848,7 @@ FieldDeclaration:
                 //sym->calcWidths();
            }
             processPostIncre($$);
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -2291,6 +2295,7 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         Quadruple* q = new Quadruple(6, $2->varName , params);
@@ -2405,6 +2410,7 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         vector<string> params;
@@ -2489,6 +2495,7 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         vector<string> params;
@@ -3099,6 +3106,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -3157,6 +3165,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -3243,6 +3252,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }  
@@ -3305,6 +3315,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -4007,7 +4018,8 @@ LocalVariableDeclaration:
                 // cout<<"Updated the widths hihi : "<<sym->width1<<sym->width2<<sym->width3<<endl;
                 
                 //sym->calcWidths();
-           }
+           }            
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
             //if(cc) backpatch((ch-1)->nextlist,(ch-1)->last + 1);
@@ -4086,7 +4098,8 @@ LocalVariableDeclaration:
                 sym->width2 = ch->width2;
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
-           }     
+           }  
+            sym->scope_level = scope_level;   
             root->insert(sym->lexeme, sym);
         }
         $$->last = ircode.size() - 1;

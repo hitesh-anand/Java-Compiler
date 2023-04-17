@@ -1,55 +1,27 @@
-0	:beginclass hello 
-1	:beginfunc f a`2,b`2
-2	:a`2 = popparam
-3	:b`2 = popparam
-4	:if a`3<b`3 goto 6
-5	:goto 26
-6	:c`3=0
-7	:if a`4>0 goto 9
-8	:goto 21
-9	:i`5=0
-10	:if i`5<10 goto 12
-11	:goto 23
-12	:if i`6<10 goto 14
-13	:goto 18
-14	:y`6=0
-15	:_t0=c`6+int 1
-16	:c`6=_t0
-17	:goto 12
-18	:i`5=i`5+int 1
-19	:goto 10
-20	:goto 23
-21	:_t1=a`7-int 1
-22	:c`7=_t1
-23	:_t2=a`7+int 1
-24	:a`7=_t2
-25	:goto 4
-26	:return a`7
-27	:a`7=a`7+int 1
-28	:endfunc 
-29	:endclass 
-30	:beginclass hi 
-31	:beginfunc T a`9,b`9
-32	:a`9 = popparam
-33	:b`9 = popparam
-34	:pushparam b`9
-35	:pushparam a`9
-36	:stackpointer=stackpointer+int 16
-37	:_t0=call f, 2
-38	:stackpointer=stackpointer-int 16
-39	:_t1=a`9/int b`9
-40	:w`9=_t1
-41	:w`9=w`9+int 1
-42	:if w`9==2 goto 44
-43	:goto 47
-44	:z=w`9
-45	:w`9=w`9+int 1
-46	:goto 49
-47	:w`9=w`9+int 1
-48	:z`-1=w`9`-1
-49	:ans`9=1
-50	:_t2=ans`9/int z`9
-51	:ans`9=_t2
-52	:return ans`9
-53	:endfunc 
-54	:endclass 
+0	:beginclass Test 
+1	:a`1=0
+2	:b`1=false
+3	:beginfunc foobar a`3
+4	:a`2 = popparam
+5	:_t0=2*int 4
+6	:*(a`2+int _t0)=1
+7	:_t1=2*int 4
+8	:_t2=a`3[_t1]
+9	:if _t2==1 goto 11
+10	:goto 12
+11	:b`3=2
+12	:b`2=2
+13	:endfunc 
+14	:beginfunc foob b`2,c`2,d`2
+15	:b`2 = popparam
+16	:c`2 = popparam
+17	:d`2 = popparam
+18	:_t0=w2*4
+19	:_t1=2*int _t0
+20	:_t2=1*int 4
+21	:_t3=_t1+int _t2
+22	:*(b`2+int _t3)=1
+23	:a`2=3
+24	:return 0
+25	:endfunc 
+26	:endclass 

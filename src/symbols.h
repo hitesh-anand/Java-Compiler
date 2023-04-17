@@ -24,6 +24,7 @@ class Symbol{ //represents individual record of a given symbol table
     int num_elems1=0, num_elems2=0, num_elems3=0;      // only useful in case of arrays
     int access_type=PUBLIC_ACCESS;
     int isStatic = 0;
+    int scope_level=-1;
 
     Symbol(string lexeme, int type, int lineno, int width);
     Symbol(string lexeme, int type, int lineno);
