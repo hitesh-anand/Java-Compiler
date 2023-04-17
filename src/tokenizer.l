@@ -245,6 +245,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                         if(root->currNode->vulnerable==false&&
                         root->currNode->isIfScope==true){
                             root->endcurrScope();
+                            scope_level++;
                             root->currNode->isThisDead=true;
                         }
                         else
@@ -256,7 +257,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                     else{
                         isarrayinit--;
                     }
-                    scope_level--;
+                    // scope_level--;
                     yylval.lexeme = strdup(yytext); 
                     return RIGHTCURLYBRACKET;
                 }
