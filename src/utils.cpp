@@ -563,7 +563,7 @@ void processArithmetic(vector<Node *> nodes, string op)
         flag = 2;
     if (type1 == INTEGER_TYPE && type2 == INTEGER_TYPE)
         flag = 1;
-    Quadruple *q = new Quadruple(op + (flag == 1 ? string("int ") : ((flag == 2) ? string("float ") : string())),append_scope_level(nodes[1]->varName),append_scope_level(nodes[2]->varName), resName);
+    Quadruple *q = new Quadruple(op, append_scope_level(nodes[1]->varName),append_scope_level(nodes[2]->varName), resName);
     nodes[0]->varName = resName;
     nodes[0]->code.push_back(q);
     ircode.push_back(q);
