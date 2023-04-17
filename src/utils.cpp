@@ -97,13 +97,14 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 6)
         {
+            otherFile<<"endclass\n";
             otherFile.close();
             return;
         }
         else if (it->type == 7)
         {
-            otherFile.close();
-            return;
+            otherFile << it->arg1 << " " << it->arg2 << "\n";
+            continue;
         }
         else if (it->type == 8)
         {
@@ -314,8 +315,9 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 7)
         {
-            if(it->arg1=="beginclass")
-                ir_class_gen(i, ircode, it->arg2);
+            string s = it->arg1;
+            if(s.substr(0, 10)=="beginclass")
+                ir_class_gen(i, ircode, s.substr(11, s.length()-11));
             myFile << it->arg1 << " " << it->arg2 << "\n";
             continue;
         }
