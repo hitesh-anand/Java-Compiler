@@ -1,4 +1,6 @@
 class Test{
+    int a;
+    boolean b=false;
     void foobar(int a[])
     {
         a[2] = 1;
