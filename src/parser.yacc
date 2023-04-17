@@ -2383,6 +2383,12 @@ MethodHeader:
                 args.push_back(typeroot->typewidth[$2->children[i]->attr].first);
         }
 
+        vector<string> params;
+        for(int i=2; i<$2->children.size(); i+=2)
+        {
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
+        }
+
         SymNode* check = root->currNode->scope_flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
         SymNode* check2 = root->flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
         if(check2&&check2->isFinalId==true){
@@ -2418,11 +2424,7 @@ MethodHeader:
             sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
-        vector<string> params;
-        for(int i=2; i<$2->children.size(); i+=2)
-        {
-            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
-        }
+
         Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);

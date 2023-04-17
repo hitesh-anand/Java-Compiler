@@ -107,6 +107,7 @@ class SymGlob{ //global scope
     void end_all_vulnerable(); //end all the vulnerable scopes
     void printTree();   //print the level wise scopes
     void printFuncs();  //print the declared functions
+    void dumpClassSymbols();
     void dumpSymbolTable();
 };
 

@@ -6,6 +6,7 @@ extern void yyerror(const char *sp);
 extern SymGlob *orig_root;
 extern int scope_level;
 map<string, int> csv_gen;
+extern map<string, SymNode*> list_class;
 
 extern TypeHandler *typeroot;
 int conv_int(string a)
@@ -691,9 +692,83 @@ void SymNode::constr_insert(vector<int> args)
     constr_args.push_back(args);
 }
 
+void SymGlob::dumpClassSymbols()
+{
+    for(auto it : list_class)
+    {
+        int scope_num = 0;
+        ofstream fout;
+        string nm = (it.first) + ".csv";
+        fout.open(nm);
+        SymNode *res = it.second;
+        int c = 0;
+        fout << "Num,Syntactic Category,Lexeme,Type,Line of Declaration" << endl;    
+        for (auto ch : res->mp)
+        {
+            fout << scope_num++ << ",";
+            fout << "Identifier, ";
+            Symbol *temp = ch.second;
+            fout << temp->lexeme<<"`"<<temp->scope_level<< ",";
+            if (temp->type < 100)
+            {
+                fout << typeroot->inv_types[temp->type] << ",";
+            }
+            else
+            {
+                fout << typeroot->inv_types[temp->type % 100];
+
+                if (temp->type > 100)
+                {
+                    fout << "[";
+                    temp->num_elems1 = conv_int(temp->width1);
+                    if (temp->num_elems1 > 0 && temp->width1 != "w1")
+                    {
+                        fout << temp->num_elems1;
+                    }
+                    else
+                    {
+                        fout << temp->width1;
+                    }
+                    fout << "]";
+                }
+                if (temp->type > 200)
+                {
+                    fout << "[";
+                    temp->num_elems2 = conv_int(temp->width2);
+                    if (temp->num_elems2 > 0 && temp->width2 != "w2")
+                    {
+                        fout << temp->num_elems2;
+                    }
+                    else
+                    {
+                        fout << temp->width2;
+                    }
+                    fout << "]";
+                }
+                if (temp->type > 300)
+                {
+                    fout << "[";
+                    temp->num_elems3 = conv_int(temp->width3);
+                    if (temp->num_elems3 > 0 && temp->width3 != "w3")
+                    {
+                        fout << temp->num_elems3;
+                    }
+                    else
+                    {
+                        fout << temp->width3;
+                    }
+                    fout << "]";
+                }
+                fout << ",";
+            }
+            fout << temp->decl_line_no << endl;
+        }
+    }
+}
+
 void SymGlob::dumpSymbolTable()
 {
-
+    this->dumpClassSymbols();
     queue<SymNode *> qg;
     qg.push(orig_root->currNode);
     while (!qg.empty())

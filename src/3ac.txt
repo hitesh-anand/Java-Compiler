@@ -1,14 +1,14 @@
 0	:beginclass Test 
 1	:a`1=0
 2	:b`1=false
-3	:beginfunc foobar a`3
+3	:beginfunc foobar a`2,c`2,d`2
 4	:a`2 = popparam
-5	:_t0=2*int 4
-6	:*(a`2+int _t0)=1
-7	:_t1=2*int 4
-8	:_t2=a`3[_t1]
-9	:if _t2==1 goto 11
-10	:goto 12
+5	:c`2 = popparam
+6	:d`2 = popparam
+7	:a`2=1
+8	:if a`3==1 goto 10
+9	:goto 12
+10	:a`3=a`3+int 1
 11	:b`3=2
 12	:b`5=2
 13	:endfunc 
@@ -27,3 +27,6 @@
 26	:beginfunc main 
 27	:endfunc 
 28	:endclass 
+29	:beginclass another 
+30	:b`12=0
+31	:endclass 
