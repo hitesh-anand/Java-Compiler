@@ -43,6 +43,15 @@ SymGlob *root = new SymGlob();
 SymGlob *orig_root = root;
 SymNode *magic_ptr = root->currNode;
 
+string append_scope_level(string s)
+{
+    // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
+    //     return s;
+    if((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z'))
+        return s+"`"+to_string(scope_level);
+    return s;
+}
+
 void ir_gen(vector<Quadruple *> ircode, string fln)
 {
     ofstream myFile;
@@ -50,30 +59,6 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
     int cnt = 0;
     for(auto it: ircode) {
         myFile << cnt++ << "\t:";
-
-            int last_dig;
-
-        if(!(it->type==6 || it->type==7) && it->scope_level>-1)
-        {
-        last_dig = it->arg1[it->arg1.length()-1];
-        if(it->arg1!="stackpointer" && it->arg1!="" && last_dig<'0' || last_dig>'9')
-        {
-            it->arg1 = it->arg1 + "`" + std::to_string(it->scope_level);
-        }
-
-        last_dig = it->arg2[it->arg2.length()-1];
-        if(it->arg2!="stackpointer" && it->arg2!="" && last_dig<'0' || last_dig>'9')
-        {
-            it->arg2 = it->arg2 + "`" + std::to_string(it->scope_level);
-        }
-
-        last_dig = it->result[it->result.length()-1];
-        if(it->result!="stackpointer" && it->result!="" && last_dig<'0' || last_dig>'9')
-        {
-            it->result = it->result + "`" + std::to_string(it->scope_level);
-        }
-        }
-
         if (it->type == 1)
         {
             myFile << "if" << it->arg1 << "then ";
@@ -104,7 +89,21 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 6)
         {
-            myFile << "beginfunc " << it->arg1 << "\n";
+            // cout<<"Entered this"<<endl;
+            myFile << "beginfunc " << it->arg1 << " ";
+            // cout << "beginfunc " << it->arg1 << endl;
+            if(it->params.size()==0)
+            {
+                myFile<<"\n";
+            }
+            else
+            {
+                for(int i=0; i<it->params.size()-1; i++)
+                {
+                    myFile<<it->params[i]<<",";
+                }
+                myFile<<it->params.back()<<"\n";
+            }
             continue;
         }
         else if (it->type == 7)
@@ -170,17 +169,17 @@ void processFieldDec(Node *n, Node *n1, int type)
     if (n1->isCond == 1)
         return;
     cout << "hey\n";
-    string resName = (n1->children.size() > 1) ? n1->children[1]->varName : "0";
+    string resName = (n1->children.size() > 1) ? append_scope_level(n1->children[1]->varName) : "0";
     cout << "hey\n";
     if (n1->children.size() > 1 && type != n1->children[1]->type)
     {
-        resName = string("t") + to_string(varCnt++);
-        Quadruple *q = new Quadruple("", "cast_to_" + castName[type] + " ", n1->children[1]->varName, resName, scope_level);
+        resName = string("_t") + to_string(varCnt++);
+        Quadruple *q = new Quadruple("", "cast_to_" + castName[type] + " ", append_scope_level(n1->children[1]->varName), resName);
         n->code.push_back(q);
         ircode.push_back(q);
     }
 
-    Quadruple *q = new Quadruple("=", resName, n1->children[0]->varName, scope_level);
+    Quadruple *q = new Quadruple("=", resName, append_scope_level(n1->children[0]->varName));
     n->code.push_back(q);
     ircode.push_back(q);
     n->last = ircode.size() - 1;
@@ -191,7 +190,7 @@ void processUninitDec(Node *n, Node *n1)
     if (!n || !n1)
         return;
     string var = n1->attr;
-    Quadruple *q = new Quadruple("=", "0", var, scope_level);
+    Quadruple *q = new Quadruple("=", "0", append_scope_level(var));
     n->code.push_back(q);
     ircode.push_back(q);
     n->last = ircode.size() - 1;
@@ -215,7 +214,7 @@ void init1DArray(Node *n, string type)
     int sizeArray = arrayInit->children.size();
     for (int i = 0; i < sizeArray; i++)
     {
-        Quadruple *q = new Quadruple("", arrayInit->children[i]->varName, "", arrayName->varName + "[" + to_string((i * (typeroot->typewidth[type].second))) + "]", scope_level);
+        Quadruple *q = new Quadruple("", append_scope_level(arrayInit->children[i]->varName), "",append_scope_level(arrayName->varName) + "[" + to_string((i * (typeroot->typewidth[type].second))) + "]");
         ircode.push_back(q);
         n->code.push_back(q);
     }
@@ -233,7 +232,7 @@ void init2DArray(Node *n, string type)
     {
         for (int j = 0; j < n2; j++)
         {
-            Quadruple *q = new Quadruple("", arrayInit->children[i]->children[j]->varName, "", arrayName->varName + "[" + to_string(((n2 * i + j) * typeroot->typewidth[type].second)) + "]", scope_level);
+            Quadruple *q = new Quadruple("", append_scope_level(arrayInit->children[i]->children[j]->varName), "",append_scope_level(arrayName->varName) + "[" + to_string(((n2 * i + j) * typeroot->typewidth[type].second)) + "]");
             ircode.push_back(q);
             n->code.push_back(q);
         }
@@ -255,7 +254,7 @@ void init3DArray(Node *n, string type)
         {
             for (int k = 0; k < n3; k++)
             {
-                Quadruple *q = new Quadruple("", arrayInit->children[i]->children[j]->children[k]->varName, "", arrayName->varName + "[" + to_string(((i * n2 * n3 + j * n3 + k) * typeroot->typewidth[type].second)) + "]", scope_level);
+                Quadruple *q = new Quadruple("", append_scope_level(arrayInit->children[i]->children[j]->children[k]->varName), "", append_scope_level(arrayName->varName) + "[" + to_string(((i * n2 * n3 + j * n3 + k) * typeroot->typewidth[type].second)) + "]");
                 ircode.push_back(q);
                 n->code.push_back(q);
             }
@@ -285,7 +284,7 @@ void processAssignment(Node *n1, Node *n2, Node *n3, Node *n)
     processArithmetic(nodes, string(1, oper));
     // cout << oper<< " dsad\n";
     // if(oper != "=")
-    Quadruple *q = new Quadruple("=", n->varName, n1->varName, scope_level);
+    Quadruple *q = new Quadruple("=", append_scope_level(n->varName),append_scope_level(n1->varName));
     n->varName = n1->varName;
     n->code.push_back(q);
     ircode.push_back(q);
@@ -317,10 +316,10 @@ void processRelational(vector<Node *> nodes, string op)
     nodes[0]->truelist.push_back(ircode.size());
     nodes[0]->falselist.push_back(ircode.size() + 1);
 
-    Quadruple *q = new Quadruple(2, op, nodes[1]->varName, nodes[2]->varName, "", scope_level);
+    Quadruple *q = new Quadruple(2, op,append_scope_level(nodes[1]->varName),append_scope_level(nodes[2]->varName), "");
     nodes[0]->code.push_back(q);
     ircode.push_back(q);
-    q = new Quadruple(3, "", "", "", "", scope_level);
+    q = new Quadruple(3, "", "", "", "");
     nodes[0]->code.push_back(q);
     ircode.push_back(q);
 
@@ -330,23 +329,23 @@ void processRelational(vector<Node *> nodes, string op)
 
 void processArithmetic(vector<Node *> nodes, string op)
 {
-    string resName = string("t") + to_string(varCnt);
+    string resName = string("_t") + to_string(varCnt);
     varCnt++;
     int type1 = typeroot->categorize(nodes[1]->type);
     int type2 = typeroot->categorize(nodes[2]->type);
     int flag = 0;
     if (type1 == FLOATING_TYPE && type2 == INTEGER_TYPE)
     {
-        string resName = string("t") + to_string(varCnt++);
-        Quadruple *q = new Quadruple("", "cast_to_float ", nodes[2]->varName, resName, scope_level);
+        string resName = string("_t") + to_string(varCnt++);
+        Quadruple *q = new Quadruple("", "cast_to_float ",append_scope_level(nodes[2]->varName), resName);
         nodes[0]->code.push_back(q);
         ircode.push_back(q);
         flag = 2;
     }
     else if (type1 == INTEGER_TYPE && type2 == FLOATING_TYPE)
     {
-        string resName = string("t") + to_string(varCnt++);
-        Quadruple *q = new Quadruple("", "cast_to_float", nodes[1]->varName, resName, scope_level);
+        string resName = string("_t") + to_string(varCnt++);
+        Quadruple *q = new Quadruple("", "cast_to_float",append_scope_level(nodes[1]->varName), resName);
         nodes[0]->code.push_back(q);
         ircode.push_back(q);
         flag = 2;
@@ -355,7 +354,7 @@ void processArithmetic(vector<Node *> nodes, string op)
         flag = 2;
     if (type1 == INTEGER_TYPE && type2 == INTEGER_TYPE)
         flag = 1;
-    Quadruple *q = new Quadruple(op + (flag == 1 ? string("int ") : ((flag == 2) ? string("float ") : string())), nodes[1]->varName, nodes[2]->varName, resName, scope_level);
+    Quadruple *q = new Quadruple(op + (flag == 1 ? string("int ") : ((flag == 2) ? string("float ") : string())),append_scope_level(nodes[1]->varName),append_scope_level(nodes[2]->varName), resName);
     nodes[0]->varName = resName;
     nodes[0]->code.push_back(q);
     ircode.push_back(q);
@@ -367,7 +366,7 @@ void processDoWhile(Node *n, Node *n1, Node *n2)
     backpatch(n2->nextlist, n2->last + 1);
     backpatch(n1->truelist, n1->last + 1);
     n->nextlist = n1->falselist;
-    Quadruple *q = new Quadruple(3, "", "", "", to_string(n2->last + 1 - n2->code.size()), scope_level);
+    Quadruple *q = new Quadruple(3, "", "", "", to_string(n2->last + 1 - n2->code.size()));
     ircode.push_back(q);
     n->code.push_back(q);
     n->last = ircode.size() - 1;
@@ -378,7 +377,7 @@ void processWhile(Node *n, Node *n1, Node *n2)
     backpatch(n2->nextlist, n1->last + 1 - n1->code.size());
     backpatch(n1->truelist, n1->last + 1);
     n->nextlist = n1->falselist;
-    Quadruple *q = new Quadruple(3, "", "", "", to_string(n1->last + 1 - n1->code.size()), scope_level);
+    Quadruple *q = new Quadruple(3, "", "", "", to_string(n1->last + 1 - n1->code.size()));
     ircode.push_back(q);
     n->code.push_back(q);
     n->last = ircode.size() - 1;
@@ -390,7 +389,7 @@ int generateArgumentList(vector<Node *> nodes, Node *n)
     for (int i = nodes.size() - 1; i >= 0; i--)
     {
         Node *node = nodes[i];
-        Quadruple *q = new Quadruple(5, node->varName, scope_level);
+        Quadruple *q = new Quadruple(5, append_scope_level(node->varName));
         if (typeroot->widths[node->type] == 0)
             space += 8;
         else
@@ -399,7 +398,7 @@ int generateArgumentList(vector<Node *> nodes, Node *n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple *q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer", scope_level);
+    Quadruple *q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
     n->code.push_back(q);
     ircode.push_back(q);
     n->last = ircode.size() - 1;
