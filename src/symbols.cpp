@@ -4,6 +4,7 @@ using namespace std;
 extern int yylineno;
 extern void yyerror(const char *sp);
 extern SymGlob *orig_root;
+extern int scope_level;
 map<string, int> csv_gen;
 
 extern TypeHandler *typeroot;
@@ -407,6 +408,7 @@ void SymGlob::addNewScope()
 
 void SymGlob::endcurrScope()
 {
+    scope_level++;
     if (currNode->name == "classextends")
     {
         if (currNode && currNode->ogparent)
@@ -431,6 +433,7 @@ void SymGlob::end_all_vulnerable()
             currNode = currNode->ogparent;
         else
             cout << "Error!! No global scope defined." << endl;
+        scope_level++;
     }
     else
     {
@@ -438,10 +441,12 @@ void SymGlob::end_all_vulnerable()
             currNode = currNode->parent;
         else
             cout << "Error!! No global scope defined." << endl;
+        scope_level++;
     }
 
     while (currNode != NULL && currNode->vulnerable == true)
     {
+        scope_level++;
         if (currNode->name == "classextends")
         {
             if (currNode && currNode->ogparent)
