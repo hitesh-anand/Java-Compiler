@@ -13,7 +13,7 @@ class NumberToWordExample1 {
         a[9]=10;
     }
     static void help2(int b[][]){
-
+        if(1<2){int a=5;}int a=6;
     }
     static void func() {
         int onedigit[]=new int[10];

@@ -25,16 +25,20 @@
 24	:endfunc 
 25	:beginfunc help2 b`4
 26	:b`3 = popparam
-27	:endfunc 
-28	:beginfunc func 
-29	:pushparam 1
-30	:pushparam onedigit`4
-31	:stackpointer=stackpointer+int 16
-32	:call help, 2
-33	:stackpointer=stackpointer-int 16
-34	:pushparam twodigit`4
-35	:stackpointer=stackpointer+int 8
-36	:call help2, 1
-37	:stackpointer=stackpointer-int8
-38	:endfunc 
-39	:endclass 
+27	:if 1<2 goto 29
+28	:goto 30
+29	:a`4=5
+30	:a`4=6
+31	:endfunc 
+32	:beginfunc func 
+33	:pushparam 1
+34	:pushparam onedigit`5
+35	:stackpointer=stackpointer+int 16
+36	:call help, 2
+37	:stackpointer=stackpointer-int 16
+38	:pushparam twodigit`5
+39	:stackpointer=stackpointer+int 8
+40	:call help2, 1
+41	:stackpointer=stackpointer-int8
+42	:endfunc 
+43	:endclass 

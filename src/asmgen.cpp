@@ -30,6 +30,7 @@ vector<string> relOps = {"<=", ">=", "==" ,"!=", ">", "<"};
 
 map<char, string> opConv;
 map<string,vector<int>> var;    //it keeps the data 
+                                // its struct is map<var_name,{type,isarg,w1,w2,w3}>
 map<string, string> relConv;
 
 map<string, int> addressRegDes; // address descriptor
@@ -763,12 +764,6 @@ string smplPush(string x){
 }
 vector<int> var_info(string x){
     string y;
-    for(int j=0;j<x.size();j++){
-        if(x[j]=='`'){
-            break;
-        }
-        y.push_back(x[j]);
-    }
     vector<int>ans;
     if(var.find(y)==var.end()){
         return ans;
@@ -780,14 +775,19 @@ void checkForArray(string x,vector<int>&wdt){
     if(ans.size()==0){
         cout<<"No such variable exist";
     }
-    if(ans[0]>=100){
-        wdt.push_back(ans[1]);
+    if(ans[1]==0){
+        if(ans[0]>=100){
+            wdt.push_back(ans[2]);
+        }
+        if(ans[0]>=200){
+            wdt.push_back(ans[3]);
+        }
+        if(ans[0]>=300){
+            wdt.push_back(ans[4]);
+        }
     }
-    if(ans[0]>=200){
-        wdt.push_back(ans[2]);
-    }
-    if(ans[0]>=300){
-        wdt.push_back(ans[3]);
+    else{
+        
     }
 }
 int sz_func(){
@@ -796,17 +796,45 @@ int sz_func(){
         if(it.second[0]==1){//int
             ans+=8;
         }
-        if(it.second[0]==100){//array
-            ans+=16;
+        if(it.second[1]==0){//array def in side the func
+            if(it.second[0]==100){//array
+                ans+=it.second[2]*8;
+            }
+            if(it.second[0]==200){//2darray
+                ans+=it.second[2]*it.second[3]*8;
+            }
+            if(it.second[0]==300){//3darray
+                ans+=it.second[2]*it.second[3]*it.second[4]*8;
+            }
         }
-        if(it.second[0]==200){//2darray
-            ans+=24;
-        }
-        if(it.second[0]==300){//3darray
-            ans+=32;
+        else{   //array coming as argument
+            if(it.second[0]==100){//array
+                ans+=16;
+            }
+            if(it.second[0]==200){//2darray
+                ans+=24;
+            }
+            if(it.second[0]==300){//3darray
+                ans+=32;
+            }
         }
     }
-    ans+=temporary_size;
+    ans+=temporary_size*8+8;
+    return ans;
+}
+int string_to_int(string x){// replacement for stoi
+    int y=1;
+    if(x[0]=='-'){
+        y=-1;
+    }
+    reverse(x.begin(),x.end());
+    int ans=0;
+    for(int j=0;j<x.size();j++){
+        if((x[j]>=48||x[j]<=59)){
+            ans+=(x[j]-'0')*y;
+            y=y*10;
+        }
+    }
     return ans;
 }
 void fill_var_temp_sz(string x){
@@ -814,10 +842,132 @@ void fill_var_temp_sz(string x){
     file.open(x+".3ac");
     string line;
     getline(file, line);
+    file.close();
+    temporary_size=string_to_int(line);
+    vector<string>v;
+    file.open(x+".csv");
+    getline(file, line);
     while (getline(file, line)) {
-        
+        v.push_back(line);
     }
     file.close();
+    var.clear();
+    for(int j=0;j<v.size();j++){
+        int cnt=0;
+        int k=0;
+        for(k=0;k<v[j].size();k++){
+            if(v[j][k]==','){
+                cnt++;
+            }
+            if(cnt==2){
+                break;
+            }
+        }
+        k++;
+        string nm;
+        for(;k<v[j].size();k++){
+            if(v[j][k]==',')break;
+            nm.push_back(v[j][k]);
+        }
+        vector<int>temp;
+        k++;
+        string tp;
+        for(;k<v[j].size();k++){
+            if(v[j][k]==',')break;
+            tp.push_back(v[j][k]);
+        }
+        if(tp=="int"){
+            temp={1,0};
+        }
+        else{
+            int w=0;
+            int cnt=0;
+            for(int k=0;k<tp.size();k++){
+                if(tp[k]=='w'){
+                    w=1;
+                }
+                if(tp[k]==']'){
+                    cnt++;
+                }
+            }
+            if(w==1){
+                if(cnt==1){
+                    temp={100,1};
+                }
+                if(cnt==2){
+                    temp={200,1};
+                }
+                if(cnt==3){
+                    temp={300,1};
+                }
+            }
+            else{
+                vector<int>u={cnt*100,0};
+                w=0;
+                string p;
+                for(int k=0;k<tp.size();k++){
+                    if(tp[k]=='['){
+                        w=1;
+                    }
+                    else
+                    if(w==1){
+                        if(tp[k]==']'){
+                            u.push_back(string_to_int(p));
+                            w=0;
+                            p="";
+                        }
+                        else{
+                            p.push_back(tp[k]);
+                        }
+                    }
+                }
+                temp=u;
+            }
+        }
+        var[nm]=temp;
+    }
+}
+void insert_arg(vector<string>arg,vector<string>&funCode){
+    int cnt=0;
+    vector<string>arg_name;
+    for(int j=0;j<arg.size();j++){
+        arg.push_back(arg_name[j]);
+        vector<int>info=var_info(arg_name[j]);
+        if(info.size()==0){
+            cout<<"No such variable exist\n";
+        }
+        if(info[0]==100){
+            arg_name.push_back("_w1"+arg[j]);
+        }
+        if(info[0]==200){
+            arg_name.push_back("_w1"+arg[j]);
+            arg_name.push_back("_w2"+arg[j]);
+        }
+        if(info[0]==300){
+            arg_name.push_back("_w1"+arg[j]);
+            arg_name.push_back("_w2"+arg[j]);
+            arg_name.push_back("_w3"+arg[j]);
+        }
+    }
+    vector<string>rg={"%rdi", "%rsi", "%rdx", "%rcx", "%r8","%r9"};
+    for(int j=0;j<arg_name.size();j++){
+        cnt++;
+        vector<int>info=var_info(arg_name[j]);
+        if(info.size()==0){
+            cout<<"No such variable exist\n";
+        }
+        else{
+            if(cnt<=6){
+                funCode.push_back("movq "+rg[cnt-1]+", -"+to_string(cnt*8)+"(%rbp)");
+                addressDes[arg_name[j]]=-cnt*8;
+            }
+            else{
+                funCode.push_back("movq "+to_string(16+((arg_name.size()-6)-(cnt-6))*8)+"(%rbp)"+", %rdx");
+                funCode.push_back("movq %rdx, -"+to_string(cnt*8)+"(%rbp)");
+                addressDes[arg_name[j]]=-cnt*8;
+            }
+        }
+    }
 }
 void beg_func(string x,vector<string>&funCode){
     if(x.rfind("beginfunc",0)!=0){
@@ -857,93 +1007,75 @@ void beg_func(string x,vector<string>&funCode){
     funCode.push_back(instr);
     instr="movq rsp, rbp";
     funCode.push_back(instr);
-    instr="subq %"+to_string(sz_func())+", %rsp";
+    instr="subq $"+to_string(sz_func())+", %rsp";
     funCode.push_back(instr);
+    insert_arg(arg_name,funCode);
 }
 void func_call(vector<string>a,vector<string>&funcCode){
-    int cnt_param=0;
     vector<string>ans_reg;//keep all the register instruction
     vector<string>ans_st;//keep all the pushq instruction
-    vector<int>wdt;
-    for(int j=0;j<a.size();j++){
-        if(a[j].rfind("pushparam",0)==0){
-            cnt_param++;
+    vector<string>things;
+    for(int j=a.size()-2;j>=0;j--){
+        string y=consOrVar(a[j]);
+        if(y[0]=='$'){
+            things.push_back(y);
+        }
+        else{
+            string x=smplPush(a[j]);
+            if(var_info(x).size()==0){
+                cout<<"No such variable exist\n";
+            }
+            else{
+                vector<int>info=var_info(x);
+                if(info[0]==1){ //int
+                    things.push_back(y);
+                }
+                if(info[0]>=100){   //array
+                    if(info[1]==0){// the size of array is in var 
+                        if(info[0]==100){//1darray
+                            things.push_back('$'+to_string(info[2]));
+                        }
+                        if(info[0]==200){//2darray
+                            things.push_back('$'+to_string(info[2]));
+                            things.push_back('$'+to_string(info[3]));
+                        }
+                        if(info[0]==300){//3darray
+                            things.push_back('$'+to_string(info[2]));
+                            things.push_back('$'+to_string(info[3]));
+                            things.push_back('$'+to_string(info[4]));
+                        }
+                    }
+                    else{       // for this array we have width in stack
+                        if(info[0]==100){//1darray
+                            things.push_back(to_string(addressDes["_w1"+x])+"(%rbp)");
+                        }
+                        if(info[0]==200){//2darray
+                            things.push_back(to_string(addressDes["_w1"+x])+"(%rbp)");
+                            things.push_back(to_string(addressDes["_w2"+x])+"(%rbp)");
+                        }
+                        if(info[0]==300){//3darray
+                            things.push_back(to_string(addressDes["_w1"+x])+"(%rbp)");
+                            things.push_back(to_string(addressDes["_w2"+x])+"(%rbp)");
+                            things.push_back(to_string(addressDes["_w3"+x])+"(%rbp)");
+                        }
+                    }
+                }
+            }
         }
     }
-    if(cnt_param>=7){
-        for(int j=a.size()-2;j>=6;j--){
-            string instr="movq  "+consOrVar(a[j])+", %rdx";
-            ans_st.push_back(instr);
-            instr="pushq  %rdx";
-            ans_st.push_back(instr);
-            checkForArray(smplPush(a[j]),wdt);
+    vector<string>rg={"%rdi", "%rsi", "%rdx", "%rcx", "%r8","%r9"};
+    for(int j=0;j<things.size();j++){
+        if(j<6){
+            ans_reg.push_back("movq  "+things[j]+", "+rg[j]);
+        }
+        else{
+            ans_st.push_back("movq  "+things[j]+", %rdx");
+            ans_st.push_back("pushq  %rdx");
         }
     }
-    if(cnt_param>=1){
-        string instr="movq  "+consOrVar(a[0])+", %rdi";
-        ans_reg.push_back(instr);
-        checkForArray(smplPush(a[0]),wdt);
-    }
-    if(cnt_param>=2){
-        string instr="movq  "+consOrVar(a[1])+", %rsi";
-        ans_reg.push_back(instr);
-        checkForArray(smplPush(a[1]),wdt);
-    }
-    if(cnt_param>=3){
-        string instr="movq  "+consOrVar(a[2])+", %rdx";
-        ans_reg.push_back(instr);
-        checkForArray(smplPush(a[2]),wdt);
-    }
-    if(cnt_param>=4){
-        string instr="movq  "+consOrVar(a[3])+", %rcx";
-        ans_reg.push_back(instr);
-        checkForArray(smplPush(a[3]),wdt);
-    }
-    if(cnt_param>=5){
-        string instr="movq  "+consOrVar(a[4])+", %r8";
-        ans_reg.push_back(instr);
-        checkForArray(smplPush(a[4]),wdt);
-    }
-    if(cnt_param>=6){
-        string instr="movq  "+consOrVar(a[5])+", %r9";
-        ans_reg.push_back(instr);
-        checkForArray(smplPush(a[5]),wdt);
-    }
-    string instr="call  "+funcName(a[a.size()-1]);
-
+    string instr;
+    instr="call  "+funcName(a[a.size()-1]);
     ans_reg.push_back(instr);
-    for(int j=0;j<wdt.size();j++){
-        if(cnt_param>=6){
-            string instr="pushq  $"+to_string(wdt[j]);
-            ans_st.push_back(instr);
-            cnt_param++;
-        }
-        if(cnt_param==5){
-            string instr="movq  $"+to_string(wdt[j])+", %r9";
-            ans_reg.push_back(instr);
-            cnt_param++;
-        }
-        if(cnt_param==4){
-            string instr="movq  $"+to_string(wdt[j])+", %r8";
-            ans_reg.push_back(instr);
-            cnt_param++;
-        }
-        if(cnt_param==3){
-            string instr="movq  $"+to_string(wdt[j])+", %rcx";
-            ans_reg.push_back(instr);
-            cnt_param++;
-        }
-        if(cnt_param==2){
-            string instr="movq  $"+to_string(wdt[j])+", %rdx";
-            ans_reg.push_back(instr);
-            cnt_param++;
-        }
-        if(cnt_param==1){
-            string instr="movq  $"+to_string(wdt[j])+", %rsi";
-            ans_reg.push_back(instr);
-            cnt_param++;
-        }
-    }
     for(auto y:ans_st){
         funcCode.push_back(y);
     }
