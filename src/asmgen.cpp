@@ -361,6 +361,7 @@ int getLineNo(string instr)
     int lineNo = 0;
     while(i < instr.size() && isdigit(instr[i])) {
         lineNo = lineNo * 10 + (instr[i] - '0');
+        i++;
     }
     return lineNo;
 }   
@@ -391,8 +392,8 @@ vector<string> identifyInstr(string instr)
     size_t colpos= instr.find(":");
     int line_num = getLineNo(instr);
     if(islabel[line_num]) {
-	string ins = ".L" + to_string(line_num) + ":";
-	ans.push_back(ins);
+        string ins = ".L" + to_string(line_num) + ":";
+        ans.push_back(ins);
     }
     instr = instr.substr(colpos+1);
     DBG cout << "hey\n";
@@ -413,7 +414,7 @@ vector<string> identifyInstr(string instr)
                 string ins1 = genMove(y, "%rbx");
                 string ins2 = genMove(z, "%rcx");
                 string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
-                string ins4 = genMove("%rbx", x);
+                string ins4 = genMove("%rcx", x);
                 ans.push_back(ins1);
                 ans.push_back(ins2);
                 ans.push_back(ins3);
@@ -482,7 +483,7 @@ vector<string> identifyInstr(string instr)
             string ins1 = genMove(var1, "%rax");
             string ins2 = genMove(var2, "%rcx");
 
-            string ins = "cmpq\t%rax, %rcx";
+            string ins = "cmpq\t%rcx, %rax";
             string ins_ = relConv[t.substr(relpos, relEnd-relpos+1 )] + " .L" + t.substr(gotopos+5);
             DBG cout << ins_ << "\n";
             ans.push_back(ins1);
@@ -500,6 +501,21 @@ vector<string> identifyInstr(string instr)
             islabel[gotoval] = true;
             string ins = string("jmp .L") + to_string(gotoval);
             ans.push_back(ins); 
+        }
+        else if(instr.substr(0, 5) == "print") {
+            string ins1 = MOVQ + string("$0, %rax");
+            string varName = instr.substr(6);
+            //cout << line << "\n";
+            if(DEBUG) cout << varName << " heree var name\n";
+            string t;
+            t=to_string(addressDes[varName]) + string("(%rbp)");
+            string ins2 = MOVQ + string("$printfmt, %rdi");
+            string ins3 = MOVQ + t+ string(", %rsi");
+            ans.push_back(ins1);
+            ans.push_back(ins2);
+            ans.push_back(ins3);
+            ans.push_back("call printf");
+
         }
 
 

@@ -14,7 +14,7 @@ void main ()
 	int y = 12;
 	int z = 21;
 	int aa= 122;
-	if(a == 1) {
+	if(a < 1) {
 		b = 2;
 	}
 	else {
