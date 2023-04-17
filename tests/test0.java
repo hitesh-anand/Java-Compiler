@@ -1,8 +1,13 @@
-public class Demo //class definition  
-{  
-    void main()  
-    {  
-        int a = 4 + 5 + 6*7 + (7/5 * 4 + 2 + 3 * 4) + (3/4 + 4 * 6) ;
-    //statements  
-    }  
-}  
+// to show 1 d array usage and initialization
+class NumberToWordExample1 {
+    public static void main()
+    {
+        int a = 2;
+        if(a<4) {
+            a = a+1;
+        }
+        else {
+            a=a+a;
+        }
+    }
+}
