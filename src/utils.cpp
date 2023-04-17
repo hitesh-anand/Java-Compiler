@@ -20,6 +20,7 @@ int importflag = 0;
 extern int scope_level;
 map<string, int> ir_gen_dup;
 
+map<string, string> classfunc;
 map<string, int> tempVars;
 
 string condvar;
@@ -154,7 +155,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
     ofstream otherFile;
     otherFile.open(fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
     cout<<"opened"<<endl;
-    otherFile<<tempVars[fln]<<endl;
+    otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
     int cnt=0;
     for(int i=index; i<ircode.size(); i++) {
         auto it = ircode[i];

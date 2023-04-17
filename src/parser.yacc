@@ -18,6 +18,7 @@ extern int isarrayinit;
 // map<string, pair<int, int>> typeroot->typewidth;
 extern map<string,SymNode*> list_class;
 extern map<string, int> tempVars;
+extern map<string, string> classfunc;
 extern string otpt;
 
 int scope_level = 0;
@@ -32,6 +33,7 @@ extern int labelCnt ;
 extern int importflag ;
 
 string currFunc = "";
+string currClass = "";
 
 extern string condvar;
 extern int isCond ;
@@ -46,9 +48,6 @@ extern int whilepos ;
 extern SymGlob* root ;
 extern SymGlob* orig_root ;
 extern SymNode* magic_ptr;
-
-
-
 
 %}
 
@@ -2139,6 +2138,7 @@ MethodDeclaration:
 
         cout<<"currfunc is "<<currFunc<<" and tempcnt is "<<tempCnt<<"and varcnt is"<<varCnt<<endl;
         tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt=0;
         //backpatch($2->nextlist, ircode.size() -1);
@@ -2174,6 +2174,7 @@ MethodDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
         //backpatch($4->nextlist, ircode.size() -1);
@@ -2222,6 +2223,7 @@ MethodDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt=0;
         //backpatch($4->nextlist, ircode.size() -1);
@@ -2935,6 +2937,7 @@ ConstructorDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
         $$->last = ircode.size() - 1;
@@ -2975,6 +2978,7 @@ ConstructorDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
         $$->last = ircode.size() - 1;
