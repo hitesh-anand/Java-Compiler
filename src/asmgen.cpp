@@ -24,7 +24,7 @@ Function naming convention: <className>.<functionName> as is in 3ac
 using namespace std;
 
 string consOrVar(string);
-
+int temporary_size;            //hold the size of temporary variable used in a given fucntion
 vector<char> ops = {'+', '-', '*', '/', '^', '&', '%'};
 vector<string> relOps = {"<=", ">=", "==" ,"!=", ">", "<"};
 
@@ -790,19 +790,80 @@ void checkForArray(string x,vector<int>&wdt){
         wdt.push_back(ans[3]);
     }
 }
-void beg_func(string x){
+int sz_func(){
+    int ans=0;
+    for(auto it:var){
+        if(it.second[0]==1){//int
+            ans+=8;
+        }
+        if(it.second[0]==100){//array
+            ans+=16;
+        }
+        if(it.second[0]==200){//2darray
+            ans+=24;
+        }
+        if(it.second[0]==300){//3darray
+            ans+=32;
+        }
+    }
+    ans+=temporary_size;
+    return ans;
+}
+void fill_var_temp_sz(string x){
+    ifstream file;
+    file.open(x+".3ac");
+    string line;
+    getline(file, line);
+    while (getline(file, line)) {
+        
+    }
+    file.close();
+}
+void beg_func(string x,vector<string>&funCode){
     if(x.rfind("beginfunc",0)!=0){
         cout<<"Not a start of the function\n";
     }
     int f=0;
+    string func_nm;
+    int pos;
     for(int j=0;j<x.size();j++){
-
+        if(x[j]==' '){
+            f=1;
+        }
+        else
+        if(f==1){
+            if(x[j]==' '){
+                pos=j+1;
+                break;
+            }
+            func_nm.push_back(x[j]);
+        }
     }
+    fill_var_temp_sz(func_nm);
+    vector<string>arg_name;
+    string temp;
+    for(int j=pos;j<x.size();j++){
+        if(x[j]==','){
+            arg_name.push_back(temp);
+            temp="";
+        }
+        else{
+            temp.push_back(x[j]);
+        }
+    }
+    string instr=func_nm+":";
+    funCode.push_back(instr);
+    instr="pushq rbp";
+    funCode.push_back(instr);
+    instr="movq rsp, rbp";
+    funCode.push_back(instr);
+    instr="subq %"+to_string(sz_func())+", %rsp";
+    funCode.push_back(instr);
 }
 void func_call(vector<string>a,vector<string>&funcCode){
     int cnt_param=0;
     vector<string>ans_reg;//keep all the register instruction
-    vector<string>ans_st;//keep all the psuhq instruction
+    vector<string>ans_st;//keep all the pushq instruction
     vector<int>wdt;
     for(int j=0;j<a.size();j++){
         if(a[j].rfind("pushparam",0)==0){
@@ -849,6 +910,7 @@ void func_call(vector<string>a,vector<string>&funcCode){
         checkForArray(smplPush(a[5]),wdt);
     }
     string instr="call  "+funcName(a[a.size()-1]);
+
     ans_reg.push_back(instr);
     for(int j=0;j<wdt.size();j++){
         if(cnt_param>=6){
