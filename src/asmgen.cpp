@@ -1,3 +1,12 @@
+/*
+Function naming convention: <className>.<functionName> as is in 3ac
+
+
+
+
+*/
+
+
 #include <bits/stdc++.h>
 #define PUSHQ "pushq\t"
 #define MOVL "movl\t"
@@ -14,10 +23,15 @@
 #define DBG if(DEBUG)
 using namespace std;
 
+string consOrVar(string);
+
 vector<char> ops = {'+', '-', '*', '/', '^', '&', '%'};
+vector<string> relOps = {"<=", ">=", "==" ,"!=", ">", "<"};
 
 map<char, string> opConv;
 map<string,vector<int>> var;    //it keeps the data 
+map<string, string> relConv;
+
 map<string, int> addressRegDes; // address descriptor
 map<string, int> addressDes;    // describes the address relative to rbp for a given variable
 map<string, bool> mem;          // whether value in memory is correct value of the variable
@@ -166,6 +180,8 @@ void declareRegs()
     r[15].init(15, "%r15");
 }
 
+
+
 // get a free register for calculations, need only two regs as result is stored in the second register
 vector<int> getreg(string res, string a, string b, vector<string> &funcCode)
 {
@@ -217,7 +233,7 @@ vector<int> getreg(string res, string a, string b, vector<string> &funcCode)
         {
             // allot %rbx to the s
             vector<string> t = r[1].storeall();
-
+            
             funcCode.insert(funcCode.end(), t.begin(), t.end());
             funcCode.push_back(string(MOVQ) + to_string(addressDes[a]) + "(%rbp), " + ", %rbx");
             r[1].addRegDes(a);
@@ -291,6 +307,7 @@ bool is_number(const std::string& s)
 string genMove(string src, string dest) 
 {
     // check if src is a number
+    cout << src << " in genMove\n";
     if(is_number(src)) {
         // int val = stoi(src);
         src = string("$") + src;
@@ -344,6 +361,7 @@ int getLineNo(string instr)
     int lineNo = 0;
     while(i < instr.size() && isdigit(instr[i])) {
         lineNo = lineNo * 10 + (instr[i] - '0');
+        i++;
     }
     return lineNo;
 }   
@@ -368,9 +386,15 @@ vector<string> identifyInstr(string instr)
     
     assume instruction starts immediately after colon
     */
+    // string instr = lines[0];
     vector<string> ans;
     if(DEBUG) cout << "hey there\n";
     size_t colpos= instr.find(":");
+    int line_num = getLineNo(instr);
+    if(islabel[line_num]) {
+        string ins = ".L" + to_string(line_num) + ":";
+        ans.push_back(ins);
+    }
     instr = instr.substr(colpos+1);
     DBG cout << "hey\n";
     size_t eqpos = instr.find('=');
@@ -390,7 +414,7 @@ vector<string> identifyInstr(string instr)
                 string ins1 = genMove(y, "%rbx");
                 string ins2 = genMove(z, "%rcx");
                 string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
-                string ins4 = genMove("%rbx", x);
+                string ins4 = genMove("%rcx", x);
                 ans.push_back(ins1);
                 ans.push_back(ins2);
                 ans.push_back(ins3);
@@ -434,6 +458,69 @@ vector<string> identifyInstr(string instr)
         //     string compInstr = instr.substr(3, pos-2-3+1);
 
         // }
+        // if(instr.fins("pushparam") != string::npos) {
+
+        // }
+        if(instr.find("if") != string::npos) {
+            string t = instr.substr(instr.find("if"));
+            string var1, var2, gotoloc;
+            int gotopos = t.find("goto");
+
+            int relpos = 0;
+            for(auto ch: relOps) {
+                if(t.find(ch ) != string::npos) {
+                    relpos = t.find(ch);
+                    break;
+                }
+
+            }
+            var1 = t.substr(3, relpos-3);
+            int relEnd = relpos;
+            if(!isalnum(t[relpos + 1]) ) relEnd++;
+            var2 = t.substr(relEnd+1, gotopos-relEnd-2 );
+
+            DBG cout << var1 << " " << var2 <<  "\n";
+            string ins1 = genMove(var1, "%rax");
+            string ins2 = genMove(var2, "%rcx");
+
+            string ins = "cmpq\t%rcx, %rax";
+            string ins_ = relConv[t.substr(relpos, relEnd-relpos+1 )] + " .L" + t.substr(gotopos+5);
+            DBG cout << ins_ << "\n";
+            ans.push_back(ins1);
+            ans.push_back(ins2);
+            ans.push_back(ins);
+            ans.push_back(ins_);
+            gotoloc = t.substr(gotopos + 5);
+            int gotoval = stoi(gotoloc);
+            islabel[gotoval] = true;
+	    
+        }
+        else if(instr.find("goto") != string::npos) {
+            // pure goto instruction with no if
+            int gotoval = stoi(instr.substr(5));
+            islabel[gotoval] = true;
+            string ins = string("jmp .L") + to_string(gotoval);
+            ans.push_back(ins); 
+        }
+        else if(instr.substr(0, 5) == "print") {
+            string ins1 = MOVQ + string("$0, %rax");
+            string varName = instr.substr(6);
+            //cout << line << "\n";
+            if(DEBUG) cout << varName << " heree var name\n";
+            string t;
+            t=to_string(addressDes[varName]) + string("(%rbp)");
+            string ins2 = MOVQ + string("$printfmt, %rdi");
+            string ins3 = MOVQ + t+ string(", %rsi");
+            ans.push_back(ins1);
+            ans.push_back(ins2);
+            ans.push_back(ins3);
+            ans.push_back("call printf");
+
+        }
+
+
+
+        
     }
     return ans;
 }
@@ -581,6 +668,8 @@ vector<string> genfunc(string funcName)
     // closing the function code
     funcCode.push_back("leave");
     funcCode.push_back("ret");
+
+    return funcCode;
 
     // Access the data by index
     // cout << data[0][0] << endl; // Print the first cell of the first row
@@ -814,6 +903,13 @@ int main(int argc, char *argv[])
     opConv['*'] = MULQ;
     opConv['/'] = DIVQ;
     opConv['^'] = XORQ;
+    relConv["<"] = "jl";
+    relConv[">"] = "jg";
+    relConv[">="] = "jge";
+    relConv["<="] = "jle";
+    relConv["!="] = "jne";
+    relConv["=="] = "je";
+    
 
     vector<string> code = genfunc("main");
     finalCodeGen(code);

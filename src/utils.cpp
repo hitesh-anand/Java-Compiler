@@ -14,9 +14,12 @@ int startPos = 0;
 int temp = 0;
 
 int varCnt = 0;
+int tempCnt = 0;
 int labelCnt = 0;
 int importflag = 0;
 extern int scope_level;
+
+map<string, int> tempVars;
 
 string condvar;
 int isCond = 0;
@@ -47,9 +50,209 @@ string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
     //     return s;
-    if((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z'))
+    if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && (s!="false" && s!="true"))
         return s+"`"+to_string(scope_level);
     return s;
+}
+
+void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
+{
+    ofstream otherFile;
+    otherFile.open(fln+".3ac");
+    cout<<"opened"<<endl;
+    // otherFile<<tempVars[fln]<<endl;
+    int cnt=0;
+    for(int i=index; i<ircode.size(); i++) {
+        auto it = ircode[i];
+        otherFile << cnt++ << "\t:";
+        cout<<"Started for i : "<<i<<endl;
+        if (it->type == 1)
+        {
+            otherFile << "if" << it->arg1 << "then ";
+            continue;
+        }
+        if (it->type == 2)
+        {
+            otherFile << "if " << it->arg1 << it->op << it->arg2 << " goto " << it->result << "\n";
+            continue;
+        }
+        if (it->type == 3)
+        {
+            otherFile << "goto " << it->result << "\n";
+            continue;
+        }
+        else if (it->type == 4)
+        {
+            if (it->result == "")
+                otherFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+            else
+                otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 5)
+        {
+            otherFile << "pushparam " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 6)
+        {
+            otherFile.close();
+            return;
+        }
+        else if (it->type == 7)
+        {
+            otherFile.close();
+            return;
+        }
+        else if (it->type == 8)
+        {
+            otherFile << "sub  " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 9)
+        {
+            otherFile << "push  " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 10)
+        {
+            otherFile << "mov  " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 11)
+        {
+            otherFile << "popparam " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 12)
+        {
+            ;
+        }
+        else if (it->type == 13)
+        {
+            otherFile << it->arg1 << " = popparam"
+                   << "\n";
+            continue;
+        }
+
+        if (it->label != "")
+        {
+            otherFile << it->label << ": ";
+        }
+        if (it->arg2 != "")
+            otherFile << it->result << "=" << it->arg1 << it->op << it->arg2 << "\n";
+        else
+            otherFile << it->result << "=" << it->arg1 << "\n";
+    }
+    otherFile.close();
+}
+
+void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
+{
+    ofstream otherFile;
+    otherFile.open(fln+".3ac");
+    cout<<"opened"<<endl;
+    otherFile<<tempVars[fln]<<endl;
+    int cnt=0;
+    for(int i=index; i<ircode.size(); i++) {
+        auto it = ircode[i];
+        otherFile << cnt++ << "\t:";
+        cout<<"Started for i : "<<i<<endl;
+        if (it->type == 1)
+        {
+            otherFile << "if" << it->arg1 << "then ";
+            continue;
+        }
+        if (it->type == 2)
+        {
+            otherFile << "if " << it->arg1 << it->op << it->arg2 << " goto " << it->result << "\n";
+            continue;
+        }
+        if (it->type == 3)
+        {
+            otherFile << "goto " << it->result << "\n";
+            continue;
+        }
+        else if (it->type == 4)
+        {
+            if (it->result == "")
+                otherFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+            else
+                otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 5)
+        {
+            otherFile << "pushparam " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 6)
+        {
+            // cout<<"Entered this"<<endl;
+            // ir_func_gen(i, ircode, it->arg1+".3ac");
+            otherFile << "beginfunc " << it->arg1 << " ";
+            // cout << "beginfunc " << it->arg1 << endl;
+            if(it->params.size()==0)
+            {
+                otherFile<<"\n";
+            }
+            else
+            {
+                for(int i=0; i<it->params.size()-1; i++)
+                {
+                    otherFile<<it->params[i]<<",";
+                }
+                otherFile<<it->params.back()<<"\n";
+            }
+            continue;
+        }
+        else if (it->type == 7)
+        {
+            otherFile << it->arg1 << " " << it->arg2 << "\n";
+            otherFile.close();
+            return;
+        }
+        else if (it->type == 8)
+        {
+            otherFile << "sub  " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 9)
+        {
+            otherFile << "push  " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 10)
+        {
+            otherFile << "mov  " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 11)
+        {
+            otherFile << "popparam " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 12)
+        {
+            ;
+        }
+        else if (it->type == 13)
+        {
+            otherFile << it->arg1 << " = popparam"
+                   << "\n";
+            continue;
+        }
+
+        if (it->label != "")
+        {
+            otherFile << it->label << ": ";
+        }
+        if (it->arg2 != "")
+            otherFile << it->result << "=" << it->arg1 << it->op << it->arg2 << "\n";
+        else
+            otherFile << it->result << "=" << it->arg1 << "\n";
+    }
+    otherFile.close();
 }
 
 void ir_gen(vector<Quadruple *> ircode, string fln)
@@ -57,7 +260,8 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
     ofstream myFile;
     myFile.open(fln);
     int cnt = 0;
-    for(auto it: ircode) {
+    for(int i=0; i<ircode.size(); i++) {
+        auto it = ircode[i];
         myFile << cnt++ << "\t:";
         if (it->type == 1)
         {
@@ -90,6 +294,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         else if (it->type == 6)
         {
             // cout<<"Entered this"<<endl;
+            ir_func_gen(i, ircode, it->arg1);
             myFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
@@ -108,6 +313,8 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 7)
         {
+            if(it->arg1=="beginclass")
+                ir_class_gen(i, ircode, it->arg2);
             myFile << it->arg1 << " " << it->arg2 << "\n";
             continue;
         }

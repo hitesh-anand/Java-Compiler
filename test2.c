@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-int a, bb;
+int a=1, bb;
 
 
 // void add(int c, int d, int e, int f, int g, int h, int i, int j)
@@ -12,7 +12,7 @@ int a, bb;
 void proc()
 {
     int b = a +5 +bb;
-    if(a == 1) {
+    if(a < 1) {
         int b= a+ 3;
         printf("%d\n", b);
     }
@@ -28,6 +28,7 @@ int main()
     long int bb = 4;
     long int bbb = 5;
     long int c = a + b/ bb+ b* bbb + (b % bbb);
+    proc();
     // long int b = 0;
     // long int c = b + a;
     // long int d = a;

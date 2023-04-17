@@ -1,39 +1,69 @@
-0	:beginclass NumberToWordExample1 
-1	:beginfunc func 
-2	:len`2=5
-3	:if len`3==0 goto 5
-4	:goto 10
-5	:pushparam "The string is empty."
-6	:stackpointer=stackpointer+int 8
-7	:print "The string is empty."
-8	:stackpointer=stackpointer-int 8
-9	:return 
-10	:if len`4>4 goto 12
-11	:goto 17
-12	:pushparam "\n The given number has more than 4 digits."
-13	:stackpointer=stackpointer+int 8
-14	:print "\n The given number has more than 4 digits."
-15	:stackpointer=stackpointer-int 8
-16	:return 
-17	:onedigit`4[0]=1
-18	:onedigit`4[4]=2
-19	:onedigit`4[8]=4
-20	:onedigit`4[12]=5
-21	:onedigit`4[16]=6
-22	:pushparam ": "
-23	:stackpointer=stackpointer+int 8
-24	:print ": "
-25	:stackpointer=stackpointer-int 8
-26	:if len`5==1 goto 28
-27	:goto 35
-28	:pushparam 1
-29	:stackpointer=stackpointer+int 8
-30	:print 1
-31	:stackpointer=stackpointer-int 8
-32	:_t0=1*int 4
-33	:*(onedigit`5+int _t0)=5
-34	:return 
-35	:x`5=0
-36	:return 
+0	:beginclass Person 
+1	:id`1=0
+2	:beginfunc Person a`2
+3	:a`1 = popparam
+4	:_t0=a`1+int 1
+5	:id`1=_t0
+6	:endfunc 
+7	:endclass 
+8	:beginclass Employee 
+9	:name`2=0
+10	:beginfunc Employee d`3,c`3
+11	:d`2 = popparam
+12	:c`2 = popparam
+13	:pushparam d`2
+14	:stackpointer=stackpointer+int 8
+15	:call super, 1
+16	:stackpointer=stackpointer-int 8
+17	:_t0=c`2+int 1
+18	:d`2=_t0
+19	:d`2=d`2+int 1
+20	:endfunc 
+21	:endclass 
+22	:beginclass Vehicle 
+23	:maxSpeed`3=120
+24	:beginfunc display 
+25	:_t0="Maximum Speed of Vehicle: "+maxSpeed`4
+26	:pushparam _t0
+27	:stackpointer=stackpointer+int 8
+28	:print _t0
+29	:stackpointer=stackpointer-int 8
+30	:endfunc 
+31	:endclass 
+32	:beginclass animal 
+33	:legs`5=5
+34	:beginfunc animal a`6
+35	:a`5 = popparam
+36	:legs`5=a`5
 37	:endfunc 
-38	:endclass 
+38	:beginfunc display 
+39	:_t0="Number of legs: "+legs`6
+40	:pushparam _t0
+41	:stackpointer=stackpointer+int 8
+42	:print _t0
+43	:stackpointer=stackpointer-int 8
+44	:endfunc 
+45	:endclass 
+46	:beginclass dog 
+47	:legs`7=4
+48	:beginfunc dog a`8
+49	:a`7 = popparam
+50	:pushparam a`7
+51	:stackpointer=stackpointer+int 8
+52	:call super, 1
+53	:stackpointer=stackpointer-int 8
+54	:legs`7=a`7
+55	:endfunc 
+56	:beginfunc display 
+57	:_t0="Number of legs: "+legs`8
+58	:pushparam _t0
+59	:stackpointer=stackpointer+int 8
+60	:print _t0
+61	:stackpointer=stackpointer-int 8
+62	:_t1="Number of legs of general animal: "+super.legs`8
+63	:pushparam _t1
+64	:stackpointer=stackpointer+int 8
+65	:print _t1
+66	:stackpointer=stackpointer-int 8
+67	:endfunc 
+68	:endclass 

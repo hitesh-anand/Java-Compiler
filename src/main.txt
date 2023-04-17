@@ -2,5 +2,10 @@
 1   :a=4
 2   :b=5
 3   :c=a+b
-4   :print c
-5   :endfunc
+4   :if c<5 goto 6
+5   :goto 8
+6   :c=c+1
+7   :goto 9
+8   :c=c+2
+9   :print c
+10  :endfunc
