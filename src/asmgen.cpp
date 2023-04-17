@@ -35,6 +35,8 @@ map<string, string> relConv;
 map<string, int> addressRegDes; // address descriptor
 map<string, int> addressDes;    // describes the address relative to rbp for a given variable
 map<string, bool> mem;          // whether value in memory is correct value of the variable
+
+void func_call(vector<string>a,vector<string>&funcCode);
 /*
 General tips:
 - %rsi and %rdi are used for passing function arguments
@@ -518,7 +520,7 @@ vector<string> identifyInstr(string instr)
 
         }
         else if(instr.substr(0, 9)=="beginfunc") {
-
+            
         }
 
 
