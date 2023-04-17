@@ -485,7 +485,7 @@ void SymGlob::printTree()
         }
 
         q.pop();
-        cout << "Scope level : " << p.second << " " << endl;
+        cout << "Scope level : " << p.second << " bdbjb " << endl;
         cout << "The variables are : " << endl;
         for (auto it : p.first->mp)
         {

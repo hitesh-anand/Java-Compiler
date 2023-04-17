@@ -368,7 +368,8 @@ void backpatch(vector<int> &lst, int n)
 {
     for (auto it : lst)
     {
-        ircode[it]->print();
+        std::cout << "calling print\n";
+        //ircode[it]->print();
         ircode[it]->set_result(to_string(n));
     }
 }
@@ -608,9 +609,9 @@ int generateArgumentList(vector<Node *> nodes, Node *n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    Quadruple *q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
-    n->code.push_back(q);
-    ircode.push_back(q);
+    // Quadruple *q = new Quadruple("+ ", "stackpointer", to_string(space), "stackpointer");
+    // n->code.push_back(q);
+    // ircode.push_back(q);
     n->last = ircode.size() - 1;
     return space;
 }

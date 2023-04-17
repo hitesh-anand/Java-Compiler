@@ -35,6 +35,8 @@ map<string, string> relConv;
 map<string, int> addressRegDes; // address descriptor
 map<string, int> addressDes;    // describes the address relative to rbp for a given variable
 map<string, bool> mem;          // whether value in memory is correct value of the variable
+
+void func_call(vector<string>a,vector<string>&funcCode);
 /*
 General tips:
 - %rsi and %rdi are used for passing function arguments
@@ -517,6 +519,9 @@ vector<string> identifyInstr(string instr)
             ans.push_back("call printf");
 
         }
+        else if(instr.substr(0, 9)=="beginfunc") {
+            
+        }
 
 
 
@@ -601,6 +606,25 @@ vector<string> genfunc(string funcName)
     
     while (getline(file2, line)) {
         if(DEBUG) cout << linecnt++ << "\n";
+        vector<string> lines= {line};
+        int isfunc = 0;
+        while(line.find("pushparam") != string::npos) {
+            isfunc=1;
+            getline(file2, line);
+            lines.push_back(line);
+        }
+
+        if(isfunc) {
+            getline(file2, line);
+            getline(file2, line);
+            func_call(lines, funcCode);
+            getline(file2, line);
+            continue;
+        }
+        if(line.substr(0, 4)=="call") {
+            func_call(lines, funcCode);
+            continue;
+        }
         vector<string> t = identifyInstr(line);
         for (auto it: t) {
             DBG cout << it <<"\n";
