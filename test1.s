@@ -1,8 +1,8 @@
 	.file	"test1.c"
 	.text
-	.globl	main
-	.type	main, @function
-main:
+	.globl	fib
+	.type	fib, @function
+fib:
 .LFB0:
 	.cfi_startproc
 	pushq	%rbp
@@ -10,45 +10,41 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$48, %rsp
-	movl	$3, -8(%rbp)
-	movl	$4, -4(%rbp)
-	movl	$5, -12(%rbp)
-	movl	$10, -16(%rbp)
-	movl	$12, -20(%rbp)
-	movl	$12, -24(%rbp)
-	movl	$13, -28(%rbp)
-	movl	$10, -32(%rbp)
-	movl	$4, -36(%rbp)
-	movl	$12, -40(%rbp)
-	movl	$21, -44(%rbp)
-	movl	$122, -48(%rbp)
-	cmpl	$0, -8(%rbp)
-	jg	.L2
-	movl	$2, -4(%rbp)
+	pushq	%rbx
+	subq	$24, %rsp
+	.cfi_offset 3, -24
+	movl	%edi, -20(%rbp)
+	cmpl	$0, -20(%rbp)
+	jne	.L2
+	movl	$0, %eax
 	jmp	.L3
 .L2:
-	movl	$3, -4(%rbp)
-.L3:
-	movl	-4(%rbp), %edx
-	movl	-8(%rbp), %eax
-	movl	%edx, %esi
+	cmpl	$1, -20(%rbp)
+	jne	.L4
+	movl	$1, %eax
+	jmp	.L3
+.L4:
+	movl	-20(%rbp), %eax
+	subl	$1, %eax
 	movl	%eax, %edi
-	call	printName
-	nop
+	call	fib
+	movl	%eax, %ebx
+	movl	-20(%rbp), %eax
+	subl	$2, %eax
+	movl	%eax, %edi
+	call	fib
+	addl	%ebx, %eax
+.L3:
+	movq	-8(%rbp), %rbx
 	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
 .LFE0:
-	.size	main, .-main
-	.section	.rodata
-.LC0:
-	.string	"Javatpoint"
-	.text
-	.globl	printName
-	.type	printName, @function
-printName:
+	.size	fib, .-fib
+	.globl	main
+	.type	main, @function
+main:
 .LFB1:
 	.cfi_startproc
 	pushq	%rbp
@@ -56,22 +52,16 @@ printName:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$32, %rsp
-	movl	%edi, -20(%rbp)
-	movl	%esi, -24(%rbp)
-	movl	$.LC0, %edi
-	movl	$0, %eax
-	call	printf
-	movl	-20(%rbp), %edx
-	movl	-24(%rbp), %eax
-	addl	%edx, %eax
+	subq	$16, %rsp
+	movl	$5, %edi
+	call	fib
 	movl	%eax, -4(%rbp)
-	nop
+	movl	$0, %eax
 	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
 .LFE1:
-	.size	printName, .-printName
-	.ident	"GCC: (GNU) 12.2.1 20220819 (Red Hat 12.2.1-2)"
+	.size	main, .-main
+	.ident	"GCC: (GNU) 12.2.1 20221121 (Red Hat 12.2.1-4)"
 	.section	.note.GNU-stack,"",@progbits

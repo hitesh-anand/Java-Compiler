@@ -1,12 +1,20 @@
-// to show 1 d array usage and initialization
-class NumberToWordExample1 {
-    int b, c;
+public class ArrayExample {
+    
+    int aa, b;
+    int c[] = new int [5];
     public static void main()
     {
-        int a[] = new int [5];
-        a[0] = 1;
-        a[1] = 2;
-        a[2] = 3;
-        
+        int numbers[] = new int[5]; // Fix the size to 5
+        int x = 5;
+        if(x < 10) {
+            x = x + 1;
+            int a = x + 5;
+            System.out.println(x);
+        }
+        else {
+            x = x + 2;
+        }
+        int a = 4;
     }
+    // Rest of the class implementation...
 }
