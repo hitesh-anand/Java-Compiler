@@ -52,7 +52,10 @@ string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
     //     return s;
-    return s;
+    if(s.find('`') != string::npos)
+        return s;
+    if(scope_level==-1)
+        cout<<-1<<"for "<<s<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && (s!="false" && s!="true"))
         return s+"`"+to_string(scope_level);
     return s;
@@ -392,6 +395,7 @@ void processFieldDec(Node *n, Node *n1, int type)
         ircode.push_back(q);
     }
 
+    // n1->children[0]->varName = append_scope_level(n1->children[0]->varName);
     Quadruple *q = new Quadruple("=", resName, append_scope_level(n1->children[0]->varName));
     n->code.push_back(q);
     ircode.push_back(q);
@@ -403,6 +407,7 @@ void processUninitDec(Node *n, Node *n1)
     if (!n || !n1)
         return;
     string var = n1->attr;
+    // var = append_scope_level(var);
     Quadruple *q = new Quadruple("=", "0", append_scope_level(var));
     n->code.push_back(q);
     ircode.push_back(q);

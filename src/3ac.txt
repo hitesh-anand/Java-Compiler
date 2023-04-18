@@ -1,25 +1,32 @@
 0	:beginclass Test 
-1	:beginfunc foobar a`3
-2	:a`2 = popparam
-3	:_t0=2*int 4
-4	:*(a`2+int _t0)=1
-5	:_t1=2*int 4
-6	:_t2=a`3[_t1]
-7	:if _t2==1 goto 9
-8	:goto 10
-9	:b`3=2
-10	:b`5=2
-11	:endfunc 
-12	:beginfunc foob b`7,c`7,d`7
-13	:b`7 = popparam
-14	:c`7 = popparam
-15	:d`7 = popparam
-16	:_t0=w2*4
-17	:_t1=2*int _t0
-18	:_t2=1*int 4
-19	:_t3=_t1+int _t2
-20	:*(b`7+int _t3)=1
-21	:a`7=3
-22	:return 0
-23	:endfunc 
-24	:endclass 
+1	:a`1=0
+2	:b`1=false
+3	:beginfunc foobar a`2,c`2,d`2
+4	:a`2 = popparam
+5	:c`2 = popparam
+6	:d`2 = popparam
+7	:a`2=1
+8	:if a`3==1 goto 10
+9	:goto 12
+10	:a`3=a`3+int 1
+11	:b`3=2
+12	:b`5=2
+13	:endfunc 
+14	:beginfunc foob b`7,c`7,d`7
+15	:b`7 = popparam
+16	:c`7 = popparam
+17	:d`7 = popparam
+18	:_t0=w2*4
+19	:_t1=2*int _t0
+20	:_t2=1*int 4
+21	:_t3=_t1+int _t2
+22	:*(b`7+int _t3)=1
+23	:a`7=3
+24	:return 0
+25	:endfunc 
+26	:beginfunc main 
+27	:endfunc 
+28	:endclass 
+29	:beginclass another 
+30	:b`12=0
+31	:endclass 

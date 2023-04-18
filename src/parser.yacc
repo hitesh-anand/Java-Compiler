@@ -303,7 +303,7 @@ SingleTypeImportDeclaration:
 
         vector<Node*> t = {t1, $2};
         $$ = new struct Node("SingleTypeImportDeclaration", t);
-        verbose(v,"IIMPORT Name SEMICOLON->SingleTypeImportDeclaration");
+        verbose(v,"IMPORT Name SEMICOLON->SingleTypeImportDeclaration");
 
         Symbol* res = root->lookup($2->attr);
         if(!res)
@@ -970,6 +970,7 @@ NormalClassDeclaration:
     root->cinsert($1, res);
     Symbol* r = new Symbol($1, typeroot->addNewClassType(), yylineno);
     list_class[$1]=res;
+    r->scope_level = scope_level;
     root->insert(r->lexeme, r);
 }
 |   Class ClassExtends ClassPermits ClassBody     {
@@ -1703,6 +1704,7 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         processPostIncre($$);
@@ -1790,6 +1792,7 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            } 
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -1857,6 +1860,7 @@ FieldDeclaration:
                 //sym->calcWidths();
            }
             processPostIncre($$);
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -2306,6 +2310,7 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         Quadruple* q = new Quadruple(6, $2->varName , params);
@@ -2388,6 +2393,12 @@ MethodHeader:
                 args.push_back(typeroot->typewidth[$2->children[i]->attr].first);
         }
 
+        vector<string> params;
+        for(int i=2; i<$2->children.size(); i+=2)
+        {
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
+        }
+
         SymNode* check = root->currNode->scope_flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
         SymNode* check2 = root->flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
         if(check2&&check2->isFinalId==true){
@@ -2420,13 +2431,10 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
-        vector<string> params;
-        for(int i=2; i<$2->children.size(); i+=2)
-        {
-            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
-        }
+
         Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -2504,6 +2512,7 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         vector<string> params;
@@ -3031,6 +3040,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        scope_level++;
         Quadruple* q = new Quadruple(6,  $1->varName);
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -3104,6 +3114,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        scope_level++;
 
         // for(aut$3->children)
         for(int i=0; i<$3->children.size(); i++)
@@ -3116,6 +3127,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -3162,7 +3174,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-
+        scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$5->children.size(); i++)
         {
@@ -3174,6 +3186,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -3248,7 +3261,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-
+        scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$4->children.size(); i++)
         {
@@ -3260,6 +3273,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }  
@@ -3310,7 +3324,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-
+        scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$6->children.size(); i++)
         {
@@ -3322,6 +3336,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -4028,6 +4043,7 @@ LocalVariableDeclaration:
                 
                 //sym->calcWidths();
            }
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
             //if(cc) backpatch((ch-1)->nextlist,(ch-1)->last + 1);
@@ -4110,6 +4126,7 @@ LocalVariableDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }     
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         $$->last = ircode.size() - 1;
