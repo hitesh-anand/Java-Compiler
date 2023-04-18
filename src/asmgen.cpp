@@ -28,6 +28,8 @@ string consOrVar(string);
 vector<char> ops = {'+', '-', '*', '/', '^', '&', '%'};
 vector<string> relOps = {"<=", ">=", "==" ,"!=", ">", "<"};
 
+map<string,int> sizes;
+
 map<char, string> opConv;
 map<string,vector<int>> var;    //it keeps the data 
 map<string, string> relConv;
@@ -35,8 +37,43 @@ map<string, string> relConv;
 map<string, int> addressRegDes; // address descriptor
 map<string, int> addressDes;    // describes the address relative to rbp for a given variable
 map<string, bool> mem;          // whether value in memory is correct value of the variable
+map<string, int> classSize;     // size of a class object assuming size of int as 8 bytes
+
+string currClassName;   // current class being handled
 
 void func_call(vector<string>a,vector<string>&funcCode);
+
+int getAddressDes(string varname)
+{
+    if(addressDes.find(varname) != addressDes.end()) return addressDes[varname];
+    else return addressDes[currClassName + "::" + varname];
+}
+
+
+vector<vector<string> > read_csv(string filename)
+{
+    vector<vector<string>> data;
+    ifstream file(filename);
+    //vector<string> funcCode;
+
+    string line;
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        vector<string> row;
+
+        string cell;
+        while (getline(ss, cell, ','))
+        {
+            row.push_back(cell);
+        }
+
+        data.push_back(row);
+    }
+    file.close();
+    return data;
+
+}
 /*
 General tips:
 - %rsi and %rdi are used for passing function arguments
@@ -519,7 +556,17 @@ vector<string> identifyInstr(string instr)
             ans.push_back("call printf");
 
         }
-        else if(instr.substr(0, 9)=="beginfunc") {
+        else if(instr.substr(0, 10)=="beginclass") {
+            string t = "";
+            int currpos = 11;
+            for(auto ch : instr.substr(11)) {
+                if(ch == ' ') {
+                    break;
+                }
+                t += ch;
+                currpos++;
+            }
+            currClassName = t;
             
         }
 
@@ -528,6 +575,12 @@ vector<string> identifyInstr(string instr)
         
     }
     return ans;
+}
+
+
+vector<string> arrayAccess(string instr)
+{
+
 }
 
 // function to translate a print statement to generate the assembly file
@@ -625,6 +678,7 @@ vector<string> genfunc(string funcName)
             func_call(lines, funcCode);
             continue;
         }
+        
         vector<string> t = identifyInstr(line);
         for (auto it: t) {
             DBG cout << it <<"\n";
@@ -697,6 +751,42 @@ vector<string> genfunc(string funcName)
 
     // Access the data by index
     // cout << data[0][0] << endl; // Print the first cell of the first row
+}
+
+void handleClassDec(string filename)
+{
+    string line;
+    ifstream fp(filename);
+    getline(fp, line);
+    if(line.substr(0, 10) == "beginclass") {
+            currClassName = line.substr(11);
+            getline(fp, line);
+            while(line.find("endclass") != string::npos) {
+                // getline(file2, line);
+                // two things, integer variable or array declaration, or even class declaration
+                // addressDes[currClassName + "::" + line.substr()]
+                // assuming there is a csv file having variable info, type of variable and name of variable
+                vector<vector<string> > data = read_csv(currClassName + ".csv");
+                for(int i = 1; i < data.size(); i++) {
+                    string var = data[i][2];
+                    int pos = -8;
+                    string typeName = data[i][3];
+                    if(sizes.find(typeName) != sizes.end()) {
+                        classSize[currClassName] += sizes[typeName];
+                        addressDes[currClassName + "::" + var] = pos;
+                        pos-=8;
+                    }
+                    else if(classSize.find(data[i][2]) != classSize.end()) {
+                        classSize[currClassName] += classSize[data[i][3]];
+                        addressDes[currClassName + "::" + var] = pos;
+                        pos = pos - classSize[data[i][3]];
+                    
+                    }
+                }
+                getline(fp, line);
+ 
+            }
+        }
 }
 
 void finalCodeGen(vector<string> &funcCode)
@@ -924,6 +1014,8 @@ int main(int argc, char *argv[])
     relConv["<="] = "jle";
     relConv["!="] = "jne";
     relConv["=="] = "je";
+    sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
+    
     
 
     vector<string> code = genfunc("main");

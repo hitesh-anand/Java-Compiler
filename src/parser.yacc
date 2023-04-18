@@ -1683,11 +1683,15 @@ FieldDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
+                
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
 
             }
             else {
-                
+                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
+                    //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
                 
             }
@@ -1767,11 +1771,15 @@ FieldDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
+                
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
 
             }
              else {
-                
+                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
+                    //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
                 
             }
@@ -1829,14 +1837,16 @@ FieldDeclaration:
                     yyerror("Error");
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
-                
                 sym->lexeme = ch->children[0]->attr;
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
+                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
 
             }
              else {
-               
-                  processUninitDec($$, ch);
+                ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                //sym->lexeme = ch->attr;
+                processUninitDec($$, ch);
                 
             }
             if(ch->arrayType > 0) {
@@ -3993,12 +4003,15 @@ LocalVariableDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
                 
 
             }
              else {
-              
+                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                    //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
              
             }
@@ -4079,11 +4092,14 @@ LocalVariableDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
 
             }
              else {
-                
+                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                    //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
                 
             }
