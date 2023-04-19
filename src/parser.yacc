@@ -2297,7 +2297,6 @@ MethodHeader:
         }
         root->currNode->childscopes.push_back(newf);
         root->currNode=newf;
-        newf->par_class = currClass;
         root->finsert($2->children[0]->attr, newf);
         root->currNode->name="method";
         for(int i=2; i<$2->children.size(); i+=2)
@@ -2420,7 +2419,6 @@ MethodHeader:
         scope_level++;
         root->currNode->childscopes.push_back(newf);
         root->currNode=newf;
-        newf->par_class = currClass;
         root->finsert($2->children[0]->attr, newf);
         root->currNode->name="method";
         for(int i=2; i<$2->children.size(); i+=2)
@@ -2501,7 +2499,6 @@ MethodHeader:
         SymNode* newf = new SymNode(root->currNode, "New Function", FUNC_SYM, args, typeroot->typewidth[$2->attr].first);
         root->currNode->childscopes.push_back(newf);
         root->currNode=newf;
-        newf->par_class = currClass;
         root->finsert($3->children[0]->attr, newf);
         scope_level++;
         root->currNode->name="method";
@@ -2959,6 +2956,7 @@ ConstructorDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        cout<<"Adding "<<currClass<<" for "<<currFunc<<endl;
         classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
@@ -3000,6 +2998,7 @@ ConstructorDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        cout<<"Adding "<<currClass<<" for "<<currFunc<<endl;
         classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
@@ -3022,7 +3021,7 @@ ConstructorDeclarator:
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
     verbose(v,"Name LEFTPARENTHESIS RIGHTPARENTHESIS->ConstructorDeclarator");
-
+    currFunc = $1->attr;
 
         vector<int> args;
         args.push_back(-1);
@@ -3040,7 +3039,6 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args, typeroot->typewidth[$1->attr].first);
-        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3056,6 +3054,7 @@ ConstructorDeclarator:
     temp.push_back($1);
     
     // temp.push_back($3);
+    currFunc = $1->attr;
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
@@ -3070,7 +3069,7 @@ ConstructorDeclarator:
     temp.push_back($1);
     temp.push_back($3);
     
-    
+    currFunc = $1->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
         vector<string> params;
@@ -3115,7 +3114,6 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
-        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3139,7 +3137,7 @@ ConstructorDeclarator:
 |   Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
-    
+    currFunc = $1->attr;
     temp.push_back($5);
    
    
@@ -3176,7 +3174,6 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
-        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3200,7 +3197,7 @@ ConstructorDeclarator:
     vector<struct Node*> temp;
     temp.push_back($1);
     temp.push_back($2);
-   
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
      Quadruple* q = new Quadruple(6, $2->varName );
@@ -3215,7 +3212,7 @@ ConstructorDeclarator:
     temp.push_back($2);
     
     // temp.push_back($4);
-    
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
     Quadruple* q = new Quadruple(6, $2->varName );
@@ -3230,7 +3227,7 @@ ConstructorDeclarator:
     temp.push_back($2);
     temp.push_back($4);
    
-   
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
             vector<string> params;
@@ -3264,7 +3261,6 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
-        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3294,7 +3290,7 @@ ConstructorDeclarator:
     for(auto it:$6->children)
         for(auto ch : it->children)
             temp.push_back(ch);
-    
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
         vector<string> params;
@@ -3328,7 +3324,6 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
-        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
