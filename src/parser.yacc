@@ -3042,6 +3042,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
         scope_level++;
         Quadruple* q = new Quadruple(6,  $1->varName);
         $$->code.push_back(q);
@@ -3117,6 +3118,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
         scope_level++;
 
         // for(aut$3->children)
@@ -3177,6 +3179,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
         scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$5->children.size(); i++)
@@ -3264,6 +3267,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($2->attr, newf);
         scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$4->children.size(); i++)
@@ -3327,6 +3331,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($2->attr, newf);
         scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$6->children.size(); i++)
