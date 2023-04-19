@@ -12,7 +12,7 @@ string otpt;
 int startPos = 0;
 
 int temp = 0;
-
+vector<tuple<string, int, int>> funcs;
 int varCnt = 0;
 int tempCnt = 0;
 int labelCnt = 0;
@@ -173,11 +173,130 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
     otherFile.close();
 }
 
+void func_gen_wrapper()
+{
+    for(auto it : funcs)
+    {
+        ofstream otherFile;
+        string fln = get<0>(it);
+        int ind = get<2>(it);
+        int lineno = get<1>(it);
+        int cnt=0;
+        cout<<"Arguments are "<<fln<<", "<<lineno<<", "<<ind<<endl;
+        otherFile.open(classfunc[fln]+"-"+fln+".3ac");
+        otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
+        while(cnt<lineno)
+        {
+            // otherFile<<cnt++<<":\n";
+            cnt++;
+        }
+
+        for(int i=ind; i<ircode.size(); i++) {
+        auto it = ircode[i];
+        otherFile << cnt++ << "\t:";
+        // cout<<"Started for i : "<<i<<endl;
+        if (it->type == 1)
+        {
+            otherFile << "if" << it->arg1 << "then ";
+            continue;
+        }
+        if (it->type == 2)
+        {
+            otherFile << "if " << it->arg1 << it->op << it->arg2 << " goto " << it->result << "\n";
+            continue;
+        }
+        if (it->type == 3)
+        {
+            otherFile << "goto " << it->result << "\n";
+            continue;
+        }
+        else if (it->type == 4)
+        {
+            if (it->result == "")
+                otherFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+            else
+                otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 5)
+        {
+            otherFile << "pushparam " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 6)
+        {
+            // cout<<"Entered this"<<endl;
+            // ir_func_gen(i, ircode, it->arg1+".3ac");
+            otherFile << "beginfunc " << it->arg1 << " ";
+            // cout << "beginfunc " << it->arg1 << endl;
+            if(it->params.size()==0)
+            {
+                otherFile<<"\n";
+            }
+            else
+            {
+                for(int i=0; i<it->params.size()-1; i++)
+                {
+                    otherFile<<it->params[i]<<",";
+                }
+                otherFile<<it->params.back()<<"\n";
+            }
+            continue;
+        }
+        else if (it->type == 7)
+        {
+            otherFile << it->arg1 << " " << it->arg2 << "\n";
+            otherFile.close();
+            break;
+        }
+        else if (it->type == 8)
+        {
+            otherFile << "sub  " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 9)
+        {
+            otherFile << "push  " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 10)
+        {
+            otherFile << "mov  " << it->arg1 << ", " << it->arg2 << "\n";
+            continue;
+        }
+        else if (it->type == 11)
+        {
+            otherFile << "popparam " << it->arg1 << "\n";
+            continue;
+        }
+        else if (it->type == 12)
+        {
+            ;
+        }
+        else if (it->type == 13)
+        {
+            otherFile << it->arg1 << " = popparam"
+                   << "\n";
+            continue;
+        }
+
+        if (it->label != "")
+        {
+            otherFile << it->label << ": ";
+        }
+        if (it->arg2 != "")
+            otherFile << it->result << "=" << it->arg1 << it->op << it->arg2 << "\n";
+        else
+            otherFile << it->result << "=" << it->arg1 << "\n";
+    }
+
+    }
+}
+
 void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
     otherFile.open(classfunc[fln]+"_"+fln+".3ac");
-    // cout<<"opened"<<endl;
     otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
     int cnt=0;
     for(int i=index; i<ircode.size(); i++) {
@@ -320,7 +439,9 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         else if (it->type == 6)
         {
             // cout<<"Entered this"<<endl;
-            ir_func_gen(i, ircode, it->arg1);
+            cout<<"Arguments are "<<it->arg1<<", "<<cnt-1<<", "<<i<<endl;
+            funcs.push_back({it->arg1, cnt-1, i});
+            // ir_func_gen(i, ircode, it->arg1);
             myFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
@@ -386,6 +507,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
             myFile << it->result << "=" << it->arg1 << "\n";
     }
     myFile.close();
+    func_gen_wrapper();
 }
 
 void backpatch(vector<int> &lst, int n)
