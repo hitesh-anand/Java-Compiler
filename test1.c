@@ -1,14 +1,12 @@
 #include<stdio.h>
 
-int fib(int n) {
-	if(n == 0) return 0;
-	if(n == 1) return 1;
-	return fib(n-1) + fib(n-2);
+int fib(int a[]) {
+	a[0] = 1 +a[1];
 }
 
 int main()
 {
-	int n = fib(5);
+	int a[] = {1,2,3,4};
+	fib(a);
 	return 0;
-	
 }

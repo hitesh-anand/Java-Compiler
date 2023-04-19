@@ -1684,14 +1684,14 @@ FieldDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
-                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
                 
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
 
             }
             else {
-                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
                     //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
                 
@@ -1773,14 +1773,14 @@ FieldDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
-                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
 
             }
              else {
-                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
                     //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
                 
@@ -1842,12 +1842,12 @@ FieldDeclaration:
                 }
                 sym->lexeme = ch->children[0]->attr;
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
-                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
 
             }
              else {
-                ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                 //sym->lexeme = ch->attr;
                 processUninitDec($$, ch);
                 
@@ -2263,7 +2263,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
+            params.push_back($2->children[i]->attr);
         }
 
         for(int i=1; i<$2->children.size(); i+=2)
@@ -2396,7 +2396,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
+            params.push_back($2->children[i]->attr);
         }
 
         SymNode* check = root->currNode->scope_flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
@@ -2518,7 +2518,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$3->children.size(); i+=2)
         {
-            params.push_back($3->children[i]->attr+"`"+to_string(scope_level+1));
+            params.push_back($3->children[i]->attr);
         }
         Quadruple* q = new Quadruple(6, $3->varName , params);
         $$->code.push_back(q);
@@ -3072,7 +3072,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $3->children)
         {
-            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
+            params.push_back(it->children[1]->attr);
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3143,7 +3143,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $5->children)
         {
-            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
+            params.push_back(it->children[1]->attr);
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3230,7 +3230,7 @@ ConstructorDeclarator:
             vector<string> params;
         for(auto it : $4->children)
         {
-            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
+            params.push_back(it->children[1]->attr);
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -3293,7 +3293,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $6->children)
         {
-            params.push_back(it->children[1]->attr+"`"+to_string(scope_level+1));
+            params.push_back(it->children[1]->attr);
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -4018,14 +4018,14 @@ LocalVariableDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
-                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
                 
 
             }
              else {
-                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                     //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
              
@@ -4108,13 +4108,13 @@ LocalVariableDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
-                ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
 
             }
              else {
-                    ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                     //sym->lexeme = ch->attr;
                     processUninitDec($$, ch);
                 
