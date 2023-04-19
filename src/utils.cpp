@@ -157,7 +157,7 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
-    otherFile.open(fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
+    otherFile.open(classfunc[fln]+"_"+fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
     // cout<<"opened"<<endl;
     otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
     int cnt=0;
