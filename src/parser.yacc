@@ -2297,6 +2297,7 @@ MethodHeader:
         }
         root->currNode->childscopes.push_back(newf);
         root->currNode=newf;
+        newf->par_class = currClass;
         root->finsert($2->children[0]->attr, newf);
         root->currNode->name="method";
         for(int i=2; i<$2->children.size(); i+=2)
@@ -2419,6 +2420,7 @@ MethodHeader:
         scope_level++;
         root->currNode->childscopes.push_back(newf);
         root->currNode=newf;
+        newf->par_class = currClass;
         root->finsert($2->children[0]->attr, newf);
         root->currNode->name="method";
         for(int i=2; i<$2->children.size(); i+=2)
@@ -2499,6 +2501,7 @@ MethodHeader:
         SymNode* newf = new SymNode(root->currNode, "New Function", FUNC_SYM, args, typeroot->typewidth[$2->attr].first);
         root->currNode->childscopes.push_back(newf);
         root->currNode=newf;
+        newf->par_class = currClass;
         root->finsert($3->children[0]->attr, newf);
         scope_level++;
         root->currNode->name="method";
@@ -3037,6 +3040,7 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args, typeroot->typewidth[$1->attr].first);
+        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3111,6 +3115,7 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
+        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3171,6 +3176,7 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
+        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3258,6 +3264,7 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
+        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
@@ -3321,6 +3328,7 @@ ConstructorDeclarator:
         }           
 
         SymNode* newf = new SymNode(root->currNode, "constructor", FUNC_SYM, args);
+        newf->par_class = currClass;
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;

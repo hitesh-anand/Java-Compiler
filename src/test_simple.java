@@ -1,6 +1,10 @@
 class Test{
     int a;
     boolean b=false;
+    Test(int c, int d)
+    {
+        a = c;
+    }
     void foobar(int a, int c, int d)
     {
         a = 1;
