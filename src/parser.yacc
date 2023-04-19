@@ -5957,7 +5957,7 @@ ArrayAccess:
     $$->code.push_back(q);
     ircode.push_back(q);
     ******************************************************/
-    $$->varName = $1->varName + "[" + $3->varName + "]";
+    $$->varName = append_scope_level($1->varName) + "[" + append_scope_level($3->varName) + "]";
     $$->attr = $1->attr;
     cout << $$->code.size() << "\n";
     $$->type = root->lookup($1->varName)->type - 100;
@@ -6011,7 +6011,7 @@ ArrayAccess:
     $$->code.push_back(q);
     ircode.push_back(q);
     **********************************************************/
-    $$->varName = $1->varName + "[" + $3->varName + "][" + $6->varName + "]";
+    $$->varName = append_scope_level($1->varName) + "[" + append_scope_level($3->varName)+ "][" + append_scope_level($6->varName)+ "]";
     $$->attr = $1->attr;
     //$$->last = ircode.size() - 1;
     $$->type = root->lookup($1->varName)->type - 200;
@@ -6076,7 +6076,7 @@ ArrayAccess:
     $$->code.push_back(q);
     ircode.push_back(q);
     ***********************************************/
-    $$->varName =  $1->varName + "[" + $3->varName + "][" + $6->varName + "][" + $9->varName;
+    $$->varName =  append_scope_level($1->varName) + "[" + append_scope_level($3->varName) + "][" + append_scope_level($6->varName) + "][" + append_scope_level($9->varName);
     $$->attr = $1->attr;
     $$->type = root->lookup($1->varName)->type - 300;
     //$$->last = ircode.size() - 1;

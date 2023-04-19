@@ -55,8 +55,8 @@ string append_scope_level(string s)
 
 
 
-    // if(s.find('`') != string::npos)
-    //     return s;
+    if(s.find('`') != string::npos)
+        return s;
     // if(scope_level==-1)
     //     cout<<-1<<"for "<<s<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && s!="true" && s!="false")  
@@ -73,6 +73,9 @@ string append_scope_level(string s)
         cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
         if(res)
             cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
+        int scope_attach = max(scope_level, 0);
+        if(scope_attach > 10000)
+            scope_attach = 0;
         if(!res)
             return s+"`"+to_string(max(scope_level,0));
         return s+"`"+to_string(max(res->scope_level,0));

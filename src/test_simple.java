@@ -1,6 +1,6 @@
 class Test{
     // int a;
-    boolean b;
+    boolean b=false;
     Test(int c, int d)
     {
         c=0;
