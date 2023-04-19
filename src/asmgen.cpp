@@ -636,7 +636,18 @@ void fill_var_temp_sz(string x){
     string line;
     getline(file, line);
     file.close();
-    temporary_size=string_to_int(line);
+    string temp_sz="";
+    int q=0;
+    for(int j=0;j<line.size();j++){
+        if(line[j]==','){
+            q=1;
+        }
+        else
+        if(q==1){
+            temp_sz.push_back(line[j]);
+        }
+    }
+    temporary_size=string_to_int(temp_sz);
     vector<string>v;
     file.open(currClassName + "-" + x+".csv");
     getline(file, line);
@@ -924,7 +935,7 @@ void insert_arg(vector<string>arg,vector<string>&funCode){
             arg_name.push_back("_w3"+arg[j]);
         }
     }
-    vector<string>rg={"%rdi", "%rsi", "%rdx", "%rcx", "%r8","%r9"};
+    vector<string>rg={"%rsi", "%rdx", "%rcx", "%r8","%r9"};
     for(int j=0;j<arg_name.size();j++){
         cnt++;
         vector<int>info=var_info(arg_name[j]);
@@ -932,7 +943,7 @@ void insert_arg(vector<string>arg,vector<string>&funCode){
             cout<<"No such variable exist\n";
         }
         else{
-            if(cnt<=6){
+            if(cnt<=5){
                 funCode.push_back("movq "+rg[cnt-1]+", -"+to_string(cnt*8)+"(%rbp)");
                 addressDes[currClassName + "::" + currFuncName + "::" + arg_name[j]]=-cnt*8;
             }
@@ -1039,9 +1050,9 @@ void func_call(vector<string>a,vector<string>&funcCode){
             }
         }
     }
-    vector<string>rg={"%rdi", "%rsi", "%rdx", "%rcx", "%r8","%r9"};
+    vector<string>rg={"%rsi", "%rdx", "%rcx", "%r8","%r9"};
     for(int j=0;j<things.size();j++){
-        if(j<6){
+        if(j<5){
             ans_reg.push_back("movq  "+things[j]+", "+rg[j]);
         }
         else{
@@ -1050,7 +1061,6 @@ void func_call(vector<string>a,vector<string>&funcCode){
         }
     }
     string instr;
-    
     instr="call "+getfuncName(a[a.size()-1]);
     ans_reg.push_back(instr);
     for(auto y:ans_st){
