@@ -1,14 +1,10 @@
 	.file	"test1.c"
 	.text
-<<<<<<< HEAD
 	.globl	fib
 	.type	fib, @function
 fib:
-.LFB0:
-	.cfi_startproc
+	endbr64
 	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
 	pushq	%rbx
@@ -40,118 +36,74 @@ fib:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
-	.cfi_endproc
-.LFE0:
 	.size	fib, .-fib
 	.globl	main
 	.type	main, @function
 main:
-.LFB1:
-	.cfi_startproc
-=======
-	.globl	printName
-	.type	printName, @function
-printName:
-	endbr64
->>>>>>> 161f81a91e7a9a9dcb7b28eb7da1694bda157cba
-	pushq	%rbp
-	movq	%rsp, %rbp
-<<<<<<< HEAD
-	.cfi_def_cfa_register 6
-	subq	$16, %rsp
-	movl	$5, %edi
-	call	fib
-	movl	%eax, -4(%rbp)
-	movl	$0, %eax
-=======
-	subq	$32, %rsp
-	movq	%rdi, -8(%rbp)
-	movl	%esi, -12(%rbp)
-	movl	%edx, -16(%rbp)
-	movl	%ecx, -20(%rbp)
-	movl	%r8d, -24(%rbp)
-	movl	%r9d, -28(%rbp)
-	movq	-8(%rbp), %rax
-	movl	$1, (%rax)
-	movl	-12(%rbp), %r9d
-	movl	-12(%rbp), %r8d
-	movl	-12(%rbp), %ecx
-	movl	-16(%rbp), %edx
-	movl	-12(%rbp), %esi
-	movq	-8(%rbp), %rax
-	movl	24(%rbp), %edi
-	pushq	%rdi
-	movl	16(%rbp), %edi
-	pushq	%rdi
-	movq	%rax, %rdi
-	call	printName
-	addq	$16, %rsp
-	nop
->>>>>>> 161f81a91e7a9a9dcb7b28eb7da1694bda157cba
-	leave
-	ret
-<<<<<<< HEAD
-	.cfi_endproc
-.LFE1:
-	.size	main, .-main
-	.ident	"GCC: (GNU) 12.2.1 20221121 (Red Hat 12.2.1-4)"
-=======
-	.size	printName, .-printName
-	.globl	main
-	.type	main, @function
-main:
 	endbr64
 	pushq	%rbp
 	movq	%rsp, %rbp
-	subq	$48, %rsp
+	subq	$176, %rsp
 	movq	%fs:40, %rax
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	movl	$7, -40(%rbp)
-	movl	$8, -36(%rbp)
+	movl	$1, -160(%rbp)
+	movl	$2, -156(%rbp)
+	movl	$3, -152(%rbp)
+	movl	$4, -148(%rbp)
+	movl	$5, -144(%rbp)
+	movl	$6, -140(%rbp)
+	movl	$7, -136(%rbp)
+	movl	$8, -132(%rbp)
+	movl	$9, -128(%rbp)
+	movl	$10, -124(%rbp)
+	movl	$4, -168(%rbp)
+	movl	$3, -164(%rbp)
+	movl	-168(%rbp), %eax
+	cltq
+	movl	$10, -160(%rbp,%rax,4)
+	movl	$1, -112(%rbp)
+	movl	$1, -108(%rbp)
+	movl	$1, -104(%rbp)
+	movl	$1, -100(%rbp)
+	movl	$1, -96(%rbp)
+	movl	$1, -92(%rbp)
+	movl	$1, -88(%rbp)
+	movl	$1, -84(%rbp)
+	movl	$1, -80(%rbp)
+	movl	$1, -76(%rbp)
+	movl	$1, -72(%rbp)
+	movl	$1, -68(%rbp)
+	movl	$1, -64(%rbp)
+	movl	$1, -60(%rbp)
+	movl	$1, -56(%rbp)
+	movl	$1, -52(%rbp)
+	movl	$1, -48(%rbp)
+	movl	$1, -44(%rbp)
+	movl	$1, -40(%rbp)
+	movl	$1, -36(%rbp)
 	movl	$1, -32(%rbp)
-	movl	$2, -28(%rbp)
-	movl	$3, -24(%rbp)
-	movl	$4, -20(%rbp)
-	movl	$5, -16(%rbp)
-	movl	-40(%rbp), %r9d
-	movl	-40(%rbp), %r8d
-	movl	-40(%rbp), %ecx
-	movl	-36(%rbp), %edx
-	movl	-40(%rbp), %esi
-	leaq	-32(%rbp), %rax
-	movl	-40(%rbp), %edi
-	pushq	%rdi
-	movl	-40(%rbp), %edi
-	pushq	%rdi
-	movq	%rax, %rdi
-	call	printName
-	addq	$16, %rsp
-	nop
-	movq	-8(%rbp), %rax
-	subq	%fs:40, %rax
-	je	.L5
+	movl	$1, -28(%rbp)
+	movl	$1, -24(%rbp)
+	movl	$1, -20(%rbp)
+	movl	$1, -16(%rbp)
+	movl	-164(%rbp), %eax
+	movslq	%eax, %rcx
+	movl	-168(%rbp), %eax
+	movslq	%eax, %rdx
+	movq	%rdx, %rax
+	salq	$2, %rax
+	addq	%rdx, %rax
+	addq	%rcx, %rax
+	movl	$5, -112(%rbp,%rax,4)
+	movl	$0, %eax
+	movq	-8(%rbp), %rdx
+	subq	%fs:40, %rdx
+	je	.L7
 	call	__stack_chk_fail@PLT
-.L5:
+.L7:
 	leave
 	ret
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0"
->>>>>>> 161f81a91e7a9a9dcb7b28eb7da1694bda157cba
 	.section	.note.GNU-stack,"",@progbits
-	.section	.note.gnu.property,"a"
-	.align 8
-	.long	1f - 0f
-	.long	4f - 1f
-	.long	5
-0:
-	.string	"GNU"
-1:
-	.align 8
-	.long	0xc0000002
-	.long	3f - 2f
-2:
-	.long	0x3
-3:
-	.align 8
-4:

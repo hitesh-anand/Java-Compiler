@@ -13,9 +13,9 @@ Node::Node(string label, string attr)
     this->arrayType = 0;
     this->last = ircode.size() - 1;
     this->isCond = false;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string label, string attr, int id)
 {
@@ -27,9 +27,9 @@ Node::Node(string label, string attr, int id)
     this->arrayType = 0;
     this->last = ircode.size() - 1;
     this->isCond = false;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string label, string attr, vector<struct Node *> children)
 {
@@ -49,9 +49,9 @@ Node::Node(string label, string attr, vector<struct Node *> children)
     this->varName = attr;
     this->arrayType = 0;
     this->last = ircode.size() - 1;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string label, vector<struct Node *> children)
 {
@@ -69,9 +69,9 @@ Node::Node(string label, vector<struct Node *> children)
     }
     this->arrayType = 0;
     this->last = ircode.size() - 1;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
     // this->varName= attr;
 }
 Node::Node(string label, string attr, vector<struct Node *> children, int id)
@@ -92,9 +92,9 @@ Node::Node(string label, string attr, vector<struct Node *> children, int id)
     this->varName = attr;
     this->arrayType = 0;
     this->last = ircode.size() - 1;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string attr)
 {
@@ -105,9 +105,9 @@ Node::Node(string attr)
     this->arrayType = 0;
     this->last = ircode.size() - 1;
     this->isCond = false;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 
 void Node::addChild(struct Node *n)

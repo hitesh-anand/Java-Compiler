@@ -30,9 +30,9 @@ Symbol::Symbol(string lexeme, int type, int lineno, int width)
     this->width = width;
     this->is_decl = true;
     this->access_type = PUBLIC_ACCESS;
-    width1 = "w1";
-    width2 = "w2";
-    width3 = "w3";
+    width1 = "w";
+    width2 = "w";
+    width3 = "w";
 }
 
 bool argsMatch(vector<int> def, vector<int> given) // def->as defined, given->passed as arguments
@@ -57,9 +57,9 @@ Symbol::Symbol(string lexeme, int type, int lineno)
     this->decl_line_no = lineno;
     this->is_decl = true;
     this->access_type = PUBLIC_ACCESS;
-    width1 = "w1";
-    width2 = "w2";
-    width3 = "w3";
+    width1 = "w";
+    width2 = "w";
+    width3 = "w";
 }
 
 Symbol::Symbol(string lexeme, int type, int lineno, int width, int access_type)
@@ -70,9 +70,9 @@ Symbol::Symbol(string lexeme, int type, int lineno, int width, int access_type)
     this->is_decl = true;
     this->width = width;
     this->access_type = access_type;
-    width1 = "w1";
-    width2 = "w2";
-    width3 = "w3";
+    width1 = "w";
+    width2 = "w";
+    width3 = "w";
 }
 
 /****************************************
@@ -707,9 +707,9 @@ void SymGlob::dumpClassSymbols()
         for (auto ch : res->mp)
         {
             fout << scope_num++ << ",";
-            fout << "Identifier, ";
+            fout << "Identifier,";
             Symbol *temp = ch.second;
-            fout << temp->lexeme<<"`"<<temp->scope_level<< ",";
+            fout << temp->lexeme<<",";
             if (temp->type < 100)
             {
                 fout << typeroot->inv_types[temp->type] << ",";
@@ -722,7 +722,7 @@ void SymGlob::dumpClassSymbols()
                 {
                     fout << "[";
                     temp->num_elems1 = conv_int(temp->width1);
-                    if (temp->num_elems1 > 0 && temp->width1 != "w1")
+                    if (temp->num_elems1 > 0 && temp->width1 != "w")
                     {
                         fout << temp->num_elems1;
                     }
@@ -736,7 +736,7 @@ void SymGlob::dumpClassSymbols()
                 {
                     fout << "[";
                     temp->num_elems2 = conv_int(temp->width2);
-                    if (temp->num_elems2 > 0 && temp->width2 != "w2")
+                    if (temp->num_elems2 > 0 && temp->width2 != "w")
                     {
                         fout << temp->num_elems2;
                     }
@@ -750,7 +750,7 @@ void SymGlob::dumpClassSymbols()
                 {
                     fout << "[";
                     temp->num_elems3 = conv_int(temp->width3);
-                    if (temp->num_elems3 > 0 && temp->width3 != "w3")
+                    if (temp->num_elems3 > 0 && temp->width3 != "w")
                     {
                         fout << temp->num_elems3;
                     }
@@ -806,9 +806,9 @@ void SymGlob::dumpSymbolTable()
                     for (auto ch : p.first->mp)
                     {
                         fout << scope_num++ << ",";
-                        fout << "Identifier, ";
+                        fout << "Identifier,";
                         Symbol *temp = ch.second;
-                        fout << temp->lexeme<<"`"<<temp->scope_level<< ",";
+                        fout << temp->lexeme<< ",";
                         if (temp->type < 100)
                         {
                             fout << typeroot->inv_types[temp->type] << ",";
@@ -821,7 +821,7 @@ void SymGlob::dumpSymbolTable()
                             {
                                 fout << "[";
                                 temp->num_elems1 = conv_int(temp->width1);
-                                if (temp->num_elems1 > 0 && temp->width1 != "w1")
+                                if (temp->num_elems1 > 0 && temp->width1 != "w")
                                 {
                                     fout << temp->num_elems1;
                                 }
@@ -835,7 +835,7 @@ void SymGlob::dumpSymbolTable()
                             {
                                 fout << "[";
                                 temp->num_elems2 = conv_int(temp->width2);
-                                if (temp->num_elems2 > 0 && temp->width2 != "w2")
+                                if (temp->num_elems2 > 0 && temp->width2 != "w")
                                 {
                                     fout << temp->num_elems2;
                                 }
@@ -849,7 +849,7 @@ void SymGlob::dumpSymbolTable()
                             {
                                 fout << "[";
                                 temp->num_elems3 = conv_int(temp->width3);
-                                if (temp->num_elems3 > 0 && temp->width3 != "w3")
+                                if (temp->num_elems3 > 0 && temp->width3 != "w")
                                 {
                                     fout << temp->num_elems3;
                                 }

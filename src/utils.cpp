@@ -51,7 +51,7 @@ SymNode *magic_ptr = root->currNode;
 string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
-    //     return s;
+    return s;
     if(s.find('`') != string::npos)
         return s;
     if(scope_level==-1)
@@ -137,7 +137,7 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 13)
         {
-            otherFile << it->arg1 << " = popparam"
+            otherFile << it->arg1 << "=popparam"
                    << "\n";
             continue;
         }
