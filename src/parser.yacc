@@ -2956,6 +2956,7 @@ ConstructorDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        cout<<"Adding "<<currClass<<" for "<<currFunc<<endl;
         classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
@@ -2997,6 +2998,7 @@ ConstructorDeclaration:
         $$->code.push_back(q);
         ircode.push_back(q);
         tempVars[currFunc] = varCnt;
+        cout<<"Adding "<<currClass<<" for "<<currFunc<<endl;
         classfunc[currFunc] = currClass;
         varCnt = 0;
         tempCnt = 0;
@@ -3019,7 +3021,7 @@ ConstructorDeclarator:
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
     verbose(v,"Name LEFTPARENTHESIS RIGHTPARENTHESIS->ConstructorDeclarator");
-
+    currFunc = $1->attr;
 
         vector<int> args;
         args.push_back(-1);
@@ -3040,6 +3042,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
         scope_level++;
         Quadruple* q = new Quadruple(6,  $1->varName);
         $$->code.push_back(q);
@@ -3052,6 +3055,7 @@ ConstructorDeclarator:
     temp.push_back($1);
     
     // temp.push_back($3);
+    currFunc = $1->attr;
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
@@ -3066,7 +3070,7 @@ ConstructorDeclarator:
     temp.push_back($1);
     temp.push_back($3);
     
-    
+    currFunc = $1->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
         vector<string> params;
@@ -3114,6 +3118,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
         scope_level++;
 
         // for(aut$3->children)
@@ -3134,7 +3139,7 @@ ConstructorDeclarator:
 |   Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
-    
+    currFunc = $1->attr;
     temp.push_back($5);
    
    
@@ -3174,6 +3179,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
         scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$5->children.size(); i++)
@@ -3194,7 +3200,7 @@ ConstructorDeclarator:
     vector<struct Node*> temp;
     temp.push_back($1);
     temp.push_back($2);
-   
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
      Quadruple* q = new Quadruple(6, $2->varName );
@@ -3209,7 +3215,7 @@ ConstructorDeclarator:
     temp.push_back($2);
     
     // temp.push_back($4);
-    
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
     Quadruple* q = new Quadruple(6, $2->varName );
@@ -3224,7 +3230,7 @@ ConstructorDeclarator:
     temp.push_back($2);
     temp.push_back($4);
    
-   
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
             vector<string> params;
@@ -3261,6 +3267,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($2->attr, newf);
         scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$4->children.size(); i++)
@@ -3287,7 +3294,7 @@ ConstructorDeclarator:
     for(auto it:$6->children)
         for(auto ch : it->children)
             temp.push_back(ch);
-    
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
         vector<string> params;
@@ -3324,6 +3331,7 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($2->attr, newf);
         scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$6->children.size(); i++)

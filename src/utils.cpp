@@ -65,13 +65,13 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
     otherFile.open(fln+".3ac");
-    cout<<"opened"<<endl;
+    // cout<<"opened"<<endl;
     // otherFile<<tempVars[fln]<<endl;
     int cnt=0;
     for(int i=index; i<ircode.size(); i++) {
         auto it = ircode[i];
         otherFile << cnt++ << "\t:";
-        cout<<"Started for i : "<<i<<endl;
+        // cout<<"Started for i : "<<i<<endl;
         if (it->type == 1)
         {
             otherFile << "if" << it->arg1 << "then ";
@@ -157,14 +157,14 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
-    otherFile.open(fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
-    cout<<"opened"<<endl;
+    otherFile.open(classfunc[fln]+"_"+fln+"_"+to_string(ir_gen_dup[fln]++)+".3ac");
+    // cout<<"opened"<<endl;
     otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
     int cnt=0;
     for(int i=index; i<ircode.size(); i++) {
         auto it = ircode[i];
         otherFile << cnt++ << "\t:";
-        cout<<"Started for i : "<<i<<endl;
+        // cout<<"Started for i : "<<i<<endl;
         if (it->type == 1)
         {
             otherFile << "if" << it->arg1 << "then ";

@@ -61,6 +61,7 @@ class SymNode{ //represents individual scope in case of nested scopes/ individua
     int returntype;
     bool strict = false;
     bool default_done = false;
+    // string par_class;
     //used in case of a class node
     int node_acc_type = PUBLIC_ACCESS;
 

@@ -720,6 +720,188 @@ void fill_var_temp_sz(string x){
         var[nm]=temp;
     }
 }
+void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<string>&funCode){
+//here lex is the array name , tp is type: 100 for 1d,200 for 2d..., v1,v2,v3 is the index you want to acess
+// val is the valyue to be assigned send it as $const if it is const else send it the memory loc i.e. -8(%rbp)
+    vector<int>info=var_info(lex);
+    if(info.size()==0){
+        cout<<"No such array exist\n";
+    }
+    if(info[0]!=tp){
+        cout<<"There is inconsisteny in types\n";
+    }
+    if(tp==100){
+        //put val in rdx
+        string instr="movq "+val+", %rdx";
+        funCode.push_back(instr);
+        //put index in rax
+        instr="movq "+v1+", %rax";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq %rdx,"+to_string(addressDes[lex]) +"(%rbp,%rax,8)";
+        funCode.push_back(instr);
+    }
+    if(tp==200){
+        //put val in rdx
+        string instr="movq "+val+", %rdx";
+        funCode.push_back(instr);
+        //put v1 in rax
+        instr="movq "+v1+", %rax";
+        funCode.push_back(instr);
+        //put v2 in rax
+        instr="movq "+v2+", %rdi";
+        funCode.push_back(instr);
+        //v1*w2+v2
+        if(info[1]==0){
+            instr="movq $"+to_string(info[3])+", %rsi";
+            funCode.push_back(instr);
+        }
+        else{
+            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            funCode.push_back(instr);
+        }
+        instr="mulq rsi, rax";
+        funCode.push_back(instr);
+        instr="addq rsi, rax";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq %rdx,"+to_string(addressDes[lex]) +"(%rbp,%rax,8)";
+        funCode.push_back(instr);
+    }
+    if(tp==300){
+        //put val in rdx
+        string instr="movq "+val+", %rdx";
+        funCode.push_back(instr);
+        //put v1 in rax
+        instr="movq "+v1+", %rax";
+        funCode.push_back(instr);
+        //put v2 in rdi
+        instr="movq "+v2+", %rdi";
+        funCode.push_back(instr);
+        //put v3 in r8
+        instr="movq "+v2+", %r8";
+        funCode.push_back(instr);
+        //put w2 in rsi
+        if(info[1]==0){
+            instr="movq $"+to_string(info[3])+", %rsi";
+            funCode.push_back(instr);
+        }
+        else{
+            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            funCode.push_back(instr);
+        }
+        //put w3 in r9
+        if(info[1]==0){
+            instr="movq $"+to_string(info[4])+", %r9";
+            funCode.push_back(instr);
+        }
+        else{
+            instr="movq "+to_string(addressDes["_w3"+lex])+"(%rbp), %r9";
+            funCode.push_back(instr);
+        }
+        //v3+v1*w2*w3+v2*w3
+        instr="mulq rsi, rax";
+        funCode.push_back(instr);
+        instr="mulq r9, rax";
+        funCode.push_back(instr);
+        instr="mulq r9, rdi";
+        funCode.push_back(instr);
+        instr="addq rdi, rax";
+        funCode.push_back(instr);
+        instr="addq r8, rax";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq %rdx,"+to_string(addressDes[lex]) +"(%rbp,%rax,8)";
+        funCode.push_back(instr);
+    }
+}
+void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<string>&funCode){
+//here lex is the array name , tp is type: 100 for 1d,200 for 2d..., v1,v2,v3 is the index you want to acess
+//here you will get your value in register r, send r as %rdx
+    vector<int>info=var_info(lex);
+    if(info.size()==0){
+        cout<<"No such array exist\n";
+    }
+    if(info[0]!=tp){
+        cout<<"There is inconsisteny in types\n";
+    }
+    string instr;
+    if(tp==100){
+        //put index in rax
+        instr="movq "+v1+", %rax";
+        funCode.push_back(instr);
+        //finally acces
+        instr="movq "+to_string(addressDes[lex]) +"(%rbp,%rax,8), "+r;
+        funCode.push_back(instr);
+    }
+    if(tp==200){
+        //put v1 in rax
+        instr="movq "+v1+", %rax";
+        funCode.push_back(instr);
+        //put v2 in rax
+        instr="movq "+v2+", %rdi";
+        funCode.push_back(instr);
+        //v1*w2+v2
+        if(info[1]==0){
+            instr="movq $"+to_string(info[3])+", %rsi";
+            funCode.push_back(instr);
+        }
+        else{
+            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            funCode.push_back(instr);
+        }
+        instr="mulq rsi, rax";
+        funCode.push_back(instr);
+        instr="addq rsi, rax";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq "+to_string(addressDes[lex]) +"(%rbp,%rax,8), "+r;
+        funCode.push_back(instr);
+    }
+    if(tp==300){
+        //put v1 in rax
+        instr="movq "+v1+", %rax";
+        funCode.push_back(instr);
+        //put v2 in rdi
+        instr="movq "+v2+", %rdi";
+        funCode.push_back(instr);
+        //put v3 in r8
+        instr="movq "+v2+", %r8";
+        funCode.push_back(instr);
+        //put w2 in rsi
+        if(info[1]==0){
+            instr="movq $"+to_string(info[3])+", %rsi";
+            funCode.push_back(instr);
+        }
+        else{
+            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            funCode.push_back(instr);
+        }
+        //put w3 in r9
+        if(info[1]==0){
+            instr="movq $"+to_string(info[4])+", %r9";
+            funCode.push_back(instr);
+        }
+        else{
+            instr="movq "+to_string(addressDes["_w3"+lex])+"(%rbp), %r9";
+            funCode.push_back(instr);
+        }
+        //v3+v1*w2*w3+v2*w3
+        instr="mulq rsi, rax";
+        funCode.push_back(instr);
+        instr="mulq r9, rax";
+        funCode.push_back(instr);
+        instr="mulq r9, rdi";
+        funCode.push_back(instr);
+        instr="addq rdi, rax";
+        funCode.push_back(instr);
+        instr="addq r8, rax";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq "+to_string(addressDes[lex]) +"(%rbp,%rax,8), "+r;
+        funCode.push_back(instr);
+    }
+}
 void insert_arg(vector<string>arg,vector<string>&funCode){
     int cnt=0;
     vector<string>arg_name;
