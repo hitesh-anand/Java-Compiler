@@ -7,6 +7,7 @@ extern SymGlob *orig_root;
 extern int scope_level;
 map<string, int> csv_gen;
 extern map<string, SymNode*> list_class;
+extern map<string, string> classfunc;
 
 extern TypeHandler *typeroot;
 int conv_int(string a)
@@ -784,7 +785,7 @@ void SymGlob::dumpSymbolTable()
             {
                 int scope_num = 0;
                 ofstream fout;
-                string nm = (it.first) + "_" + to_string(csv_gen[it.first]++) + ".csv";
+                string nm = classfunc[it.first] + "_" + (it.first) + "_" + to_string(csv_gen[it.first]++) + ".csv";
                 fout.open(nm);
                 SymNode *res = it.second;
                 queue<pair<SymNode *, int>> q;
