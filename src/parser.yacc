@@ -5938,8 +5938,7 @@ ArrayAccess:
         yyerror("Error");
     }
     
-    string resName = string("_t") + to_string(varCnt);
-    varCnt++; tempCnt++;
+    
     Symbol* ss = root->lookup($1->attr);
     if(!ss)
     {
@@ -5947,19 +5946,22 @@ ArrayAccess:
         yyerror("Error");
     }
     // cout << ss->width1 << "947t9wefih\n";
+    /***************************************************************************
     Quadruple* q= new Quadruple(string("*"),  append_scope_level($3->varName), to_string(4),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("_t") + to_string(varCnt);
+    string resName2 = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName + string("]") ,  resName2 );
     //cout << "hi\n";
     $$->code.push_back(q);
     ircode.push_back(q);
-    $$->varName = resName2;
+    ******************************************************/
+    $$->varName = $1->varName + "[" + $3->varName + "]";
     $$->attr = $1->attr;
+    cout << $$->code.size() << "\n";
     $$->type = root->lookup($1->varName)->type - 100;
-    $$->last = ircode.size() - 1;
+   // $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
     
@@ -5980,36 +5982,38 @@ ArrayAccess:
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
     $$->attr = $1->attr;
-    string resName = string("_t") + to_string(varCnt);
+    /**************************************************************
+    string resName = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width2, to_string(root->lookup($1->varName)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName1 = string("_t") + to_string(varCnt);
+    string resName1 = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("*"),  append_scope_level($3->varName), resName,  resName1 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("_t") + to_string(varCnt);
+    string resName2 = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("*"),  append_scope_level($6->varName), to_string(root->lookup($1->varName)->width),  resName2 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName3 = string("_t") + to_string(varCnt);
+    string resName3 = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("+"), resName1, resName2,  resName3 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName4 = string("_t") + to_string(varCnt++);
+    string resName4 = string("_q") + to_string(varCnt++);
     tempCnt++;
     
     q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName3 + string("]") ,  resName4 );
    
     $$->code.push_back(q);
     ircode.push_back(q);
-    $$->varName = resName4;
+    **********************************************************/
+    $$->varName = $1->varName + "[" + $3->varName + "][" + $6->varName + "]";
     $$->attr = $1->attr;
-    $$->last = ircode.size() - 1;
+    //$$->last = ircode.size() - 1;
     $$->type = root->lookup($1->varName)->type - 200;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
@@ -6031,50 +6035,51 @@ ArrayAccess:
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
     $$->attr = $1->attr;
-    
-    string resName = string("_t") + to_string(varCnt);
+    /********************************************************
+    string resName = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width3 , to_string(root->lookup($1->varName)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName1 = string("_t") + to_string(varCnt);
+    string resName1 = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("*"), root->lookup($1->varName)->width2 , resName,  resName1 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("_t") + to_string(varCnt);
+    string resName2 = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("*"),  append_scope_level($6->varName), resName,  resName2 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    resName = string("_t") + to_string(varCnt);
+    resName = string("_q") + to_string(varCnt);
     varCnt++; tempCnt++;
     q= new Quadruple(string("*"),  append_scope_level($3->varName), resName1,  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName3 = string("_t") + to_string(varCnt++);tempCnt++;
+    string resName3 = string("_q") + to_string(varCnt++);tempCnt++;
     q= new Quadruple(string("*"),  append_scope_level($9->varName), to_string(root->lookup($1->varName)->width),  resName3 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName4 = string("_t") + to_string(varCnt++);tempCnt++;
+    string resName4 = string("_q") + to_string(varCnt++);tempCnt++;
     q= new Quadruple(string("+"), resName, resName2,  resName4 );
 
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName5 = string("_t") + to_string(varCnt++); tempCnt++;
+    string resName5 = string("_q") + to_string(varCnt++); tempCnt++;
     q= new Quadruple(string("+"), resName4, resName3,  resName5 );
 
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName6 = string("_t") + to_string(varCnt++); tempCnt++;
+    string resName6 = string("_q") + to_string(varCnt++); tempCnt++;
     q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName5 + string("]") ,  resName6 );
    
     $$->code.push_back(q);
     ircode.push_back(q);
-    $$->varName = resName6;
+    ***********************************************/
+    $$->varName =  $1->varName + "[" + $3->varName + "][" + $6->varName + "][" + $9->varName;
     $$->attr = $1->attr;
     $$->type = root->lookup($1->varName)->type - 300;
-    $$->last = ircode.size() - 1;
+    //$$->last = ircode.size() - 1;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
 };
@@ -7095,6 +7100,7 @@ AssignmentExpression:
 
 Assignment:
     LeftHandSide AssignmentOperatorEqual Expression {
+        cout << "here\n";
         vector<Node*> temp;
         if($1->useful == false) {
             for(auto it : $1->children)
@@ -7103,11 +7109,12 @@ Assignment:
             }
         }
         else temp.push_back($1);
+        cout << "Reached here\n";
         //$2 = new Node("Operator", $2);
         for(auto it: temp) {
             $2->addChildToLeft(it);
         }
-        
+        cout << "Reached here2\n";
         temp.clear();
         //temp.push_back(t2);
         if($3->useful == false) {
@@ -7117,6 +7124,7 @@ Assignment:
             }
         }
         else temp.push_back($3);
+        cout << "Reached here3\n";
         for(auto it: temp) {
             $2->addChild(it);
         }
@@ -7231,14 +7239,7 @@ LeftHandSide:
        
        $$ = $1;
        
-       Quadruple* q = ircode.back();
-       $$->code.pop_back();
-       //q = new Quadruple("", "*(" + $$->attr + "+" + $$->varName + ")", "", "")
-       ircode.pop_back();
-       varCnt-= 2;
-       $$->last -= 1;
-       $$->varName = string("_t") + to_string(varCnt++); tempCnt++;
-       $$->varName = "*(" + append_scope_level($$->attr) + "+" + append_scope_level($$->varName) + ")";
+       
        verbose(v,"ArrayAccess->LeftHandSide");
     }
 ;
@@ -7247,7 +7248,7 @@ AssignmentOperatorEqual:
     ASSIGN {
         struct Node* n = new struct Node("Operator", $1);
         $$ = n;
-        verbose(v,"MULTEQUAL->AssignmentOperator");
+        verbose(v,"->AssignmentOperator");
     }
 ;
 

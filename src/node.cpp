@@ -136,19 +136,37 @@ void Node::addChildToLeft(struct Node *n)
 {
     if (n == NULL)
         return;
+    cout << "calles\n";
     int m = this->children.size();
+    cout << "m = " << m << "\n";
     this->last = max(this->last, n->last);
     this->children.resize(m + 1);
+    cout << "resizes\n";
     for (int i = m; i > 0; i--)
     {
         this->children[i] = this->children[i - 1];
     }
+        cout << "resizes\n";
+
     this->children[0] = n;
+        cout << "resizes\n";
+
     if (n->code.size() > 0)
     {
-        n->code.insert(n->code.end(), this->code.begin(), this->code.end());
-        this->code = n->code;
+        cout << "her\n";
+        if(this->code.size() > 0 ) n->code.insert(n->code.end(), this->code.begin(), this->code.end());
+        cout << "done\n";
+        this->code.clear();
+        for(auto it: n->code) {
+            this->code.push_back(it);
+        }
+        cout << "here\n";
     }
+    else {
+        cout << "eks\n";
+    }
+    cout << "done\n";
+    return;
 }
 
 void Node::changeLabel(string newLabel)
