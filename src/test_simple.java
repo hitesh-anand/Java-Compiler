@@ -1,14 +1,16 @@
 class Test{
-    int a;
-    boolean b=false;
+    // int a;
+    boolean b;
     Test(int c, int d)
     {
-        a = c;
+        c=0;
     }
-    void foobar(int a, int c, int d)
+    void foobar(int c, int d)
     {
-        a = 1;
-        if(a==1){a++;int b=2;} int b = 2;
+        int a = 1;
+        // int c=33;
+        if(a==1){a++;int b=2;} 
+        int b = 1;
         // return 1;
     }
 
@@ -26,5 +28,5 @@ class Test{
 }
 
 class another{
-    int b;
+    boolean b;
 }
