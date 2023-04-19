@@ -330,11 +330,23 @@ void SymGlob::update(string lex, Symbol *sym)
 void SymGlob::insert(string lex, Symbol *sym)
 {
     Symbol *res = currNode->scope_lookup(lex);
-    if (res)
+    // if (res)
+    // {
+        // cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
+        // yyerror("Error");
+        // return;
+    // }
+    SymNode* temp = currNode;
+    while(temp && temp->name!="class" && temp->name!="classextends")
     {
-        cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
-        yyerror("Error");
-        return;
+        res = temp->scope_lookup(lex);
+        if(res)
+        {
+            cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
+            yyerror("Error");
+            return;
+        }
+        temp = temp->parent;
     }
     if (currNode->isThisDead == true && currNode->vulnerable == true)
     {
