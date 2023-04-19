@@ -1,37 +1,33 @@
-0	:beginclass Test 
-1	:a`1=0
-2	:b`1=false
-3	:beginfunc Test c`2,d`2
-4	:c`1 = popparam
-5	:d`1 = popparam
-6	:a`2=c`2
-7	:endfunc 
-8	:beginfunc foobar a`4,c`4,d`4
-9	:a`4 = popparam
-10	:c`4 = popparam
-11	:d`4 = popparam
-12	:a`4=1
-13	:if a`5==1 goto 15
-14	:goto 17
-15	:a`5=a`5+1
-16	:b`5=2
-17	:b`7=2
-18	:endfunc 
-19	:beginfunc foob b`9,c`9,d`9
-20	:b`9 = popparam
-21	:c`9 = popparam
-22	:d`9 = popparam
-23	:_q0=w2*4
-24	:_q1=2*_q0
-25	:_q2=1*4
-26	:_q3=_q1+_q2
-27	:*(b`9+_t3)=1
-28	:a`9=3
-29	:return 0
-30	:endfunc 
-31	:beginfunc main 
-32	:endfunc 
-33	:endclass 
-34	:beginclass another 
-35	:b`14=0
-36	:endclass 
+0	:beginclass NumberToWordExample1 
+1	:beginfunc help a,c
+2	:a = popparam
+3	:c = popparam
+4	:a[0]=1
+5	:a[1]=2
+6	:a[2]=3
+7	:a[3]=4
+8	:a[4]=5
+9	:a[5]=6
+10	:a[6]=7
+11	:a[7]=8
+12	:a[8]=9
+13	:a[9]=10
+14	:endfunc 
+15	:beginfunc help2 b
+16	:b = popparam
+17	:if 1<2 goto 19
+18	:goto 20
+19	:a=5
+20	:a=6
+21	:endfunc 
+22	:beginfunc func 
+23	:pushparam 1
+24	:pushparam onedigit
+25	:call help, 2
+26	:stackpointer=stackpointer-16
+27	:pushparam twodigit
+28	:stackpointer=stackpointer+8
+29	:call help2, 1
+30	:stackpointer=stackpointer-8
+31	:endfunc 
+32	:endclass 
