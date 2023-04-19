@@ -785,7 +785,7 @@ void SymGlob::dumpSymbolTable()
             {
                 int scope_num = 0;
                 ofstream fout;
-                string nm = classfunc[it.first] + "_" + (it.first) + "_" + to_string(csv_gen[it.first]++) + ".csv";
+                string nm = classfunc[it.first] + "_" + (it.first) + ".csv";
                 fout.open(nm);
                 SymNode *res = it.second;
                 queue<pair<SymNode *, int>> q;

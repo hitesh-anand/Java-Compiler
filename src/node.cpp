@@ -150,7 +150,7 @@ void Node::addChildToLeft(struct Node *n)
 
     this->children[0] = n;
         cout << "resizes\n";
-
+    
     if (n->code.size() > 0)
     {
         cout << "her\n";

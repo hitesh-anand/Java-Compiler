@@ -6,8 +6,8 @@ Function naming convention: <className>.<functionName> as is in 3ac
 
 */
 
-#include "reg.h"
-#include "asm_utils.h"
+
+
 #include <bits/stdc++.h>
 #define PUSHQ "pushq\t"
 #define MOVL "movl\t"
@@ -24,7 +24,7 @@ Function naming convention: <className>.<functionName> as is in 3ac
 #define DBG if(DEBUG)
 using namespace std;
 
-reg r[16];
+
 
 string consOrVar(string);
 int temporary_size;            //hold the size of temporary variable used in a given fucntion
@@ -51,8 +51,82 @@ vector<int> genregs = {0,1,2,3,8,9,10,11,12,13,14,15};
 vector<bool> islabel(2e5+1, false);
 
 
-
+void beg_func(string x,vector<string>&funCode);
 void func_call(vector<string>a,vector<string>&funcCode);
+
+
+/*************************************REG CLASS**********************************/
+class reg
+{
+    int id;
+    string regName;
+    map<string, int> regDes; // register descriptor, as in slides, assuming a reg
+public:
+    reg(){};
+    void init(int id, string regName);
+    reg(int id, string regName);
+    string getname();
+    void addRegDes(string s);
+    void rmRegDes(string s);
+    bool getRegDes(string s);
+    int getRegDesSize();
+    bool isEmpty();
+    vector<string> storeall();
+
+} r[16];
+
+void reg::init(int id, string regName)
+{
+    this->id = id;
+    this->regName = regName;
+}
+
+
+std::string reg::getname()
+{
+    return regName;
+}
+
+int reg::getRegDesSize()
+{
+    int cnt = 0;
+    for (auto it : regDes)
+    {
+        if (it.second == true)
+            cnt++;
+    }
+    return cnt;
+}
+
+reg::reg(int id, string regName)
+{
+    this->id = id;
+    this->regName = regName;
+}
+
+void declareRegs()
+{
+    // %rax, %rbx, %rcx, %rdx: 64 bit regs any purpose
+    // %rax is used for 1st argument of syscall
+    r[0].init(0, "%rax");
+    r[1].init(1, "%rbx");
+    r[2].init(2, "%rcx");
+    r[3].init(3, "%rdx");
+    r[4].init(4, "%rsi");
+    r[5].init(5, "%rdi");
+    r[6].init(6, "%rbp");
+    r[7].init(7, "%rsp");
+    r[8].init(8, "%r8");
+    r[9].init(9, "%r9");
+    r[10].init(10, "%r10");
+    r[11].init(11, "%r11");
+    r[12].init(12, "%r12");
+    r[13].init(13, "%r13");
+    r[14].init(14, "%r14");
+    r[15].init(15, "%r15");
+}
+
+
 
 /*********************************UTILITY FUNCTIONS********************************************/
 
@@ -66,6 +140,20 @@ bool is_number(const std::string& s)
 {
     static const std::regex re("-?[0-9]+(\\.[0-9]*)?");
     return std::regex_match(s, re);
+}
+
+string trimInstr(string instr)
+{
+    if(instr.find(":") != string::npos) {
+        return instr.substr(instr.find(":")+1);
+    }
+}
+
+string strip(string s)
+{
+    s.erase(0, s.find_first_not_of(" "));
+    s.erase(s.find_last_not_of(" ") + 1);
+    return s;
 }
 
 // get line no of 3ac instruction
@@ -256,7 +344,7 @@ vector<string> identifyInstr(string instr)
             if(s.size() && isdigit(s[0])) {
                 // rhs is a number
                 // string var2 = instr.substr(0, eqpos);
-                
+                DBG cout << "getting address for " << var1 << " as " << getAddressDes(var1) << "\n";
                 string ins = MOVQ + string("$") + s +string(", ")+ to_string(getAddressDes(var1)) + string("(%rbp)");
                 ans.push_back(ins);
             }
@@ -274,15 +362,7 @@ vector<string> identifyInstr(string instr)
     }
     else {
         // if then else, goto, call, pushparam, popparam
-        // case 1: if then else 
-        // if(instr.substr(0, 2) == "if") {
-        //     size_t pos = instr.find("then");
-        //     string compInstr = instr.substr(3, pos-2-3+1);
-
-        // }
-        // if(instr.fins("pushparam") != string::npos) {
-
-        // }
+       
         if(instr.find("if") != string::npos) {
             string t = instr.substr(instr.find("if"));
             string var1, var2, gotoloc;
@@ -351,50 +431,55 @@ vector<string> genfunc(string funcName)
 {
     // open the csv corresponding to the function name
 
-    ifstream file(funcName + ".csv");
 
-    vector<vector<string>> data;
-
+    ifstream file2(currClassName+ "_" + currFuncName + ".3ac");
+    // vector<vector<string>> data;
+    cout << currClassName+ "_" + currFuncName + ".3ac"<< "\n";
     vector<string> funcCode;
-
     string line;
-    while (getline(file, line))
-    {
-        stringstream ss(line);
-        vector<string> row;
+    getline(file2,line);
+    getline(file2, line);
+    cout << "line: " << trimInstr(line) << "\n";
+    beg_func(trimInstr(line), funcCode);
 
-        string cell;
-        while (getline(ss, cell, ','))
-        {
-            row.push_back(cell);
-        }
+    // string line;
+    // while (getline(file, line))
+    // {
+    //     stringstream ss(line);
+    //     vector<string> row;
 
-        data.push_back(row);
-    }
-    file.close();
-    for (int i = 1; i < data.size(); i++)
-    {
-        if (DEBUG)
-            cout << "hello" << data[i][2] << "var name \n";
-        addressDes[currClassName + "::" + currFuncName + "::" + data[i][2]] = -(i * 8);
-        // if (DEBUG)
-        //     cout << addressDes[data[i][2]] << "\n";
-    }
-    int numVariables = data.size() - 1;
-    if (DEBUG)
-        cout << numVariables << " num var \n";
-    // assuming all int variables
+    //     string cell;
+    //     while (getline(ss, cell, ','))
+    //     {
+    //         row.push_back(cell);
+    //     }
 
-    int stackSpace = numVariables << 3;
-    // standard code at beginning of function
-    funcCode.push_back(currClassName + "-" + funcName + ":");
-    funcCode.push_back(string(PUSHQ) + string(RBP));
-    funcCode.push_back(string(MOVQ) + string(RSP) + string(",") + string(RBP));
+    //     data.push_back(row);
+    // }
+    // file.close();
+    // for (int i = 1; i < data.size(); i++)
+    // {
+    //     if (DEBUG)
+    //         cout << "hello" << data[i][2] << "var name \n";
+    //     addressDes[currClassName + "::" + currFuncName + "::" + data[i][2]] = -(i * 8);
+    //     // if (DEBUG)
+    //     //     cout << addressDes[data[i][2]] << "\n";
+    // }
+    // int numVariables = data.size() - 1;
+    // if (DEBUG)
+    //     cout << numVariables << " num var \n";
+    // // assuming all int variables
 
-    funcCode.push_back(string(SUBQ) + string("$") + to_string(stackSpace) + string(",") + string(RSP));
+    // int stackSpace = numVariables << 3;
+    // // standard code at beginning of function
+    // funcCode.push_back(currClassName + "-" + funcName + ":");
+    // funcCode.push_back(string(PUSHQ) + string(RBP));
+    // funcCode.push_back(string(MOVQ) + string(RSP) + string(",") + string(RBP));
 
-    // opening the 3ac file
-    ifstream file2(funcName + string(".txt"));
+    // funcCode.push_back(string(SUBQ) + string("$") + to_string(stackSpace) + string(",") + string(RSP));
+
+    // // opening the 3ac file
+    // ifstream file2(currClassName + "_" + funcName + string(".3ac"));
 
     if (!file2.is_open())
     {
@@ -407,7 +492,7 @@ vector<string> genfunc(string funcName)
     int linecnt = 0;
     
     while (getline(file2, line)) {
-        if(DEBUG) cout << linecnt++ << "\n";
+        if(DEBUG) cout << line << "\n";
         vector<string> lines= {line};
         int isfunc = 0;
         while(line.find("pushparam") != string::npos) {
@@ -433,12 +518,13 @@ vector<string> genfunc(string funcName)
             DBG cout << it <<"\n";
         }
         if(t.size()) { DBG cout << "ret\n";funcCode.insert(funcCode.end(), t.begin(), t.end()); DBG cout << "done\n";}
-        
+        cout << "funccode size: " << funcCode.size() << "\n";
     }
 
     file2.close();
 
     // closing the function code
+    
     funcCode.push_back("leave");
     funcCode.push_back("ret");
 
@@ -453,15 +539,18 @@ void handleClassDec(string filename)
     string line;
     ifstream fp(filename);
     getline(fp, line);
-    if(line.substr(0, 10) == "beginclass") {
-            currClassName = line.substr(11);
+    line = trimInstr(line);
+    if(strip(line.substr(0, 10)) == "beginclass") {
+            currClassName = strip(line.substr(11));
+            cout << "Curr class declared as: " << currClassName << "\n";
+            vector<vector<string> > data = read_csv(currClassName + ".csv");
             getline(fp, line);
             while(line.find("endclass") != string::npos) {
                 // getline(file2, line);
                 // two things, integer variable or array declaration, or even class declaration
                 // addressDes[currClassName + "::" + line.substr()]
                 // assuming there is a csv file having variable info, type of variable and name of variable
-                vector<vector<string> > data = read_csv(currClassName + ".csv");
+                
                 int pos = -8;
                 for(int i = 1; i < data.size(); i++) {
                     string var = data[i][2];
@@ -504,6 +593,7 @@ void handleClassDec(string filename)
  
             }
         }
+        fp.close();
 }
 
 void finalCodeGen(vector<string> &funcCode)
@@ -566,6 +656,12 @@ string smplPush(string x){
         }
     }
     return ans;
+}
+
+void modify_var_arg(string s)
+{
+    var[s][1] = 1;
+    return;
 }
 vector<int> var_info(string x){
     string y;
@@ -632,13 +728,16 @@ int string_to_int(string x){// replacement for stoi
 }
 void fill_var_temp_sz(string x){
     ifstream file;
-    file.open(currClassName +"-"+ x+".3ac");
+    file.open(currClassName +"_"+ x+".3ac");
+    cout << currClassName + "_" + x << "\n";
     string line;
     getline(file, line);
     file.close();
+    cout << "the line is " << line << "\n";
+    line = line.substr(line.find(',')+1);
     temporary_size=string_to_int(line);
     vector<string>v;
-    file.open(currClassName + "-" + x+".csv");
+    file.open(currClassName + "_" + x+".csv");
     getline(file, line);
     while (getline(file, line)) {
         v.push_back(line);
@@ -662,6 +761,7 @@ void fill_var_temp_sz(string x){
             if(v[j][k]==',')break;
             nm.push_back(v[j][k]);
         }
+        nm = currClassName + "::" + currFuncName+ "::" +nm;
         vector<int>temp;
         k++;
         string tp;
@@ -720,6 +820,7 @@ void fill_var_temp_sz(string x){
         var[nm]=temp;
     }
 }
+
 void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<string>&funCode){
 //here lex is the array name , tp is type: 100 for 1d,200 for 2d..., v1,v2,v3 is the index you want to acess
 // val is the valyue to be assigned send it as $const if it is const else send it the memory loc i.e. -8(%rbp)
@@ -738,7 +839,7 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         instr="movq "+v1+", %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq %rdx,"+to_string(addressDes[lex]) +"(%rbp,%rax,8)";
+        instr="movq %rdx,"+to_string(getAddressDes(lex)) +"(%rbp,%rax,8)";
         funCode.push_back(instr);
     }
     if(tp==200){
@@ -757,15 +858,15 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
             funCode.push_back(instr);
         }
         else{
-            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            instr="movq "+to_string(getAddressDes("_w2"+lex))+"(%rbp), %rsi";
             funCode.push_back(instr);
         }
-        instr="mulq rsi, rax";
+        instr="mulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="addq rsi, rax";
+        instr="addq %rsi, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq %rdx,"+to_string(addressDes[lex]) +"(%rbp,%rax,8)";
+        instr="movq %rdx,"+to_string(getAddressDes(lex)) +"(%rbp,%rax,8)";
         funCode.push_back(instr);
     }
     if(tp==300){
@@ -787,7 +888,7 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
             funCode.push_back(instr);
         }
         else{
-            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            instr="movq "+to_string(getAddressDes("_w2"+lex))+"(%rbp), %rsi";
             funCode.push_back(instr);
         }
         //put w3 in r9
@@ -796,25 +897,26 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
             funCode.push_back(instr);
         }
         else{
-            instr="movq "+to_string(addressDes["_w3"+lex])+"(%rbp), %r9";
+            instr="movq "+to_string(getAddressDes("_w3"+lex))+"(%rbp), %r9";
             funCode.push_back(instr);
         }
         //v3+v1*w2*w3+v2*w3
-        instr="mulq rsi, rax";
+        instr="mulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="mulq r9, rax";
+        instr="mulq %r9, %rax";
         funCode.push_back(instr);
-        instr="mulq r9, rdi";
+        instr="mulq %r9, %rdi";
         funCode.push_back(instr);
-        instr="addq rdi, rax";
+        instr="addq %rdi, %rax";
         funCode.push_back(instr);
-        instr="addq r8, rax";
+        instr="addq %r8, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq %rdx,"+to_string(addressDes[lex]) +"(%rbp,%rax,8)";
+        instr="movq %rdx,"+to_string(getAddressDes(lex)) +"(%rbp,%rax,8)";
         funCode.push_back(instr);
     }
 }
+
 void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<string>&funCode){
 //here lex is the array name , tp is type: 100 for 1d,200 for 2d..., v1,v2,v3 is the index you want to acess
 //here you will get your value in register r, send r as %rdx
@@ -831,7 +933,7 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="movq "+v1+", %rax";
         funCode.push_back(instr);
         //finally acces
-        instr="movq "+to_string(addressDes[lex]) +"(%rbp,%rax,8), "+r;
+        instr="movq "+to_string(getAddressDes(lex)) +"(%rbp,%rax,8), "+r;
         funCode.push_back(instr);
     }
     if(tp==200){
@@ -847,7 +949,7 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
             funCode.push_back(instr);
         }
         else{
-            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            instr="movq "+to_string(getAddressDes("_w2"+lex))+"(%rbp), %rsi";
             funCode.push_back(instr);
         }
         instr="mulq rsi, rax";
@@ -855,7 +957,7 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="addq rsi, rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq "+to_string(addressDes[lex]) +"(%rbp,%rax,8), "+r;
+        instr="movq "+to_string(getAddressDes(lex)) +"(%rbp,%rax,8), "+r;
         funCode.push_back(instr);
     }
     if(tp==300){
@@ -874,7 +976,7 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
             funCode.push_back(instr);
         }
         else{
-            instr="movq "+to_string(addressDes["_w2"+lex])+"(%rbp), %rsi";
+            instr="movq "+to_string(getAddressDes("_w2"+lex))+"(%rbp), %rsi";
             funCode.push_back(instr);
         }
         //put w3 in r9
@@ -883,27 +985,28 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
             funCode.push_back(instr);
         }
         else{
-            instr="movq "+to_string(addressDes["_w3"+lex])+"(%rbp), %r9";
+            instr="movq "+to_string(getAddressDes("_w3"+lex))+"(%rbp), %r9";
             funCode.push_back(instr);
         }
         //v3+v1*w2*w3+v2*w3
-        instr="mulq rsi, rax";
+        instr="mulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="mulq r9, rax";
+        instr="mulq %r9, %rax";
         funCode.push_back(instr);
-        instr="mulq r9, rdi";
+        instr="mulq %r9, %rdi";
         funCode.push_back(instr);
-        instr="addq rdi, rax";
+        instr="addq %rdi, %rax";
         funCode.push_back(instr);
-        instr="addq r8, rax";
+        instr="addq %r8, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq "+to_string(addressDes[lex]) +"(%rbp,%rax,8), "+r;
+        instr="movq "+to_string(getAddressDes(lex)) +"(%rbp,%rax,8), "+r;
         funCode.push_back(instr);
     }
 }
 void insert_arg(vector<string>arg,vector<string>&funCode){
     int cnt=0;
+    DBG cout << "insert arg calleds\n";
     vector<string>arg_name;
     for(int j=0;j<arg.size();j++){
         arg.push_back(arg_name[j]);
@@ -944,6 +1047,23 @@ void insert_arg(vector<string>arg,vector<string>&funCode){
         }
     }
 }
+
+void declareLocalVars()
+{
+    // ifstream fp(currClassName + "_" + currFuncName + ".csv");
+    cout << "Declaring local vars******************************************\n";
+    vector<vector<string> > data = read_csv(currClassName + "_" + currFuncName + ".csv");
+    for(int i = 1; i < data.size(); i++) {
+        string t = currClassName + "::" + currFuncName + "::" + data[i][2] ;
+        if(var[t][1] == 0) {
+            cout << "t=" << t << endl;
+            addressDes[t] = -8*i;
+            cout << "dec\n";
+        }
+    }
+}
+
+// handles starting code of function, initialize stack space etc
 void beg_func(string x,vector<string>&funCode){
     if(x.rfind("beginfunc",0)!=0){
         cout<<"Not a start of the function\n";
@@ -977,6 +1097,9 @@ void beg_func(string x,vector<string>&funCode){
             temp.push_back(x[j]);
         }
     }
+    for(auto arg: arg_name){
+        modify_var_arg(arg);
+    }
     string instr=func_nm+":";
     funCode.push_back(instr);
     instr="pushq %rbp";
@@ -986,11 +1109,13 @@ void beg_func(string x,vector<string>&funCode){
     instr="subq $"+to_string(sz_func())+", %rsp";
     funCode.push_back(instr);
     insert_arg(arg_name,funCode);
+    declareLocalVars();
 }
 void func_call(vector<string>a,vector<string>&funcCode){
     vector<string>ans_reg;//keep all the register instruction
     vector<string>ans_st;//keep all the pushq instruction
     vector<string>things;
+   
     for(int j=a.size()-2;j>=0;j--){
         string y=consOrVar(a[j]);
         if(y[0]=='$'){
@@ -1023,16 +1148,16 @@ void func_call(vector<string>a,vector<string>&funcCode){
                     }
                     else{       // for this array we have width in stack
                         if(info[0]==100){//1darray
-                            things.push_back(to_string(addressDes["_w1"+x])+"(%rbp)");
+                            things.push_back(to_string(getAddressDes("_w1"+x))+"(%rbp)");
                         }
                         if(info[0]==200){//2darray
-                            things.push_back(to_string(addressDes["_w1"+x])+"(%rbp)");
-                            things.push_back(to_string(addressDes["_w2"+x])+"(%rbp)");
+                            things.push_back(to_string(getAddressDes("_w1"+x))+"(%rbp)");
+                            things.push_back(to_string(getAddressDes("_w2"+x))+"(%rbp)");
                         }
                         if(info[0]==300){//3darray
-                            things.push_back(to_string(addressDes["_w1"+x])+"(%rbp)");
-                            things.push_back(to_string(addressDes["_w2"+x])+"(%rbp)");
-                            things.push_back(to_string(addressDes["_w3"+x])+"(%rbp)");
+                            things.push_back(to_string(getAddressDes("_w1"+x))+"(%rbp)");
+                            things.push_back(to_string(getAddressDes("_w2"+x))+"(%rbp)");
+                            things.push_back(to_string(getAddressDes("_w3"+x))+"(%rbp)");
                         }
                     }
                 }
@@ -1069,7 +1194,7 @@ int main(int argc, char *argv[])
     //     return 0;
     // }
     
-    declareRegs(r);
+    declareRegs();
     opConv['+'] = ADDQ;
     opConv['-'] = SUBQ;
     opConv['*'] = MULQ;
@@ -1083,8 +1208,18 @@ int main(int argc, char *argv[])
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
     
-    
+    vector<string> classes = {"ArrayExample"};
+    vector<string> functions = {"main"};
 
-    vector<string> code = genfunc("main");
+    for (auto it: classes) {
+        handleClassDec(it + ".3ac");
+    }
+
+    vector<string> code ;
+    for(auto it: functions ) {
+        currFuncName = it;
+        vector<string> t = genfunc(it);
+        if(t.size()) code.insert(code.end(), t.begin(), t.end());
+    }
     finalCodeGen(code);
 }

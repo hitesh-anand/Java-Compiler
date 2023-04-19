@@ -5961,7 +5961,7 @@ ArrayAccess:
     $$->attr = $1->attr;
     cout << $$->code.size() << "\n";
     $$->type = root->lookup($1->varName)->type - 100;
-   // $$->last = ircode.size() - 1;
+    $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
     
@@ -6013,7 +6013,7 @@ ArrayAccess:
     **********************************************************/
     $$->varName = $1->varName + "[" + $3->varName + "][" + $6->varName + "]";
     $$->attr = $1->attr;
-    //$$->last = ircode.size() - 1;
+    $$->last = ircode.size() - 1;
     $$->type = root->lookup($1->varName)->type - 200;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
@@ -6079,7 +6079,7 @@ ArrayAccess:
     $$->varName =  $1->varName + "[" + $3->varName + "][" + $6->varName + "][" + $9->varName;
     $$->attr = $1->attr;
     $$->type = root->lookup($1->varName)->type - 300;
-    //$$->last = ircode.size() - 1;
+    $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
 };
