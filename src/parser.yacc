@@ -21,6 +21,7 @@ extern map<string, int> tempVars;
 extern map<string, string> classfunc;
 extern string otpt;
 
+vector<string> static_funcs;
 int scope_level = 0;
 
 extern int startPos;
@@ -2198,17 +2199,25 @@ MethodDeclaration:
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
 
         int acc=PUBLIC_ACCESS;
+        int isStatic = 0;
         if($1->attr=="private")
             acc = PRIVATE_ACCESS;
+        if($1->attr=="static")
+            isStatic = 1;    
         
         if($2)
         {
             for(auto ch:$2->children)
             {
-                if($1->attr=="private")
+                if(ch->attr=="private")
                     acc = PRIVATE_ACCESS;
+                if(ch->attr=="static")
+                    isStatic=1;
             }
         }
+
+        if(isStatic)
+            static_funcs.push_back($3->children[1]->children[0]->attr);
         root->currNode->childscopes.back()->node_acc_type = acc;
     } //here
 |   FINAL Modifiers MethodHeader MethodBody   {
@@ -2243,6 +2252,24 @@ MethodDeclaration:
         //backpatch($4->nextlist, ircode.size() -1);
         $$->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
+
+        int acc=PUBLIC_ACCESS;
+        int isStatic = 0;   
+        
+        if($2)
+        {
+            for(auto ch:$2->children)
+            {
+                if(ch->attr=="private")
+                    acc = PRIVATE_ACCESS;
+                if(ch->attr=="static")
+                    isStatic=1;
+            }
+        }
+
+        if(isStatic)
+            static_funcs.push_back($3->children[1]->children[0]->attr);
+        root->currNode->childscopes.back()->node_acc_type = acc;
     } 
 ;
 

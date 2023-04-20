@@ -1,25 +1,14 @@
-class Test{
-    // int a;
-    boolean b=false;
-    Test(int c, int d)
+public class MyClass {
+    
+
+    // function to check if a given string is a palindrome
+    public static void show(int a) 
     {
-        c=0;
-    }
-    void foobar(int c, int d)
-    {
-        int a = 1;
-        c = 32;
-        // int c=33;
-        if(a==1){a++;int b=2;} 
-        int b = 1;
-        // return 1;
+        System.out.println(a);
     }
 
-    int foob(int b[][], int c, boolean d)
-    {
-    }
-    public static void main()
-    {
-        int a=5;
+    public static void main() {
+        // remove whitespace and convert to lowercase
+        show(5);
     }
 }

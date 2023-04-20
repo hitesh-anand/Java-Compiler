@@ -22,7 +22,7 @@ map<string, int> ir_gen_dup;
 
 map<string, string> classfunc;
 map<string, int> tempVars;
-
+extern vector<string> static_funcs;
 string condvar;
 int isCond = 0;
 TypeHandler *typeroot = new TypeHandler();
@@ -77,8 +77,8 @@ string append_scope_level(string s)
         if(scope_attach > 10000)
             scope_attach = 0;
         if(!res)
-            return s+"`"+to_string(max(scope_level,0));
-        return s+"`"+to_string(max(res->scope_level,0));
+            return s+"`"+to_string(scope_attach);
+        return s+"`"+to_string(scope_attach);
     }
     return s;
 }
@@ -178,6 +178,9 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 
 void func_gen_wrapper()
 {
+    cout<<"static funcs are"<<endl;
+    for(auto it : static_funcs)
+        cout<<it<<endl;
     for(auto it : funcs)
     {
         ofstream otherFile;
@@ -230,7 +233,10 @@ void func_gen_wrapper()
         {
             // cout<<"Entered this"<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
-            otherFile << "beginfunc " << it->arg1 << " ";
+            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
+                otherFile<<"beginfunc static "<<it->arg1<<" ";
+            else
+                otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
@@ -343,9 +349,14 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 6)
         {
-            // cout<<"Entered this"<<endl;
+            cout<<"Entered this for "<<it->arg1<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
-            otherFile << "beginfunc " << it->arg1 << " ";
+            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
+            {
+                    cout<<"found "<<it->arg1<<endl;
+                    otherFile<<"beginfunc static "<<it->arg1<<" ";}
+            else
+                otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
@@ -453,7 +464,10 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
             cout<<"Arguments are "<<it->arg1<<", "<<cnt-1<<", "<<i<<endl;
             funcs.push_back({it->arg1, cnt-1, i});
             // ir_func_gen(i, ircode, it->arg1);
-            myFile << "beginfunc " << it->arg1 << " ";
+            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
+                myFile<<"beginfunc static "<<it->arg1<<" ";
+            else
+                myFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {

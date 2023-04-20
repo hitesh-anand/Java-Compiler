@@ -1386,12 +1386,12 @@ void beg_func(string x,vector<string>&funCode){
 void func_call(vector<string>a,vector<string>&funcCode){
     vector<string>ans_reg;//keep all the register instruction
     vector<string>ans_st;//keep all the pushq instruction
-    vector<string>things;
+    vector<pair<string,int>>things;
     cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2num of arguments = " << a.size() - 1 << "\n";
     for(int j=a.size()-2;j>=0;j--){
         string y=consOrVar(a[j]);
         if(y[0]=='$'){
-            things.push_back(y);
+            things.push_back({y,0});
         }
         else{
             // string x=currClassName + "::" + currFuncName + "::" + smplPush(a[j]);
@@ -1403,36 +1403,37 @@ void func_call(vector<string>a,vector<string>&funcCode){
             else{
                 vector<int>info=var_info(x);
                 if(info[0]==1){ //int
+                    things.push_back({y,0});
                 cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&y = " << y << "\n";
-                    things.push_back(y);
                 }
                 if(info[0]>=100){   //array
+                    things.push_back({to_string(getAddressDes(x))+"(%rbp)",1});
                     if(info[1]==0){// the size of array is in var 
                         if(info[0]==100){//1darray
-                            things.push_back('$'+to_string(info[2]));
+                            things.push_back({'$'+to_string(info[2]),0});
                         }
                         if(info[0]==200){//2darray
-                            things.push_back('$'+to_string(info[2]));
-                            things.push_back('$'+to_string(info[3]));
+                            things.push_back({'$'+to_string(info[2]),0});
+                            things.push_back({'$'+to_string(info[3]),0});
                         }
                         if(info[0]==300){//3darray
-                            things.push_back('$'+to_string(info[2]));
-                            things.push_back('$'+to_string(info[3]));
-                            things.push_back('$'+to_string(info[4]));
+                            things.push_back({'$'+to_string(info[2]),0});
+                            things.push_back({'$'+to_string(info[3]),0});
+                            things.push_back({'$'+to_string(info[4]),0});
                         }
                     }
                     else{       // for this array we have width in stack
                         if(info[0]==100){//1darray
-                            things.push_back(to_string(getAddressDes(x))+"(%rbp)");
+                            things.push_back({to_string(getAddressDes("_w1"+x))+"(%rbp)",0});
                         }
                         if(info[0]==200){//2darray
-                            things.push_back(to_string(getAddressDes(x + "_w1"))+"(%rbp)");
-                            things.push_back(to_string(getAddressDes(x + "_w2"))+"(%rbp)");
+                            things.push_back({to_string(getAddressDes("_w1"+x))+"(%rbp)",0});
+                            things.push_back({to_string(getAddressDes("_w2"+x))+"(%rbp)",0});
                         }
                         if(info[0]==300){//3darray
-                            things.push_back(to_string(getAddressDes(x + "_w1"))+"(%rbp)");
-                            things.push_back(to_string(getAddressDes(x + "_w2"))+"(%rbp)");
-                            things.push_back(to_string(getAddressDes(x + "_w3"))+"(%rbp)");
+                            things.push_back({to_string(getAddressDes("_w1"+x))+"(%rbp)",0});
+                            things.push_back({to_string(getAddressDes("_w2"+x))+"(%rbp)",0});
+                            things.push_back({to_string(getAddressDes("_w3"+x))+"(%rbp)",0});
                         }
                     }
                 }
@@ -1442,10 +1443,16 @@ void func_call(vector<string>a,vector<string>&funcCode){
     vector<string>rg={"%rsi", "%rdx", "%rcx", "%r8","%r9"};
     for(int j=0;j<things.size();j++){
         if(j<5){
-            ans_reg.push_back("movq  "+things[j]+", "+rg[j]);
+            if(things[j].second==0)
+                ans_reg.push_back("movq  "+things[j].first+", "+rg[j]);
+            else
+                ans_reg.push_back("leaq  "+things[j].first+", "+rg[j]);
         }
         else{
-            ans_st.push_back("movq  "+things[j]+", %rdx");
+            if(things[j].second==0)
+                ans_st.push_back("movq  "+things[j].first+", %rdx");
+            else
+                ans_st.push_back("leaq  "+things[j].first+", "+rg[j]);
             ans_st.push_back("pushq  %rdx");
         }
     }
