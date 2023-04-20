@@ -17,17 +17,9 @@ class Test{
 
     int foob(int b[][], int c, boolean d)
     {
-        // int x = b;
-        b[2][1] = 1;
-        int a = 3;
-        return 0;
     }
     public static void main()
     {
-        int numbers[] = new int[5];
+        int a=5;
     }
-}
-
-class another{
-    boolean b;
 }
