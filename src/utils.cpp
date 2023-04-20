@@ -178,9 +178,6 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 
 void func_gen_wrapper()
 {
-    cout<<"static funcs are"<<endl;
-    for(auto it : static_funcs)
-        cout<<it<<endl;
     for(auto it : funcs)
     {
         ofstream otherFile;
@@ -234,7 +231,7 @@ void func_gen_wrapper()
             // cout<<"Entered this"<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
             if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-                otherFile<<"beginfunc static "<<it->arg1<<" ";
+                otherFile<<"static beginfunc "<<it->arg1<<" ";
             else
                 otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
@@ -354,7 +351,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
             if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
             {
                     cout<<"found "<<it->arg1<<endl;
-                    otherFile<<"beginfunc static "<<it->arg1<<" ";}
+                    otherFile<<"static beginfunc "<<it->arg1<<" ";}
             else
                 otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
@@ -465,7 +462,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
             funcs.push_back({it->arg1, cnt-1, i});
             // ir_func_gen(i, ircode, it->arg1);
             if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-                myFile<<"beginfunc static "<<it->arg1<<" ";
+                myFile<<"static beginfunc "<<it->arg1<<" ";
             else
                 myFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;

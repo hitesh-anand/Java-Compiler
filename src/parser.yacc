@@ -2358,16 +2358,16 @@ MethodHeader:
         ***************************************************/
 
 
-        int last = $2->children.size()-1;
-        if(last%2)
-            last--;
-        for(int i=2; i<=last; i+=2)
-        {
-            Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr ));
-            $$->code.push_back(q);
-            ircode.push_back(q);       
-            cout << "i = " << i << endl;     
-        }
+        // int last = $2->children.size()-1;
+        // if(last%2)
+        //     last--;
+        // for(int i=2; i<=last; i+=2)
+        // {
+        //     Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr ));
+        //     $$->code.push_back(q);
+        //     ircode.push_back(q);       
+        //     cout << "i = " << i << endl;     
+        // }
 
         int space = 0;
 
@@ -2479,16 +2479,16 @@ MethodHeader:
         ircode.push_back(qb);
         **************************************************/
 
-        int last = $2->children.size()-1;
-        if(last%2)
-            last--;
-        for(int i=2; i<=last; i+=2)
-        {
-            Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr));
-            $$->code.push_back(q);
-            ircode.push_back(q);       
-            cout << "i = " << i << endl;     
-        }
+        // int last = $2->children.size()-1;
+        // if(last%2)
+        //     last--;
+        // for(int i=2; i<=last; i+=2)
+        // {
+        //     Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr));
+        //     $$->code.push_back(q);
+        //     ircode.push_back(q);       
+        //     cout << "i = " << i << endl;     
+        // }
 
         int space = 0;
 
@@ -3167,13 +3167,13 @@ ConstructorDeclarator:
         // int last = $3->children.size()-1;
         // if(last%2)
         //     last--;
-        for(auto it : $3->children)
-        {
-            Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
-            $$->code.push_back(q);
-            ircode.push_back(q);       
-            // cout << "i = " << i << endl;     
-        }
+        // for(auto it : $3->children)
+        // {
+        //     Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+        //     $$->code.push_back(q);
+        //     ircode.push_back(q);       
+        //     // cout << "i = " << i << endl;     
+        // }
 }
 |   Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
