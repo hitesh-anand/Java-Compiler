@@ -1,0 +1,14 @@
+0	:beginclass MyClass 
+1	:beginfunc show 
+2	:_t0=1+2
+3	:_t1=_t0+3
+4	:_t2=_t1+4
+5	:x`2=_t2
+6	:endfunc 
+7	:beginfunc main 
+8	:a`4=0
+9	:i`4=3
+10	:_t0=4+5
+11	:c[3]`4=_t0
+12	:endfunc 
+13	:endclass 
