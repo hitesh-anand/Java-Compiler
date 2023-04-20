@@ -66,6 +66,7 @@ Node::Node(string label, vector<struct Node *> children)
             this->code.insert(this->code.end(), it->code.begin(), it->code.end());
         this->last = max(this->last, it->last);
         this->nextlist = it->nextlist;
+        this->varName = this->attr = this->attr +  it->varName;
     }
     this->arrayType = 0;
     this->last = ircode.size() - 1;
@@ -88,6 +89,7 @@ Node::Node(string label, string attr, vector<struct Node *> children, int id)
             this->code.insert(this->code.end(), it->code.begin(), it->code.end());
         this->last = max(this->last, it->last);
         this->nextlist = it->nextlist;
+        this->varName = this->attr = this->attr +  it->varName;
     }
     this->varName = attr;
     this->arrayType = 0;

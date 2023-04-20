@@ -26,20 +26,38 @@ getarray:
 	movl	$1, (%rax)
 	movq	-8(%rbp), %rax
 	leave
+<<<<<<< HEAD
 	ret
+=======
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE6:
+>>>>>>> 304fbf65210c6f6df5d3bc49b1ef0b694d5e3b39
 	.size	getarray, .-getarray
 	.globl	main
 	.type	main, @function
 main:
+<<<<<<< HEAD
 	endbr64
 	pushq	%rbp
 	movq	%rsp, %rbp
+=======
+.LFB7:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+>>>>>>> 304fbf65210c6f6df5d3bc49b1ef0b694d5e3b39
 	subq	$16, %rsp
 	movl	$0, %eax
 	call	getarray
 	movq	%rax, -8(%rbp)
 	movl	$0, %eax
 	leave
+<<<<<<< HEAD
 	ret
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0"
@@ -60,3 +78,12 @@ main:
 3:
 	.align 8
 4:
+=======
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE7:
+	.size	main, .-main
+	.ident	"GCC: (GNU) 12.2.1 20221121 (Red Hat 12.2.1-4)"
+	.section	.note.GNU-stack,"",@progbits
+>>>>>>> 304fbf65210c6f6df5d3bc49b1ef0b694d5e3b39

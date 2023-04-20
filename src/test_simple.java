@@ -2,9 +2,12 @@ public class MyClass {
     
 
     // function to check if a given string is a palindrome
-    public static void show(int a) 
+    public void show(int a) 
     {
-        System.out.println(a);
+        // System.out.println(a);
+        a = 2;
+        if(a==1)
+            a++;
     }
 
     public static void main() {
