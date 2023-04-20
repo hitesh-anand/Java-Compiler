@@ -1,6 +1,6 @@
 public class MyClass {
     
-    int a[] = new int [4];
+    // int a[] = new int [4];
        // function to check if a given string is a palindrome
     public void add(int a, int b)
     {
@@ -9,8 +9,8 @@ public class MyClass {
     }
 
     public static void main(String args[]) {
-        int a[] = new int [4];
-        a[0] = 1;
+        int a[][] = new int [4][4];
+        a[0][1] = 1;
         
     }
 }

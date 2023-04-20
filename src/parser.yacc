@@ -1673,6 +1673,15 @@ FieldDeclaration:
                     else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$1->attr].second);
@@ -1761,6 +1770,15 @@ FieldDeclaration:
                     else if(ch->arrayType == 2 ) init2DArray(ch, $3->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $3->attr);
                 }
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second, acc);
@@ -1830,6 +1848,15 @@ FieldDeclaration:
                 else if(ch->arrayType == 3) init3DArray(ch, $3->attr);
 
             }
+            else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second, acc);
             sym->isFinal=true;
@@ -4046,20 +4073,24 @@ LocalVariableDeclaration:
         {
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
+            cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << ch->children[1]->label << "\n";
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
                 if(ch->children[1]->label == "ArrayInitializer") {
                     if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
                     else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
+                
                 else if(ch->children[1]->label == "ArrayCreationExpression") {
-                    Quadruple* q = new Quadruple(ch->children[0]->varName, ch->children[1]->varName, "");
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
                     ircode.push_back(q);
                     $$->code.push_back(q);
                     //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
                     //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
+                
             }
 
             // cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
@@ -4151,7 +4182,8 @@ LocalVariableDeclaration:
                     else if(ch->arrayType == 3) init3DArray(ch, $3->attr);
                 }
                 else if(ch->children[1]->label == "ArrayCreationExpression") {
-                    Quadruple* q = new Quadruple(ch->children[0]->varName, ch->children[1]->varName, "");
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
                     ircode.push_back(q);
                     $$->code.push_back(q);
                     //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
@@ -6970,7 +7002,7 @@ DimExpr_:
     $$ = n;
     $$->width1 = $2->varName;
     $$->arrayType = 1;
-    //$$->attr = $1->attr + $2->varName + $3->attr;
+    $$->attr = string($1) + $2->varName + string($3);
     //$$->width1 = stoi($2->attr);
     cout << "\n\nvarname ="<< $2->varName << "\n\n";
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->DimExpr_");
@@ -7013,6 +7045,7 @@ DimExpr_:
     struct Node* n = new struct Node("DimExpr_", temp);
     $$ = n;
     $$->arrayType = 2;
+    $$->attr = string($1) + $2->varName + string($3) + string($4) + $5->varName + string($6);
     $$->width1 = $2->varName;
     $$->width2 = $5->varName;
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression->DimExpr_");
@@ -7090,6 +7123,7 @@ DimExpr_:
     struct Node* n = new struct Node("DimExpr_", temp);
     $$ = n;
     $$->arrayType = 3;
+    $$->attr = string($1) + $2->varName + string($3) + string($4) + $5->varName + string($6) + string($7) + $8->varName + string($9);
     $$->width1 = $2->varName;
     $$->width2 = $5->varName;
     $$->width3 = $8->varName;
