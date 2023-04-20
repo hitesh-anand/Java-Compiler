@@ -112,7 +112,7 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
         else if (it->type == 4)
         {
             if (it->result == "")
-                otherFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+                otherFile << "call " << it->arg1  << "\n";
             else
                 otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
             continue;
@@ -150,7 +150,7 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 11)
         {
-            otherFile << "popparam " << it->arg1 << "\n";
+            // otherFile << "popparam " << it->arg1 << "\n";
             continue;
         }
         else if (it->type == 12)
@@ -159,8 +159,8 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 13)
         {
-            otherFile << it->arg1 << "=popparam"
-                   << "\n";
+            // otherFile << it->arg1 << "=popparam"
+                //    << "\n";
             continue;
         }
 
@@ -216,7 +216,7 @@ void func_gen_wrapper()
         else if (it->type == 4)
         {
             if (it->result == "")
-                otherFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+                otherFile << "call " << it->arg1 << "\n";
             else
                 otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
             continue;
@@ -274,7 +274,7 @@ void func_gen_wrapper()
         }
         else if (it->type == 11)
         {
-            otherFile << "popparam " << it->arg1 << "\n";
+            // otherFile << "popparam " << it->arg1 << "\n";
             continue;
         }
         else if (it->type == 12)
@@ -283,8 +283,8 @@ void func_gen_wrapper()
         }
         else if (it->type == 13)
         {
-            otherFile << it->arg1 << " = popparam"
-                   << "\n";
+            // otherFile << it->arg1 << " = popparam"
+                //    << "\n";
             continue;
         }
 
@@ -331,7 +331,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
         else if (it->type == 4)
         {
             if (it->result == "")
-                otherFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+                otherFile << "call " << it->arg1 << "\n";
             else
                 otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
             continue;
@@ -385,7 +385,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 11)
         {
-            otherFile << "popparam " << it->arg1 << "\n";
+            // otherFile << "popparam " << it->arg1 << "\n";
             continue;
         }
         else if (it->type == 12)
@@ -394,8 +394,8 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
         }
         else if (it->type == 13)
         {
-            otherFile << it->arg1 << " = popparam"
-                   << "\n";
+            // otherFile << it->arg1 << " = popparam"
+                //    << "\n";
             continue;
         }
 
@@ -437,7 +437,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         else if (it->type == 4)
         {
             if (it->result == "")
-                myFile << "call " << it->arg1 << ", " << it->arg2 << "\n";
+                myFile << "call " << it->arg1 << "\n";
             else
                 myFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
             continue;
@@ -494,7 +494,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 11)
         {
-            myFile << "popparam " << it->arg1 << "\n";
+            // myFile << "popparam " << it->arg1 << "\n";
             continue;
         }
         else if (it->type == 12)
@@ -503,8 +503,8 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
         }
         else if (it->type == 13)
         {
-            myFile << it->arg1 << " = popparam"
-                   << "\n";
+            // myFile << it->arg1 << " = popparam"
+                //    << "\n";
             continue;
         }
 
