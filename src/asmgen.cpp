@@ -56,7 +56,7 @@ void beg_func(string x,vector<string>&funCode);
 void func_call(vector<string>a,vector<string>&funcCode);
 void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<string>&funCode);
 void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<string>&funCode);
-
+void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>&funCode);
 
 /*************************************REG CLASS**********************************/
 class reg
@@ -876,26 +876,6 @@ vector<int> var_info(string x){
     cout << "come\n";
     return var[x];
 }
-void checkForArray(string x,vector<int>&wdt){
-    vector<int>ans=var_info(x);
-    if(ans.size()==0){
-        cout<<"No such variable exist";
-    }
-    if(ans[1]==0){
-        if(ans[0]>=100){
-            wdt.push_back(ans[2]);
-        }
-        if(ans[0]>=200){
-            wdt.push_back(ans[3]);
-        }
-        if(ans[0]>=300){
-            wdt.push_back(ans[4]);
-        }
-    }
-    else{
-        
-    }
-}
 int sz_func(){
     int ans=0;
     vector<vector<string> > data = read_csv(currClassName + "-" + currFuncName + ".csv");
@@ -1045,14 +1025,8 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         instr="movq "+v2+", %rdi";
         funCode.push_back(instr);
         //v1*w2+v2
-        if(info[1]==0){
-            instr="movq $"+to_string(info[3])+", %rsi";
-            funCode.push_back(instr);
-        }
-        else{
-            instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
-            funCode.push_back(instr);
-        }
+        instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
+        funCode.push_back(instr);
         instr="mulq %rsi, %rax";
         funCode.push_back(instr);
         instr="addq %rsi, %rax";
@@ -1082,23 +1056,12 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         instr="movq "+v2+", %r8";
         funCode.push_back(instr);
         //put w2 in rsi
-        if(info[1]==0){
-            instr="movq $"+to_string(info[3])+", %rsi";
-            funCode.push_back(instr);
-        }
-        else{
-            instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
-            funCode.push_back(instr);
-        }
+        instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
+        funCode.push_back(instr);
+        
         //put w3 in r9
-        if(info[1]==0){
-            instr="movq $"+to_string(info[4])+", %r9";
-            funCode.push_back(instr);
-        }
-        else{
-            instr="movq "+to_string(getAddressDes(lex + "_w3"))+"(%rbp), %r9";
-            funCode.push_back(instr);
-        }
+        instr="movq "+to_string(getAddressDes(lex + "_w3"))+"(%rbp), %r9";
+        funCode.push_back(instr);
         //v3+v1*w2*w3+v2*w3
         instr="mulq %rsi, %rax";
         funCode.push_back(instr);
@@ -1157,14 +1120,8 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="movq "+v2+", %rdi";
         funCode.push_back(instr);
         //v1*w2+v2
-        if(info[1]==0){
-            instr="movq $"+to_string(info[3])+", %rsi";
-            funCode.push_back(instr);
-        }
-        else{
-            instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
-            funCode.push_back(instr);
-        }
+        instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
+        funCode.push_back(instr);
         instr="mulq %rsi, %rax";
         funCode.push_back(instr);
         instr="addq %rsi, %rax";
@@ -1191,23 +1148,11 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="movq "+v2+", %r8";
         funCode.push_back(instr);
         //put w2 in rsi
-        if(info[1]==0){
-            instr="movq $"+to_string(info[3])+", %rsi";
-            funCode.push_back(instr);
-        }
-        else{
-            instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
-            funCode.push_back(instr);
-        }
+        instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
+        funCode.push_back(instr);
         //put w3 in r9
-        if(info[1]==0){
-            instr="movq $"+to_string(info[4])+", %r9";
-            funCode.push_back(instr);
-        }
-        else{
-            instr="movq "+to_string(getAddressDes(lex + "_w3"))+"(%rbp), %r9";
-            funCode.push_back(instr);
-        }
+        instr="movq "+to_string(getAddressDes(lex + "_w3"))+"(%rbp), %r9";
+        funCode.push_back(instr);
         //v3+v1*w2*w3+v2*w3
         instr="mulq %rsi, %rax";
         funCode.push_back(instr);
@@ -1267,13 +1212,11 @@ void insert_arg(vector<string>arg,vector<string>&funCode){
         }
         else{
             if(cnt<=5){
-                funCode.push_back("movq "+rg[cnt-1]+", -"+to_string(cnt*8)+"(%rbp)");
-                addressDes[currClassName + "::" + currFuncName + "::" + arg_name[j]]=-cnt*8;
+                funCode.push_back("movq "+rg[cnt-1]+", "+to_string(getAddressDes(arg_name[j]))+"(%rbp)");
             }
             else{
                 funCode.push_back("movq "+to_string(16+((arg_name.size()-6)-(cnt-6))*8)+"(%rbp)"+", %rdx");
-                funCode.push_back("movq %rdx, -"+to_string(cnt*8)+"(%rbp)");
-                addressDes[currClassName + "::" + currFuncName + "::" + arg_name[j]]=-cnt*8;
+                funCode.push_back("movq %rdx, "+to_string(getAddressDes(arg_name[j]))+"(%rbp)");
             }
         }
     }
@@ -1313,34 +1256,38 @@ int declareLocalVars()
             int endpos = data[i][3].find(']');
             dim1 = stoi(data[i][3].substr(startpos + 1, endpos-startpos-1));
             cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$dim1 = " << dim1 << "\n";
+            string tt = currClassName + "::" + currFuncName + "::" + data[i][2]+"_w1" ;
+            addressDes[tt] = pos;
+            pos=pos-8;
             t = t.substr(endpos);
         }
         if(numBrackets>= 2) {
             int startpos = t.find('[');
             int endpos = t.find(']');
             dim2 = stoi(t.substr(startpos + 1, endpos - startpos - 1));
+            string tt = currClassName + "::" + currFuncName + "::" + data[i][2]+"_w2" ;
+            addressDes[tt] = pos;
+            pos=pos-8;
             t = t.substr(endpos);
         }
         if(numBrackets >= 3) {
             int startpos = t.find('[');
             int endpos = t.find(']');
             dim3 = stoi(t.substr(startpos + 1, endpos - startpos - 1));
+            string tt = currClassName + "::" + currFuncName + "::" + data[i][2]+"_w3" ;
+            addressDes[tt] = pos;
+            pos=pos-8;
             // t = t.substr();
-
         }
         string tt = currClassName + "::" + currFuncName + "::" + data[i][2] ;
-        if(var[tt][1] == 0) {
-            cout << "t=" << tt << endl;
-            addressDes[tt] = pos;
-            pos = pos - 8;
-            cout << "dec\n";
-        }
+        addressDes[tt] = pos;
+        pos = pos - 8;
+        cout << "dec\n";
     }
     for(int i = 0; i < temporary_size; i++) {
         string tempName = "_t" + to_string(i);
         string tt = currClassName + "::" + currFuncName + "::" + tempName;
         addressDes[tt] = pos;
-        var[tt] = {1,0,0,0,0}; //{type,isarg,w1,w2,w3}
         pos -= 8;
     }
     return abs(pos);
@@ -1371,12 +1318,6 @@ void beg_func(string x,vector<string>&funCode){
         }
     }
     if(temp.length() > 0) arg_name.push_back(temp);
-    cout << "done\n";
-    for(auto arg: arg_name){
-        cout << arg  << "\n";
-        modify_var_arg(arg);
-    }
-    cout << "reahced here\n";
     
     string instr=currClassName + "-" + func_nm+":";
     if(func_nm == "main") {
@@ -1388,10 +1329,9 @@ void beg_func(string x,vector<string>&funCode){
     funCode.push_back(instr);
     instr="movq %rsp, %rbp";
     funCode.push_back(instr);
-    instr="subq $"+to_string(sz_func())+", %rsp";
+    instr="subq $"+to_string(sz)+", %rsp";
     funCode.push_back(instr);
     insert_arg(arg_name,funCode);
-    
 }
 void func_call(vector<string>a,vector<string>&funcCode){
     vector<string>ans_reg;//keep all the register instruction
@@ -1406,7 +1346,6 @@ void func_call(vector<string>a,vector<string>&funcCode){
         else{
             // string x=currClassName + "::" + currFuncName + "::" + smplPush(a[j]);
             string x = smplPush(a[j]);
-            cout << "x = " << x << "!\n";
             if(var_info(x).size()==0){
                 cout<<"No such variable exist\n";
             }
@@ -1414,37 +1353,20 @@ void func_call(vector<string>a,vector<string>&funcCode){
                 vector<int>info=var_info(x);
                 if(info[0]==1){ //int
                     things.push_back({y,0});
-                cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&y = " << y << "\n";
                 }
                 if(info[0]>=100){   //array
-                    things.push_back({to_string(getAddressDes(x))+"(%rbp)",1});
-                    if(info[1]==0){// the size of array is in var 
-                        if(info[0]==100){//1darray
-                            things.push_back({'$'+to_string(info[2]),0});
-                        }
-                        if(info[0]==200){//2darray
-                            things.push_back({'$'+to_string(info[2]),0});
-                            things.push_back({'$'+to_string(info[3]),0});
-                        }
-                        if(info[0]==300){//3darray
-                            things.push_back({'$'+to_string(info[2]),0});
-                            things.push_back({'$'+to_string(info[3]),0});
-                            things.push_back({'$'+to_string(info[4]),0});
-                        }
+                    things.push_back({to_string(getAddressDes(x))+"(%rbp)",1});     // for this array we have width in stack
+                    if(info[0]==100){//1darray
+                        things.push_back({to_string(getAddressDes(x+"_w1"))+"(%rbp)",0});
                     }
-                    else{       // for this array we have width in stack
-                        if(info[0]==100){//1darray
-                            things.push_back({to_string(getAddressDes("_w1"+x))+"(%rbp)",0});
-                        }
-                        if(info[0]==200){//2darray
-                            things.push_back({to_string(getAddressDes("_w1"+x))+"(%rbp)",0});
-                            things.push_back({to_string(getAddressDes("_w2"+x))+"(%rbp)",0});
-                        }
-                        if(info[0]==300){//3darray
-                            things.push_back({to_string(getAddressDes("_w1"+x))+"(%rbp)",0});
-                            things.push_back({to_string(getAddressDes("_w2"+x))+"(%rbp)",0});
-                            things.push_back({to_string(getAddressDes("_w3"+x))+"(%rbp)",0});
-                        }
+                    if(info[0]==200){//2darray
+                        things.push_back({to_string(getAddressDes(x+"_w1"))+"(%rbp)",0});
+                        things.push_back({to_string(getAddressDes(x+"_w2"))+"(%rbp)",0});
+                    }
+                    if(info[0]==300){//3darray
+                        things.push_back({to_string(getAddressDes(x+"_w1"))+"(%rbp)",0});
+                        things.push_back({to_string(getAddressDes(x+"_w2"))+"(%rbp)",0});
+                        things.push_back({to_string(getAddressDes(x+"_w3"))+"(%rbp)",0});
                     }
                 }
             }
@@ -1490,6 +1412,10 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
         funCode.push_back(instr);
         instr="salq $3,%rdi";
         funCode.push_back(instr);
+        instr="movq "+s1+",%r8";
+        funCode.push_back(instr);
+        instr="movq r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        funCode.push_back(instr);
     }
     if(tp==200){
         instr="movq "+s1+",%rdi";
@@ -1497,6 +1423,14 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
         instr="mulq "+s2+",%rdi";
         funCode.push_back(instr);
         instr="salq $3,%rdi";
+        funCode.push_back(instr);
+        instr="movq "+s1+",%r8";
+        funCode.push_back(instr);
+        instr="movq r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        funCode.push_back(instr);
+        instr="movq "+s2+",%r8";
+        funCode.push_back(instr);
+        instr="movq r8,"+to_string(getAddressDes(name+"_w2"))+"(%rbp)";
         funCode.push_back(instr);
     }
     if(tp==300){
@@ -1507,6 +1441,18 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
         instr="mulq "+s3+",%rdi";
         funCode.push_back(instr);
         instr="salq $3,%rdi";
+        funCode.push_back(instr);
+        instr="movq "+s1+",%r8";
+        funCode.push_back(instr);
+        instr="movq r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        funCode.push_back(instr);
+        instr="movq "+s2+",%r8";
+        funCode.push_back(instr);
+        instr="movq r8,"+to_string(getAddressDes(name+"_w2"))+"(%rbp)";
+        funCode.push_back(instr);
+        instr="movq "+s3+",%r8";
+        funCode.push_back(instr);
+        instr="movq r8,"+to_string(getAddressDes(name+"_w3"))+"(%rbp)";
         funCode.push_back(instr);
     }
     instr="call	malloc";
@@ -1536,10 +1482,9 @@ int main(int argc, char *argv[])
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
     
-    vector<string> classes = {"Dog","TestInheritance2"};
+    vector<string> classes = {"MyClass"};
     map<string, vector<string> > funcs;
-    funcs["Dog"]= {"bark"};
-    funcs["TestInheritance2"] = {"main"};
+    funcs["Myclass"] = {"show"};
     vector<string> code ;
     for (auto it: classes) {
         handleClassDec(it + ".3ac");
@@ -1548,9 +1493,6 @@ int main(int argc, char *argv[])
             vector<string> t = genfunc(it);
             if(t.size()) code.insert(code.end(), t.begin(), t.end());
         }
-    }
-
-    
-    
+    }   
     finalCodeGen(code);
 }
