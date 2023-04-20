@@ -45,6 +45,7 @@ map<string, int> classSize;     // size of a class object assuming size of int a
 
 string currClassName;   // current class being handled
 string currFuncName;        // current function being dealt with in the code
+string mainClassName;   //class having the main function
 
 vector<int> genregs = {0,1,2,3,8,9,10,11,12,13,14,15};
 
@@ -438,6 +439,9 @@ vector<string> identifyInstr(string instr)
             // copy instruction
             
             string s = instr.substr(eqpos+1);
+            if(s.find("new") != string::npos) {
+                return ans;
+            }
             string var1 = instr.substr(0, eqpos);
             int dimlhs = countOccurrences('[', var1);
             int dimrhs = countOccurrences('[', s);
@@ -666,6 +670,7 @@ vector<string> genfunc(string funcName)
             }
             funcCode.push_back("leave");
             funcCode.push_back("ret");
+            currFuncName = "";
             file2.close();
             return funcCode;
         }
@@ -693,12 +698,13 @@ vector<string> genfunc(string funcName)
 void handleClassDec(string filename)
 {
     string line;
+    temporary_size = 0;
     ifstream fp(filename);
     getline(fp, line);
     line = trimInstr(line);
     if(strip(line.substr(0, 10)) == "beginclass") {
             currClassName = strip(line.substr(11));
-            cout << "Curr class declared as: " << currClassName << "\n";
+            cout << "Curr class declared as: " << currClassName << "!\n";
             vector<vector<string> > data = read_csv(currClassName + ".csv");
             getline(fp, line);
             while(line.find("endclass") != string::npos) {
@@ -706,8 +712,9 @@ void handleClassDec(string filename)
                 // two things, integer variable or array declaration, or even class declaration
                 // addressDes[currClassName + "::" + line.substr()]
                 // assuming there is a csv file having variable info, type of variable and name of variable
-                
+                cout << "the hash is here\n";
                 int pos = -8;
+                classSize[currClassName] = 0;
                 for(int i = 1; i < data.size(); i++) {
                     string var = data[i][2];
                     
@@ -749,13 +756,14 @@ void handleClassDec(string filename)
  
             }
         }
+        // temporary_size += (max(1, classSize[currClassName]/8));
         fp.close();
 }
 
 void finalCodeGen(vector<string> &funcCode)
 {
     cout << ".text\n";
-    cout << ".globl main\n";
+    cout << ".globl " + mainClassName + "-" + "main" + "\n";
     for (auto s : funcCode)
     {
         cout << s << "\n";
@@ -773,11 +781,20 @@ string getfuncName(string x){
     if(x.rfind("call",0)!=0){
         cout<<"Error the instruction not start with call\n";
     }
-    string temp = x.substr(5);
-    if(temp.find(".") != string::npos ) {
+    x = x.substr(5);
+    string temp = currClassName + "-" + x;
+    if(x.find(".") != string::npos ) {
+        string var = x.substr(0, x.find('.'));
+        string func = x.substr(x.find('.') + 1);
         // a class object's function is being called
         // need to consult the symbol table for this current function, or class
         string filename = currClassName + "-" + currFuncName + ".csv";
+        vector<vector<string> > data = read_csv(filename);
+        for(int i = 1; i < data.size(); i++) {
+            if(data[i][2] == var) {
+                temp = data[i][3] + "-" + func;
+            }
+        }
 
     }
     // int f=0;
@@ -871,34 +888,12 @@ void checkForArray(string x,vector<int>&wdt){
 }
 int sz_func(){
     int ans=0;
-    for(auto it:var){
-        if(it.second[0]==1){//int
-            ans+=8;
-        }
-        if(it.second[1]==0){//array def in side the func
-            if(it.second[0]==100){//array
-                ans+=it.second[2]*8;
-            }
-            if(it.second[0]==200){//2darray
-                ans+=it.second[2]*it.second[3]*8;
-            }
-            if(it.second[0]==300){//3darray
-                ans+=it.second[2]*it.second[3]*it.second[4]*8;
-            }
-        }
-        else{   //array coming as argument
-            if(it.second[0]==100){//array
-                ans+=16;
-            }
-            if(it.second[0]==200){//2darray
-                ans+=24;
-            }
-            if(it.second[0]==300){//3darray
-                ans+=32;
-            }
-        }
+    vector<vector<string> > data = read_csv(currClassName + "-" + currFuncName + ".csv");
+    for(int i = 1; i < data.size(); i++) {
+    
     }
     ans+=temporary_size*8+8;
+
     return ans;
 }
 int string_to_int(string x){// replacement for stoi
@@ -914,7 +909,7 @@ void fill_var_temp_sz(string x){
     file.close();
     cout << "the line is " << line << "\n";
     line = line.substr(line.find(',')+1);
-    temporary_size=string_to_int(line);
+    temporary_size += string_to_int(line);
     vector<string>v;
     file.open(currClassName + "-" + x+".csv");
     getline(file, line);
@@ -1275,7 +1270,7 @@ void insert_arg(vector<string>arg,vector<string>&funCode){
     cout << "insert ags ret\n";
 }
 
-void declareLocalVars()
+int declareLocalVars()
 {
     // ifstream fp(currClassName + "-" + currFuncName + ".csv");
     cout << "Declaring local vars******************************************\n";
@@ -1286,6 +1281,23 @@ void declareLocalVars()
         int dim1 = 1, dim2 = 1, dim3 = 1;
         int numBrackets = countOccurrences('[', data[i][3]);
         string t = data[i][3];
+        cout << " t = " << data[i][3] << "!\n";
+        if(t.substr(0, 3) != "int") {
+            // not an int variable, look if its a class object
+            for(auto it: classSize) {
+                cout << it.first << " " ;
+            }
+            cout << "\n";
+            if(classSize.find(t) != classSize.end()) {
+                string tt = currClassName + "::" + currFuncName + "::" + data[i][2] ;
+                addressDes[tt] = pos;
+                cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tt = " << tt << "\n";
+                pos = pos - (classSize[t] !=0 ? classSize[t] : 8);
+            }
+            else {
+                cout <<"ERROR IN PROGRAM, CLASS NOT DECLARED\n";
+            }
+        }
         if(numBrackets >= 1) {
             int startpos = data[i][3].find('[');
             int endpos = data[i][3].find(']');
@@ -1318,8 +1330,10 @@ void declareLocalVars()
         string tempName = "_t" + to_string(i);
         string tt = currClassName + "::" + currFuncName + "::" + tempName;
         addressDes[tt] = pos;
+        var[tt] = {1,0,0,0,0}; //{type,isarg,w1,w2,w3}
         pos -= 8;
     }
+    return abs(pos);
 }
 
 // handles starting code of function, initialize stack space etc
@@ -1332,7 +1346,7 @@ void beg_func(string x,vector<string>&funCode){
     string func_nm = xx.substr(0, xx.find(' '));
     
     currFuncName = func_nm;
-    fill_var_temp_sz(func_nm);
+    int sz = fill_var_temp_sz(func_nm);
     vector<string>arg_name;
     string temp;
     int pos = string("beginfunc").length() + 1 + func_nm.length() + 1;
@@ -1353,8 +1367,13 @@ void beg_func(string x,vector<string>&funCode){
         modify_var_arg(arg);
     }
     cout << "reahced here\n";
-    string instr=func_nm+":";
+    
+    string instr=currClassName + "-" + func_nm+":";
+    if(func_nm == "main") {
+        mainClassName = currClassName;
+    }
     funCode.push_back(instr);
+    itn sz = declareLocalVars();
     instr="pushq %rbp";
     funCode.push_back(instr);
     instr="movq %rsp, %rbp";
@@ -1362,7 +1381,7 @@ void beg_func(string x,vector<string>&funCode){
     instr="subq $"+to_string(sz_func())+", %rsp";
     funCode.push_back(instr);
     insert_arg(arg_name,funCode);
-    declareLocalVars();
+    
 }
 void func_call(vector<string>a,vector<string>&funcCode){
     vector<string>ans_reg;//keep all the register instruction
@@ -1468,18 +1487,21 @@ int main(int argc, char *argv[])
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
     
-    vector<string> classes = {"MyClass"};
-    vector<string> functions = {"add", "main"};
-
+    vector<string> classes = {"Dog","TestInheritance2"};
+    map<string, vector<string> > funcs;
+    funcs["Dog"]= {"bark"};
+    funcs["TestInheritance2"] = {"main"};
+    vector<string> code ;
     for (auto it: classes) {
         handleClassDec(it + ".3ac");
+        for(auto it: funcs[it] ) {
+            currFuncName = it;
+            vector<string> t = genfunc(it);
+            if(t.size()) code.insert(code.end(), t.begin(), t.end());
+        }
     }
 
-    vector<string> code ;
-    for(auto it: functions ) {
-        currFuncName = it;
-        vector<string> t = genfunc(it);
-        if(t.size()) code.insert(code.end(), t.begin(), t.end());
-    }
+    
+    
     finalCodeGen(code);
 }
