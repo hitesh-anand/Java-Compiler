@@ -5,7 +5,7 @@ class Test{
     {
         c=0;
     }
-    void foobar(int c, int d)
+    public static void foobar(int c, int d)
     {
         int a = 1;
         c = 32;
