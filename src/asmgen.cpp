@@ -437,10 +437,23 @@ vector<string> identifyInstr(string instr)
         if(flag == 0) {
             // copy instruction
             
-            string s = instr.substr(eqpos+1);
-            string var1 = instr.substr(0, eqpos);
+            string s = instr.substr(eqpos+1);//rhs
+            string var1 = instr.substr(0, eqpos);//lhs
             int dimlhs = countOccurrences('[', var1);
             int dimrhs = countOccurrences('[', s);
+            if(s.substr(0, 3)== "new"){
+                vector<string>temp = getArrayIndices(s.substr(4));
+                for(int i = 0; i < dimrhs; i++) {
+                     if(is_number(temp[i])) {
+                        temp[i] = "$" + temp[i];
+                     }
+                     else {
+                        temp[i] = getAddressDes(temp[i]) + "(%rbp)";
+                     }
+                }
+                call_malloc(s,dimlhs*100,temp[0], temp[1], temp[2], ans);
+                return ans;
+            }
             if(s.size() && is_number(s)) {
                 // rhs is a number
                 // string var2 = instr.substr(0, eqpos);
@@ -1452,7 +1465,39 @@ void func_call(vector<string>a,vector<string>&funcCode){
         funcCode.push_back(y);
     }
 }
-
+void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>&funCode){
+    //s is the registeer or the memory where sie is present send it as (%rbp) or $5
+    //except rdi
+    string instr;
+    if(tp==100){
+        instr="movq "+s1+",%rdi";
+        funCode.push_back(instr);
+        instr="salq $3,%rdi";
+        funCode.push_back(instr);
+    }
+    if(tp==200){
+        instr="movq "+s1+",%rdi";
+        funCode.push_back(instr);
+        instr="mulq "+s2+",%rdi";
+        funCode.push_back(instr);
+        instr="salq $3,%rdi";
+        funCode.push_back(instr);
+    }
+    if(tp==300){
+        instr="movq "+s1+",%rdi";
+        funCode.push_back(instr);
+        instr="mulq "+s2+",%rdi";
+        funCode.push_back(instr);
+        instr="mulq "+s3+",%rdi";
+        funCode.push_back(instr);
+        instr="salq $3,%rdi";
+        funCode.push_back(instr);
+    }
+    instr="call	malloc";
+    funCode.push_back(instr);
+    instr="movq %rax, "+to_string(getAddressDes(name))+"(%rbp)";
+    funCode.push_back(instr);
+}
 int main(int argc, char *argv[])
 {
 
