@@ -8,6 +8,7 @@ class Test{
     void foobar(int c, int d)
     {
         int a = 1;
+        c = 32;
         // int c=33;
         if(a==1){a++;int b=2;} 
         int b = 1;
