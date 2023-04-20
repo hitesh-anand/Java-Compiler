@@ -17,6 +17,7 @@ class Test{
 
     int foob(int b[][], int c, boolean d)
     {
+        return c;
     }
     public static void main()
     {

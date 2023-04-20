@@ -77,8 +77,8 @@ string append_scope_level(string s)
         if(scope_attach > 10000)
             scope_attach = 0;
         if(!res)
-            return s+"`"+to_string(max(scope_level,0));
-        return s+"`"+to_string(max(res->scope_level,0));
+            return s+"`"+to_string(scope_attach);
+        return s+"`"+to_string(scope_attach);
     }
     return s;
 }
