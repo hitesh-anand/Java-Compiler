@@ -330,23 +330,11 @@ void SymGlob::update(string lex, Symbol *sym)
 void SymGlob::insert(string lex, Symbol *sym)
 {
     Symbol *res = currNode->scope_lookup(lex);
-    // if (res)
-    // {
-        // cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
-        // yyerror("Error");
-        // return;
-    // }
-    SymNode* temp = currNode;
-    while(temp && temp->name!="class" && temp->name!="classextends")
+    if (res)
     {
-        res = temp->scope_lookup(lex);
-        if(res)
-        {
-            cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
-            yyerror("Error");
-            return;
-        }
-        temp = temp->parent;
+        cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
+        yyerror("Error");
+        return;
     }
     if (currNode->isThisDead == true && currNode->vulnerable == true)
     {
@@ -797,7 +785,7 @@ void SymGlob::dumpSymbolTable()
             {
                 int scope_num = 0;
                 ofstream fout;
-                string nm = classfunc[it.first] + "_" + (it.first) + ".csv";
+                string nm = classfunc[it.first] + "-" + (it.first) + ".csv";
                 fout.open(nm);
                 SymNode *res = it.second;
                 queue<pair<SymNode *, int>> q;
