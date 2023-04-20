@@ -808,7 +808,7 @@ void SymGlob::dumpSymbolTable()
                         fout << scope_num++ << ",";
                         fout << "Identifier,";
                         Symbol *temp = ch.second;
-                        fout << temp->lexeme<<"`"<<temp->scope_level<< ",";
+                        fout << temp->lexeme<< "`"<<temp->scope_level<< ",";
                         if (temp->type < 100)
                         {
                             fout << typeroot->inv_types[temp->type] << ",";

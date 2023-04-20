@@ -21,6 +21,7 @@ extern map<string, int> tempVars;
 extern map<string, string> classfunc;
 extern string otpt;
 
+vector<string> static_funcs;
 int scope_level = 0;
 
 extern int startPos;
@@ -2198,17 +2199,25 @@ MethodDeclaration:
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
 
         int acc=PUBLIC_ACCESS;
+        int isStatic = 0;
         if($1->attr=="private")
             acc = PRIVATE_ACCESS;
+        if($1->attr=="static")
+            isStatic = 1;    
         
         if($2)
         {
             for(auto ch:$2->children)
             {
-                if($1->attr=="private")
+                if(ch->attr=="private")
                     acc = PRIVATE_ACCESS;
+                if(ch->attr=="static")
+                    isStatic=1;
             }
         }
+
+        if(isStatic)
+            static_funcs.push_back($3->children[1]->children[0]->attr);
         root->currNode->childscopes.back()->node_acc_type = acc;
     } //here
 |   FINAL Modifiers MethodHeader MethodBody   {
@@ -2243,6 +2252,24 @@ MethodDeclaration:
         //backpatch($4->nextlist, ircode.size() -1);
         $$->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
+
+        int acc=PUBLIC_ACCESS;
+        int isStatic = 0;   
+        
+        if($2)
+        {
+            for(auto ch:$2->children)
+            {
+                if(ch->attr=="private")
+                    acc = PRIVATE_ACCESS;
+                if(ch->attr=="static")
+                    isStatic=1;
+            }
+        }
+
+        if(isStatic)
+            static_funcs.push_back($3->children[1]->children[0]->attr);
+        root->currNode->childscopes.back()->node_acc_type = acc;
     } 
 ;
 
@@ -3073,6 +3100,7 @@ ConstructorDeclarator:
     currFunc = $1->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
+    scope_level++;
         vector<string> params;
         for(auto it : $3->children)
         {
@@ -3100,10 +3128,10 @@ ConstructorDeclarator:
             else
                 args.push_back(typeroot->typewidth[it->children[0]->attr].first);
                 
-                cout<<"THISHTIS "<<it->children[1]->attr<<endl;
-                Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
-                $$->code.push_back(q);
-                ircode.push_back(q); 
+                // cout<<"THISHTIS "<<it->children[1]->attr<<endl;
+                // Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+                // $$->code.push_back(q);
+                // ircode.push_back(q); 
         }
 
         bool check = root->currNode->scope_constrlookup(args);
@@ -3119,7 +3147,7 @@ ConstructorDeclarator:
         root->currNode->constr_insert(args);
         root->currNode=newf;
         root->finsert($1->attr, newf);
-        scope_level++;
+        // scope_level++;
 
         // for(aut$3->children)
         for(int i=0; i<$3->children.size(); i++)
@@ -3134,6 +3162,17 @@ ConstructorDeclarator:
                 // yyerror("Variable already declared");
             sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
+        }
+
+        // int last = $3->children.size()-1;
+        // if(last%2)
+        //     last--;
+        for(auto it : $3->children)
+        {
+            Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+            $$->code.push_back(q);
+            ircode.push_back(q);       
+            // cout << "i = " << i << endl;     
         }
 }
 |   Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS   {

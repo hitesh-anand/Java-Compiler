@@ -1,12 +1,21 @@
-0	:beginclass MyClass 
-1	:beginfunc show a
-2	:a`2 = popparam
-3	:print a`2
-4	:endfunc 
-5	:beginfunc main 
-6	:pushparam 5
-7	:stackpointer=stackpointer+8
-8	:call show, 1
-9	:stackpointer=stackpointer-8
-10	:endfunc 
-11	:endclass 
+0	:beginclass Test 
+1	:b`1=false
+2	:beginfunc Test c,d
+3	:4	:5	:c`2=0
+6	:endfunc 
+7	:beginfunc static foobar c,d
+8	:9	:10	:a`4=1
+11	:c`4=32
+12	:if a`5==1 goto 14
+13	:goto 16
+14	:a`5=a`5+1
+15	:b`5=2
+16	:b`7=1
+17	:endfunc 
+18	:beginfunc foob b,c,d
+19	:20	:21	:22	:return c`9
+23	:endfunc 
+24	:beginfunc static main 
+25	:a`11=5
+26	:endfunc 
+27	:endclass 
