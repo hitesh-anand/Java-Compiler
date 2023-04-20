@@ -3073,6 +3073,7 @@ ConstructorDeclarator:
     currFunc = $1->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
+    scope_level++;
         vector<string> params;
         for(auto it : $3->children)
         {
@@ -3100,10 +3101,10 @@ ConstructorDeclarator:
             else
                 args.push_back(typeroot->typewidth[it->children[0]->attr].first);
                 
-                cout<<"THISHTIS "<<it->children[1]->attr<<endl;
-                Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
-                $$->code.push_back(q);
-                ircode.push_back(q); 
+                // cout<<"THISHTIS "<<it->children[1]->attr<<endl;
+                // Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+                // $$->code.push_back(q);
+                // ircode.push_back(q); 
         }
 
         bool check = root->currNode->scope_constrlookup(args);
@@ -3119,7 +3120,7 @@ ConstructorDeclarator:
         root->currNode->constr_insert(args);
         root->currNode=newf;
         root->finsert($1->attr, newf);
-        scope_level++;
+        // scope_level++;
 
         // for(aut$3->children)
         for(int i=0; i<$3->children.size(); i++)
@@ -3134,6 +3135,17 @@ ConstructorDeclarator:
                 // yyerror("Variable already declared");
             sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
+        }
+
+        // int last = $3->children.size()-1;
+        // if(last%2)
+        //     last--;
+        for(auto it : $3->children)
+        {
+            Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+            $$->code.push_back(q);
+            ircode.push_back(q);       
+            // cout << "i = " << i << endl;     
         }
 }
 |   Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS   {

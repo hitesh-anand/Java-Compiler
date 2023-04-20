@@ -1,7 +1,32 @@
-0	:beginclass MyClass 
-1	:beginfunc foob 
-2	:endfunc 
-3	:beginfunc main 
-4	:a`4=5
-5	:endfunc 
-6	:endclass 
+0	:beginclass Test 
+1	:b`0=false
+2	:beginfunc Test c,d
+3	:c`2 = popparam
+4	:d`2 = popparam
+5	:c`2=0
+6	:endfunc 
+7	:beginfunc foobar c,d
+8	:c`4 = popparam
+9	:d`4 = popparam
+10	:a`4=1
+11	:c`4=32
+12	:if a`4==1 goto 14
+13	:goto 16
+14	:a`4=a`4+1
+15	:b`5=2
+16	:b`7=1
+17	:endfunc 
+18	:beginfunc foob b,c,d
+19	:b`9 = popparam
+20	:c`9 = popparam
+21	:d`9 = popparam
+22	:b`9[2][1]=1
+23	:a`9=3
+24	:return 0
+25	:endfunc 
+26	:beginfunc main 
+27	:endfunc 
+28	:endclass 
+29	:beginclass another 
+30	:b`0=0
+31	:endclass 
