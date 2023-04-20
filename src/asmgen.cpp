@@ -445,16 +445,29 @@ vector<string> identifyInstr(string instr)
                 // string var2 = instr.substr(0, eqpos);
                 DBG cout << "getting address for " << var1 << " as " << getAddressDes(var1) << "\n";
                 string ins = MOVQ + string("$") + s +string(", ")+ to_string(getAddressDes(var1)) + string("(%rbp)");
-                ans.push_back(ins);
+                if(dimlhs == 0) ans.push_back(ins);
+                else {
+                    vector<string> ind = getArrayIndices(var1);
+                    ary_ass(var1.substr(0, var1.find('[')), dimlhs*100, ind[0], ind[1], ind[2], "$" + s, ans);
+                }
             }
             else {
                 // rhs is a variable
                 // move rhs to %rbx
-                
-                string ins = MOVQ + to_string(getAddressDes(s)) + string("(%rbp), %rbx");
-                ans.push_back(ins);
-                ins = MOVQ + string("%rbx, ") + to_string(getAddressDes(var1)) + string("(%rbp)");
-                ans.push_back(ins);
+                if(dimrhs > 0) {
+                    vector<string> ind = getArrayIndices(s);
+                    ary_acc(s.substr(0, s.find('[')), dimrhs*100, ind[0], ind[1], ind[2], "%rbx", ans);
+                }
+                else {
+                    string ins = MOVQ + to_string(getAddressDes(s)) + string("(%rbp), %rbx");
+                    ans.push_back(ins);
+                }
+                string ins = MOVQ + string("%rbx, ") + to_string(getAddressDes(var1)) + string("(%rbp)");
+                if(dimlhs == 0) ans.push_back(ins); 
+                else {
+                    vector<string> ind = getArrayIndices(var1);
+                    ary_ass(var1.substr(0,var1.find('[')), dimlhs*100, ind[0], ind[1], ind[2], "%rbx", ans);
+                }
 
             }
         }
@@ -594,22 +607,29 @@ vector<string> genfunc(string funcName)
     
     while (getline(file2, line)) {
         if(DEBUG) cout << line << "\n";
-        vector<string> lines= {line};
+        vector<string> lines;
         int isfunc = 0;
         while(line.find("pushparam") != string::npos) {
+            lines.push_back(trimInstr(line));
             isfunc=1;
             getline(file2, line);
-            lines.push_back(line);
+            cout << "##################Line is : " << line << "\n";
+            // lines.push_back(line);
         }
 
         if(isfunc) {
             getline(file2, line);
-            getline(file2, line);
+            cout << "##################Line is : " << line << "\n";
+            // getline(file2, line);
+            lines.push_back(trimInstr(line));
+            cout << "##################Line is : " << line << "\n";
             func_call(lines, funcCode);
             getline(file2, line);
+            cout << "##################Line is : " << line << "\n";
             continue;
         }
         if(line.find("call")!=string::npos) {
+            lines.push_back(line);
             func_call(lines, funcCode);
             continue;
         }
