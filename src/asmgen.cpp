@@ -1322,7 +1322,7 @@ int declareLocalVars()
         if(var[tt][1] == 0) {
             cout << "t=" << tt << endl;
             addressDes[tt] = pos;
-            pos = pos - 8 * dim1 * dim2 * dim3;
+            pos = pos - 8;
             cout << "dec\n";
         }
     }

@@ -4052,6 +4052,14 @@ LocalVariableDeclaration:
                     else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    Quadruple* q = new Quadruple(ch->children[0]->varName, ch->children[1]->varName, "");
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             }
 
             // cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
@@ -4142,7 +4150,14 @@ LocalVariableDeclaration:
                     else if(ch->arrayType == 2) init2DArray(ch, $3->attr);
                     else if(ch->arrayType == 3) init3DArray(ch, $3->attr);
                 }
-                
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    Quadruple* q = new Quadruple(ch->children[0]->varName, ch->children[1]->varName, "");
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             
             }
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second);
@@ -6892,7 +6907,7 @@ ArrayCreationExpression:
     cout<<"The widths here1 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
-    $$->varName = string("new ") + $2->attr ;
+    $$->varName = string("new ") + $2->attr + $3->attr ;
     verbose(v,"NEW PrimitiveType DimExpr_ ->ArrayCreationExpression");
 }
 |   NEW Name DimExpr_   {
@@ -6908,7 +6923,7 @@ ArrayCreationExpression:
         $$->width3 = $3->width3;
         $$->arrayType = $3->arrayType;
         $$->type = $$->arrayType*100 + $2->type;
-        $$->varName = string("new ") + $2->attr ;
+        $$->varName = string("new ") + $2->attr +$3->attr;
         verbose(v,"NEW Name DimExpr_->ArrayCreationExpression");
     }
 |   NEW PrimitiveType Dims ArrayInitializer {
@@ -6931,7 +6946,7 @@ ArrayCreationExpression:
     cout<<"The widths here2 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
-    $$->varName = string("new ") + $2->attr ;
+    $$->varName = string("new ") + $2->attr  + $3->attr;
     verbose(v,"NEW PrimitiveType Dims ArrayInitializer->ArrayCreationExpression");
 }
 
@@ -6955,6 +6970,7 @@ DimExpr_:
     $$ = n;
     $$->width1 = $2->varName;
     $$->arrayType = 1;
+    //$$->attr = $1->attr + $2->varName + $3->attr;
     //$$->width1 = stoi($2->attr);
     cout << "\n\nvarname ="<< $2->varName << "\n\n";
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->DimExpr_");
