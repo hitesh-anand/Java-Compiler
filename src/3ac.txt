@@ -1,11 +1,14 @@
 0	:beginclass MyClass 
 1	:beginfunc show a
-2	:3	:print a`2
-4	:endfunc 
-5	:static beginfunc main 
-6	:pushparam 5
-7	:stackpointer=stackpointer+8
-8	:call show
-9	:stackpointer=stackpointer-8
-10	:endfunc 
-11	:endclass 
+2	:a`2=2
+3	:if a`3==1 goto 5
+4	:goto 6
+5	:a`3=a`3+1
+6	:endfunc 
+7	:static beginfunc main 
+8	:pushparam 5
+9	:stackpointer=stackpointer+8
+10	:call show
+11	:stackpointer=stackpointer-8
+12	:endfunc 
+13	:endclass 
