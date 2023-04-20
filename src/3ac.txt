@@ -1,31 +1,7 @@
-0	:beginclass Test 
-1	:b`0=false
-2	:beginfunc Test c,d
-3	:c`1 = popparam
-4	:d`1 = popparam
-5	:c`2=0
-6	:endfunc 
-7	:beginfunc foobar c,d
-8	:c`4 = popparam
-9	:d`4 = popparam
-10	:a`4=1
-11	:if a`4==1 goto 13
-12	:goto 15
-13	:a`4=a`4+1
-14	:b`5=2
-15	:b`7=1
-16	:endfunc 
-17	:beginfunc foob b,c,d
-18	:b`9 = popparam
-19	:c`9 = popparam
-20	:d`9 = popparam
-21	:b`9[2][1]=1
-22	:a`9=3
-23	:return 0
-24	:endfunc 
-25	:beginfunc main 
-26	:endfunc 
-27	:endclass 
-28	:beginclass another 
-29	:b`0=0
-30	:endclass 
+0	:beginclass MyClass 
+1	:beginfunc foob 
+2	:endfunc 
+3	:beginfunc main 
+4	:a`4=5
+5	:endfunc 
+6	:endclass 

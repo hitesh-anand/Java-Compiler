@@ -966,8 +966,14 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         //put index in rax
         instr="movq "+v1+", %rax";
         funCode.push_back(instr);
+        instr="salq $3, %rax";
+        funCode.push_back(instr);
+        instr="movq "+to_string(getAddressDes(lex))+"(%rbp), %rdi";
+        funCode.push_back(instr);
+        instr="subq %rax, %rdi";
+        funCode.push_back(instr);
         //finally assignment
-        instr="movq %rdx,"+to_string(getAddressDes(lex)) +"(%rbp,%rax,8)";
+        instr="movq %rdx, (%rdi)";
         funCode.push_back(instr);
     }
     if(tp==200){
@@ -994,7 +1000,14 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         instr="addq %rsi, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq %rdx,"+to_string(getAddressDes(lex)) +"(%rbp,%rax,8)";
+        instr="salq $3, %rax";
+        funCode.push_back(instr);
+        instr="movq "+to_string(getAddressDes(lex))+"(%rbp), %rdi";
+        funCode.push_back(instr);
+        instr="subq %rax, %rdi";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq %rdx, (%rdi)";
         funCode.push_back(instr);
     }
     if(tp==300){
@@ -1040,7 +1053,14 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         instr="addq %r8, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq %rdx,"+to_string(getAddressDes(lex)) +"(%rbp,%rax,8)";
+        instr="salq $3, %rax";
+        funCode.push_back(instr);
+        instr="movq "+to_string(getAddressDes(lex))+"(%rbp), %rdi";
+        funCode.push_back(instr);
+        instr="subq %rax, %rdi";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq %rdx, (%rdi)";
         funCode.push_back(instr);
     }
 }
@@ -1061,7 +1081,14 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="movq "+v1+", %rax";
         funCode.push_back(instr);
         //finally acces
-        instr="movq "+to_string(getAddressDes(lex)) +"(%rbp,%rax,8), "+r;
+        instr="salq $3, %rax";
+        funCode.push_back(instr);
+        instr="movq "+to_string(getAddressDes(lex))+"(%rbp), %rdi";
+        funCode.push_back(instr);
+        instr="subq %rax, %rdi";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq (%rdi), "+r;
         funCode.push_back(instr);
     }
     if(tp==200){
@@ -1085,7 +1112,14 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="addq %rsi, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq "+to_string(getAddressDes(lex)) +"(%rbp,%rax,8), "+r;
+        instr="salq $3, %rax";
+        funCode.push_back(instr);
+        instr="movq "+to_string(getAddressDes(lex))+"(%rbp), %rdi";
+        funCode.push_back(instr);
+        instr="subq %rax, %rdi";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq (%rdi), "+r;
         funCode.push_back(instr);
     }
     if(tp==300){
@@ -1128,7 +1162,14 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="addq %r8, %rax";
         funCode.push_back(instr);
         //finally assignment
-        instr="movq "+to_string(getAddressDes(lex)) +"(%rbp,%rax,8), "+r;
+        instr="salq $3, %rax";
+        funCode.push_back(instr);
+        instr="movq "+to_string(getAddressDes(lex))+"(%rbp), %rdi";
+        funCode.push_back(instr);
+        instr="subq %rax, %rdi";
+        funCode.push_back(instr);
+        //finally assignment
+        instr="movq (%rdi), "+r;
         funCode.push_back(instr);
     }
 }

@@ -1,14 +1,8 @@
 #include<stdio.h>	
-	int main() {	
-		int i;
-        int n = 10;
-        int c[10];
-        int x;
-        for(i = 0; i < n; i++) {
-            c[i] = i + 1;   
-            x = c[i] + 0;
-            printf("%d\n", x);
-        }
-        x = c[2] + c[3];
-        printf("%d\n", x);
-	}
+int r(int r,int a[],int b[],int c[],int d[],int e[],int f[]){
+    a[3]=2;
+}
+int main() {	
+    int c[10]={1,2,3,4,5,6,7,8,9,0};
+    r(c[0],c,c,c,c,c,c);
+}
