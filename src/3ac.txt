@@ -1,5 +1,5 @@
 0	:beginclass Test 
-1	:b`2042964064=0
+1	:b`634588784=0
 2	:beginfunc Test c`2,d`2
 3	:c`2 = popparam
 4	:d`2 = popparam
@@ -19,17 +19,13 @@
 18	:b`9 = popparam
 19	:c`9 = popparam
 20	:d`9 = popparam
-21	:_q0=w*4
-22	:_q1=2*_q0
-23	:_q2=1*4
-24	:_q3=_q1+_q2
-25	:*(b`9+_t3)=1
-26	:a`9=3
-27	:return 0
-28	:endfunc 
-29	:beginfunc main 
-30	:endfunc 
-31	:endclass 
-32	:beginclass another 
-33	:b`2042964064=0
-34	:endclass 
+21	:b[2][1]`9=1
+22	:a`9=3
+23	:return 0
+24	:endfunc 
+25	:beginfunc main 
+26	:endfunc 
+27	:endclass 
+28	:beginclass another 
+29	:b`634588784=0
+30	:endclass 
