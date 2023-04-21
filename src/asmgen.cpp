@@ -14,7 +14,7 @@ Function naming convention: <className>.<functionName> as is in 3ac
 #define ADDQ "addq\t"
 #define SUBQ "subq\t"
 #define MULQ "imulq\t"
-#define DIVQ "divq\t"
+#define DIVQ "idiv\t"
 #define XORQ "xorq\t"
 #define DEBUG 1
 #define DBG if (DEBUG)
@@ -551,6 +551,20 @@ vector<string> identifyInstr(string instr)
                 {
                     ans.push_back(genMove(z, "%rcx"));
                 }
+                string ins3,ins4;
+                if(op=='/'){
+                    ins3 = "movq    %rbx, %eax";
+                    ans.push_back(ins3);
+                    ins3 = "cqo               ";
+                    ans.push_back(ins3);
+                    // ins3 = "xorq    %rdx, %rdx";
+                    // ans.push_back(ins3);
+                    ins3 = "idiv     %rcx";
+                    ans.push_back(ins3);
+                    ins3 = "movq     %rax, %rcx";
+                    ans.push_back(ins3);
+                }
+                if(op=='%'){
 
                 string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rcx", "%rbx");
                 string ins4 = genMove("%rbx", x);

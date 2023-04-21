@@ -5,12 +5,12 @@ class hello {
     {
         c = a;
     }
-    int f() {
-        int b=2, a;
+    int f(int a, int b) {
+        int c=2;
+        // int c = b/a;
         if(a==1)
         {
             b++;
-            int c = 1;
         }
         return a++;
     }
@@ -21,7 +21,7 @@ class hi{
         int n = a+b;
         int k = a-b;
         hello h = new hello(n, k);
-        h.f();
+        h.f(n, k);
         return 1;
     }
     public static void main(String args[]){
