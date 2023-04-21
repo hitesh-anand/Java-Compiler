@@ -7,7 +7,7 @@ Function naming convention: <className>.<functionName> as is in 3ac
 */
 
 #include <bits/stdc++.h>
-
+#include <unistd.h>
 #define PUSHQ "pushq\t"
 #define MOVL "movl\t"
 #define MOVQ "movq\t"
