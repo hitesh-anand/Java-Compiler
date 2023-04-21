@@ -10,7 +10,7 @@ map<string, SymNode *> list_class;
 string otpt;
 
 int startPos = 0;
-
+extern int yylineno;
 int temp = 0;
 vector<tuple<string, int, int>> funcs;
 int varCnt = 0;
@@ -65,11 +65,67 @@ string append_scope_level(string s)
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
     // return s;
 
-
+    cout<<"String is sdfsd "<<s<<" on line "<<yylineno<<endl;
 
     if(s.find('`') != string::npos || s[s.length()-1]==']')
         return s;
     int isthis = 0;
+    int isdot = 0;
+    int ind=-1;
+    for(int i=0; i<s.length(); i++)
+    {
+        if(s[i]=='.')
+        {
+            ind = i;
+            break;
+        }
+    }
+
+    if(ind>-1)
+    {
+        cout<<"Dot for "<<s<<endl;
+        string suf = s.substr(ind+1, s.length()-ind-1);
+        s = s.substr(0, ind);
+        if(s.length()>4 && s.substr(0,4)=="this")
+        {
+            s = s.substr(5, s.length()-5);
+            isthis = 1;
+        }
+    // if(scope_level==-1)
+    //     cout<<-1<<"for "<<s<<endl;
+    string st = spacerem(s);
+    if(st.substr(0,3)=="new" && list_class.find(st.substr(3, st.length()-3))!=list_class.end())
+        return s;
+    cout<<"Couldn't findn "<<s<<" in classes"<<endl;
+    if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && s!="true" && s!="false")  
+    {
+        SymNode* temp = root->currNode;
+        Symbol* res;
+        while(temp && temp->name!="class")
+        {
+            res = temp->scope_lookup(s);
+            if(res)
+                break;
+            temp = temp->parent;
+        }
+        if(temp)
+            res=temp->scope_lookup(s);
+        cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
+        if(res)
+            cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
+        int scope_attach = (res)?max(res->scope_level, 0):max(scope_level, 0);
+        if(scope_attach > 10000)
+            scope_attach = 0;
+        if(isthis)
+            s = "this."+s;
+        if(!res)
+            return s+"`"+to_string(scope_attach)+"."+suf;
+        return s+"`"+to_string(scope_attach)+"."+suf;
+    }
+    return s;       
+    }
+
+
     if(s.substr(0,4)=="this")
     {
         s = s.substr(5, s.length()-5);

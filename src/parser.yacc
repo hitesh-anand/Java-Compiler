@@ -6347,16 +6347,16 @@ MethodInvocation:
     $$->type = ex->returntype;
 
     Quadruple* q;
-   
+   cout<<"Called thist thisi sish t"<<$1->attr<<endl;
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++); tempCnt++;
-        q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName );
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string($3->children.size()), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = new Quadruple(4, $1->attr, to_string($3->children.size()) );
+        q = new Quadruple(4, append_scope_level($1->attr), to_string($3->children.size()) );
     }
 
     $$->code.push_back(q);
