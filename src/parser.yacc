@@ -15,6 +15,7 @@ extern int fin;
 extern int v;
 extern int cnt;
 extern int isarrayinit;
+extern vector<string> field_vars;
 // map<string, pair<int, int>> typeroot->typewidth;
 extern map<string,SymNode*> list_class;
 extern map<string, int> tempVars;
@@ -1673,6 +1674,10 @@ FieldDeclaration:
 
         for(auto ch : $2->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
@@ -1770,6 +1775,10 @@ FieldDeclaration:
         }
         for(auto ch : $4->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $3->type;
             if(ch->arrayType) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) 
@@ -1856,6 +1865,10 @@ FieldDeclaration:
             acc = PROTECTED_ACCESS;
         for(auto ch : $4->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $3->type;
             if(ch->arrayType) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $3->type + 100 * ch->children[1]->arrayType; 

@@ -8,7 +8,7 @@ int isarrayinit = 0;
 // map<string, pair<int, int>> typeroot->typewidth;
 map<string, SymNode *> list_class;
 string otpt;
-
+vector<string> field_vars;
 int startPos = 0;
 extern int yylineno;
 int temp = 0;
@@ -63,8 +63,15 @@ string spacerem(string s)
 string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
-    // return s;
+    // 
 
+    cout<<"field vars are"<<endl;
+    for(auto it : field_vars)
+    {
+        if(it==s)
+            return s;
+    }
+    cout<<endl;
     cout<<"String is sdfsd "<<s<<" on line "<<yylineno<<endl;
 
     if(s.find('`') != string::npos || s[s.length()-1]==']')
