@@ -1373,9 +1373,9 @@ pair<int, int>  declareLocalVars()
         cout << " t = " << data[i][3] << "!\n";
         if(t.substr(0, 3) != "int") {
             // not an int variable, look if its a class object
-            for(auto it: classSize) {
-                cout << it.first << " " ;
-            }
+            // for(auto it: classSize) {
+            //     cout << it.first << " " ;
+            // }
             cout << "\n";
             if(classSize.find(t) != classSize.end()) {
                 string tt = currClassName + "::" + currFuncName + "::" + data[i][2] ;
@@ -1392,6 +1392,7 @@ pair<int, int>  declareLocalVars()
             sz = sz - 8 * (numBrackets + 1);
         }
         string tt = currClassName + "::" + currFuncName + "::" + data[i][2] ;
+        
         cout << "sz = " << sz << "\n";
         if(var[tt][1] == 0) {
             cout << "t=" << tt << endl;
@@ -1400,6 +1401,22 @@ pair<int, int>  declareLocalVars()
             // sz = pos;
             cout << "dec\n";
         }
+        if(numBrackets >= 1) {
+            addressDes[tt + "_w1"] = pos;
+            pos -= 8;
+            sz -= 8;
+        }
+        if(numBrackets >= 2) {
+            addressDes[tt + "_w2"] = pos;
+            pos -= 8;
+            sz -= 8;
+        }
+        if(numBrackets >= 3) {
+            addressDes[tt + "_w3"] = pos;
+            pos -= 8;
+            sz -= 8;
+        }
+        
         
         
     }
@@ -1549,7 +1566,8 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
         funCode.push_back(instr);
         instr="movq "+s1+",%r8";
         funCode.push_back(instr);
-        instr="movq r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        instr="movq %r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        cout << "the name is " << name << "\n";
         funCode.push_back(instr);
     }
     if(tp==200){
@@ -1561,11 +1579,11 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
         funCode.push_back(instr);
         instr="movq "+s1+",%r8";
         funCode.push_back(instr);
-        instr="movq r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        instr="movq %r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
         funCode.push_back(instr);
         instr="movq "+s2+",%r8";
         funCode.push_back(instr);
-        instr="movq r8,"+to_string(getAddressDes(name+"_w2"))+"(%rbp)";
+        instr="movq %r8,"+to_string(getAddressDes(name+"_w2"))+"(%rbp)";
         funCode.push_back(instr);
     }
     if(tp==300){
@@ -1579,15 +1597,16 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
         funCode.push_back(instr);
         instr="movq "+s1+",%r8";
         funCode.push_back(instr);
-        instr="movq r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        instr="movq %r8,"+to_string(getAddressDes(name+"_w1"))+"(%rbp)";
+        
         funCode.push_back(instr);
         instr="movq "+s2+",%r8";
         funCode.push_back(instr);
-        instr="movq r8,"+to_string(getAddressDes(name+"_w2"))+"(%rbp)";
+        instr="movq %r8,"+to_string(getAddressDes(name+"_w2"))+"(%rbp)";
         funCode.push_back(instr);
         instr="movq "+s3+",%r8";
         funCode.push_back(instr);
-        instr="movq r8,"+to_string(getAddressDes(name+"_w3"))+"(%rbp)";
+        instr="movq %r8,"+to_string(getAddressDes(name+"_w3"))+"(%rbp)";
         funCode.push_back(instr);
     }
     if(tp == 400) {
@@ -1624,9 +1643,9 @@ int main(int argc, char *argv[])
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
     
-    vector<string> classes = {"Person"};
+    vector<string> classes = {"MyClass"};
     map<string, vector<string> > funcs;
-    funcs["Person"] = {"Person", "printDetails",  "main"};
+    funcs["MyClass"] = {"add", "main"};
     vector<string> code ;
     for (auto it: classes) {
         handleClassDec(it + ".3ac");
