@@ -1297,11 +1297,11 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         funCode.push_back(instr);
     }
 }
-void insert_arg(vector<string>arg,vector<string>&funCode, int st){
+void insert_arg(vector<string>arg,vector<string>&funCode){
     int cnt=0;
     DBG cout << "insert arg calleds\n";
     vector<string>arg_name;
-    for(int j=arg.size()-1;j>=0;j--){
+    for(int j=0;j<arg.size();j++){
         cout << "j="<<j <<"\n";
         arg_name.push_back(arg[j]);
         cout << "hey]h\n";
@@ -1311,7 +1311,7 @@ void insert_arg(vector<string>arg,vector<string>&funCode, int st){
             cout<<"No such variable exist\n";
         }
         if(info[0]==100){
-            arg_name.push_back(arg[j]+"_w1");
+            arg_name.push_back(arg[j] + "_w1");
         }
         if(info[0]==200){
             arg_name.push_back(arg[j]+ "_w1");
@@ -1323,38 +1323,23 @@ void insert_arg(vector<string>arg,vector<string>&funCode, int st){
             arg_name.push_back(arg[j] + "_w3");
         }
     }
-    // st += 8;
     cout << "reavched th\n";
-
-
-    // move this pointer from %r9di
-    string instr = string(MOVQ) + string("%rdi, ") +  to_string(getAddressDes("this")) + "(%rbp)";
-    funCode.push_back(instr);
     vector<string>rg={"%rsi", "%rdx", "%rcx", "%r8","%r9"};
     for(int j=0;j<arg_name.size();j++){
         cnt++;
-        vector<int>info=var_info(arg_name[j]);
-        // if(info.size()==0){
-        //     cout<<"No such variable exist\n";
-        // }
-        // else{
+        // vector<int>info=var_info(arg_name[j]);
+        
             if(cnt<=5){
-                funCode.push_back("movq "+rg[cnt-1]+", -"+to_string(st)+"(%rbp)");
-                addressDes[currClassName + "::" + currFuncName + "::" + arg_name[j]]=-st;
-                cout << arg_name[j] << " " << st <<"\n";
-                st += 8;
+                funCode.push_back("movq "+rg[cnt-1]+", "+to_string(getAddressDes(arg_name[j]))+"(%rbp)");
             }
             else{
                 funCode.push_back("movq "+to_string(16+((arg_name.size()-6)-(cnt-6))*8)+"(%rbp)"+", %rdx");
-                funCode.push_back("movq %rdx, -"+to_string(st)+"(%rbp)");
-                addressDes[currClassName + "::" + currFuncName + "::" + arg_name[j]]=-st;
-                st +=8;
+                funCode.push_back("movq %rdx, "+to_string(getAddressDes(arg_name[j]))+"(%rbp)");
             }
         
     }
     cout << "insert ags ret\n";
 }
-
 pair<int, int>  declareLocalVars()
 {
     // ifstream fp(currClassName + "-" + currFuncName + ".csv");
@@ -1394,13 +1379,13 @@ pair<int, int>  declareLocalVars()
         string tt = currClassName + "::" + currFuncName + "::" + data[i][2] ;
         
         cout << "sz = " << sz << "\n";
-        if(var[tt][1] == 0) {
-            cout << "t=" << tt << endl;
-            addressDes[tt] = pos;
-            pos = pos - 8;
+        
+        cout << "t=" << tt << endl;
+        addressDes[tt] = pos;
+        pos = pos - 8;
             // sz = pos;
             cout << "dec\n";
-        }
+        
         if(numBrackets >= 1) {
             addressDes[tt + "_w1"] = pos;
             pos -= 8;
@@ -1421,7 +1406,7 @@ pair<int, int>  declareLocalVars()
         
     }
     cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1tmp size = " << temporary_size << "\n";
-    sz -= 8 * temporary_size;
+    // sz -= 8 * temporary_size;
     for(int i = 0; i < temporary_size; i++) {
         string tempName = "_t" + to_string(i);
         string tt = currClassName + "::" + currFuncName + "::" + tempName;
@@ -1436,11 +1421,12 @@ pair<int, int>  declareLocalVars()
     {
         addressDes[currClassName + "::" + currFuncName + "::this." + data[i][2]] = pp;
         pp -= 8;
+        
 
     }
     pos -= 8;
     sz -=8 ;
-    return {abs(sz), abs(pos)};
+    return {abs(pos), abs(pos)};
 }
 
 // handles starting code of function, initialize stack space etc
@@ -1481,7 +1467,7 @@ void beg_func(string x,vector<string>&funCode){
     funCode.push_back(instr);
     instr="subq $" + to_string(p.first) + ", %rsp";
     funCode.push_back(instr);
-    insert_arg(arg_name,funCode, p.second);
+    insert_arg(arg_name,funCode);
     
 }
 void func_call(vector<string>a,vector<string>&funcCode){
