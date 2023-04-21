@@ -4,7 +4,7 @@
 #include "irtype.h"
 
 void defineCastNames();
-
+string GetCurrentWorkingDir( void );
 string append_scope_level(string s);
 
 void ir_gen(vector<Quadruple *> ircode, string fln);

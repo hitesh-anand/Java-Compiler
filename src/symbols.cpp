@@ -6,10 +6,16 @@ extern void yyerror(const char *sp);
 extern SymGlob *orig_root;
 extern int scope_level;
 map<string, int> csv_gen;
-extern map<string, SymNode*> list_class;
+extern map<string, SymNode *> list_class;
 extern map<string, string> classfunc;
 
 extern TypeHandler *typeroot;
+string GetCurrentWorkingDir( void ) {
+  char buff[FILENAME_MAX];
+  getcwd( buff, FILENAME_MAX );
+  std::string current_working_dir(buff);
+  return current_working_dir;
+}
 int conv_int(string a)
 {
     int ans = 0;
@@ -330,11 +336,11 @@ void SymGlob::update(string lex, Symbol *sym)
 void SymGlob::insert(string lex, Symbol *sym)
 {
     Symbol *res = nullptr;
-    SymNode* temp = currNode;
-    while(temp && temp->name!="class" && temp->name!="classextends")
+    SymNode *temp = currNode;
+    while (temp && temp->name != "class" && temp->name != "classextends")
     {
         res = temp->scope_lookup(lex);
-        if(res)
+        if (res)
             break;
         temp = temp->parent;
     }
@@ -703,21 +709,21 @@ void SymNode::constr_insert(vector<int> args)
 
 void SymGlob::dumpClassSymbols()
 {
-    for(auto it : list_class)
+    for (auto it : list_class)
     {
         int scope_num = 0;
         ofstream fout;
-        string nm = (it.first) + ".csv";
+        string nm = GetCurrentWorkingDir()+"/temporary/"+(it.first) + ".csv";
         fout.open(nm);
         SymNode *res = it.second;
         int c = 0;
-        fout << "Num,Syntactic Category,Lexeme,Type,Line of Declaration" << endl;    
+        fout << "Num,Syntactic Category,Lexeme,Type,Line of Declaration" << endl;
         for (auto ch : res->mp)
         {
             fout << scope_num++ << ",";
             fout << "Identifier,";
             Symbol *temp = ch.second;
-            fout << temp->lexeme<<",";
+            fout << temp->lexeme << ",";
             if (temp->type < 100)
             {
                 fout << typeroot->inv_types[temp->type] << ",";
@@ -793,7 +799,7 @@ void SymGlob::dumpSymbolTable()
             {
                 int scope_num = 0;
                 ofstream fout;
-                string nm = classfunc[it.first] + "-" + (it.first) + ".csv";
+                string nm = GetCurrentWorkingDir()+"/temporary/"+classfunc[it.first] + "-" + (it.first) + ".csv";
                 fout.open(nm);
                 SymNode *res = it.second;
                 queue<pair<SymNode *, int>> q;
@@ -816,7 +822,7 @@ void SymGlob::dumpSymbolTable()
                         fout << scope_num++ << ",";
                         fout << "Identifier,";
                         Symbol *temp = ch.second;
-                        fout << temp->lexeme<< "`"<<temp->scope_level<< ",";
+                        fout << temp->lexeme << "`" << temp->scope_level << ",";
                         if (temp->type < 100)
                         {
                             fout << typeroot->inv_types[temp->type] << ",";
