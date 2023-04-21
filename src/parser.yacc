@@ -1652,6 +1652,7 @@ FieldDeclaration:
     Type VariableDeclaratorList SEMICOLON
     {
         //struct Node* t = new Node("Separator", ";");
+        cout<<"Here man man man man"<<endl;
         vector<Node*> temp;
         if($1->useful == false) {
             for(auto it : $1->children)
@@ -6318,7 +6319,7 @@ MethodInvocation:
     Quadruple* q;
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++); tempCnt++;
-        q = new Quadruple(4, "", $1->attr, to_string(0), resName );
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string(0), resName );
         $$->varName = resName;
     }
     else 
@@ -6720,7 +6721,7 @@ MethodInvocation:
 
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++); tempCnt++;
-        q = new Quadruple(4, "", $1->attr, to_string(1), resName );
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string(1), resName );
         $$->varName = resName;
     }
     else 

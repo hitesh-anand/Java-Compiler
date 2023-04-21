@@ -1,12 +1,12 @@
 //simple test for function-calls, object creation
 class hello {
-    int c=1;
+    int c;
     hello(int a, int b)
     {
         c = a;
     }
-    int f(int a, int b) {
-        // int c=2;
+    int f() {
+        int b=2, a;
         if(a==1)
         {
             b++;
@@ -21,8 +21,8 @@ class hi{
         int n = a+b;
         int k = a-b;
         hello h = new hello(n, k);
-        return h.f(n, k);
-        // return 1;
+        h.f();
+        return 1;
     }
     public static void main(String args[]){
         int y=T(1,2);

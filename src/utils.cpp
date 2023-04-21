@@ -169,6 +169,8 @@ string append_scope_level(string s)
             s = "this."+s;
         if(!res)
             return s+"`"+to_string(scope_attach);
+        // if(res && res->isField)
+        //     return s;
         return s+"`"+to_string(scope_attach);
     }
     return s;
