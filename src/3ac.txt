@@ -1,9 +1,9 @@
 0	:beginclass MyClass 
 1	:beginfunc show a
 2	:a`2=2
-3	:if a`3==1 goto 5
+3	:if a`2==1 goto 5
 4	:goto 6
-5	:a`3=a`3+1
+5	:a`2=a`2+1
 6	:endfunc 
 7	:static beginfunc main 
 8	:pushparam 5
