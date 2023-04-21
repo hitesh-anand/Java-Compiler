@@ -16,4 +16,8 @@ class test2 {
         }
         return a++;
     }
+    void main(){
+        int y=f(1,2);
+        System.out.println(y);
+    }
 }

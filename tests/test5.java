@@ -16,6 +16,7 @@ public class test5 {
                 arr[i][j]=i*j;
             }
         int u=sum(arr);
+        System.out.println(u);
         if(++u>5){
             return u--;
         }

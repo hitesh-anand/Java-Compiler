@@ -711,7 +711,6 @@ vector<string> genfunc(string funcName)
          << "\n";
     vector<string> funcCode;
     funcCode.push_back(".globl " + (funcName == "main") ? "main" : currClassName+"_"+funcName);
-    vector<string> funcCode;
     string line;
     getline(file2, line);
     getline(file2, line);

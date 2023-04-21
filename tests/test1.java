@@ -19,4 +19,8 @@ class hi{
         hello h = new hello();
         return h.f(n, k);
     }
+    void main(){
+        int y=T(1,2);
+        System.out.println(y);
+    }
 }

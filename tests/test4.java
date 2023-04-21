@@ -3,7 +3,7 @@
     public static int main(String args[]) {
       int myInt = 9;
       double myDouble = myInt; // Automatic casting: int to double
-      float y = 4.0;
+      float y = 4.5f;
       myDouble = myInt + y;
       
       System.out.println(myInt);      // Outputs 9
