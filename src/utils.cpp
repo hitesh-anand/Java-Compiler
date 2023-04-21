@@ -70,9 +70,9 @@ string append_scope_level(string s)
                 break;
             temp = temp->parent;
         }
-        cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
-        if(res)
-            cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
+        // cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
+        // if(res)
+        //     cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
         int scope_attach = max(scope_level, 0);
         if(scope_attach > 10000)
             scope_attach = 0;
