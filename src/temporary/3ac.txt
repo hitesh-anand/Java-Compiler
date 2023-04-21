@@ -1,35 +1,27 @@
-0	:beginclass hello 
-1	:c`1=0
-2	:beginfunc f a`2,b`2
-3	:if a`2==1 goto 5
-4	:goto 6
-5	:b`2=b`2+1
-6	:return a`2
-7	:a`2=a`2+1
-8	:endfunc 
-9	:endclass 
-10	:beginclass hi 
-11	:beginfunc T a`9,b`9
-12	:_t0=a`9+b`9
-13	:n`9=_t0
-14	:_t1=a`9-b`9
-15	:k`9=_t1
-16	:h`9=new hello`9
-17	:pushparam k`9
-18	:pushparam n`9
-19	:stackpointer=stackpointer+ 16
-20	:_t2=call h.f
-21	:stackpointer=stackpointer-16
-22	:kk`9=_t2
-23	:return kk`9
-24	:endfunc 
-25	:beginfunc main 
-26	:pushparam 2
-27	:pushparam 1
-28	:stackpointer=stackpointer+ 16
-29	:_t0=call T
-30	:stackpointer=stackpointer-16
-31	:y`11=_t0
-32	:print y`11
-33	:endfunc 
-34	:endclass 
+0	:beginclass fibonacci 
+1	:beginfunc fib n`2
+2	:x`2=0
+3	:if n`2<=1 goto 5
+4	:goto 7
+5	:x`2=1
+6	:goto 15
+7	:_t0=n`2-1
+8	:pushparam _t0
+9	:stackpointer=stackpointer+8
+10	:_t1=call fib
+11	:stackpointer=stackpointer-8
+12	:x`2=_t1
+13	:_t2=x`2+n`2
+14	:x`2=_t2
+15	:return x`2
+16	:endfunc 
+17	:beginfunc main 
+18	:n`8=1
+19	:pushparam n`8
+20	:stackpointer=stackpointer+8
+21	:_t0=call fib
+22	:stackpointer=stackpointer-8
+23	:x`8=_t0
+24	:print x`8
+25	:endfunc 
+26	:endclass 
