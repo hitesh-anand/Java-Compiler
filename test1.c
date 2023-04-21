@@ -1,12 +1,16 @@
 #include<stdio.h>	
-#include<stdlib.h>
-    // int a[] = new int [4];
-       // function to check if a given string is a palindrome
-   
-int x = 0;
 
 
+int fib(int n)
+{
+    if(n <= 1) return 1;
+    else {
+        return fib(n-1) + n;
+    }
+}
 int main()
 {
-    int a = x + 4;
+    int n = 9;
+    int x = fib(14);
+    printf("%d\n", x);
 }

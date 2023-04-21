@@ -4,24 +4,29 @@
 3	:if n`2<=1 goto 5
 4	:goto 7
 5	:x`2=1
-6	:goto 15
+6	:goto 20
 7	:_t0=n`2-1
 8	:pushparam _t0
 9	:stackpointer=stackpointer+8
 10	:_t1=call fib
 11	:stackpointer=stackpointer-8
 12	:x`2=_t1
-13	:_t2=x`2+n`2
-14	:x`2=_t2
-15	:return x`2
-16	:endfunc 
-17	:beginfunc main 
-18	:n`8=1
-19	:pushparam n`8
-20	:stackpointer=stackpointer+8
-21	:_t0=call fib
-22	:stackpointer=stackpointer-8
-23	:x`8=_t0
-24	:print x`8
-25	:endfunc 
-26	:endclass 
+13	:_t2=n`2-2
+14	:pushparam _t2
+15	:stackpointer=stackpointer+8
+16	:_t3=call fib
+17	:stackpointer=stackpointer-8
+18	:_t4=x`2+_t3
+19	:x`2=_t4
+20	:return x`2
+21	:endfunc 
+22	:beginfunc main 
+23	:n`8=1
+24	:pushparam n`8
+25	:stackpointer=stackpointer+8
+26	:_t0=call fib
+27	:stackpointer=stackpointer-8
+28	:x`8=_t0
+29	:print x`8
+30	:endfunc 
+31	:endclass 

@@ -461,8 +461,8 @@ vector<string> identifyInstr(string instr)
                     ans.push_back(genMove(z, "%rcx"));
                 }
 
-                string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
-                string ins4 = genMove("%rcx", x);
+                string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rcx", "%rbx");
+                string ins4 = genMove("%rbx", x);
                 // ans.push_back(ins1);
                 ans.push_back(ins3);
                 if (x.find("this") == string::npos)
