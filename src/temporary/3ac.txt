@@ -1,35 +1,42 @@
 0	:beginclass hello 
 1	:c`1=0
-2	:beginfunc f a`2,b`2
-3	:if a`2==1 goto 5
-4	:goto 7
-5	:b`2=b`2+1
-6	:c`1=1
-7	:return a`2
-8	:a`2=a`2+1
-9	:endfunc 
-10	:endclass 
-11	:beginclass hi 
-12	:beginfunc T a`9,b`9
-13	:_t0=a`9+b`9
-14	:n`9=_t0
-15	:_t1=a`9-b`9
-16	:k`9=_t1
-17	:h`9=new hello
-18	:pushparam k`9
-19	:pushparam n`9
-20	:stackpointer=stackpointer+ 16
-21	:_t2=call h.f
-22	:stackpointer=stackpointer-16
-23	:return _t2
-24	:endfunc 
-25	:static beginfunc main 
-26	:pushparam 2
-27	:pushparam 1
-28	:stackpointer=stackpointer+ 16
-29	:_t0=call T
-30	:stackpointer=stackpointer-16
-31	:y`11=_t0
-32	:print y`11
-33	:endfunc 
-34	:endclass 
+2	:beginfunc hello a`2,b`2
+3	:this.c`1=a`2
+4	:endfunc 
+5	:beginfunc f a`4,b`4
+6	:if a`4==1 goto 8
+7	:goto 10
+8	:b`4=b`4+1
+9	:c`1=1
+10	:return a`4
+11	:a`4=a`4+1
+12	:endfunc 
+13	:endclass 
+14	:beginclass hi 
+15	:beginfunc T a`11,b`11
+16	:_t0=a`11+b`11
+17	:n`11=_t0
+18	:_t1=a`11-b`11
+19	:k`11=_t1
+20	:pushparam k`11
+21	:pushparam n`11
+22	:stackpointer=stackpointer+ 16
+23	:h`11=new hello
+24	:stackpointer=stackpointer-16
+25	:pushparam k`11
+26	:pushparam n`11
+27	:stackpointer=stackpointer+ 16
+28	:_t2=call h.f
+29	:stackpointer=stackpointer-16
+30	:return _t2
+31	:endfunc 
+32	:static beginfunc main 
+33	:pushparam 2
+34	:pushparam 1
+35	:stackpointer=stackpointer+ 16
+36	:_t0=call T
+37	:stackpointer=stackpointer-16
+38	:y`13=_t0
+39	:print y`13
+40	:endfunc 
+41	:endclass 

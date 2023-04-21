@@ -51,6 +51,7 @@ extern SymGlob* orig_root ;
 extern SymNode* magic_ptr;
 extern SymNode* origNode;
 // magic_ptr = origNode;
+int spacelast = 0;
 %}
 
 %locations 
@@ -1974,7 +1975,10 @@ VariableDeclarator:
             }
             cout<<"Came outside"<<endl;
         }
-        else temp.push_back($3);
+        else{
+            if($3->children.size())
+            cout<<"useful hai bhai "<<$3->label<<" with "<<$3->children[1]->attr<<endl;
+            temp.push_back($3);}
         for(auto it: temp) {
             t->addChild(it);
         }
@@ -4177,6 +4181,23 @@ LocalVariableDeclaration:
 
         int space = typeroot->widths[$1->type] * $2->children.size();
 
+        for(auto ch : $2->children)
+        {
+            if(ch->attr=="=" && spacelast>0)
+            {
+
+                int space = spacelast;
+                spacelast = 0;
+                if(space>0)
+                {
+                Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+                $$->code.push_back(q);
+                ircode.push_back(q);
+                $$->last = ircode.size() - 1;
+                }
+            }
+        }
+
         cout << "finished\n";
     }
 |   VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList {
@@ -4273,6 +4294,22 @@ LocalVariableDeclaration:
         }
         $$->last = ircode.size() - 1;
         //($1);
+        for(auto ch : $4->children)
+        {
+            if(ch->attr=="=" && spacelast>0)
+            {
+
+                int space = spacelast;
+                spacelast = 0;
+                if(space>0)
+                {
+                Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+                $$->code.push_back(q);
+                ircode.push_back(q);
+                $$->last = ircode.size() - 1;
+                }
+            }
+        }
     }
 ;
 
@@ -5772,10 +5809,11 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = generateArgumentList($4->children, $4);
-    Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS ClassBody {
@@ -5847,10 +5885,11 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = generateArgumentList($4->children, $4);
-    Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
@@ -5931,10 +5970,11 @@ UnqualifiedClassInstanceCreationExpression:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 |   NEW Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
@@ -5979,10 +6019,11 @@ UnqualifiedClassInstanceCreationExpression:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 ;
 
