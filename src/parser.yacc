@@ -4076,7 +4076,7 @@ LocalVariableDeclaration:
         {
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
-            cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << ch->children[1]->label << "\n";
+            //cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << ch->children[1]->label << "\n";
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
                 if(ch->children[1]->label == "ArrayInitializer") {
                     if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
@@ -4142,7 +4142,7 @@ LocalVariableDeclaration:
 
         int space = typeroot->widths[$1->type] * $2->children.size();
 
-        
+        cout << "finished\n";
     }
 |   VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList {
         vector<struct Node*> temp;

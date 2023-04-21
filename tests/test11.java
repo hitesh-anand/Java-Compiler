@@ -1,14 +1,20 @@
-public class MyClass {
+public class Person{
+    // private String name;
+    private int age;
     
-
-    // function to check if a given string is a palindrome
-    public static void show(int a) 
-    {
-        System.out.println(a);
+    public Person(int age) {
+        this.age = age;
+        // this.age = age;
     }
-
-    public static void main() {
-        // remove whitespace and convert to lowercase
-        show(5);
+    
+    public void printDetails() {
+        // System.out.println("Name: " + this.name);
+        System.out.println(age);
     }
+    
+    public static void main(String[] args) {
+        Person person = new Person(30);
+        person.printDetails();
+    
+}
 }
