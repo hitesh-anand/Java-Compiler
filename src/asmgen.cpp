@@ -4,7 +4,7 @@ Function naming convention: <className>.<functionName> as is in 3ac
 */
 
 #include <bits/stdc++.h>
-
+#include <unistd.h>
 #define PUSHQ "pushq\t"
 #define MOVL "movl\t"
 #define MOVQ "movq\t"
@@ -388,7 +388,7 @@ vector<string> identifyInstr(string instr)
     instr = instr.substr(colpos + 1);
     DBG cout << "hey\n";
     size_t eqpos = instr.find('=');
-    if (eqpos != string::npos && !(instr.find("!=") != string::npos) && !(instr.find("==") != string::npos))
+    if (eqpos != string::npos && !(instr.find("!=") != string::npos) && !(instr.find("==") != string::npos) && !(instr.find(">=") != string::npos) && !(instr.find("<=") != string::npos))
     {
         //
         DBG cout << "hey here\n";
@@ -425,6 +425,7 @@ vector<string> identifyInstr(string instr)
                 {
                     // assumong to be of type this.simething
                     int relpos = getAddressDes(y);
+                    cout << "yy = " << y << "\n";
                     string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rax";
                     ans.push_back(instr);
                     instr = ADDQ + string("$") + to_string(relpos) + ", %rax";
@@ -581,6 +582,7 @@ vector<string> identifyInstr(string instr)
                 {
                     // assumong to be of type this.simething
                     int relpos = getAddressDes(s);
+                    cout << "s = " << s <<'\n';
                     string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rax";
                     ans.push_back(instr);
                     instr = ADDQ + string("$") + to_string(relpos) + ", %rax";
@@ -600,6 +602,8 @@ vector<string> identifyInstr(string instr)
                     if (var1.find("this") != string::npos)
                     {
                         int relpos = getAddressDes(var1);
+                        cout << "var1 = " << var1 << "\n";
+                        cout << "relpos  = "<< relpos << "\n";
                         string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rax";
                         ans.push_back(instr);
                         instr = ADDQ + string("$") + to_string(relpos) + ", %rax";
@@ -646,17 +650,71 @@ vector<string> identifyInstr(string instr)
                 relEnd++;
             var2 = t.substr(relEnd + 1, gotopos - relEnd - 2);
 
-            DBG cout << var1 << " " << var2 << "\n";
-            string ins1 = genMove(var1, "%rax");
-            string ins2 = genMove(var2, "%rcx");
+            DBG cout << var1 << " var 1 " << var2 << "\n";
+            int dimlhs = 0, dimrhs = 0;
+
+                dimlhs = countOccurrences('[', var1);
+                dimrhs = countOccurrences('[', var2);
+                string y = var1, z = var2;
+                int dimy = dimlhs, dimz = dimrhs;
+                // if (DEBUG)
+                //     cout << "y, z = " << y << ", " << z << "\n";
+                // move to rbx and rcx
+                // string ins1 = genMove(y, "%rbx");
+                // string ins2 = genMove(z, "%rcx");
+                if (dimlhs > 0)
+                {
+                    vector<string> ind = getArrayIndices(var1);
+
+                    ary_acc(y.substr(0, y.find('[')), dimlhs * 100, ind[0], ind[1], ind[2], "%rax", ans);
+                }
+                else if (y.find("this") != string::npos)
+                {
+                    // assumong to be of type this.simething
+                    int relpos = getAddressDes(y);
+                    cout << "yy = " << y << "\n";
+                    string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
+                    ans.push_back(instr);
+                    instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
+                    ans.push_back(instr);
+                    instr = string(MOVQ) + "(%rbx), %rax";
+                    ans.push_back(instr);
+                }
+                else
+                {
+                    ans.push_back(genMove(y, "%rax"));
+                    cout << "y = " << y << "\n";
+                }
+                if (dimz > 0)
+                {
+                    vector<string> ind = getArrayIndices(z);
+
+                    ary_acc(z.substr(0, z.find('[')), dimz * 100, ind[0], ind[1], ind[2], "%rcx", ans);
+                }
+                else if (z.find("this") != string::npos)
+                {
+                    // assumong to be of type this.simething
+                    int relpos = getAddressDes(z);
+                    cout << "yy = " << z << "\n";
+                    string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
+                    ans.push_back(instr);
+                    instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
+                    ans.push_back(instr);
+                    instr = string(MOVQ) + "(%rax), %rcx";
+                    ans.push_back(instr);
+                }
+                else
+                {
+                    ans.push_back(genMove(z, "%rcx"));
+                }
 
             string ins = "cmpq\t%rcx, %rax";
             string ins_ = relConv[t.substr(relpos, relEnd - relpos + 1)] + " .L" + t.substr(gotopos + 5);
             DBG cout << ins_ << "\n";
             ans.push_back(".L" + to_string(line_num) + ":");
 
-            ans.push_back(ins1);
-            ans.push_back(ins2);
+            // ans.push_back(ins1);
+            // ans.push_back(ins2);
             ans.push_back(ins);
             ans.push_back(ins_);
             gotoloc = t.substr(gotopos + 5);
@@ -951,24 +1009,26 @@ void handleClassDec(string filename)
                         w2 = data[i][3][7] - '0';
                         dim++;
                     }
-                    if (data[i][3].length() > 10)
-                    {
-                        w3 = data[i][3][10] - '0';
-                        dim++;
-                    }
-                    // only int arrays assumed of size 8 bytes
-                    addressDes[currClassName + "::" + data[i][2]] = pos;
-                    if (dim == 1)
-                    {
-                        pos = pos - 8 * w1;
-                    }
-                    else if (dim == 2)
-                    {
-                        pos = pos - 8 * w1 * w2;
-                    }
-                    else
-                    {
-                        pos = pos - 8 * w1 * w2 * w3;
+                    else {
+                        //array type
+                        // int dim = 0;
+                        // int w1=0, w2=0, w3=0;
+                        // if(data[i][3].length() < 5) {cout<< "symbol table type undefined\n";}
+                        // else dim++;
+                        // w1 = data[i][3][4] - '0';
+                        // if(data[i][3].length() > 7) {w2 = data[i][3][7]- '0'; dim++;}
+                        // if(data[i][3].length() > 10) {w3 = data[i][3][10] - '0'; dim++;}
+                        // // only int arrays assumed of size 8 bytes
+                        // addressDes[currClassName + "::" + data[i][2]] = pos;
+                        // // if(dim == 1) {
+                        // //     pos = pos - 8 * w1;
+                        // // }
+                        // // else if(dim == 2) {
+                        // //     pos = pos - 8 * w1 * w2;
+                        // // }
+                        // // else {
+                        // //     pos = pos - 8 * w1 * w2 * w3;
+                        // // }
                     }
                 }
             }
@@ -989,7 +1049,7 @@ void finalCodeGen(vector<string> &funcCode, string otpt)
              << "can't be opened\n";
     }
     fout << ".text\n";
-    // fout << ".globl " + mainClassName + "_" + "main" + "\n";
+    // fout << ".globl " + mainClassName + "-" + "main" + "\n";
     for (auto s : funcCode)
     {
         fout << s << "\n";
@@ -1562,6 +1622,9 @@ pair<int, int> declareLocalVars()
     {
         addressDes[currClassName + "::" + currFuncName + "::this." + data[i][2]] = pp;
         pp += 8;
+        cout << currClassName + "::" + currFuncName + "::this." + data[i][2] << "\n";
+        
+
     }
     pos -= 8;
     sz -= 8;

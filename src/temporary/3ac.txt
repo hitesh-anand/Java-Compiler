@@ -1,4 +1,5 @@
 0	:beginclass hello 
+<<<<<<< HEAD
 1	:c`1=0
 2	:beginfunc f a`2,b`2
 3	:if a`2==1 goto 5
@@ -35,3 +36,46 @@
 34	:print y`11
 35	:endfunc 
 36	:endclass 
+=======
+1	:c`1=1
+2	:beginfunc hello a`2,b`2
+3	:this.c`1=a`2
+4	:endfunc 
+5	:beginfunc f a`4,b`4
+6	:if a`4==1 goto 8
+7	:goto 10
+8	:b`4=b`4+1
+9	:c`1=1
+10	:return a`4
+11	:a`4=a`4+1
+12	:endfunc 
+13	:endclass 
+14	:beginclass hi 
+15	:beginfunc T a`11,b`11
+16	:_t0=a`11+b`11
+17	:n`11=_t0
+18	:_t1=a`11-b`11
+19	:k`11=_t1
+20	:pushparam k`11
+21	:pushparam n`11
+22	:stackpointer=stackpointer+ 16
+23	:h`11=new hello
+24	:stackpointer=stackpointer-16
+25	:pushparam k`11
+26	:pushparam n`11
+27	:stackpointer=stackpointer+ 16
+28	:_t2=call h`11.f
+29	:stackpointer=stackpointer-16
+30	:return _t2
+31	:endfunc 
+32	:beginfunc main 
+33	:pushparam 2
+34	:pushparam 1
+35	:stackpointer=stackpointer+ 16
+36	:_t0=call T`13
+37	:stackpointer=stackpointer-16
+38	:y`13=_t0
+39	:print y`13
+40	:endfunc 
+41	:endclass 
+>>>>>>> f11d181b472f71e06e67ca8e1010b901df8ce658

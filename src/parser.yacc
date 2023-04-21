@@ -15,6 +15,7 @@ extern int fin;
 extern int v;
 extern int cnt;
 extern int isarrayinit;
+extern vector<string> field_vars;
 // map<string, pair<int, int>> typeroot->typewidth;
 extern map<string,SymNode*> list_class;
 extern map<string, int> tempVars;
@@ -51,6 +52,7 @@ extern SymGlob* orig_root ;
 extern SymNode* magic_ptr;
 extern SymNode* origNode;
 // magic_ptr = origNode;
+int spacelast = 0;
 %}
 
 %locations 
@@ -1672,6 +1674,10 @@ FieldDeclaration:
 
         for(auto ch : $2->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
@@ -1692,6 +1698,7 @@ FieldDeclaration:
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$1->attr].second);
+            sym->isField = 1;
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE)))
@@ -1769,6 +1776,10 @@ FieldDeclaration:
         }
         for(auto ch : $4->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $3->type;
             if(ch->arrayType) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) 
@@ -1855,6 +1866,10 @@ FieldDeclaration:
             acc = PROTECTED_ACCESS;
         for(auto ch : $4->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $3->type;
             if(ch->arrayType) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $3->type + 100 * ch->children[1]->arrayType; 
@@ -1974,7 +1989,10 @@ VariableDeclarator:
             }
             cout<<"Came outside"<<endl;
         }
-        else temp.push_back($3);
+        else{
+            if($3->children.size())
+            cout<<"useful hai bhai "<<$3->label<<" with "<<$3->children[1]->attr<<endl;
+            temp.push_back($3);}
         for(auto it: temp) {
             t->addChild(it);
         }
@@ -4177,6 +4195,23 @@ LocalVariableDeclaration:
 
         int space = typeroot->widths[$1->type] * $2->children.size();
 
+        for(auto ch : $2->children)
+        {
+            if(ch->attr=="=" && spacelast>0)
+            {
+
+                int space = spacelast;
+                spacelast = 0;
+                if(space>0)
+                {
+                Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+                $$->code.push_back(q);
+                ircode.push_back(q);
+                $$->last = ircode.size() - 1;
+                }
+            }
+        }
+
         cout << "finished\n";
     }
 |   VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList {
@@ -4273,6 +4308,22 @@ LocalVariableDeclaration:
         }
         $$->last = ircode.size() - 1;
         //($1);
+        for(auto ch : $4->children)
+        {
+            if(ch->attr=="=" && spacelast>0)
+            {
+
+                int space = spacelast;
+                spacelast = 0;
+                if(space>0)
+                {
+                Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+                $$->code.push_back(q);
+                ircode.push_back(q);
+                $$->last = ircode.size() - 1;
+                }
+            }
+        }
     }
 ;
 
@@ -5772,10 +5823,11 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = generateArgumentList($4->children, $4);
-    Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS ClassBody {
@@ -5847,10 +5899,11 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = generateArgumentList($4->children, $4);
-    Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
@@ -5931,10 +5984,11 @@ UnqualifiedClassInstanceCreationExpression:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 |   NEW Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
@@ -5979,10 +6033,11 @@ UnqualifiedClassInstanceCreationExpression:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 ;
 
@@ -6238,10 +6293,21 @@ MethodInvocation:
 
     SymNode* ex;
     vector<int> args;
-    if(magic_ptr->name=="Global")
-        ex = root->flookup(sp, args);
+    // if(magic_ptr->name=="Global")
+    //     ex = root->flookup(sp, args);
+    // else
+    //     ex = magic_ptr->scope_flookup(sp, args, false);
+
+    if(magic_ptr == origNode)
+    {
+        cout<<"Searching for root"<<endl;
+            ex = root->flookup(sp, args);}
     else
-        ex = magic_ptr->scope_flookup(sp, args, false);
+    { 
+        cout<<"Seaerching thru magic pointer and changing"<<endl;
+           ex = magic_ptr->scope_flookup(sp, args, false);
+        magic_ptr = origNode;
+    }
 
     if(!ex)
     {
@@ -6306,16 +6372,16 @@ MethodInvocation:
     $$->type = ex->returntype;
 
     Quadruple* q;
-   
+   cout<<"Called thist thisi sish t"<<$1->attr<<endl;
     
     if($$->type != VOID_TYPE) {
         string resName = string("_t") + to_string(varCnt++); tempCnt++;
-        q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName );
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string($3->children.size()), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = new Quadruple(4, $1->attr, to_string($3->children.size()) );
+        q = new Quadruple(4, append_scope_level($1->attr), to_string($3->children.size()) );
     }
 
     $$->code.push_back(q);
