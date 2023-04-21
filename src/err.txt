@@ -1,2 +1,322 @@
-terminate called after throwing an instance of 'std::invalid_argument'
+---test5
+Curr class declared as: test5!
+line = 1	:endclass 0
+it = main
+test5_main.3acuuuuuuu
+line: beginfunc main 
+x = main
+test5_main
+the line is test5,1
+string to int
+string to int
+string to int
+Name = test5::main::arr`2as
+Name = test5::main::i`3as
+Name = test5::main::j`4as
+fill var returned
+pos = 15
+Declaring local vars******************************************
+read csv 4
+i = 1
+i = 1
+ t = int[3][3]!
+sz = -32
+t=test5::main::arr`2
+dec
+i = 2
+i = 2
+ t = int!
+sz = -56
+t=test5::main::i`3
+dec
+i = 3
+i = 3
+ t = int!
+sz = -64
+t=test5::main::j`4
+dec
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1tmp size = 1
+insert arg calleds
+reavched th
+looking for test5::main::this
+insert ags ret
+file opened!
+cnt = 1
+line: 2	:arr`2=new int[3][3]
+arr`2=new int[3][3]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hey there
+hey
+hey here
+x != arr`2 arr`2=new int[3][3]
+$$$$$$$$$$$$$$$$$$$$$$$$$$dim1 = 3
+issue
+looking for test5::main::
+looking for test5::main::
+$3 = temp
+$3 = temp
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!tp = 200
+looking for test5::main::arr`2_w1
+looking for test5::main::arr`2_w2
+S1 = $3  
+looking for test5::main::arr`2
+identify called
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+ret
+size is 6
+done
+printing funccode
+
+
+.globl main
+main:
+pushq %rbp
+movq %rsp, %rbp
+subq $64, %rsp
+movq	%rdi, -56(%rbp)
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+funccode size: 15
+cnt = 2
+line: 3	:i`3=0
+i`3=0
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hey there
+hey
+hey here
+x != i`3 i`3=0
+getting address for i`3 as looking for test5::main::i`3
+-32
+looking for test5::main::i`3
+identify called
+movq	$0, -32(%rbp)
+ret
+size is 15
+done
+printing funccode
+
+
+.globl main
+main:
+pushq %rbp
+movq %rsp, %rbp
+subq $64, %rsp
+movq	%rdi, -56(%rbp)
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+movq	$0, -32(%rbp)
+funccode size: 16
+cnt = 3
+line: 4	:if i`3<3 goto 6
+if i`3<3 goto 6
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hey there
+hey
+if found
+i`3 var 1 3
+i`3 in genMove
+looking for test5::main::i`3
+y = i`3
+3 in genMove
+jl .L6
+use
+identify called
+movq	-32(%rbp), %rax
+movq	$3, %rcx
+.L4:
+cmpq	%rcx, %rax
+jl .L6
+ret
+size is 16
+done
+printing funccode
+
+
+.globl main
+main:
+pushq %rbp
+movq %rsp, %rbp
+subq $64, %rsp
+movq	%rdi, -56(%rbp)
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+movq	$0, -32(%rbp)
+movq	-32(%rbp), %rax
+movq	$3, %rcx
+.L4:
+cmpq	%rcx, %rax
+jl .L6
+funccode size: 21
+cnt = 4
+line: 5	:goto 15
+goto 15
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hey there
+hey
+use
+identify called
+jmp .L15
+ret
+size is 21
+done
+printing funccode
+
+
+.globl main
+main:
+pushq %rbp
+movq %rsp, %rbp
+subq $64, %rsp
+movq	%rdi, -56(%rbp)
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+movq	$0, -32(%rbp)
+movq	-32(%rbp), %rax
+movq	$3, %rcx
+.L4:
+cmpq	%rcx, %rax
+jl .L6
+jmp .L15
+funccode size: 22
+cnt = 5
+line: 6	:j`4=0
+j`4=0
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hey there
+hey
+hey here
+x != j`4 j`4=0
+getting address for j`4 as looking for test5::main::j`4
+-40
+looking for test5::main::j`4
+identify called
+.L6:
+movq	$0, -40(%rbp)
+ret
+size is 22
+done
+printing funccode
+
+
+.globl main
+main:
+pushq %rbp
+movq %rsp, %rbp
+subq $64, %rsp
+movq	%rdi, -56(%rbp)
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+movq	$0, -32(%rbp)
+movq	-32(%rbp), %rax
+movq	$3, %rcx
+.L4:
+cmpq	%rcx, %rax
+jl .L6
+jmp .L15
+.L6:
+movq	$0, -40(%rbp)
+funccode size: 24
+cnt = 6
+line: 7	:if j`4<3 goto 9
+if j`4<3 goto 9
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hey there
+hey
+if found
+j`4 var 1 3
+j`4 in genMove
+looking for test5::main::j`4
+y = j`4
+3 in genMove
+jl .L9
+use
+identify called
+movq	-40(%rbp), %rax
+movq	$3, %rcx
+.L7:
+cmpq	%rcx, %rax
+jl .L9
+ret
+size is 24
+done
+printing funccode
+
+
+.globl main
+main:
+pushq %rbp
+movq %rsp, %rbp
+subq $64, %rsp
+movq	%rdi, -56(%rbp)
+movq $3,%rdi
+imulq 0(%rbp),%rdi
+salq $3,%rdi
+movq $3,%r8
+movq %r8,-16(%rbp)
+movq 0(%rbp),%r8
+movq %r8,-24(%rbp)
+call	malloc
+movq	%rax, -8(%rbp)
+movq	$0, -32(%rbp)
+movq	-32(%rbp), %rax
+movq	$3, %rcx
+.L4:
+cmpq	%rcx, %rax
+jl .L6
+jmp .L15
+.L6:
+movq	$0, -40(%rbp)
+movq	-40(%rbp), %rax
+movq	$3, %rcx
+.L7:
+cmpq	%rcx, %rax
+jl .L9
+funccode size: 29
+cnt = 7
+line: 8	:goto 13
+goto 13
+^^^^^^^terminate called after throwing an instance of 'std::invalid_argument'
   what():  stoi

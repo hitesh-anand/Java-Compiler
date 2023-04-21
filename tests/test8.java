@@ -14,7 +14,7 @@ class fibonacci {
  
     public static void main(String args[])
     {
-        int n = 1;
+        int n = 7;
         int x =fib(n);
         System.out.println(x);
     }

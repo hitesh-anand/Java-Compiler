@@ -65,13 +65,13 @@ string append_scope_level(string s)
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
     // 
 
-    cout<<"field vars are"<<endl;
-    for(auto it : field_vars)
-    {
-        if(it==s)
-            return s;
-    }
-    cout<<endl;
+    // cout<<"field vars are"<<endl;
+    // for(auto it : field_vars)
+    // {
+    //     if(it==s)
+    //         return s;
+    // }
+    // cout<<endl;
     cout<<"String is sdfsd "<<s<<" on line "<<yylineno<<endl;
 
     if(s.find('`') != string::npos || s[s.length()-1]==']')
@@ -88,7 +88,7 @@ string append_scope_level(string s)
         }
     }
 
-    if(ind>-1)
+    if(ind>-1 && s.substr(0,4)!="this")
     {
         cout<<"Dot for "<<s<<endl;
         string suf = s.substr(ind+1, s.length()-ind-1);
@@ -127,6 +127,8 @@ string append_scope_level(string s)
             s = "this."+s;
         if(!res)
             return s+"`"+to_string(scope_attach)+"."+suf;
+        if(res && res->isField)
+            return s;
         return s+"`"+to_string(scope_attach)+"."+suf;
     }
     return s;       

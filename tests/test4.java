@@ -1,14 +1,6 @@
- // test to show implicit type casting
- class test4 {
-    public static int main(String args[]) {
-      int myInt = 9;
-      double myDouble = myInt; // Automatic casting: int to double
-      float y = 4.5f;
-      myDouble = myInt + y;
-      
-      System.out.println(myInt);      // Outputs 9
-      System.out.println(myDouble);   // Outputs 9.0
-      return myInt;
-    }
+class test4 {
+  public static void main(String args[]) {
+    int a = 2*3;
+    System.out.println(a);
   }
-  
+}

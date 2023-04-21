@@ -1698,6 +1698,7 @@ FieldDeclaration:
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$1->attr].second);
+            sym->isField = 1;
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE)))
