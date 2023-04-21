@@ -1,4 +1,4 @@
-//multidimensional array
+//test for multidimensional array
 public class test5 {
     public int sum(int a[][]){
         int ans=0;

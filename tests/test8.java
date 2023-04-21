@@ -1,3 +1,5 @@
+//Test for recursion, array initialization
+
 public class test8 {
     int quick_sort(int arr[], int left, int right) {
         int comp = 0;
