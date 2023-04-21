@@ -109,6 +109,13 @@ CompilationUnit:
         $1->changeLabel("CompilationUnit");
         $$ = $1;
         verbose(v,"OrdinaryCompilationUnit->CompilationUnit");
+        // if(otpt.size()!=0){
+        //     call_dotgen($$,otpt);
+        // }
+        // else{
+        //     call_dotgen($$,"graph1.dot");
+        // }
+
         if(otpt.size()!=0){
             ir_gen(ircode,otpt);
         }
@@ -1703,7 +1710,8 @@ FieldDeclaration:
             else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
                     //sym->lexeme = ch->attr;
-                    processUninitDec($$, ch);
+                    
+                    processUninitDec($$, ch, _type);
                 
             }
             if(ch->arrayType > 0) {
@@ -1783,7 +1791,7 @@ FieldDeclaration:
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second, acc);
-            sym->isStatic = isStatic;
+            
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE)))
@@ -1795,14 +1803,28 @@ FieldDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
+                if(isStatic) {
+                    _type = 1000 + _type;
+                }
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
+                if(isStatic) {
+                    _type = _type - 1000;
+                }
+                
 
             }
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
                     //sym->lexeme = ch->attr;
-                    processUninitDec($$, ch);
+                    if(isStatic) {
+                        _type = 1000 + _type;
+                    }
+                
+                    processUninitDec($$, ch, _type);
+                    if(isStatic) {
+                        _type = _type - 1000;
+                    }
                 
             }
             if(ch->arrayType > 0) {
@@ -1879,7 +1901,7 @@ FieldDeclaration:
              else {
                 //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                 //sym->lexeme = ch->attr;
-                processUninitDec($$, ch);
+                processUninitDec($$, ch, _type);
                 
             }
             if(ch->arrayType > 0) {
@@ -4138,7 +4160,7 @@ LocalVariableDeclaration:
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                     //sym->lexeme = ch->attr;
-                    processUninitDec($$, ch);
+                    processUninitDec($$, ch, _type);
              
             }
             //sym->type += ch->arrayType * 100;
@@ -4218,6 +4240,10 @@ LocalVariableDeclaration:
             
             }
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second);
+            if($1->attr=="static")
+            {
+                isStatic=1;
+            }
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE) || (sym->type==DOUBLE_NUM && ch->children[1]->type==FLOAT_NUM)))
@@ -4229,13 +4255,24 @@ LocalVariableDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
+                if(isStatic) {
+                    _type = 1000 + _type;
+                }
+                
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
+                if(isStatic) {
+                    _type = _type - 1000;
+                }
 
             }
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                     //sym->lexeme = ch->attr;
-                    processUninitDec($$, ch);
+                    if(isStatic) {
+                        _type += 1000;
+                    }
+                    processUninitDec($$, ch, _type);
+                    if(isStatic) _type -= 1000;
                 
             }
             if(ch->arrayType > 0) {
