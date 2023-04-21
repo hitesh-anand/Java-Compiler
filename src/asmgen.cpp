@@ -352,6 +352,87 @@ string genMove(string src, string dest)
     else if (src[0] != '%')
     {
         src = to_string(getAddressDes(src)) + string("(%rbp)");
+        // int dimy= 0, dimz = 0;
+        // string y = src, z = dest;
+        // dimy = countOccurrences('[', y);
+        //         dimz = countOccurrences('[', z);
+
+        //         if (DEBUG)
+        //             cout << "y, z = " << y << ", " << z << "\n";
+        //         // move to rbx and rcx
+        //         // string ins1 = genMove(y, "%rbx");
+        //         // string ins2 = genMove(z, "%rcx");
+        //         if (dimy > 0)
+        //         {
+        //             vector<string> ind = getArrayIndices(y);
+
+        //             ary_acc(y.substr(0, y.find('[')), dimy * 100, ind[0], ind[1], ind[2], "%rbx", ans);
+        //         }
+        //         else if (y.find("this") != string::npos)
+        //         {
+        //             // assumong to be of type this.simething
+        //             int relpos = getAddressDes(y);
+        //             cout << "yy = " << y << "\n";
+        //             string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rax";
+        //             ans.push_back(instr);
+        //             instr = ADDQ + string("$") + to_string(relpos) + ", %rax";
+        //             ans.push_back(instr);
+        //             instr = string(MOVQ) + "(%rax), %rbx";
+        //             ans.push_back(instr);
+        //         }
+        //         else
+        //         {
+        //             ans.push_back(genMove(y, "%rbx"));
+        //             cout << "y = " << y << "\n";
+        //         }
+        //         if (dimz > 0)
+        //         {
+        //             vector<string> ind = getArrayIndices(z);
+
+        //             ary_acc(z.substr(0, z.find('[')), dimz * 100, ind[0], ind[1], ind[2], "%rcx", ans);
+        //         }
+        //         else if (z.find("this") != string::npos)
+        //         {
+        //             // assumong to be of type this.simething
+        //             int relpos = getAddressDes(z);
+        //             string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rax";
+        //             ans.push_back(instr);
+        //             instr = ADDQ + string("$") + to_string(relpos) + ", %rax";
+        //             ans.push_back(instr);
+        //             instr = string(MOVQ) + "(%rax), %rbx";
+        //             ans.push_back(instr);
+        //         }
+        //         else
+        //         {
+        //             ans.push_back(genMove(z, "%rcx"));
+        //         }
+
+        //         string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rcx", "%rbx");
+        //         string ins4 = genMove("%rbx", x);
+        //         // ans.push_back(ins1);
+        //         ans.push_back(ins3);
+        //         if (x.find("this") == string::npos)
+        //         {
+        //             if (dimx == 0)
+        //                 ans.push_back(ins4);
+        //             else
+        //             {
+        //                 vector<string> ind = getArrayIndices(x);
+        //                 ary_ass(x.substr(0, x.find('[')), dimx * 100, ind[0], ind[1], ind[2], "%rcx", ans);
+        //             }
+        //         }
+
+        //         else
+        //         {
+        //             int relpos = getAddressDes(x);
+        //             string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rax";
+        //             ans.push_back(instr);
+        //             instr = ADDQ + string("$") + to_string(relpos) + ", %rax";
+        //             ans.push_back(instr);
+        //             instr = MOVQ + string("%rcx, (%rax)");
+        //             ans.push_back(instr);
+        //         }
+
     }
     if (dest[0] != '%')
     {
@@ -750,7 +831,7 @@ vector<string> identifyInstr(string instr)
                 {
                     vector<string> ind = getArrayIndices(varName);
 
-                    ary_acc(z.substr(0, z.find('[')), dimz * 100, ind[0], ind[1], ind[2], "%rsi", ans);
+                    ary_acc(z.substr(0, z.find('[')), dimz * 100, ind[0], ind[1], ind[2], "%r10", ans);
                 }
                 else if (z.find("this") != string::npos)
                 {
@@ -761,15 +842,16 @@ vector<string> identifyInstr(string instr)
                     ans.push_back(instr);
                     instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
                     ans.push_back(instr);
-                    instr = string(MOVQ) + "(%rbx), %rsi";
+                    instr = string(MOVQ) + "(%rbx), %r10";
                     ans.push_back(instr);
                 }
                 else
                 {
-                    ans.push_back(genMove(z, "%rsi"));
+                    ans.push_back(genMove(z, "%r10"));
                 }
                 ans.push_back(ins1);
                 ans.push_back(ins2);
+                ans.push_back(MOVQ + string("%r10, %rsi"));
             ans.push_back("call printf");
             return ans;
         }
@@ -928,8 +1010,21 @@ vector<string> genfunc(string funcName)
                 string ins = ".L" + to_string(getLineNo(line)) + ":";
                 funcCode.push_back(ins);
             }
-            lines.push_back(line);
+            
+            // lines.push_back(line);
+            // func_call(lines, funcCode);
+            int isret = 0;
+            if (trimInstr(line).find('=') != string::npos)
+            {
+                // function is returning
+                string t = line.substr(line.find('=') + 1);
+                lines.push_back(t);
+                isret = 1;
+            }
             func_call(lines, funcCode);
+            if(isret == 1) {
+                funcCode.push_back(genMove("%rax", trimInstr(line).substr(0, trimInstr(line).find('='))));
+            }
             continue;
         }
 

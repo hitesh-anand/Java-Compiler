@@ -1,27 +1,10 @@
-//simple test for function-calls, object creation
-class hello {
-    int c;
-    int f(int a, int b) {
-        // int c=2;
-        if(a==1)
-        {
-            b++;
-            // int c = 1;
-        }
-        return a++;
-    }
-}
-
-class hi{
-    int T(int a, int b) {
-        int n = a+b;
-        int k = a-b;
-        hello h = new hello();
-        int kk = h.f(n, k);
-        return kk;
-    }
-    void main(){
-        int y=T(1,0);
-        System.out.println(y);
+//test for multidimensional array
+public class test5 {
+    public int main(){
+        // int arr[][]=new int [3][3];
+        // int i =2;
+        // arr[2][2] = i+2;
+        System.out.println(1);
+        return 0;
     }
 }
