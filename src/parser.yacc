@@ -1714,6 +1714,7 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }
+            sym->isField = 1;
             sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
@@ -1811,6 +1812,7 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            } 
+            sym->isField = 1;
             sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
@@ -1888,6 +1890,7 @@ FieldDeclaration:
                 //sym->calcWidths();
            }
             processPostIncre($$);
+            sym->isField = 1;
             sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;

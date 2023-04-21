@@ -329,7 +329,15 @@ void SymGlob::update(string lex, Symbol *sym)
 
 void SymGlob::insert(string lex, Symbol *sym)
 {
-    Symbol *res = currNode->scope_lookup(lex);
+    Symbol *res = nullptr;
+    SymNode* temp = currNode;
+    while(temp && temp->name!="class" && temp->name!="classextends")
+    {
+        res = temp->scope_lookup(lex);
+        if(res)
+            break;
+        temp = temp->parent;
+    }
     if (res)
     {
         cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;

@@ -63,17 +63,19 @@ string append_scope_level(string s)
     {
         SymNode* temp = root->currNode;
         Symbol* res;
-        while(temp && temp->name!="class" && temp->name!="classextends")
+        while(temp && temp->name!="class")
         {
             res = temp->scope_lookup(s);
             if(res)
                 break;
             temp = temp->parent;
         }
-        // cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
-        // if(res)
-        //     cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
-        int scope_attach = max(scope_level, 0);
+        if(temp)
+            res=temp->scope_lookup(s);
+        cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
+        if(res)
+            cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
+        int scope_attach = (res)?max(res->scope_level, 0):max(scope_level, 0);
         if(scope_attach > 10000)
             scope_attach = 0;
         if(!res)
@@ -779,9 +781,9 @@ int generateArgumentList(vector<Node *> nodes, Node *n)
         n->code.push_back(q);
         ircode.push_back(q);
     }
-    // Quadruple *q = new Quadruple("+ ", "stackpointer", to_string(space), "stackpointer");
-    // n->code.push_back(q);
-    // ircode.push_back(q);
+    Quadruple *q = new Quadruple("+ ", "stackpointer", to_string(space), "stackpointer");
+    n->code.push_back(q);
+    ircode.push_back(q);
     n->last = ircode.size() - 1;
     return space;
 }
