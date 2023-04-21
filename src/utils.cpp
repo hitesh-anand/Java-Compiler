@@ -123,7 +123,7 @@ void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
             if (it->result == "")
                 otherFile << "call " << it->arg1  << "\n";
             else
-                otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+                otherFile << it->result << "=call " << it->arg1  << "\n";
             continue;
         }
         else if (it->type == 5)
@@ -227,7 +227,7 @@ void func_gen_wrapper()
             if (it->result == "")
                 otherFile << "call " << it->arg1 << "\n";
             else
-                otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+                otherFile << it->result << "=call " << it->arg1 << "\n";
             continue;
         }
         else if (it->type == 5)
@@ -345,7 +345,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
             if (it->result == "")
                 otherFile << "call " << it->arg1 << "\n";
             else
-                otherFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+                otherFile << it->result << "=call " << it->arg1  << "\n";
             continue;
         }
         else if (it->type == 5)
@@ -456,7 +456,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
             if (it->result == "")
                 myFile << "call " << it->arg1 << "\n";
             else
-                myFile << it->result << "=call " << it->arg1 << ", " << it->arg2 << "\n";
+                myFile << it->result << "=call " << it->arg1 << "\n";
             continue;
         }
         else if (it->type == 5)
@@ -551,7 +551,7 @@ void backpatch(vector<int> &lst, int n)
     }
 }
 
-void processFieldDec(Node *n, Node *n1, int type)
+void processFieldDec(Node *n, Node *n1, int type, int t)
 {
 
     if (n1->isCond == 1)
@@ -574,17 +574,25 @@ void processFieldDec(Node *n, Node *n1, int type)
     n->last = ircode.size() - 1;
 }
 
-void processUninitDec(Node *n, Node *n1)
+void processUninitDec(Node *n, Node *n1, int _type)
 {
     if (!n || !n1)
         return;
     string var = n1->attr;
     // var = append_scope_level(var);
-    Quadruple *q = new Quadruple("=", "0", append_scope_level(var));
+    Quadruple* q;
+    if(_type >= 1000) {
+        q = new Quadruple("=", "0", "static " + append_scope_level(var));
+    }
+    else {
+        q = new Quadruple("=", "0", append_scope_level(var));
+    }
     n->code.push_back(q);
-    ircode.push_back(q);
+    ircode.push_back(q);        
     n->last = ircode.size() - 1;
 }
+    
+
 
 int getmethodtype(SymNode *n)
 {

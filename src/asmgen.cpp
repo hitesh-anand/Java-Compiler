@@ -735,6 +735,11 @@ vector<string> genfunc(string funcName)
         while (line.find("pushparam") != string::npos)
         {
             lines.push_back(trimInstr(line));
+            if (islabel[getLineNo(line)])
+            {
+                string ins = ".L" + to_string(getLineNo(line)) + ":";
+                ans.push_back(ins);
+            }
             isfunc = 1;
             getline(file2, line);
             cout << "##################Line is : " << line << "\n";
@@ -795,6 +800,11 @@ vector<string> genfunc(string funcName)
         }
         if (line.find("call") != string::npos)
         {
+            if (islabel[getLineNo(line)])
+            {
+                string ins = ".L" + to_string(getLineNo(line)) + ":";
+                ans.push_back(ins);
+            }
             lines.push_back(line);
             func_call(lines, funcCode);
             continue;
@@ -955,7 +965,7 @@ string getfuncName(string x)
         {
             if (data[i][2] == var)
             {
-                temp = data[i][3] + "-" + func;
+                temp = data[i][3] + "_" + func;
             }
         }
         std::cout << "temp =" << temp << "\n";
