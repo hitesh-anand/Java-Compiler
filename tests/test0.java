@@ -2,16 +2,17 @@ public class MyClass {
     
     // int a[] = new int [4];
        // function to check if a given string is a palindrome
-    public void add(int a, int b, int c[], int d, int e, int f, int g)
+    public void add(int c[])
     {
-        int cc = a + b + c[1] + d + e + f + g ;
+        int cc =c[1];
         System.out.println(cc);
     }
 
     public static void main(String args[]) {
         int c[] = new int[5];
-        c[1] = 2;
-        add(1,2,c,4,5,6,7);
+        c[1 ] = 2;
+        add(c);
+
        
         
     }
