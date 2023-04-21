@@ -49,7 +49,8 @@ extern int whilepos ;
 extern SymGlob* root ;
 extern SymGlob* orig_root ;
 extern SymNode* magic_ptr;
-
+extern SymNode* origNode;
+// magic_ptr = origNode;
 %}
 
 %locations 
@@ -685,12 +686,14 @@ Name:
         {
             if(!root->flookup($1))
             {
+                cout<<"hulhul Found "<<$1<<endl;
                 cout<<"Error! Name "<<$1<<" has not been declared before"<<endl;
                 yyerror("Error");
             }
         }
         else
         {
+            
             if(res->isField == 1) {
                 $$->varName = "this." + $$->varName;
                 $$->attr = $$->varName;
@@ -704,7 +707,7 @@ Name:
         string s = $1->attr + $2 + $3;
         $$ = new Node("Name", s);
         verbose(v,"Name DOT IDENTIFIER->Name");
-
+        cout<<"Working here"<<endl;
         if(importflag==0)
         {
         int i = spacestripind($1->attr);
@@ -1800,29 +1803,20 @@ FieldDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
-                if(isStatic) {
-                    _type = 1000 + _type;
-                }
+               
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
-                if(isStatic) {
-                    _type = _type - 1000;
-                }
+               
                 
 
             }
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
                     //sym->lexeme = ch->attr;
-                    if(isStatic) {
-                        _type = 1000 + _type;
-                    }
+                    
                 
                     processUninitDec($$, ch, _type);
-                    if(isStatic) {
-                        _type = _type - 1000;
-                    }
-                
+                    
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -4214,6 +4208,7 @@ LocalVariableDeclaration:
         *****************************/
         struct Node* n = new struct Node("LocalVariableDeclaration", temp);
         $$ = n;
+        int isStatic = 0;
         verbose(v,"VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList->LocalVariableDeclaration");
         for(auto ch : $4->children)
         {
@@ -4252,24 +4247,18 @@ LocalVariableDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
-                if(isStatic) {
-                    _type = 1000 + _type;
-                }
+                
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
-                if(isStatic) {
-                    _type = _type - 1000;
-                }
+                
 
             }
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                     //sym->lexeme = ch->attr;
-                    if(isStatic) {
-                        _type += 1000;
-                    }
+                  
                     processUninitDec($$, ch, _type);
-                    if(isStatic) _type -= 1000;
+                   
                 
             }
             if(ch->arrayType > 0) {
@@ -6296,12 +6285,19 @@ MethodInvocation:
         yyerror("Error");
     }
 
+    cout<<"To search for : "<<sp<<endl;
     SymNode* ex;
     
-    if(magic_ptr->name=="Global")
-        ex = root->flookup(sp, args);
+    if(magic_ptr == origNode)
+    {
+        cout<<"Searching for root"<<endl;
+            ex = root->flookup(sp, args);}
     else
-    {    ex = magic_ptr->scope_flookup(sp, args, false);}
+    { 
+        cout<<"Seaerching thru magic pointer and changing"<<endl;
+           ex = magic_ptr->scope_flookup(sp, args, false);
+        magic_ptr = origNode;
+    }
     if(!ex)
     {
         cout<<"Error on line number "<<yylineno<<". No matching function to call"<<endl;
@@ -6625,11 +6621,13 @@ MethodInvocation:
 
     SymNode* ex;
     
-    if(magic_ptr->name=="Global")
+    if(magic_ptr==origNode)
         ex = root->flookup(sp, args);
     else
+    {
         ex = magic_ptr->scope_flookup(sp, args, false);
-
+        magic_ptr = origNode;
+}
     if(!ex)
     {
         cout<<"Error on line number "<<yylineno<<". No matching function to call"<<endl;

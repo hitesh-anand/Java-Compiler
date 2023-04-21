@@ -45,7 +45,8 @@ void defineCastNames()
 int whilepos = 0;
 SymGlob *root = new SymGlob();
 SymGlob *orig_root = root;
-SymNode *magic_ptr = root->currNode;
+SymNode* origNode = new SymNode(nullptr, "global");
+SymNode *magic_ptr = origNode;
 
 string append_scope_level(string s)
 {
@@ -551,7 +552,7 @@ void backpatch(vector<int> &lst, int n)
     }
 }
 
-void processFieldDec(Node *n, Node *n1, int type, int t)
+void processFieldDec(Node *n, Node *n1, int type)
 {
 
     if (n1->isCond == 1)
