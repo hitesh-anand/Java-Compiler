@@ -319,10 +319,7 @@ void func_gen_wrapper()
         {
             // cout<<"Entered this"<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
-            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-                otherFile<<"static beginfunc "<<it->arg1<<" ";
-            else
-                otherFile << "beginfunc " << it->arg1 << " ";
+            otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
@@ -437,12 +434,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
         {
             cout<<"Entered this for "<<it->arg1<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
-            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-            {
-                    cout<<"found "<<it->arg1<<endl;
-                    otherFile<<"static beginfunc "<<it->arg1<<" ";}
-            else
-                otherFile << "beginfunc " << it->arg1 << " ";
+            otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
@@ -550,10 +542,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
             cout<<"Arguments are "<<it->arg1<<", "<<cnt-1<<", "<<i<<endl;
             funcs.push_back({it->arg1, cnt-1, i});
             // ir_func_gen(i, ircode, it->arg1);
-            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-                myFile<<"static beginfunc "<<it->arg1<<" ";
-            else
-                myFile << "beginfunc " << it->arg1 << " ";
+            myFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
