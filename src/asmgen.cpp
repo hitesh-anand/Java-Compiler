@@ -75,11 +75,12 @@ public:
     vector<string> storeall();
 
 } r[16];
-string GetCurrentWorkingDir( void ) {
-  char buff[FILENAME_MAX];
-  getcwd( buff, FILENAME_MAX );
-  std::string current_working_dir(buff);
-  return current_working_dir;
+string GetCurrentWorkingDir(void)
+{
+    char buff[FILENAME_MAX];
+    getcwd(buff, FILENAME_MAX);
+    std::string current_working_dir(buff);
+    return current_working_dir;
 }
 void reg::init(int id, string regName)
 {
@@ -298,8 +299,9 @@ vector<vector<string>> read_csv(string filename)
     vector<vector<string>> data;
     ifstream file;
     file.open(filename);
-    if(!file){
-        cout<<"RRRR-"<<filename<<"can'tbe opened\n";
+    if (!file)
+    {
+        cout << "RRRR-" << filename << "can'tbe opened\n";
     }
     string line;
     while (getline(file, line))
@@ -399,7 +401,7 @@ vector<string> identifyInstr(string instr)
         int dimx, dimy, dimz;
         dimx = countOccurrences('[', x);
         if (DEBUG)
-            cout << "x != " << x <<  " "<< instr << "\n";
+            cout << "x != " << x << " " << instr << "\n";
         for (auto op : ops)
         {
             if (s.find(op) != string::npos)
@@ -522,9 +524,9 @@ vector<string> identifyInstr(string instr)
             {
                 // class constructor is being called
 
-                string classname= s.substr(s.find(' ') + 1);
+                string classname = s.substr(s.find(' ') + 1);
 
-                call_malloc(var1,4*100,var1, to_string(classSize[classname]), "" , ans);
+                call_malloc(var1, 4 * 100, var1, to_string(classSize[classname]), "", ans);
                 string ins = string(MOVQ) + to_string(getAddressDes(var1)) + string("(%rbp), %rdi");
 
                 ans.push_back(ins);
@@ -674,20 +676,21 @@ vector<string> identifyInstr(string instr)
             ans.push_back(ins1);
             ans.push_back(ins2);
             // ans.push_back(ins3);
-            
-            if(instr.find("this") != string::npos) {
-                    // assumong to be of type this.simething
-                    string s = instr.substr(instr.find(' ') + 1);
-                    int relpos = getAddressDes(s);
-                    string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
-                    ans.push_back(instr);
-                    instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
-                    ans.push_back(instr);
-                    instr = string(MOVQ) + "(%rbx), %rsi";
-                    ans.push_back(instr);
 
-                }
-            else {
+            if (instr.find("this") != string::npos)
+            {
+                // assumong to be of type this.simething
+                string s = instr.substr(instr.find(' ') + 1);
+                int relpos = getAddressDes(s);
+                string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
+                ans.push_back(instr);
+                instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
+                ans.push_back(instr);
+                instr = string(MOVQ) + "(%rbx), %rsi";
+                ans.push_back(instr);
+            }
+            else
+            {
                 ans.push_back(ins3);
             }
             ans.push_back("call printf");
@@ -709,18 +712,23 @@ vector<string> genfunc(string funcName)
 {
     // open the csv corresponding to the function name
 
-    ifstream file2(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + currFuncName + ".3ac");
+    ifstream file2(GetCurrentWorkingDir() + "/temporary/" + currClassName + "_" + currFuncName + ".3ac");
     // vector<vector<string>> data;
-    cout << currClassName + "-" + currFuncName + ".3ac"
-         << "\n";
+    cout << currClassName + "_" + currFuncName + ".3ac" << "uuuuuuu\n";
     vector<string> funcCode;
-    funcCode.push_back(".globl " + (funcName == "main") ? "main" : currClassName+"_"+funcName);
+    string y;
+    if(funcName=="main"){
+        y=".globl main";
+    }
+    else{
+        y=".globl " + currClassName + "_" + funcName;
+    }
+    funcCode.push_back(y);
     string line;
     getline(file2, line);
     getline(file2, line);
     cout << "line: " << trimInstr(line) << "\n";
     beg_func(trimInstr(line), funcCode);
-
 
     if (!file2.is_open())
     {
@@ -737,7 +745,7 @@ vector<string> genfunc(string funcName)
         cnt++;
         cout << "cnt = " << cnt << "\n";
         if (DEBUG)
-            cout << "line: "<< line << "\n";
+            cout << "line: " << line << "\n";
         vector<string> lines;
         int isfunc = 0;
         while (line.find("pushparam") != string::npos)
@@ -780,10 +788,10 @@ vector<string> genfunc(string funcName)
                 // possibly a constructor for a class
                 lines.pop_back();
                 string lhs = trimInstr(line).substr(0, trimInstr(line).find('='));
-                string rhs = trimInstr(line).substr(trimInstr(line).find('=')+1);
+                string rhs = trimInstr(line).substr(trimInstr(line).find('=') + 1);
                 string classname = rhs.substr(rhs.find(' ') + 1);
                 // class constructor is being called
-                call_malloc(lhs,4*100,lhs,to_string(classSize[classname]) , "" , funcCode);
+                call_malloc(lhs, 4 * 100, lhs, to_string(classSize[classname]), "", funcCode);
                 string ins = string(MOVQ) + to_string(getAddressDes(lhs)) + string("(%rbp), %rdi");
                 funcCode.push_back(ins);
                 ins = "call " + classname;
@@ -793,10 +801,8 @@ vector<string> genfunc(string funcName)
                 funcCode.push_back(ins);
                 func_call(lines, funcCode);
                 isret = 0;
-                //ans.push_back(ins);
-                //return ans;
-
-            
+                // ans.push_back(ins);
+                // return ans;
             }
             if (isret)
             {
@@ -817,6 +823,7 @@ vector<string> genfunc(string funcName)
             func_call(lines, funcCode);
             continue;
         }
+        
         // int numBrackets = 0;
         // if((numBrackets = countOccurrences('[', line)) > 0){
         //     if(numBrackets == 1) {
@@ -847,16 +854,17 @@ vector<string> genfunc(string funcName)
         if (t.size())
         {
             DBG cout << "ret\n";
-            cout << "size is " << funcCode.size() << "\n"; 
-            for(auto it: t){
+            cout << "size is " << funcCode.size() << "\n";
+            for (auto it : t)
+            {
                 funcCode.push_back(it);
             }
             DBG cout << "done\n";
             cout << "printing funccode\n";
-    for(auto it: funcCode) {
-        cout << it << "\n";
-    }
-   
+            for (auto it : funcCode)
+            {
+                cout << it << "\n";
+            }
         }
         cout << "funccode size: " << funcCode.size() << "\n";
     }
@@ -864,7 +872,6 @@ vector<string> genfunc(string funcName)
     // closing the function code
 
     file2.close();
-    
     return funcCode;
     // Access the data by index
     // cout << data[0][0] << endl; // Print the first cell of the first row
@@ -874,82 +881,102 @@ void handleClassDec(string filename)
 {
     string line;
     temporary_size = 0;
-    ifstream fp(GetCurrentWorkingDir()+"/temporary/"+filename);
+    ifstream fp(GetCurrentWorkingDir() + "/temporary/" + filename);
     getline(fp, line);
     line = trimInstr(line);
-    if(strip(line.substr(0, 10)) == "beginclass") {
-            currClassName = strip(line.substr(11));
-            cout << "Curr class declared as: " << currClassName << "!\n";
-            vector<vector<string> > data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + ".csv");
-            getline(fp, line);
-            cout<< "line = " << line << " " << (line.find("endclass") == string::npos) << "\n";
-            
-            while(line.find("endclass") == string::npos) {
-                // getline(file2, line);
-                // two things, integer variable or array declaration, or even class declaration
-                // addressDes[currClassName + "::" + line.substr()]
-                // assuming there is a csv file having variable info, type of variable and name of variable
-                cout << "the hash is here\n";
-                int pos = -8;
-                classSize[currClassName] = 0;
-                for(int i = 1; i < data.size(); i++) {
-                    string var = data[i][2];
-                    
-                    string typeName = data[i][3];
-                    objClass[var] = typeName;
-                    cout << "type = " << typeName <<" " << var << "\n";
-                    if(sizes.find(typeName) != sizes.end()) {
-                        classSize[currClassName] += sizes[typeName];
-                        addressDes[currClassName + "::" +currFuncName + "::"+ var] = pos;
-                        pos-=8;
-                        cout << "dec here :"<<currClassName + "::" +currFuncName + "::"+ var << classSize[currClassName] <<"\n";
+    if (strip(line.substr(0, 10)) == "beginclass")
+    {
+        currClassName = strip(line.substr(11));
+        cout << "Curr class declared as: " << currClassName << "!\n";
+        vector<vector<string>> data = read_csv(GetCurrentWorkingDir() + "/temporary/" + currClassName + ".csv");
+        getline(fp, line);
+        cout << "line = " << line << " " << (line.find("endclass") == string::npos) << "\n";
+
+        while (line.find("endclass") == string::npos)
+        {
+            // getline(file2, line);
+            // two things, integer variable or array declaration, or even class declaration
+            // addressDes[currClassName + "::" + line.substr()]
+            // assuming there is a csv file having variable info, type of variable and name of variable
+            cout << "the hash is here\n";
+            int pos = -8;
+            classSize[currClassName] = 0;
+            for (int i = 1; i < data.size(); i++)
+            {
+                string var = data[i][2];
+
+                string typeName = data[i][3];
+                objClass[var] = typeName;
+                cout << "type = " << typeName << " " << var << "\n";
+                if (sizes.find(typeName) != sizes.end())
+                {
+                    classSize[currClassName] += sizes[typeName];
+                    addressDes[currClassName + "::" + currFuncName + "::" + var] = pos;
+                    pos -= 8;
+                    cout << "dec here :" << currClassName + "::" + currFuncName + "::" + var << classSize[currClassName] << "\n";
+                }
+                else if (classSize.find(data[i][2]) != classSize.end())
+                {
+                    classSize[currClassName] += classSize[data[i][3]];
+                    addressDes[currClassName + "::" + var] = pos;
+                    pos = pos - classSize[data[i][3]];
+                }
+                else
+                {
+                    // array type
+                    int dim = 0;
+                    int w1 = 0, w2 = 0, w3 = 0;
+                    if (data[i][3].length() < 5)
+                    {
+                        cout << "symbol table type undefined\n";
                     }
-                    else if(classSize.find(data[i][2]) != classSize.end()) {
-                        classSize[currClassName] += classSize[data[i][3]];
-                        addressDes[currClassName + "::" + var] = pos;
-                        pos = pos - classSize[data[i][3]];
-                    
+                    else
+                        dim++;
+                    w1 = data[i][3][4] - '0';
+                    if (data[i][3].length() > 7)
+                    {
+                        w2 = data[i][3][7] - '0';
+                        dim++;
                     }
-                    else {
-                        //array type
-                        int dim = 0;
-                        int w1=0, w2=0, w3=0;
-                        if(data[i][3].length() < 5) {cout<< "symbol table type undefined\n";}
-                        else dim++;
-                        w1 = data[i][3][4] - '0';
-                        if(data[i][3].length() > 7) {w2 = data[i][3][7]- '0'; dim++;}
-                        if(data[i][3].length() > 10) {w3 = data[i][3][10] - '0'; dim++;}
-                        // only int arrays assumed of size 8 bytes
-                        addressDes[currClassName + "::" + data[i][2]] = pos;
-                        if(dim == 1) {
-                            pos = pos - 8 * w1;
-                        }
-                        else if(dim == 2) {
-                            pos = pos - 8 * w1 * w2;
-                        }
-                        else {
-                            pos = pos - 8 * w1 * w2 * w3;
-                        }
+                    if (data[i][3].length() > 10)
+                    {
+                        w3 = data[i][3][10] - '0';
+                        dim++;
+                    }
+                    // only int arrays assumed of size 8 bytes
+                    addressDes[currClassName + "::" + data[i][2]] = pos;
+                    if (dim == 1)
+                    {
+                        pos = pos - 8 * w1;
+                    }
+                    else if (dim == 2)
+                    {
+                        pos = pos - 8 * w1 * w2;
+                    }
+                    else
+                    {
+                        pos = pos - 8 * w1 * w2 * w3;
                     }
                 }
-                getline(fp, line);
- 
             }
+            getline(fp, line);
         }
-        // temporary_size += (max(1, classSize[currClassName]/8));
-        fp.close();
+    }
+    // temporary_size += (max(1, classSize[currClassName]/8));
+    fp.close();
 }
 
-
-void finalCodeGen(vector<string> &funcCode,string otpt)
+void finalCodeGen(vector<string> &funcCode, string otpt)
 {
     ofstream fout;
     fout.open(otpt);
-    if(!fout){
-        cout<<"RRRR-"<<"can't be opened\n";
+    if (!fout)
+    {
+        cout << "RRRR-"
+             << "can't be opened\n";
     }
     fout << ".text\n";
-    fout << ".globl " + mainClassName + "-" + "main" + "\n";
+    // fout << ".globl " + mainClassName + "_" + "main" + "\n";
     for (auto s : funcCode)
     {
         fout << s << "\n";
@@ -971,15 +998,15 @@ string getfuncName(string x)
         cout << "Error the instruction not start with call\n";
     }
     x = x.substr(x.find(' ') + 1);
-    string temp = currClassName + "-" + x;
+    string temp = currClassName + "_" + x;
     if (x.find(".") != string::npos)
     {
         string var = x.substr(0, x.find('.'));
         string func = x.substr(x.find('.') + 1);
         // a class object's function is being called
         // need to consult the symbol table for this current function, or class
-        string filename = currClassName + "-" + currFuncName + ".csv";
-        vector<vector<string>> data = read_csv(GetCurrentWorkingDir()+"/temporary/"+filename);
+        string filename = currClassName + "_" + currFuncName + ".csv";
+        vector<vector<string>> data = read_csv(GetCurrentWorkingDir() + "/temporary/" + filename);
         for (int i = 1; i < data.size(); i++)
         {
             if (data[i][2] == var)
@@ -988,8 +1015,7 @@ string getfuncName(string x)
             }
         }
         std::cout << "temp =" << temp << "\n";
-    std::cout << "var = " << var << '\n';
-
+        std::cout << "var = " << var << '\n';
     }
     return temp;
 }
@@ -1058,7 +1084,7 @@ vector<int> var_info(string x)
 int sz_func()
 {
     int ans = 0;
-    vector<vector<string>> data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + currFuncName + ".csv");
+    vector<vector<string>> data = read_csv(GetCurrentWorkingDir() + "/temporary/" + currClassName + "_" + currFuncName + ".csv");
     for (int i = 1; i < data.size(); i++)
     {
     }
@@ -1074,11 +1100,12 @@ void fill_var_temp_sz(string x)
 {
     ifstream file;
     cout << "x = " << x << "\n";
-    file.open(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + x + ".3ac");
-    if(!file){
-        cout<<"RRRR-file not opening\n";
+    file.open(GetCurrentWorkingDir() + "/temporary/" + currClassName + "_" + x + ".3ac");
+    if (!file)
+    {
+        cout << "RRRR-file not opening\n";
     }
-    cout << currClassName + "-" + x << "\n";
+    cout << currClassName + "_" + x << "\n";
     string line;
     getline(file, line);
     file.close();
@@ -1087,9 +1114,10 @@ void fill_var_temp_sz(string x)
 
     temporary_size += string_to_int(line);
     vector<string> v;
-    file.open(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + x + ".csv");
-    if(!file){
-        cout<<"RRRR- file not openong\n";
+    file.open(GetCurrentWorkingDir() + "/temporary/" + currClassName + "_" + x + ".csv");
+    if (!file)
+    {
+        cout << "RRRR- file not openong\n";
     }
     getline(file, line);
     while (getline(file, line))
@@ -1235,7 +1263,7 @@ void ary_ass(string lex, int tp, string v1, string v2, string v3, string val, ve
         // v1*w2+v2
         instr = "movq " + to_string(getAddressDes(lex + "_w2")) + "(%rbp), %rsi";
         funCode.push_back(instr);
-        instr="imulq %rsi, %rax";
+        instr = "imulq %rsi, %rax";
         funCode.push_back(instr);
         instr = "addq %rsi, %rax";
         funCode.push_back(instr);
@@ -1271,12 +1299,12 @@ void ary_ass(string lex, int tp, string v1, string v2, string v3, string val, ve
         // put w3 in r9
         instr = "movq " + to_string(getAddressDes(lex + "_w3")) + "(%rbp), %r9";
         funCode.push_back(instr);
-        //v3+v1*w2*w3+v2*w3
-        instr="imulq %rsi, %rax";
+        // v3+v1*w2*w3+v2*w3
+        instr = "imulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="imulq %r9, %rax";
+        instr = "imulq %r9, %rax";
         funCode.push_back(instr);
-        instr="imulq %r9, %rdi";
+        instr = "imulq %r9, %rdi";
         funCode.push_back(instr);
         instr = "addq %rdi, %rax";
         funCode.push_back(instr);
@@ -1327,7 +1355,7 @@ void ary_acc(string lex, int tp, string v1, string v2, string v3, string r, vect
         // v1*w2+v2
         instr = "movq " + to_string(getAddressDes(lex + "_w2")) + "(%rbp), %rsi";
         funCode.push_back(instr);
-        instr="imulq %rsi, %rax";
+        instr = "imulq %rsi, %rax";
         funCode.push_back(instr);
         instr = "addq %rsi, %rax";
         funCode.push_back(instr);
@@ -1359,12 +1387,12 @@ void ary_acc(string lex, int tp, string v1, string v2, string v3, string r, vect
         // put w3 in r9
         instr = "movq " + to_string(getAddressDes(lex + "_w3")) + "(%rbp), %r9";
         funCode.push_back(instr);
-        //v3+v1*w2*w3+v2*w3
-        instr="imulq %rsi, %rax";
+        // v3+v1*w2*w3+v2*w3
+        instr = "imulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="imulq %r9, %rax";
+        instr = "imulq %r9, %rax";
         funCode.push_back(instr);
-        instr="imulq %r9, %rdi";
+        instr = "imulq %r9, %rdi";
         funCode.push_back(instr);
         instr = "addq %rdi, %rax";
         funCode.push_back(instr);
@@ -1417,8 +1445,9 @@ void insert_arg(vector<string> arg, vector<string> &funCode)
     cout << "reavched th\n";
     string instr = MOVQ + string("%rdi, ") + to_string(getAddressDes("this")) + "(%rbp)";
     funCode.push_back(instr);
-    vector<string>rg={"%rsi", "%rdx", "%rcx", "%r8","%r9"};
-    for(int j=0;j<arg_name.size();j++){
+    vector<string> rg = {"%rsi", "%rdx", "%rcx", "%r8", "%r9"};
+    for (int j = 0; j < arg_name.size(); j++)
+    {
         cnt++;
 
         if (cnt <= 5)
@@ -1437,7 +1466,7 @@ pair<int, int> declareLocalVars()
 {
     // ifstream fp(currClassName + "-" + currFuncName + ".csv");
     cout << "Declaring local vars******************************************\n";
-    vector<vector<string>> data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + currFuncName + ".csv");
+    vector<vector<string>> data = read_csv(GetCurrentWorkingDir() + "/temporary/" + currClassName + "_" + currFuncName + ".csv");
     cout << "read csv " << data.size() << "\n";
     int pos = -8;
     int sz = -8;
@@ -1514,14 +1543,12 @@ pair<int, int> declareLocalVars()
         // sz = pos;
     }
     addressDes[currClassName + "::" + currFuncName + "::this"] = pos;
-    data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + ".csv");
+    data = read_csv(GetCurrentWorkingDir() + "/temporary/" + currClassName + ".csv");
     int pp = 0;
     for (int i = 1; i < data.size(); i++)
     {
         addressDes[currClassName + "::" + currFuncName + "::this." + data[i][2]] = pp;
         pp += 8;
-        
-
     }
     pos -= 8;
     sz -= 8;
@@ -1593,16 +1620,20 @@ void func_call(vector<string> a, vector<string> &funcCode)
             // string x=currClassName + "::" + currFuncName + "::" + smplPush(a[j]);
             string x = smplPush(a[j]);
             cout << "x = " << x << "\n";
-            if(var_info(x).size()==0){
-                cout<<"No such variable exist\n";
-                if(x[0] == '_') {
-                    things.push_back({y,0});
+            if (var_info(x).size() == 0)
+            {
+                cout << "No such variable exist\n";
+                if (x[0] == '_')
+                {
+                    things.push_back({y, 0});
                 }
             }
-            else{
-                vector<int>info=var_info(x);
-                if(info[0]==1){ //int
-                    things.push_back({y,0});
+            else
+            {
+                vector<int> info = var_info(x);
+                if (info[0] == 1)
+                { // int
+                    things.push_back({y, 0});
                 }
                 if (info[0] >= 100)
                 {                                                                  // array
@@ -1685,7 +1716,7 @@ void call_malloc(string name, int tp, string s1, string s2, string s3, vector<st
     {
         instr = "movq " + s1 + ",%rdi";
         funCode.push_back(instr);
-        instr="imulq "+s2+",%rdi";
+        instr = "imulq " + s2 + ",%rdi";
         funCode.push_back(instr);
         instr = "salq $3,%rdi";
         funCode.push_back(instr);
@@ -1702,9 +1733,9 @@ void call_malloc(string name, int tp, string s1, string s2, string s3, vector<st
     {
         instr = "movq " + s1 + ",%rdi";
         funCode.push_back(instr);
-        instr="imulq "+s2+",%rdi";
+        instr = "imulq " + s2 + ",%rdi";
         funCode.push_back(instr);
-        instr="imulq "+s3+",%rdi";
+        instr = "imulq " + s3 + ",%rdi";
         funCode.push_back(instr);
         instr = "salq $3,%rdi";
         funCode.push_back(instr);
@@ -1722,15 +1753,16 @@ void call_malloc(string name, int tp, string s1, string s2, string s3, vector<st
         instr = "movq %r8," + to_string(getAddressDes(name + "_w3")) + "(%rbp)";
         funCode.push_back(instr);
     }
-    if(tp == 400) {
+    if (tp == 400)
+    {
         instr = string(MOVQ) + string("$") + s2 + string(", %rdi");
-        funCode.push_back(instr); 
+        funCode.push_back(instr);
     }
     instr = "call\tmalloc";
     funCode.push_back(instr);
 
-    cout << "S1 = " << s1 <<" "  <<  objClass[s1]<<" \n";
-    instr= string(MOVQ) + string("%rax, ") +to_string(getAddressDes(name)) + string("(%rbp)");
+    cout << "S1 = " << s1 << " " << objClass[s1] << " \n";
+    instr = string(MOVQ) + string("%rax, ") + to_string(getAddressDes(name)) + string("(%rbp)");
     funCode.push_back(instr);
 }
 
@@ -1756,87 +1788,106 @@ int main(int argc, char *argv[])
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
     string otpt;
-    vector<string>inp;
-    if(argc==2){
-        if(argv[1][0]=='-' && argv[1][1]=='-' && argv[1][2]=='h' && argv[1][3]=='e' && argv[1][4]=='l' && argv[1][5]=='p' && argv[1][6]=='\0')
+    vector<string> inp;
+    if (argc == 2)
+    {
+        if (argv[1][0] == '-' && argv[1][1] == '-' && argv[1][2] == 'h' && argv[1][3] == 'e' && argv[1][4] == 'l' && argv[1][5] == 'p' && argv[1][6] == '\0')
         {
-            cout<<"Usage: ./asmgen --input=<input_filename> --output=<output_filename>\noptions: --help\n";
+            cout << "Usage: ./asmgen --input=<input_filename> --output=<output_filename>\noptions: --help\n";
             return 0;
         }
-        else{
-            cout<<"Invalid argument. Use --help for usage.\n";
+        else
+        {
+            cout << "Invalid argument. Use --help for usage.\n";
             return 0;
         }
     }
-    else if(argc==1){
-        cout<<"No file specified. Use --help for usage.\n";
+    else if (argc == 1)
+    {
+        cout << "No file specified. Use --help for usage.\n";
         return 0;
     }
-    else if(argc==3){
-        vector<string>y;
+    else if (argc == 3)
+    {
+        vector<string> y;
         y.push_back(argv[1]);
         y.push_back(argv[2]);
-        sort(y.begin(),y.end());
-        if(y[0].rfind("--input",0)==0&&y[1].rfind("--output=",0)==0){
+        sort(y.begin(), y.end());
+        if (y[0].rfind("--input", 0) == 0 && y[1].rfind("--output=", 0) == 0)
+        {
             string temp;
-            for(int i=8;i<y[0].size();i++){
-                temp=temp+y[0][i];
+            for (int i = 8; i < y[0].size(); i++)
+            {
+                temp = temp + y[0][i];
             }
             ifstream file;
-            file.open(GetCurrentWorkingDir()+"/temporary/"+temp);
-            if(!file){
+            file.open(GetCurrentWorkingDir() + "/temporary/" + temp);
+            if (!file)
+            {
                 cout << "hello\n";
-        cout<<"RRRR- file not openong\n";
-    }
+                cout << "RRRR- file not openong\n";
+            }
             string line;
             while (getline(file, line))
             {
                 inp.push_back(line);
             }
             file.close();
-            for(int i=9;i<y[1].size();i++){
-                otpt=otpt+y[1][i];
+            for (int i = 9; i < y[1].size(); i++)
+            {
+                otpt = otpt + y[1][i];
             }
         }
-        else{
-            cout<<"Invalid argument. Use --help for usage.\n";
+        else
+        {
+            cout << "Invalid argument. Use --help for usage.\n";
             return 0;
         }
     }
-    vector<string> classes ;
-    map<string, vector<string> > funcs;
-    if(inp.size()==0){
-        cout<<"File can't be open\n";
+    vector<string> classes;
+    map<string, vector<string>> funcs;
+    if (inp.size() == 0)
+    {
+        cout << "File can't be open\n";
     }
-    else{
-        string currclass="";
-        for(auto it:inp){
-            string ins=trimInstr(it);
-            if (ins.rfind("beginclass", 0) == 0) { 
+    else
+    {
+        string currclass = "";
+        for (auto it : inp)
+        {
+            string ins = trimInstr(it);
+            if (ins.rfind("beginclass", 0) == 0)
+            {
                 string temp;
-                int f=0;
-                for(int j=0;j<ins.size();j++){
-                    if(ins[j]==' '){
-                        f=1;
+                int f = 0;
+                for (int j = 0; j < ins.size(); j++)
+                {
+                    if (ins[j] == ' ')
+                    {
+                        f = 1;
                     }
-                    else
-                    if(f==1){
+                    else if (f == 1)
+                    {
                         temp.push_back(ins[j]);
                     }
                 }
                 classes.push_back(temp);
-                currclass=temp;
+                currclass = temp;
             }
-            if (ins.rfind("beginfunc", 0) == 0) { 
+            if (ins.rfind("beginfunc", 0) == 0)
+            {
                 string temp;
-                int f=0;
-                for(int j=0;j<ins.size();j++){
-                    if(f==1&&ins[j]==' ')break;
-                    if(ins[j]==' '){
-                        f=1;
+                int f = 0;
+                for (int j = 0; j < ins.size(); j++)
+                {
+                    if (f == 1 && ins[j] == ' ')
+                        break;
+                    if (ins[j] == ' ')
+                    {
+                        f = 1;
                     }
-                    else
-                    if(f==1){
+                    else if (f == 1)
+                    {
                         temp.push_back(ins[j]);
                     }
                 }
@@ -1844,26 +1895,29 @@ int main(int argc, char *argv[])
             }
         }
     }
-    vector<string> code ;
-    for (auto it: classes) {
-        cout<<"---"<<it<<"\n";
+    vector<string> code;
+    for (auto it : classes)
+    {
+        cout << "---" << it << "\n";
         handleClassDec(it + ".3ac");
         for (auto it : funcs[it])
         {
             currFuncName = it;
             cout << "it = " << it << "\n";
             vector<string> t = genfunc(it);
-            if (t.size())
-                code.insert(code.end(), t.begin(), t.end());
+            for(auto it:t){
+                code.push_back(it);
+            }
             // cout << "printing code till now\n";
             // for(auto it: code) {
             //     cout  << it << "\n";
             // }
         }
     }
-    if(otpt.size()==0){
-        otpt="asm.s";
+    if (otpt.size() == 0)
+    {
+        otpt = "asm.s";
     }
 
-    finalCodeGen(code,otpt);
+    finalCodeGen(code, otpt);
 }
