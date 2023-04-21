@@ -108,13 +108,6 @@ CompilationUnit:
         $1->changeLabel("CompilationUnit");
         $$ = $1;
         verbose(v,"OrdinaryCompilationUnit->CompilationUnit");
-        // if(otpt.size()!=0){
-        //     call_dotgen($$,otpt);
-        // }
-        // else{
-        //     call_dotgen($$,"graph1.dot");
-        // }
-
         if(otpt.size()!=0){
             ir_gen(ircode,otpt);
         }
