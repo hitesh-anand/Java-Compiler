@@ -1,7 +1,7 @@
 #include "utils.h"
 
 using namespace std;
-
+#include <unistd.h>
 int v = 0;
 int cnt = 1;
 int isarrayinit = 0;
@@ -42,7 +42,6 @@ void defineCastNames()
     castName[CHAR_NUM] = "char";
     castName[VOID_TYPE] = "void";
 }
-
 int whilepos = 0;
 SymGlob *root = new SymGlob();
 SymGlob *orig_root = root;
@@ -96,7 +95,7 @@ string append_scope_level(string s)
 void ir_class_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
-    otherFile.open(fln+".3ac");
+    otherFile.open(GetCurrentWorkingDir()+"/temporary/"+fln+".3ac");
     // cout<<"opened"<<endl;
     // otherFile<<tempVars[fln]<<endl;
     int cnt=0;
@@ -196,7 +195,7 @@ void func_gen_wrapper()
         int lineno = get<1>(it);
         int cnt=0;
         cout<<"Arguments are "<<fln<<", "<<lineno<<", "<<ind<<endl;
-        otherFile.open(classfunc[fln]+"-"+fln+".3ac");
+        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"-"+fln+".3ac");
         otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
         while(cnt<lineno)
         {
@@ -317,7 +316,7 @@ void func_gen_wrapper()
 void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
 {
     ofstream otherFile;
-    otherFile.open(classfunc[fln]+"_"+fln+".3ac");
+    otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"_"+fln+".3ac");
     otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
     int cnt=0;
 
@@ -432,7 +431,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
 void ir_gen(vector<Quadruple *> ircode, string fln)
 {
     ofstream myFile;
-    myFile.open(fln);
+    myFile.open(GetCurrentWorkingDir()+"/temporary/"+fln);
     int cnt = 0;
     for(int i=0; i<ircode.size(); i++) {
         auto it = ircode[i];
