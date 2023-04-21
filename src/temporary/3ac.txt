@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+0	:beginclass test5 
+1	:beginfunc main 
+2	:arr`2=new int[3][3]
+3	:i`2=2
+4	:_t0=i`2+2
+5	:arr`2[2][2]=_t0
+6	:print arr`2[2][2]
+7	:return 0
+8	:endfunc 
+9	:endclass 
+=======
 0	:beginclass hello 
 1	:c`1=0
 2	:beginfunc hello a`2,b`2

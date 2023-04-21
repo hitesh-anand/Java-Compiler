@@ -165,8 +165,15 @@ int getAddressDes(string varname)
 
     if (addressDes.find(currClassName + "::" + currFuncName + "::" + varname) != addressDes.end())
         return addressDes[currClassName + "::" + currFuncName + "::" + varname];
-    else
+    else if(addressDes.find(currClassName + "::::" + varname) != addressDes.end())
         return addressDes[currClassName + "::::" + varname];
+    else {
+        if(varname.find('`') != string::npos) {
+            varname = varname.substr(0, varname.find('`'));
+            return addressDes[currClassName + "::" + currFuncName + "::" + varname];
+        }
+        return addressDes[currClassName + "::::" + varname];
+    }
 }
 
 vector<string> getArrayIndices(string s)
@@ -181,20 +188,24 @@ vector<string> getArrayIndices(string s)
         int endpos = t.find(']');
         t1 = t.substr(startpos + 1, endpos - startpos - 1);
         cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$dim1 = " << t1 << "\n";
-        t = t.substr(endpos);
+        t = t.substr(endpos+1);
     }
     if (numBrackets >= 2)
     {
         int startpos = t.find('[');
         int endpos = t.find(']');
-        t2 = stoi(t.substr(startpos + 1, endpos - startpos - 1));
-        t = t.substr(endpos);
+        cout << "T = " << t << endl;
+        cout << "issue2\n";
+        cout << t.substr(startpos + 1, endpos - startpos - 1) << "\n";
+        t2 = t.substr(startpos + 1, endpos - startpos - 1);
+        t = t.substr(endpos+1);
     }
     if (numBrackets >= 3)
     {
         int startpos = t.find('[');
         int endpos = t.find(']');
-        t3 = stoi(t.substr(startpos + 1, endpos - startpos - 1));
+        cout << "iss\n";
+        t3 = t.substr(startpos + 1, endpos - startpos - 1);
         // t = t.substr();
     }
     if (is_number(t1))
@@ -474,13 +485,10 @@ vector<string> identifyInstr(string instr)
                 }
                 if(op=='%'){
 
-                }
-                else{
-                    ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
-                    ins4 = genMove("%rcx", x);
-                    // ans.push_back(ins1);
-                    ans.push_back(ins3);
-                }
+                string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rcx", "%rbx");
+                string ins4 = genMove("%rbx", x);
+                // ans.push_back(ins1);
+                ans.push_back(ins3);
                 if (x.find("this") == string::npos)
                 {
                     if (dimx == 0)
@@ -539,9 +547,9 @@ vector<string> identifyInstr(string instr)
             {
                 // class constructor is being called
 
-                string classname = s.substr(s.find(' ') + 1);
+                string classname= s.substr(s.find(' ') + 1);
 
-                call_malloc(var1, 4 * 100, var1, to_string(classSize[classname]), "", ans);
+                call_malloc(var1,4*100,var1, to_string(classSize[classname]), "" , ans);
                 string ins = string(MOVQ) + to_string(getAddressDes(var1)) + string("(%rbp), %rdi");
 
                 ans.push_back(ins);
@@ -704,7 +712,7 @@ vector<string> identifyInstr(string instr)
                     ans.push_back(instr);
                     instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
                     ans.push_back(instr);
-                    instr = string(MOVQ) + "(%rax), %rcx";
+                    instr = string(MOVQ) + "(%rbx), %rcx";
                     ans.push_back(instr);
                 }
                 else
@@ -722,6 +730,7 @@ vector<string> identifyInstr(string instr)
             ans.push_back(ins);
             ans.push_back(ins_);
             gotoloc = t.substr(gotopos + 5);
+            cout << "use\n";
             int gotoval = stoi(gotoloc);
             islabel[gotoval] = true;
             return ans;
@@ -729,10 +738,12 @@ vector<string> identifyInstr(string instr)
         else if (instr.find("goto") != string::npos)
         {
             // pure goto instruction with no if
+            cout << "use\n";
             int gotoval = stoi(instr.substr(5));
             islabel[gotoval] = true;
+             
             string ins = string("jmp .L") + to_string(gotoval);
-            ans.push_back(ins);
+            ans.push_back((ins));
         }
         else if (instr.substr(0, 5) == "print")
         {
@@ -745,35 +756,72 @@ vector<string> identifyInstr(string instr)
             t = to_string(getAddressDes(varName)) + string("(%rbp)");
             string ins2 = MOVQ + string("$printfmt, %rdi");
             string ins3 = MOVQ + t + string(", %rsi");
-            ans.push_back(ins1);
-            ans.push_back(ins2);
+            
             // ans.push_back(ins3);
+            int dimz = countOccurrences('[', varName);
+            string z = varName;
+            if (dimz > 0)
+                {
+                    vector<string> ind = getArrayIndices(varName);
 
-            if (instr.find("this") != string::npos)
-            {
-                // assumong to be of type this.simething
-                string s = instr.substr(instr.find(' ') + 1);
-                int relpos = getAddressDes(s);
-                string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
-                ans.push_back(instr);
-                instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
-                ans.push_back(instr);
-                instr = string(MOVQ) + "(%rbx), %rsi";
-                ans.push_back(instr);
-            }
-            else
-            {
-                ans.push_back(ins3);
-            }
+                    ary_acc(z.substr(0, z.find('[')), dimz * 100, ind[0], ind[1], ind[2], "%rsi", ans);
+                }
+                else if (z.find("this") != string::npos)
+                {
+                    // assumong to be of type this.simething
+                    int relpos = getAddressDes(z);
+                    cout << "yy = " << z << "\n";
+                    string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
+                    ans.push_back(instr);
+                    instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
+                    ans.push_back(instr);
+                    instr = string(MOVQ) + "(%rbx), %rsi";
+                    ans.push_back(instr);
+                }
+                else
+                {
+                    ans.push_back(genMove(z, "%rsi"));
+                }
+                ans.push_back(ins1);
+                ans.push_back(ins2);
             ans.push_back("call printf");
+            return ans;
         }
         else if (instr.substr(0, 6) == "return" && instr.length() > string("return").length())
         {
             // put return value in %rax since a value is being returned here
 
             string retvar = instr.substr(instr.find(' ') + 1);
-            string ins = genMove(retvar, "%rax");
-            ans.push_back(ins);
+            int dimz = countOccurrences('[', retvar);
+            string z = retvar;
+            if (dimz > 0)
+                {
+                    vector<string> ind = getArrayIndices(retvar);
+
+                    ary_acc(z.substr(0, z.find('[')), dimz * 100, ind[0], ind[1], ind[2], "%rax", ans);
+                }
+                else if (z.find("this") != string::npos)
+                {
+                    // assumong to be of type this.simething
+                    int relpos = getAddressDes(z);
+                    cout << "yy = " << z << "\n";
+                    string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
+                    ans.push_back(instr);
+                    instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
+                    ans.push_back(instr);
+                    instr = string(MOVQ) + "(%rbx), %rax";
+                    ans.push_back(instr);
+                }
+                else
+                {
+                    ans.push_back(genMove(z, "%rax"));
+                }
+                return ans;
+                // ans.push_back(ins1);
+                // ans.push_back(ins2);
+            // ans.push_back("call printf");
+            // string ins = genMove(retvar, "%rax");
+            // ans.push_back(ins);
         }
     }
     return ans;
@@ -1171,6 +1219,7 @@ int sz_func()
 }
 int string_to_int(string x)
 { // replacement for stoi
+cout << "string to int\n";
     return stoi(x);
 }
 void fill_var_temp_sz(string x)

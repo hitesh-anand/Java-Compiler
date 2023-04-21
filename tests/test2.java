@@ -9,6 +9,7 @@ class test2 {
                     while (i < 10) {
                         int y=1;
                         c = c + 1;
+                        i++;
                     }
             else
                 c = a - 1;
@@ -16,8 +17,9 @@ class test2 {
         }
         return a++;
     }
-    void main(){
-        int y=f(1,2);
+    public static void main(String args[]){
+        test2 t = new test2();
+        int y=t.f(1,2);
         System.out.println(y);
     }
 }
