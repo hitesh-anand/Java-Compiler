@@ -1,17 +1,27 @@
-public class MyClass {
-    
-
-    // function to check if a given string is a palindrome
-    public void show(int a) 
-    {
-        // System.out.println(a);
-        a = 2;
+//simple test for function-calls, object creation
+class hello {
+    int c;
+    int f(int a, int b) {
+        // int c=2;
         if(a==1)
-            a++;
+        {
+            b++;
+            int c = 1;
+        }
+        return a++;
     }
+}
 
-    public static void main() {
-        // remove whitespace and convert to lowercase
-        show(5);
+class hi{
+    int T(int a, int b) {
+        int n = a+b;
+        int k = a-b;
+        hello h = new hello();
+        return h.f(n, k);
+        // return 1;
+    }
+    void main(){
+        int y=T(1,2);
+        System.out.println(y);
     }
 }
