@@ -16,6 +16,7 @@ extern int v;
 extern int cnt;
 extern int isarrayinit;
 extern vector<string> field_vars;
+extern vector<string> func_names;
 // map<string, pair<int, int>> typeroot->typewidth;
 extern map<string,SymNode*> list_class;
 extern map<string, int> tempVars;
@@ -6278,6 +6279,8 @@ MethodInvocation:
     Name LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
+
+    func_names.push_back($1->attr);
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
@@ -6336,6 +6339,7 @@ MethodInvocation:
 |   Name LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
+        func_names.push_back($1->attr);
   
     temp.push_back($3);
     
@@ -6638,7 +6642,7 @@ MethodInvocation:
 |   Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
     temp.push_back($1);
-    
+        func_names.push_back($1->attr);
     temp.push_back($3);
     
     struct Node* n = new struct Node("MethodInvocation", temp);

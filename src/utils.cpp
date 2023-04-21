@@ -8,6 +8,7 @@ int isarrayinit = 0;
 // map<string, pair<int, int>> typeroot->typewidth;
 map<string, SymNode *> list_class;
 string otpt;
+vector<string> func_names;
 vector<string> field_vars;
 int startPos = 0;
 extern int yylineno;
@@ -72,6 +73,7 @@ string append_scope_level(string s)
     //         return s;
     // }
     // cout<<endl;
+
     cout<<"String is sdfsd "<<s<<" on line "<<yylineno<<endl;
 
     if(s.find('`') != string::npos || s[s.length()-1]==']')
@@ -86,6 +88,12 @@ string append_scope_level(string s)
             ind = i;
             break;
         }
+    }
+
+    for(auto it : func_names)
+    {
+        if(it==s && ind==-1)
+            return s;
     }
 
     if(ind>-1 && s.substr(0,4)!="this")
