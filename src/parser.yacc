@@ -6279,10 +6279,21 @@ MethodInvocation:
 
     SymNode* ex;
     vector<int> args;
-    if(magic_ptr->name=="Global")
-        ex = root->flookup(sp, args);
+    // if(magic_ptr->name=="Global")
+    //     ex = root->flookup(sp, args);
+    // else
+    //     ex = magic_ptr->scope_flookup(sp, args, false);
+
+    if(magic_ptr == origNode)
+    {
+        cout<<"Searching for root"<<endl;
+            ex = root->flookup(sp, args);}
     else
-        ex = magic_ptr->scope_flookup(sp, args, false);
+    { 
+        cout<<"Seaerching thru magic pointer and changing"<<endl;
+           ex = magic_ptr->scope_flookup(sp, args, false);
+        magic_ptr = origNode;
+    }
 
     if(!ex)
     {
