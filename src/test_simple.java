@@ -1,6 +1,10 @@
 //simple test for function-calls, object creation
 class hello {
-    int c;
+    int c=1;
+    hello(int a, int b)
+    {
+        c = a;
+    }
     int f(int a, int b) {
         // int c=2;
         if(a==1)
@@ -16,11 +20,11 @@ class hi{
     int T(int a, int b) {
         int n = a+b;
         int k = a-b;
-        hello h = new hello();
+        hello h = new hello(n, k);
         return h.f(n, k);
         // return 1;
     }
-    void main(){
+    public static void main(String args[]){
         int y=T(1,2);
         System.out.println(y);
     }

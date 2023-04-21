@@ -8,9 +8,9 @@ int isarrayinit = 0;
 // map<string, pair<int, int>> typeroot->typewidth;
 map<string, SymNode *> list_class;
 string otpt;
-
+vector<string> field_vars;
 int startPos = 0;
-
+extern int yylineno;
 int temp = 0;
 vector<tuple<string, int, int>> funcs;
 int varCnt = 0;
@@ -48,16 +48,91 @@ SymGlob *orig_root = root;
 SymNode* origNode = new SymNode(nullptr, "global");
 SymNode *magic_ptr = origNode;
 
+string spacerem(string s)
+{
+    string ans = "";
+    for(int i=0; i<s.length(); i++)
+    {
+        if(s[i]==' ')
+            continue;
+        ans.push_back(s[i]);
+    }
+    return ans;
+}
+
 string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
-    // return s;
+    // 
 
-
+    cout<<"field vars are"<<endl;
+    for(auto it : field_vars)
+    {
+        if(it==s)
+            return s;
+    }
+    cout<<endl;
+    cout<<"String is sdfsd "<<s<<" on line "<<yylineno<<endl;
 
     if(s.find('`') != string::npos || s[s.length()-1]==']')
         return s;
     int isthis = 0;
+    int isdot = 0;
+    int ind=-1;
+    for(int i=0; i<s.length(); i++)
+    {
+        if(s[i]=='.')
+        {
+            ind = i;
+            break;
+        }
+    }
+
+    if(ind>-1)
+    {
+        cout<<"Dot for "<<s<<endl;
+        string suf = s.substr(ind+1, s.length()-ind-1);
+        s = s.substr(0, ind);
+        if(s.length()>4 && s.substr(0,4)=="this")
+        {
+            s = s.substr(5, s.length()-5);
+            isthis = 1;
+        }
+    // if(scope_level==-1)
+    //     cout<<-1<<"for "<<s<<endl;
+    string st = spacerem(s);
+    if(st.substr(0,3)=="new" && list_class.find(st.substr(3, st.length()-3))!=list_class.end())
+        return s;
+    cout<<"Couldn't findn "<<s<<" in classes"<<endl;
+    if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && s!="true" && s!="false")  
+    {
+        SymNode* temp = root->currNode;
+        Symbol* res;
+        while(temp && temp->name!="class")
+        {
+            res = temp->scope_lookup(s);
+            if(res)
+                break;
+            temp = temp->parent;
+        }
+        if(temp)
+            res=temp->scope_lookup(s);
+        cout<<"string is "<<s<<" and global scope level is "<<scope_level<<endl;
+        if(res)
+            cout<<"Symbol exists and its scope level is "<<res->scope_level<<endl;
+        int scope_attach = (res)?max(res->scope_level, 0):max(scope_level, 0);
+        if(scope_attach > 10000)
+            scope_attach = 0;
+        if(isthis)
+            s = "this."+s;
+        if(!res)
+            return s+"`"+to_string(scope_attach)+"."+suf;
+        return s+"`"+to_string(scope_attach)+"."+suf;
+    }
+    return s;       
+    }
+
+
     if(s.substr(0,4)=="this")
     {
         s = s.substr(5, s.length()-5);
@@ -65,6 +140,10 @@ string append_scope_level(string s)
     }
     // if(scope_level==-1)
     //     cout<<-1<<"for "<<s<<endl;
+    string st = spacerem(s);
+    if(st.substr(0,3)=="new" && list_class.find(st.substr(3, st.length()-3))!=list_class.end())
+        return s;
+    cout<<"Couldn't findn "<<s<<" in classes"<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && s!="true" && s!="false")  
     {
         SymNode* temp = root->currNode;
@@ -196,7 +275,7 @@ void func_gen_wrapper()
         int lineno = get<1>(it);
         int cnt=0;
         cout<<"Arguments are "<<fln<<", "<<lineno<<", "<<ind<<endl;
-        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"-"+fln+".3ac");
+        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"_"+fln+".3ac");
         otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
         while(cnt<lineno)
         {
@@ -240,10 +319,7 @@ void func_gen_wrapper()
         {
             // cout<<"Entered this"<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
-            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-                otherFile<<"static beginfunc "<<it->arg1<<" ";
-            else
-                otherFile << "beginfunc " << it->arg1 << " ";
+            otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
@@ -358,12 +434,7 @@ void ir_func_gen(int index, vector<Quadruple*> ircode, string fln)
         {
             cout<<"Entered this for "<<it->arg1<<endl;
             // ir_func_gen(i, ircode, it->arg1+".3ac");
-            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-            {
-                    cout<<"found "<<it->arg1<<endl;
-                    otherFile<<"static beginfunc "<<it->arg1<<" ";}
-            else
-                otherFile << "beginfunc " << it->arg1 << " ";
+            otherFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
@@ -471,10 +542,7 @@ void ir_gen(vector<Quadruple *> ircode, string fln)
             cout<<"Arguments are "<<it->arg1<<", "<<cnt-1<<", "<<i<<endl;
             funcs.push_back({it->arg1, cnt-1, i});
             // ir_func_gen(i, ircode, it->arg1);
-            if(find(static_funcs.begin(), static_funcs.end(), it->arg1)!=static_funcs.end())
-                myFile<<"static beginfunc "<<it->arg1<<" ";
-            else
-                myFile << "beginfunc " << it->arg1 << " ";
+            myFile << "beginfunc " << it->arg1 << " ";
             // cout << "beginfunc " << it->arg1 << endl;
             if(it->params.size()==0)
             {
