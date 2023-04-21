@@ -3,11 +3,10 @@
     // int a[] = new int [4];
        // function to check if a given string is a palindrome
    
+int x = 0;
+
 
 int main()
 {
-    int b;
-    scanf("%d", &b);
-    int a=34/b ;
-    return 0;
+    int a = x + 4;
 }

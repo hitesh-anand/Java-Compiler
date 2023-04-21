@@ -41,4 +41,4 @@ int generateArgumentList(vector<Node *> nodes, Node *n);
 
 void verbose(int v, string h);
 
-void processUninitDec(Node *, Node *);
+void processUninitDec(Node *, Node *, int);
