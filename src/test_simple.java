@@ -20,7 +20,7 @@ class hi{
         return h.f(n, k);
         // return 1;
     }
-    void main(){
+    public static void main(String args[]){
         int y=T(1,2);
         System.out.println(y);
     }
