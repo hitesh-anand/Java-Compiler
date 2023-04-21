@@ -1,16 +1,27 @@
-public class MyClass {
-    static int xx = 9;
-    // int a[] = new int [4];
-       // function to check if a given string is a palindrome
-    public static void add(int a, int b, int c[], int d, int e, int f, int g)
-    {
-        int cc =c[1];
-        System.out.println(cc);
+//simple test for function-calls, object creation
+class hello {
+    int c;
+    int f(int a, int b) {
+        // int c=2;
+        if(a==1)
+        {
+            b++;
+            int c = 1;
+        }
+        return a++;
     }
+}
 
-    public static void main(String args[]) {
-        int c[] = new int[5];
-        c[1] = 2;
-        add(1,2,c,4,5,6,7);
+class hi{
+    int T(int a, int b) {
+        int n = a+b;
+        int k = a-b;
+        hello h = new hello();
+        int t=h.f(n,k);
+        return t;
+    }
+    void main(){
+        int y=T(1,2);
+        System.out.println(y);
     }
 }
