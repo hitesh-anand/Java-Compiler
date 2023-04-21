@@ -2324,7 +2324,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back($2->children[i]->attr);
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
         }
 
         for(int i=1; i<$2->children.size(); i+=2)
@@ -2457,7 +2457,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back($2->children[i]->attr);
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
         }
 
         SymNode* check = root->currNode->scope_flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
@@ -2579,7 +2579,7 @@ MethodHeader:
         vector<string> params;
         for(int i=2; i<$3->children.size(); i+=2)
         {
-            params.push_back($3->children[i]->attr);
+            params.push_back($3->children[i]->attr+"`"+to_string(scope_level+1));
         }
         Quadruple* q = new Quadruple(6, $3->varName , params);
         $$->code.push_back(q);
@@ -3138,7 +3138,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $3->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3221,7 +3221,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $5->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3309,7 +3309,7 @@ ConstructorDeclarator:
             vector<string> params;
         for(auto it : $4->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -3373,7 +3373,7 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $6->children)
         {
-            params.push_back(it->children[1]->attr);
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -7228,17 +7228,6 @@ Assignment:
         cout<<"HERE MF"<<endl;
         //struct Node* n = new struct Node("ExclusiveOrExpression", temp);
         $$ = $2;
-<<<<<<< HEAD
-=======
-        cout<<"Varnames are "<<$1->varName<<", and "<<$3->varName<<endl;
-        Quadruple * q = new Quadruple(string("="),  append_scope_level($3->varName),  append_scope_level($1->varName));
-        if(isCond == 0) $$->code.push_back(q);
-        if(isCond == 0)ircode.push_back(q);
-        $$->last = ircode.size() - 1;
-        verbose(v,"LeftHandSide AssignmentOperator Expression->Assignment");
-        cout << $1->type << " " << $3->type << endl;
-
->>>>>>> a92df91263a2f42db009f33ef664586c5340a403
         int lhstype=$1->type, rhstype=$3->type;
 
         cout<<"Types are "<<lhstype<<", "<<rhstype<<endl;
