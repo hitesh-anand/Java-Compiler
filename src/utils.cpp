@@ -48,6 +48,18 @@ SymGlob *orig_root = root;
 SymNode* origNode = new SymNode(nullptr, "global");
 SymNode *magic_ptr = origNode;
 
+string spacerem(string s)
+{
+    string ans = "";
+    for(int i=0; i<s.length(); i++)
+    {
+        if(s[i]==' ')
+            continue;
+        ans.push_back(s[i]);
+    }
+    return ans;
+}
+
 string append_scope_level(string s)
 {
     // if((s[0]>='0' && s[0]<='9') || (s.length()>2 && s[0]=='_' && s[1]=='t' && s[2]>='0' && s[2]<='9') || s[s.length()-1]==')')
@@ -65,6 +77,10 @@ string append_scope_level(string s)
     }
     // if(scope_level==-1)
     //     cout<<-1<<"for "<<s<<endl;
+    string st = spacerem(s);
+    if(st.substr(0,3)=="new" && list_class.find(st.substr(3, st.length()-3))!=list_class.end())
+        return s;
+    cout<<"Couldn't findn "<<s<<" in classes"<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && s!="true" && s!="false")  
     {
         SymNode* temp = root->currNode;
@@ -196,7 +212,7 @@ void func_gen_wrapper()
         int lineno = get<1>(it);
         int cnt=0;
         cout<<"Arguments are "<<fln<<", "<<lineno<<", "<<ind<<endl;
-        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"-"+fln+".3ac");
+        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"_"+fln+".3ac");
         otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
         while(cnt<lineno)
         {
