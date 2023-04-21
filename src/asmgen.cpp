@@ -709,6 +709,7 @@ vector<string> genfunc(string funcName)
     // vector<vector<string>> data;
     cout << currClassName + "-" + currFuncName + ".3ac"
          << "\n";
+    vector<string> funcCode;
     funcCode.push_back(".globl " + (funcName == "main") ? "main" : currClassName+"_"+funcName);
     vector<string> funcCode;
     string line;
