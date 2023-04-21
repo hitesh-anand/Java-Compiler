@@ -45,7 +45,8 @@ void defineCastNames()
 int whilepos = 0;
 SymGlob *root = new SymGlob();
 SymGlob *orig_root = root;
-SymNode *magic_ptr = root->currNode;
+SymNode* origNode = new SymNode(nullptr, "global");
+SymNode *magic_ptr = origNode;
 
 string append_scope_level(string s)
 {

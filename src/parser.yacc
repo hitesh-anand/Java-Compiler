@@ -49,7 +49,8 @@ extern int whilepos ;
 extern SymGlob* root ;
 extern SymGlob* orig_root ;
 extern SymNode* magic_ptr;
-
+extern SymNode* origNode;
+// magic_ptr = origNode;
 %}
 
 %locations 
@@ -678,12 +679,14 @@ Name:
         {
             if(!root->flookup($1))
             {
+                cout<<"hulhul Found "<<$1<<endl;
                 cout<<"Error! Name "<<$1<<" has not been declared before"<<endl;
                 yyerror("Error");
             }
         }
         else
         {
+            
             if(res->isField == 1) {
                 $$->varName = "this." + $$->varName;
                 $$->attr = $$->varName;
@@ -697,7 +700,7 @@ Name:
         string s = $1->attr + $2 + $3;
         $$ = new Node("Name", s);
         verbose(v,"Name DOT IDENTIFIER->Name");
-
+        cout<<"Working here"<<endl;
         if(importflag==0)
         {
         int i = spacestripind($1->attr);
@@ -6259,12 +6262,19 @@ MethodInvocation:
         yyerror("Error");
     }
 
+    cout<<"To search for : "<<sp<<endl;
     SymNode* ex;
     
-    if(magic_ptr->name=="Global")
-        ex = root->flookup(sp, args);
+    if(magic_ptr == origNode)
+    {
+        cout<<"Searching for root"<<endl;
+            ex = root->flookup(sp, args);}
     else
-    {    ex = magic_ptr->scope_flookup(sp, args, false);}
+    { 
+        cout<<"Seaerching thru magic pointer and changing"<<endl;
+           ex = magic_ptr->scope_flookup(sp, args, false);
+        magic_ptr = origNode;
+    }
     if(!ex)
     {
         cout<<"Error on line number "<<yylineno<<". No matching function to call"<<endl;
@@ -6588,11 +6598,13 @@ MethodInvocation:
 
     SymNode* ex;
     
-    if(magic_ptr->name=="Global")
+    if(magic_ptr==origNode)
         ex = root->flookup(sp, args);
     else
+    {
         ex = magic_ptr->scope_flookup(sp, args, false);
-
+        magic_ptr = origNode;
+}
     if(!ex)
     {
         cout<<"Error on line number "<<yylineno<<". No matching function to call"<<endl;
