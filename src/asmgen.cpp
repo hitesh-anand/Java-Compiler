@@ -847,11 +847,10 @@ void handleClassDec(string filename)
 {
     string line;
     temporary_size = 0;
-    ifstream fp(filename);
+    ifstream fp(GetCurrentWorkingDir()+"/temporary/"+filename);
     getline(fp, line);
     line = trimInstr(line);
     if(strip(line.substr(0, 10)) == "beginclass") {
-
             currClassName = strip(line.substr(11));
             cout << "Curr class declared as: " << currClassName << "!\n";
             vector<vector<string> > data = read_csv(currClassName + ".csv");
@@ -915,20 +914,23 @@ void handleClassDec(string filename)
 }
 
 
-void finalCodeGen(vector<string> &funcCode)
+void finalCodeGen(vector<string> &funcCode,string otpt)
 {
-    cout << ".text\n";
-    cout << ".globl " + mainClassName + "-" + "main" + "\n";
+    ofstream fout;
+    fout.open(otpt);
+    fout << ".text\n";
+    fout << ".globl " + mainClassName + "-" + "main" + "\n";
     for (auto s : funcCode)
     {
-        cout << s << "\n";
+        fout << s << "\n";
     }
-    cout << "movq $60, %rax\n";
-    cout << "xorq %rbx, %rbx\n";
-    cout << "syscall\n";
+    fout << "movq $60, %rax\n";
+    fout << "xorq %rbx, %rbx\n";
+    fout << "syscall\n";
 
-    cout << "printfmt: \n";
-    cout << ".string \"%d\"";
+    fout << "printfmt: \n";
+    fout << ".string \"%d\"";
+    fout.close();
     return;
 }
 
@@ -956,20 +958,6 @@ string getfuncName(string x)
             }
         }
     }
-    // int f=0;
-    // for(int j=0;j<x.size();j++){
-    //     if(f==1&&x[j]==','){
-    //         break;
-    //     }
-    //     if(x[j]==' '){
-    //         f=1;
-    //     }
-    //     else{
-    //         if(f==1){
-    //             temp.push_back(x[j]);
-    //         }
-    //     }
-    // }
     return temp;
 }
 string smplPush(string x)
@@ -1727,12 +1715,94 @@ int main(int argc, char *argv[])
     relConv["!="] = "jne";
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
-    
-    vector<string> classes = {"Person"};
+    string otpt;
+    vector<string>inp;
+    if(argc==2){
+        if(argv[1][0]=='-' && argv[1][1]=='-' && argv[1][2]=='h' && argv[1][3]=='e' && argv[1][4]=='l' && argv[1][5]=='p' && argv[1][6]=='\0')
+        {
+            cout<<"Usage: ./asmgen --input=<input_filename> --output=<output_filename>\noptions: --help\n";
+            return 0;
+        }
+        else{
+            cout<<"Invalid argument. Use --help for usage.\n";
+            return 0;
+        }
+    }
+    else if(argc==1){
+        cout<<"No file specified. Use --help for usage.\n";
+        return 0;
+    }
+    else if(argc==3){
+        vector<string>y;
+        y.push_back(argv[1]);
+        y.push_back(argv[2]);
+        sort(y.begin(),y.end());
+        if(y[0].rfind("--input",0)==0&&y[1].rfind("--output=",0)==0){
+            string temp;
+            for(int i=8;i<y[0].size();i++){
+                temp=temp+y[0][i];
+            }
+            ifstream file;
+            file.open(GetCurrentWorkingDir()+"/temporary/"+temp);
+            string line;
+            while (getline(file, line))
+            {
+                inp.push_back(line);
+            }
+            file.close();
+            for(int i=9;i<y[1].size();i++){
+                otpt=otpt+y[1][i];
+            }
+        }
+        else{
+            cout<<"Invalid argument. Use --help for usage.\n";
+            return 0;
+        }
+    }
+    vector<string> classes ;
     map<string, vector<string> > funcs;
-    funcs["Person"] = {"Person", "printDetails", "main"};
+    if(inp.size()==0){
+        cout<<"File can't be open\n";
+    }
+    else{
+        string currclass="";
+        for(auto it:inp){
+            string ins=trimInstr(it);
+            if (ins.rfind("beginclass", 0) == 0) { 
+                string temp;
+                int f=0;
+                for(int j=0;j<ins.size();j++){
+                    if(ins[j]==' '){
+                        f=1;
+                    }
+                    else
+                    if(f==1){
+                        temp.push_back(ins[j]);
+                    }
+                }
+                classes.push_back(temp);
+                currclass=temp;
+            }
+            if (ins.rfind("beginfunc", 0) == 0) { 
+                string temp;
+                int f=0;
+                for(int j=0;j<ins.size();j++){
+                    if(f==1&&ins[j]==' ')break;
+                    if(ins[j]==' '){
+                        f=1;
+                    }
+                    else
+                    if(f==1){
+                        temp.push_back(ins[j]);
+                    }
+                }
+                funcs[currclass].push_back(temp);
+            }
+        }
+    }
     vector<string> code ;
     for (auto it: classes) {
+        cout<<"---"<<it<<"\n";
         handleClassDec(it + ".3ac");
         for (auto it : funcs[it])
         {
@@ -1743,5 +1813,8 @@ int main(int argc, char *argv[])
                 code.insert(code.end(), t.begin(), t.end());
         }
     }
-    finalCodeGen(code);
+    if(otpt.size()==0){
+        otpt="asm.s";
+    }
+    finalCodeGen(code,otpt);
 }

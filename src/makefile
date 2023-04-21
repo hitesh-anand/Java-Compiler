@@ -20,3 +20,5 @@ types.o:	types.h types.cpp
 
 utils.o:	utils.h utils.cpp
 			g++ -c utils.cpp 	
+asmgen.o:	asmgen.cpp
+			g++ -c asmgen.cpp
