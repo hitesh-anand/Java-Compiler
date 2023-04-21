@@ -707,6 +707,7 @@ vector<string> genfunc(string funcName)
     // vector<vector<string>> data;
     cout << currClassName + "-" + currFuncName + ".3ac"
          << "\n";
+    funcCode.push_back(".globl " + (funcName == "main") ? "main" : currClassName+"_"+funcName);
     vector<string> funcCode;
     string line;
     getline(file2, line);
@@ -918,7 +919,7 @@ void handleClassDec(string filename)
 void finalCodeGen(vector<string> &funcCode)
 {
     cout << ".text\n";
-    cout << ".globl " + mainClassName + "-" + "main" + "\n";
+    // cout << ".globl " + "main" + "\n";
     for (auto s : funcCode)
     {
         cout << s << "\n";
@@ -1537,10 +1538,10 @@ void beg_func(string x, vector<string> &funCode)
     if (temp.length() > 0)
         arg_name.push_back(temp);
 
-    string instr = currClassName + "-" + func_nm + ":";
+    string instr = currClassName + "_" + func_nm + ":";
     if (func_nm == "main")
     {
-        mainClassName = currClassName;
+        instr = "main:";
     }
     funCode.push_back(instr);
     pair<int, int> p = declareLocalVars();
