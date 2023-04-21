@@ -196,7 +196,7 @@ void func_gen_wrapper()
         int lineno = get<1>(it);
         int cnt=0;
         cout<<"Arguments are "<<fln<<", "<<lineno<<", "<<ind<<endl;
-        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"-"+fln+".3ac");
+        otherFile.open(GetCurrentWorkingDir()+"/temporary/"+classfunc[fln]+"_"+fln+".3ac");
         otherFile<<classfunc[fln]<<","<<tempVars[fln]<<endl;
         while(cnt<lineno)
         {

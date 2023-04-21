@@ -800,7 +800,7 @@ void SymGlob::dumpSymbolTable()
             {
                 int scope_num = 0;
                 ofstream fout;
-                string nm = GetCurrentWorkingDir()+"/temporary/"+classfunc[it.first] + "-" + (it.first) + ".csv";
+                string nm = GetCurrentWorkingDir()+"/temporary/"+classfunc[it.first] + "_" + (it.first) + ".csv";
                 fout.open(nm);
                 SymNode *res = it.second;
                 queue<pair<SymNode *, int>> q;
