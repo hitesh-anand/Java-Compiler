@@ -6,7 +6,7 @@ class hello {
         if(a==1)
         {
             b++;
-            int c = 1;
+            // int c = 1;
         }
         return a++;
     }
@@ -17,11 +17,11 @@ class hi{
         int n = a+b;
         int k = a-b;
         hello h = new hello();
-        int t=h.f(n,k);
-        return t;
+        int kk = h.f(n, k);
+        return kk;
     }
     void main(){
-        int y=T(1,2);
+        int y=T(1,0);
         System.out.println(y);
     }
 }
