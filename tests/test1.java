@@ -1,32 +1,22 @@
-//test for if,while and for loops and also class extends 
-//to check for basic arithmetic operations
+//simple test for function-calls, object creation
 class hello {
+    int c;
     int f(int a, int b) {
-        while (a < b) {
-            int c = 0;
-            if (a > 0)
-                for (int i = 0; i < 10; ++i)
-                    while (i < 10) {
-                        int y;
-                        c = c + 1;
-                    }
-            else
-                c = a - 1;
-            a = a + 1;
+        // int c=2;
+        if(a==1)
+        {
+            b++;
+            int c = 1;
         }
         return a++;
     }
 }
 
-class hi extends hello {
+class hi{
     int T(int a, int b) {
-        f(a,b);
-        int w=a/b;
-        w++;
-        //w=++w+w++;
-        int z=w==2?w++:++w;
-        int ans=1;
-        ans/=z;
-        return ans;
+        int n = a+b;
+        int k = a-b;
+        hello h = new hello();
+        return h.f(n, k);
     }
 }

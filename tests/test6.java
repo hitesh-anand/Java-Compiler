@@ -1,4 +1,4 @@
-//short circuiting
+//Test for short circuiting
 public class test6 {
     int printnum(){
         System.out.println(3);
