@@ -1,9 +1,6 @@
 /*
 Function naming convention: <className>.<functionName> as is in 3ac
 
-
-
-
 */
 
 #include <bits/stdc++.h>
@@ -461,11 +458,24 @@ vector<string> identifyInstr(string instr)
                 {
                     ans.push_back(genMove(z, "%rcx"));
                 }
+                string ins3,ins4;
+                if(op=='/'){
+                    ins3 = "movq    %rbx, %rax";
+                    ans.push_back(ins3);
+                    ins3 = "xorq    %rdx, %rdx";
+                    ans.push_back(ins3);
+                    ins3 = "div     %rcx";
+                    ans.push_back(ins3);
+                }
+                if(op=='%'){
 
-                string ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
-                string ins4 = genMove("%rcx", x);
-                // ans.push_back(ins1);
-                ans.push_back(ins3);
+                }
+                else{
+                    ins3 = genArithmetic(s.substr(s.find(op), 1), "%rbx", "%rcx");
+                    ins4 = genMove("%rcx", x);
+                    // ans.push_back(ins1);
+                    ans.push_back(ins3);
+                }
                 if (x.find("this") == string::npos)
                 {
                     if (dimx == 0)
@@ -714,14 +724,17 @@ vector<string> genfunc(string funcName)
 
     ifstream file2(GetCurrentWorkingDir() + "/temporary/" + currClassName + "_" + currFuncName + ".3ac");
     // vector<vector<string>> data;
-    cout << currClassName + "_" + currFuncName + ".3ac" << "uuuuuuu\n";
+    cout << currClassName + "_" + currFuncName + ".3ac"
+         << "uuuuuuu\n";
     vector<string> funcCode;
     string y;
-    if(funcName=="main"){
-        y=".globl main";
+    if (funcName == "main")
+    {
+        y = "\n\n.globl main";
     }
-    else{
-        y=".globl " + currClassName + "_" + funcName;
+    else
+    {
+        y = "\n\n.globl " + currClassName + "_" + funcName;
     }
     funcCode.push_back(y);
     string line;
@@ -823,7 +836,7 @@ vector<string> genfunc(string funcName)
             func_call(lines, funcCode);
             continue;
         }
-        
+
         // int numBrackets = 0;
         // if((numBrackets = countOccurrences('[', line)) > 0){
         //     if(numBrackets == 1) {
@@ -1905,7 +1918,8 @@ int main(int argc, char *argv[])
             currFuncName = it;
             cout << "it = " << it << "\n";
             vector<string> t = genfunc(it);
-            for(auto it:t){
+            for (auto it : t)
+            {
                 code.push_back(it);
             }
             // cout << "printing code till now\n";

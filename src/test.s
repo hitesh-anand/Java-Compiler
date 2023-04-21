@@ -19,6 +19,12 @@ movq	$1, %rcx
 addq	%rbx, %rcx
 movq	%rcx, -16(%rbp)
 .L6:
+movq	$0, %rax
+movq	$printfmt, %rdi
+movq	-24(%rbp), %rbx
+addq	$0, %rbx
+movq	(%rbx), %rsi
+call printf
 movq	-8(%rbp), %rax
 movq	-8(%rbp), %rbx
 movq	$1, %rcx
@@ -46,13 +52,14 @@ subq	%rbx, %rcx
 movq	%rcx, -72(%rbp)
 movq	-72(%rbp), %rbx
 movq	%rbx, -40(%rbp)
-movq	$0, %rdi
+movq	$8, %rdi
 call	malloc
 movq	%rax, -32(%rbp)
 movq	-32(%rbp), %rdi
+movq	$5, 0(%rbp)
 movq  -56(%rbp), %rsi
 movq  -40(%rbp), %rdx
-call hello_f
+call hi_h.f
 movq	%rax, -80(%rbp)
 movq	-80(%rbp), %rbx
 movq	%rbx, -48(%rbp)
