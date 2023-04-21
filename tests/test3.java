@@ -4,7 +4,7 @@ class Person {
     int id;
 	Person(int a)
 	{
-		id = a+1;
+		this.id = a+1;
 	}
 }
 
@@ -20,7 +20,7 @@ class Employee extends Person{
 
 class Vehicle {
     int maxSpeed = 120;
-	final void display()
+	final void show()
     {
         System.out.println("Maximum Speed of Vehicle: "+ maxSpeed);
     }
@@ -31,9 +31,6 @@ class animal{
 	int legs=5;
 	animal(int a){
 		legs=a;
-	}
-	void display(){
-		System.out.println("Number of legs: "+legs);
 	}
 }
 

@@ -295,9 +295,11 @@ string consOrVar(string x)
 vector<vector<string>> read_csv(string filename)
 {
     vector<vector<string>> data;
-    ifstream file(filename);
-    // vector<string> funcCode;
-
+    ifstream file;
+    file.open(filename);
+    if(!file){
+        cout<<"RRRR-"<<filename<<"can'tbe opened\n";
+    }
     string line;
     while (getline(file, line))
     {
@@ -707,6 +709,7 @@ vector<string> genfunc(string funcName)
     // vector<vector<string>> data;
     cout << currClassName + "-" + currFuncName + ".3ac"
          << "\n";
+    vector<string> funcCode;
     funcCode.push_back(".globl " + (funcName == "main") ? "main" : currClassName+"_"+funcName);
     vector<string> funcCode;
     string line;
@@ -864,7 +867,7 @@ void handleClassDec(string filename)
     if(strip(line.substr(0, 10)) == "beginclass") {
             currClassName = strip(line.substr(11));
             cout << "Curr class declared as: " << currClassName << "!\n";
-            vector<vector<string> > data = read_csv(currClassName + ".csv");
+            vector<vector<string> > data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + ".csv");
             getline(fp, line);
             cout<< "line = " << line << " " << (line.find("endclass") == string::npos) << "\n";
             
@@ -929,6 +932,9 @@ void finalCodeGen(vector<string> &funcCode,string otpt)
 {
     ofstream fout;
     fout.open(otpt);
+    if(!fout){
+        cout<<"RRRR-"<<"can't be opened\n";
+    }
     fout << ".text\n";
     fout << ".globl " + mainClassName + "-" + "main" + "\n";
     for (auto s : funcCode)
@@ -1056,6 +1062,9 @@ void fill_var_temp_sz(string x)
     ifstream file;
     cout << "x = " << x << "\n";
     file.open(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + x + ".3ac");
+    if(!file){
+        cout<<"RRRR-file not opening\n";
+    }
     cout << currClassName + "-" + x << "\n";
     string line;
     getline(file, line);
@@ -1066,6 +1075,9 @@ void fill_var_temp_sz(string x)
     temporary_size += string_to_int(line);
     vector<string> v;
     file.open(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + x + ".csv");
+    if(!file){
+        cout<<"RRRR- file not openong\n";
+    }
     getline(file, line);
     while (getline(file, line))
     {
@@ -1759,6 +1771,9 @@ int main(int argc, char *argv[])
             }
             ifstream file;
             file.open(GetCurrentWorkingDir()+"/temporary/"+temp);
+            if(!file){
+        cout<<"RRRR- file not openong\n";
+    }
             string line;
             while (getline(file, line))
             {

@@ -1,5 +1,6 @@
 #include "symbols.h"
 #include "types.h"
+#include <unistd.h>
 using namespace std;
 extern int yylineno;
 extern void yyerror(const char *sp);

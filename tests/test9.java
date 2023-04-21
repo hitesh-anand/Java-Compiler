@@ -1,40 +1,34 @@
+//test for static variables and functions
 
-//import statement and basic loops
-import java.util.*;
-
-public class test9 {
-    public int gcdExtended(int a, int b, int x, int y) {
-        if (a == 0) {
-            x = 0;
-            y = 1;
-            return b;
-        }
-
-        int x1 = 1, y1 = 1;
-        int gcd = gcdExtended(b % a, a, x1, y1);
-        x = y1 - (b / a) * x1;
-        y = x1;
-        return gcd;
+class test9{
+    static int count=0;
+    test9(int a)
+    {
+        count = a;
+    }
+    public void func1(int a)
+    {
+        a = 2;
+        if(a==1)
+            a+=3;
     }
 
-    // public int gcdloop(int a, int b) {
-    //     int gcd = 1;
+    public static int call(int b, int c)
+    {
+        int sum = b+c;
+        int diff = b-c;
+        if(b>0)
+            return sum;
+        return diff;
+    }
+}
 
-    //     for (int i = 1; i <= a && i <= b; ++i) {
-    //         if (a % i == 0 && b % i == 0)
-    //             gcd = i;
-    //     }
-    //     return gcd;
-    // }
-
-    public void main(String[] args) {
-        int x = 1, y = 1;
-        int a = 35, b = 15;
-        int g = gcdExtended(a, b, x, y);
-        System.out.println("gcd=" + g);
-        if(a < 34) {
-            int x = 2 + 3;
-            System.out.println(x);
-        }
+class test{
+    void func2(int a)
+    {
+        test9.count++;
+        test9 ob = new test9(a);
+        ob.func1(a);
+        test9.call(a, a+1);
     }
 }
