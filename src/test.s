@@ -1,50 +1,67 @@
 .text
 
 
-.globl test6_printnum
-test6_printnum:
+.globl hello_f
+hello_f:
 pushq %rbp
 movq %rsp, %rbp
-subq $16, %rsp
-movq	%rdi, -8(%rbp)
-movq	$3, %r10
-movq	$0, %rax
-movq	$printfmt, %rdi
-movq	%r10, %rsi
-call printf
-movq	$1, %rax
+subq $40, %rsp
+movq	%rdi, -32(%rbp)
+movq %rsi, -8(%rbp)
+movq %rdx, -16(%rbp)
+movq	-8(%rbp), %rax
+movq	$1, %rcx
+.L3:
+cmpq	%rcx, %rax
+je .L5
+jmp .L7
+.L5:
+movq	-16(%rbp), %rbx
+movq	$1, %rcx
+addq	%rcx, %rbx
+movq	%rbx, -16(%rbp)
+movq	$1, 0(%rbp)
+.L7:
+movq	-8(%rbp), %rax
+movq	-8(%rbp), %rbx
+movq	$1, %rcx
+addq	%rcx, %rbx
+movq	%rbx, -8(%rbp)
 leave
 ret
 
 
-.globl test6_printchar
-test6_printchar:
+.globl hi_T
+hi_T:
 pushq %rbp
 movq %rsp, %rbp
-subq $16, %rsp
-movq	%rdi, -8(%rbp)
-movq	$4, %r10
-movq	$0, %rax
-movq	$printfmt, %rdi
-movq	%r10, %rsi
-call printf
-movq	$2, %rax
-leave
-ret
-
-
-.globl test6_printdouble
-test6_printdouble:
-pushq %rbp
-movq %rsp, %rbp
-subq $16, %rsp
-movq	%rdi, -8(%rbp)
-movq	$1, %r10
-movq	$0, %rax
-movq	$printfmt, %rdi
-movq	%r10, %rsi
-call printf
-movq	$3, %rax
+subq $96, %rsp
+movq	%rdi, -88(%rbp)
+movq %rsi, -8(%rbp)
+movq %rdx, -16(%rbp)
+movq	-8(%rbp), %rbx
+movq	-16(%rbp), %rcx
+addq	%rcx, %rbx
+movq	%rbx, -64(%rbp)
+movq	-64(%rbp), %rbx
+movq	%rbx, -48(%rbp)
+movq	-8(%rbp), %rbx
+movq	-16(%rbp), %rcx
+subq	%rcx, %rbx
+movq	%rbx, -72(%rbp)
+movq	-72(%rbp), %rbx
+movq	%rbx, -40(%rbp)
+movq	$8, %rdi
+call	malloc
+movq	%rax, -32(%rbp)
+movq	-32(%rbp), %rdi
+movq  -48(%rbp), %rsi
+movq  -40(%rbp), %rdx
+call hello_f
+movq	%rax, -80(%rbp)
+movq	-80(%rbp), %rbx
+movq	%rbx, -56(%rbp)
+movq	-56(%rbp), %rax
 leave
 ret
 
@@ -53,68 +70,19 @@ ret
 main:
 pushq %rbp
 movq %rsp, %rbp
-subq $64, %rsp
-movq	%rdi, -56(%rbp)
-call test6_printchar
-movq	%rax, -8(%rbp)
-movq	-8(%rbp), %rax
-movq	$3, %rcx
-.L15:
-cmpq	%rcx, %rax
-jl .L23
-jmp .L17
-.L17:
-call test6_printnum
+subq $56, %rsp
+movq	%rdi, -48(%rbp)
+movq  $1, %rsi
+movq  $2, %rdx
+call hi_T
 movq	%rax, -16(%rbp)
-movq	-16(%rbp), %rax
-movq	$2, %rcx
-.L18:
-cmpq	%rcx, %rax
-jg .L23
-jmp .L20
-.L20:
-call test6_printdouble
-movq	%rax, -24(%rbp)
-movq	-24(%rbp), %rax
-movq	$1, %rcx
-.L21:
-cmpq	%rcx, %rax
-jg .L23
-jmp .L25
-.L23:
-movq	$1, %rax
-jmp .L35
-.L25:
-call test6_printchar
-movq	%rax, -32(%rbp)
-movq	-32(%rbp), %rax
-movq	$3, %rcx
-.L26:
-cmpq	%rcx, %rax
-jl .L31
-jmp .L28
-.L28:
-call test6_printnum
-movq	%rax, -40(%rbp)
-movq	-40(%rbp), %rax
-movq	$2, %rcx
-.L29:
-cmpq	%rcx, %rax
-jg .L31
-jmp .L35
-.L31:
-call test6_printdouble
-movq	%rax, -48(%rbp)
-movq	-48(%rbp), %rax
-movq	$1, %rcx
-.L32:
-cmpq	%rcx, %rax
-jg .L34
-jmp .L35
-.L34:
-movq	$2, %rax
-.L35:
-movq	$5, %rax
+movq	-16(%rbp), %rbx
+movq	%rbx, -8(%rbp)
+movq	-8(%rbp), %r10
+movq	$0, %rax
+movq	$printfmt, %rdi
+movq	%r10, %rsi
+call printf
 leave
 ret
 movq $60, %rax
