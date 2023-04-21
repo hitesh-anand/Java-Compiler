@@ -17,7 +17,8 @@ class hi{
         int n = a+b;
         int k = a-b;
         hello h = new hello();
-        return h.f(n, k);
+        int t=h.f(n,k);
+        return t;
     }
     void main(){
         int y=T(1,2);

@@ -740,7 +740,7 @@ vector<string> genfunc(string funcName)
             if (islabel[getLineNo(line)])
             {
                 string ins = ".L" + to_string(getLineNo(line)) + ":";
-                ans.push_back(ins);
+                funcCode.push_back(ins);
             }
             isfunc = 1;
             getline(file2, line);
@@ -805,7 +805,7 @@ vector<string> genfunc(string funcName)
             if (islabel[getLineNo(line)])
             {
                 string ins = ".L" + to_string(getLineNo(line)) + ":";
-                ans.push_back(ins);
+                funcCode.push_back(ins);
             }
             lines.push_back(line);
             func_call(lines, funcCode);
