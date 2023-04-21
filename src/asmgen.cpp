@@ -153,11 +153,10 @@ int countOccurrences(char c, string str)
 
 int getAddressDes(string varname)
 {
-    if (varname.find('`') != string::npos)
-    {
-        varname = varname.substr(0, varname.find('`'));
-    }
-    // if(varname.find("this") != string::npos) {
+    // if(varname.find('`') != string::npos) {
+    //     varname = varname.substr(0, varname.find('`'));
+    // }
+    // // if(varname.find("this") != string::npos) {
     //     return addressDes[currClassName + "::::" + varname];
     // }
     cout << "looking for " << currClassName + "::" + currFuncName + "::" + varname << "\n";
@@ -518,7 +517,10 @@ vector<string> identifyInstr(string instr)
             if (s.substr(0, 3) == "new")
             {
                 // class constructor is being called
-                call_malloc(var1, 4 * 100, var1, "", "", ans);
+
+                string classname= s.substr(s.find(' ') + 1);
+
+                call_malloc(var1,4*100,var1, to_string(classSize[classname]), "" , ans);
                 string ins = string(MOVQ) + to_string(getAddressDes(var1)) + string(", %rdi");
 
                 ans.push_back(ins);
@@ -665,7 +667,23 @@ vector<string> identifyInstr(string instr)
             string ins3 = MOVQ + t + string(", %rsi");
             ans.push_back(ins1);
             ans.push_back(ins2);
-            ans.push_back(ins3);
+            // ans.push_back(ins3);
+            
+            if(instr.find("this") != string::npos) {
+                    // assumong to be of type this.simething
+                    string s = instr.substr(instr.find(' ') + 1);
+                    int relpos = getAddressDes(s);
+                    string instr = MOVQ + to_string(getAddressDes("this")) + "(%rbp), %rbx";
+                    ans.push_back(instr);
+                    instr = ADDQ + string("$") + to_string(relpos) + ", %rbx";
+                    ans.push_back(instr);
+                    instr = string(MOVQ) + "(%rbx), %rsi";
+                    ans.push_back(instr);
+
+                }
+            else {
+                ans.push_back(ins3);
+            }
             ans.push_back("call printf");
         }
         else if (instr.substr(0, 6) == "return" && instr.length() > string("return").length())
@@ -748,19 +766,23 @@ vector<string> genfunc(string funcName)
                 // possibly a constructor for a class
                 lines.pop_back();
                 string lhs = trimInstr(line).substr(0, trimInstr(line).find('='));
-                string rhs = trimInstr(line).substr(trimInstr(line).find('=') + 1);
-
+                string rhs = trimInstr(line).substr(trimInstr(line).find('=')+1);
+                string classname = rhs.substr(rhs.find(' ') + 1);
                 // class constructor is being called
-                call_malloc("", 4 * 100, lhs, "", "", funcCode);
-                string ins = string(MOVQ) + to_string(getAddressDes(lhs)) + string(", %rdi");
+                call_malloc(lhs,4*100,lhs,to_string(classSize[classname]) , "" , funcCode);
+                string ins = string(MOVQ) + to_string(getAddressDes(lhs)) + string("(%rbp), %rdi");
                 funcCode.push_back(ins);
-                ins = "call\t" + objClass[lhs] + "-" + objClass[lhs];
+                ins = "call " + classname;
+                cout << "ins = " << ins << "\n";
                 lines.push_back(ins);
                 ins = string(MOVQ) + to_string(getAddressDes(lhs)) + "(%rbp), %rdi";
                 funcCode.push_back(ins);
                 func_call(lines, funcCode);
-                // ans.push_back(ins);
-                // return ans;
+                isret = 0;
+                //ans.push_back(ins);
+                //return ans;
+
+            
             }
             if (isret)
             {
@@ -831,49 +853,31 @@ void handleClassDec(string filename)
     if (strip(line.substr(0, 10)) == "beginclass")
     {
 
-        currClassName = strip(line.substr(11));
-        cout << "Curr class declared as: " << currClassName << "!\n";
-        vector<vector<string>> data = read_csv(currClassName + ".csv");
-        getline(fp, line);
-        cout << "line = " << line << " " << (line.find("endclass") == string::npos) << "\n";
-
-        while (line.find("endclass") == string::npos)
-        {
-            // getline(file2, line);
-            // two things, integer variable or array declaration, or even class declaration
-            // addressDes[currClassName + "::" + line.substr()]
-            // assuming there is a csv file having variable info, type of variable and name of variable
-            cout << "the hash is here\n";
-            int pos = -8;
-            classSize[currClassName] = 0;
-            for (int i = 1; i < data.size(); i++)
-            {
-                string var = data[i][2];
-
-                string typeName = data[i][3];
-                objClass[var] = typeName;
-                cout << "type = " << typeName << "\n";
-                if (sizes.find(typeName) != sizes.end())
-                {
-                    classSize[currClassName] += sizes[typeName];
-                    addressDes[currClassName + "::" + currFuncName + "::" + var] = pos;
-                    pos -= 8;
-                    cout << "dec here :" << currClassName + "::" + currFuncName + "::" + var << "\n";
-                }
-                else if (classSize.find(data[i][2]) != classSize.end())
-                {
-                    classSize[currClassName] += classSize[data[i][3]];
-                    addressDes[currClassName + "::" + var] = pos;
-                    pos = pos - classSize[data[i][3]];
-                }
-                else
-                {
-                    // array type
-                    int dim = 0;
-                    int w1 = 0, w2 = 0, w3 = 0;
-                    if (data[i][3].length() < 5)
-                    {
-                        cout << "symbol table type undefined\n";
+            currClassName = strip(line.substr(11));
+            cout << "Curr class declared as: " << currClassName << "!\n";
+            vector<vector<string> > data = read_csv(currClassName + ".csv");
+            getline(fp, line);
+            cout<< "line = " << line << " " << (line.find("endclass") == string::npos) << "\n";
+            
+            while(line.find("endclass") == string::npos) {
+                // getline(file2, line);
+                // two things, integer variable or array declaration, or even class declaration
+                // addressDes[currClassName + "::" + line.substr()]
+                // assuming there is a csv file having variable info, type of variable and name of variable
+                cout << "the hash is here\n";
+                int pos = -8;
+                classSize[currClassName] = 0;
+                for(int i = 1; i < data.size(); i++) {
+                    string var = data[i][2];
+                    
+                    string typeName = data[i][3];
+                    objClass[var] = typeName;
+                    cout << "type = " << typeName <<" " << var << "\n";
+                    if(sizes.find(typeName) != sizes.end()) {
+                        classSize[currClassName] += sizes[typeName];
+                        addressDes[currClassName + "::" +currFuncName + "::"+ var] = pos;
+                        pos-=8;
+                        cout << "dec here :"<<currClassName + "::" +currFuncName + "::"+ var << classSize[currClassName] <<"\n";
                     }
                     else
                         dim++;
@@ -1384,9 +1388,10 @@ void insert_arg(vector<string> arg, vector<string> &funCode)
         }
     }
     cout << "reavched th\n";
-    vector<string> rg = {"%rsi", "%rdx", "%rcx", "%r8", "%r9"};
-    for (int j = 0; j < arg_name.size(); j++)
-    {
+    string instr = MOVQ + string("%rdi, ") + to_string(getAddressDes("this")) + "(%rbp)";
+    funCode.push_back(instr);
+    vector<string>rg={"%rsi", "%rdx", "%rcx", "%r8","%r9"};
+    for(int j=0;j<arg_name.size();j++){
         cnt++;
 
         if (cnt <= 5)
@@ -1487,7 +1492,9 @@ pair<int, int> declareLocalVars()
     for (int i = 1; i < data.size(); i++)
     {
         addressDes[currClassName + "::" + currFuncName + "::this." + data[i][2]] = pp;
-        pp -= 8;
+        pp += 8;
+        
+
     }
     pos -= 8;
     sz -= 8;
@@ -1687,15 +1694,15 @@ void call_malloc(string name, int tp, string s1, string s2, string s3, vector<st
         instr = "movq %r8," + to_string(getAddressDes(name + "_w3")) + "(%rbp)";
         funCode.push_back(instr);
     }
-    if (tp == 400)
-    {
-        instr = string(MOVQ) + string("$") + to_string(classSize[objClass[s1]]) + string(", %rdi");
-        funCode.push_back(instr);
+    if(tp == 400) {
+        instr = string(MOVQ) + string("$") + s2 + string(", %rdi");
+        funCode.push_back(instr); 
     }
     instr = "call\tmalloc";
     funCode.push_back(instr);
-    cout << "S1 = " << s1 << " \n";
-    instr = string(MOVQ) + string("%rax, ") + to_string(getAddressDes(name)) + string("(%rbp)");
+
+    cout << "S1 = " << s1 <<" "  <<  objClass[s1]<<" \n";
+    instr= string(MOVQ) + string("%rax, ") +to_string(getAddressDes(name)) + string("(%rbp)");
     funCode.push_back(instr);
 }
 
@@ -1720,17 +1727,17 @@ int main(int argc, char *argv[])
     relConv["!="] = "jne";
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
-
-    vector<string> classes = {"MyClass"};
-    map<string, vector<string>> funcs;
-    funcs["MyClass"] = {"add", "main"};
-    vector<string> code;
-    for (auto it : classes)
-    {
+    
+    vector<string> classes = {"Person"};
+    map<string, vector<string> > funcs;
+    funcs["Person"] = {"Person", "printDetails", "main"};
+    vector<string> code ;
+    for (auto it: classes) {
         handleClassDec(it + ".3ac");
         for (auto it : funcs[it])
         {
             currFuncName = it;
+            cout << "it = " << it << "\n";
             vector<string> t = genfunc(it);
             if (t.size())
                 code.insert(code.end(), t.begin(), t.end());

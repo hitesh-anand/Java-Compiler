@@ -54,8 +54,14 @@ string append_scope_level(string s)
 
 
 
-    if(s.find('`') != string::npos)
+    if(s.find('`') != string::npos || s[s.length()-1]==']')
         return s;
+    int isthis = 0;
+    if(s.substr(0,4)=="this")
+    {
+        s = s.substr(5, s.length()-5);
+        isthis = 1;
+    }
     // if(scope_level==-1)
     //     cout<<-1<<"for "<<s<<endl;
     if(((s[0]>='a' && s[0]<='z') || (s[0]>='A' && s[0]<='Z')) && s!="true" && s!="false")  
@@ -77,6 +83,8 @@ string append_scope_level(string s)
         int scope_attach = (res)?max(res->scope_level, 0):max(scope_level, 0);
         if(scope_attach > 10000)
             scope_attach = 0;
+        if(isthis)
+            s = "this."+s;
         if(!res)
             return s+"`"+to_string(scope_attach);
         return s+"`"+to_string(scope_attach);
@@ -727,7 +735,7 @@ void processArithmetic(vector<Node *> nodes, string op)
     else if (type1 == INTEGER_TYPE && type2 == FLOATING_TYPE)
     {
         string resName = string("_t") + to_string(varCnt++);
-        Quadruple *q = new Quadruple("", "cast_to_float",append_scope_level(nodes[1]->varName), resName);
+        Quadruple *q = new Quadruple("", "cast_to_float ",append_scope_level(nodes[1]->varName), resName);
         nodes[0]->code.push_back(q);
         ircode.push_back(q);
         flag = 2;
