@@ -2059,7 +2059,7 @@ VariableDeclaratorId:
     struct Node* n = new struct Node("VariableDeclaratorId", $1, temp);
     $$ = n;
     $$->arrayType= $2->arrayType;
-    cout<<"array with name : "<<$1<<" and type is "<<$$->arrayType<<endl;
+    cout<<"array with name : "<<$1<<" and type is "<<$$->arrayType<<" on line "<<yylineno<<endl;
     //$$->type = $1->type + 100*$2->arrayType;
     printf("\n\n%d\n\n", $2->arrayType);
     verbose(v,"IDENTIFIER Dims->VariableDeclaratorId");
@@ -4090,7 +4090,7 @@ LocalVariableDeclaration:
                 
                 else if(ch->children[1]->label == "ArrayCreationExpression") {
                     cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
-                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    Quadruple* q = new Quadruple("", append_scope_level(ch->children[1]->varName), "", append_scope_level(ch->children[0]->varName));
                     ircode.push_back(q);
                     $$->code.push_back(q);
                     //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
@@ -7228,6 +7228,17 @@ Assignment:
         cout<<"HERE MF"<<endl;
         //struct Node* n = new struct Node("ExclusiveOrExpression", temp);
         $$ = $2;
+<<<<<<< HEAD
+=======
+        cout<<"Varnames are "<<$1->varName<<", and "<<$3->varName<<endl;
+        Quadruple * q = new Quadruple(string("="),  append_scope_level($3->varName),  append_scope_level($1->varName));
+        if(isCond == 0) $$->code.push_back(q);
+        if(isCond == 0)ircode.push_back(q);
+        $$->last = ircode.size() - 1;
+        verbose(v,"LeftHandSide AssignmentOperator Expression->Assignment");
+        cout << $1->type << " " << $3->type << endl;
+
+>>>>>>> a92df91263a2f42db009f33ef664586c5340a403
         int lhstype=$1->type, rhstype=$3->type;
 
         cout<<"Types are "<<lhstype<<", "<<rhstype<<endl;

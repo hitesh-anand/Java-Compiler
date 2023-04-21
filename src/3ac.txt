@@ -1,26 +1,57 @@
-0	:beginclass hello 
-1	:c`1=0
-2	:beginfunc f a,b
-3	:if a`2==1 goto 5
-4	:goto 7
-5	:b`2=b`2+1
-6	:c`1=1
-7	:return a`2
-8	:a`2=a`2+1
-9	:endfunc 
-10	:endclass 
-11	:beginclass hi 
-12	:beginfunc T a,b
-13	:_t0=a`9+b`9
-14	:n`9=_t0
-15	:_t1=a`9-b`9
-16	:k`9=_t1
-17	:h`9=new hello`9
-18	:pushparam k`9
-19	:pushparam n`9
-20	:stackpointer=stackpointer+ 16
-21	:_t2=call h.f, 2
-22	:stackpointer=stackpointer-16
-23	:return _t2
-24	:endfunc 
-25	:endclass 
+0	:beginclass test5 
+1	:beginfunc sum a
+2	:ans`2=0
+3	:i`3=0
+4	:if i`3<30 goto 6
+5	:goto 15
+6	:j`4=0
+7	:if j`4<30 goto 9
+8	:goto 13
+9	:_t0=ans`2+a`2[i`3][j`4]
+10	:ans`2=_t0
+11	:j`4=j`4+1
+12	:goto 7
+13	:i`3=i`3+1
+14	:goto 4
+15	:return ans`2
+16	:endfunc 
+17	:beginfunc main 
+18	:arr`8=new int[30][30]
+19	:i`9=0
+20	:if i`9<30 goto 22
+21	:goto 31
+22	:j`10=0
+23	:if j`10<30 goto 25
+24	:goto 29
+25	:_t0=i`9*j`10
+26	:arr`8[i`9][j`10]=_t0
+27	:j`10=j`10+1
+28	:goto 23
+29	:i`9=i`9+1
+30	:goto 20
+31	:pushparam arr`8
+32	:stackpointer=stackpointer+8
+33	:_t1=call sum, 1
+34	:stackpointer=stackpointer-8
+35	:u`12=_t1
+36	:u`12=u`12+1
+37	:if u`12>5 goto 39
+38	:goto 42
+39	:return u`12
+40	:u`12=u`12-1
+41	:goto 54
+42	:if u`12<4 goto 44
+43	:goto 48
+44	:u`12=u`12-1
+45	:return u`12
+46	:u`12=u`12+1
+47	:goto 54
+48	:if u`12==10 goto 50
+49	:goto 53
+50	:_t2=u`12+4
+51	:return _t2
+52	:goto 54
+53	:return arr`8[0][0]
+54	:return 0
+55	:endfunc 
+56	:endclass 
