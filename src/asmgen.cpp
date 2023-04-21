@@ -850,8 +850,7 @@ void handleClassDec(string filename)
     ifstream fp(filename);
     getline(fp, line);
     line = trimInstr(line);
-    if (strip(line.substr(0, 10)) == "beginclass")
-    {
+    if(strip(line.substr(0, 10)) == "beginclass") {
 
             currClassName = strip(line.substr(11));
             cout << "Curr class declared as: " << currClassName << "!\n";
@@ -879,41 +878,42 @@ void handleClassDec(string filename)
                         pos-=8;
                         cout << "dec here :"<<currClassName + "::" +currFuncName + "::"+ var << classSize[currClassName] <<"\n";
                     }
-                    else
-                        dim++;
-                    w1 = data[i][3][4] - '0';
-                    if (data[i][3].length() > 7)
-                    {
-                        w2 = data[i][3][7] - '0';
-                        dim++;
+                    else if(classSize.find(data[i][2]) != classSize.end()) {
+                        classSize[currClassName] += classSize[data[i][3]];
+                        addressDes[currClassName + "::" + var] = pos;
+                        pos = pos - classSize[data[i][3]];
+                    
                     }
-                    if (data[i][3].length() > 10)
-                    {
-                        w3 = data[i][3][10] - '0';
-                        dim++;
-                    }
-                    // only int arrays assumed of size 8 bytes
-                    addressDes[currClassName + "::" + data[i][2]] = pos;
-                    if (dim == 1)
-                    {
-                        pos = pos - 8 * w1;
-                    }
-                    else if (dim == 2)
-                    {
-                        pos = pos - 8 * w1 * w2;
-                    }
-                    else
-                    {
-                        pos = pos - 8 * w1 * w2 * w3;
+                    else {
+                        //array type
+                        int dim = 0;
+                        int w1=0, w2=0, w3=0;
+                        if(data[i][3].length() < 5) {cout<< "symbol table type undefined\n";}
+                        else dim++;
+                        w1 = data[i][3][4] - '0';
+                        if(data[i][3].length() > 7) {w2 = data[i][3][7]- '0'; dim++;}
+                        if(data[i][3].length() > 10) {w3 = data[i][3][10] - '0'; dim++;}
+                        // only int arrays assumed of size 8 bytes
+                        addressDes[currClassName + "::" + data[i][2]] = pos;
+                        if(dim == 1) {
+                            pos = pos - 8 * w1;
+                        }
+                        else if(dim == 2) {
+                            pos = pos - 8 * w1 * w2;
+                        }
+                        else {
+                            pos = pos - 8 * w1 * w2 * w3;
+                        }
                     }
                 }
+                getline(fp, line);
+ 
             }
-            getline(fp, line);
         }
-    }
-    // temporary_size += (max(1, classSize[currClassName]/8));
-    fp.close();
+        // temporary_size += (max(1, classSize[currClassName]/8));
+        fp.close();
 }
+
 
 void finalCodeGen(vector<string> &funcCode)
 {
@@ -947,7 +947,7 @@ string getfuncName(string x)
         // a class object's function is being called
         // need to consult the symbol table for this current function, or class
         string filename = currClassName + "-" + currFuncName + ".csv";
-        vector<vector<string>> data = read_csv(filename);
+        vector<vector<string>> data = read_csv(GetCurrentWorkingDir()+"/temporary/"+filename);
         for (int i = 1; i < data.size(); i++)
         {
             if (data[i][2] == var)
@@ -1037,7 +1037,7 @@ vector<int> var_info(string x)
 int sz_func()
 {
     int ans = 0;
-    vector<vector<string>> data = read_csv(currClassName + "-" + currFuncName + ".csv");
+    vector<vector<string>> data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + currFuncName + ".csv");
     for (int i = 1; i < data.size(); i++)
     {
     }
@@ -1410,7 +1410,7 @@ pair<int, int> declareLocalVars()
 {
     // ifstream fp(currClassName + "-" + currFuncName + ".csv");
     cout << "Declaring local vars******************************************\n";
-    vector<vector<string>> data = read_csv(currClassName + "-" + currFuncName + ".csv");
+    vector<vector<string>> data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + "-" + currFuncName + ".csv");
     cout << "read csv " << data.size() << "\n";
     int pos = -8;
     int sz = -8;
@@ -1487,7 +1487,7 @@ pair<int, int> declareLocalVars()
         // sz = pos;
     }
     addressDes[currClassName + "::" + currFuncName + "::this"] = pos;
-    data = read_csv(currClassName + ".csv");
+    data = read_csv(GetCurrentWorkingDir()+"/temporary/"+currClassName + ".csv");
     int pp = 0;
     for (int i = 1; i < data.size(); i++)
     {
