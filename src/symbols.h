@@ -25,6 +25,7 @@ class Symbol{ //represents individual record of a given symbol table
     int access_type=PUBLIC_ACCESS;
     int isStatic = 0;
     int scope_level=0;
+    int isField = 0;
 
     Symbol(string lexeme, int type, int lineno, int width);
     Symbol(string lexeme, int type, int lineno);
