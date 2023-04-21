@@ -551,7 +551,7 @@ void backpatch(vector<int> &lst, int n)
     }
 }
 
-void processFieldDec(Node *n, Node *n1, int type, int t)
+void processFieldDec(Node *n, Node *n1, int type)
 {
 
     if (n1->isCond == 1)

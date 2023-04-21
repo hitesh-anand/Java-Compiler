@@ -1800,29 +1800,20 @@ FieldDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
-                if(isStatic) {
-                    _type = 1000 + _type;
-                }
+               
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
-                if(isStatic) {
-                    _type = _type - 1000;
-                }
+               
                 
 
             }
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
                     //sym->lexeme = ch->attr;
-                    if(isStatic) {
-                        _type = 1000 + _type;
-                    }
+                    
                 
                     processUninitDec($$, ch, _type);
-                    if(isStatic) {
-                        _type = _type - 1000;
-                    }
-                
+                    
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -4214,6 +4205,7 @@ LocalVariableDeclaration:
         *****************************/
         struct Node* n = new struct Node("LocalVariableDeclaration", temp);
         $$ = n;
+        int isStatic = 0;
         verbose(v,"VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList->LocalVariableDeclaration");
         for(auto ch : $4->children)
         {
@@ -4252,24 +4244,18 @@ LocalVariableDeclaration:
                 sym->lexeme = ch->children[0]->attr;
                 //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
                 
-                if(isStatic) {
-                    _type = 1000 + _type;
-                }
+                
                 
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
-                if(isStatic) {
-                    _type = _type - 1000;
-                }
+                
 
             }
              else {
                     //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
                     //sym->lexeme = ch->attr;
-                    if(isStatic) {
-                        _type += 1000;
-                    }
+                  
                     processUninitDec($$, ch, _type);
-                    if(isStatic) _type -= 1000;
+                   
                 
             }
             if(ch->arrayType > 0) {
