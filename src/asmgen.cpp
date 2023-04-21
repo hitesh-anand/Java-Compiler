@@ -160,10 +160,10 @@ int getAddressDes(string varname)
     //     return addressDes[currClassName + "::::" + varname];
     // }
     cout << "looking for " << currClassName + "::" + currFuncName + "::" + varname << "\n";
-    for (auto it : addressDes)
-    {
-        cout << it.first << " , ";
-    }
+    // for (auto it : addressDes)
+    // {
+    //     cout << it.first << " , ";
+    // }
 
     if (addressDes.find(currClassName + "::" + currFuncName + "::" + varname) != addressDes.end())
         return addressDes[currClassName + "::" + currFuncName + "::" + varname];
@@ -224,6 +224,7 @@ string trimInstr(string instr)
     {
         return instr.substr(instr.find(":") + 1);
     }
+    return instr;
 }
 
 string strip(string s)
@@ -388,7 +389,7 @@ vector<string> identifyInstr(string instr)
     instr = instr.substr(colpos + 1);
     DBG cout << "hey\n";
     size_t eqpos = instr.find('=');
-    if (eqpos != string::npos)
+    if (eqpos != string::npos && !(instr.find("!=") != string::npos) && !(instr.find("==") != string::npos))
     {
         //
         DBG cout << "hey here\n";
@@ -398,7 +399,7 @@ vector<string> identifyInstr(string instr)
         int dimx, dimy, dimz;
         dimx = countOccurrences('[', x);
         if (DEBUG)
-            cout << "x = " << x << "\n";
+            cout << "x != " << x <<  " "<< instr << "\n";
         for (auto op : ops)
         {
             if (s.find(op) != string::npos)
@@ -435,6 +436,7 @@ vector<string> identifyInstr(string instr)
                 else
                 {
                     ans.push_back(genMove(y, "%rbx"));
+                    cout << "y = " << y << "\n";
                 }
                 if (dimz > 0)
                 {
@@ -612,6 +614,7 @@ vector<string> identifyInstr(string instr)
 
         if (instr.find("if") != string::npos)
         {
+            cout << "if found\n";
             string t = instr.substr(instr.find("if"));
             string var1, var2, gotoloc;
             int gotopos = t.find("goto");
@@ -647,6 +650,7 @@ vector<string> identifyInstr(string instr)
             gotoloc = t.substr(gotopos + 5);
             int gotoval = stoi(gotoloc);
             islabel[gotoval] = true;
+            return ans;
         }
         else if (instr.find("goto") != string::npos)
         {
@@ -727,11 +731,13 @@ vector<string> genfunc(string funcName)
     // string line;
     cout << "file opened!\n";
     int linecnt = 0;
-
+    int cnt = 0;
     while (getline(file2, line))
     {
+        cnt++;
+        cout << "cnt = " << cnt << "\n";
         if (DEBUG)
-            cout << line << "\n";
+            cout << "line: "<< line << "\n";
         vector<string> lines;
         int isfunc = 0;
         while (line.find("pushparam") != string::npos)
@@ -833,6 +839,7 @@ vector<string> genfunc(string funcName)
         }
 
         vector<string> t = identifyInstr(line);
+        cout << "identify called\n";
         for (auto it : t)
         {
             DBG cout << it << "\n";
@@ -840,8 +847,16 @@ vector<string> genfunc(string funcName)
         if (t.size())
         {
             DBG cout << "ret\n";
-            funcCode.insert(funcCode.end(), t.begin(), t.end());
+            cout << "size is " << funcCode.size() << "\n"; 
+            for(auto it: t){
+                funcCode.push_back(it);
+            }
             DBG cout << "done\n";
+            cout << "printing funccode\n";
+    for(auto it: funcCode) {
+        cout << it << "\n";
+    }
+   
         }
         cout << "funccode size: " << funcCode.size() << "\n";
     }
@@ -849,9 +864,8 @@ vector<string> genfunc(string funcName)
     // closing the function code
 
     file2.close();
-
+    
     return funcCode;
-
     // Access the data by index
     // cout << data[0][0] << endl; // Print the first cell of the first row
 }
@@ -1771,6 +1785,7 @@ int main(int argc, char *argv[])
             ifstream file;
             file.open(GetCurrentWorkingDir()+"/temporary/"+temp);
             if(!file){
+                cout << "hello\n";
         cout<<"RRRR- file not openong\n";
     }
             string line;
@@ -1840,10 +1855,15 @@ int main(int argc, char *argv[])
             vector<string> t = genfunc(it);
             if (t.size())
                 code.insert(code.end(), t.begin(), t.end());
+            // cout << "printing code till now\n";
+            // for(auto it: code) {
+            //     cout  << it << "\n";
+            // }
         }
     }
     if(otpt.size()==0){
         otpt="asm.s";
     }
+
     finalCodeGen(code,otpt);
 }
