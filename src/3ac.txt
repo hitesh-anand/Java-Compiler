@@ -1,14 +1,35 @@
-0	:beginclass MyClass 
-1	:beginfunc show a
-2	:a`2=2
-3	:if a`2==1 goto 5
-4	:goto 6
-5	:a`2=a`2+1
-6	:endfunc 
-7	:static beginfunc main 
-8	:pushparam 5
-9	:stackpointer=stackpointer+8
-10	:call show
-11	:stackpointer=stackpointer-8
-12	:endfunc 
-13	:endclass 
+0	:beginclass test9 
+1	:count`0=0
+2	:beginfunc func1 a
+3	:a`2=2
+4	:if a`2==1 goto 6
+5	:goto 8
+6	:_t0=a`2+3
+7	:a`2=_t0
+8	:endfunc 
+9	:static beginfunc call b,c
+10	:_t0=b`6+c`6
+11	:sum`6=_t0
+12	:_t1=b`6-c`6
+13	:diff`6=_t1
+14	:if b`6>0 goto 16
+15	:goto 17
+16	:return sum`6
+17	:return diff`6
+18	:endfunc 
+19	:endclass 
+20	:beginclass test 
+21	:beginfunc func2 a
+22	:test9.count`12=test9.count`12+1
+23	:ob`12=new test9`12
+24	:pushparam a`12
+25	:stackpointer=stackpointer+8
+26	:call ob.func1
+27	:stackpointer=stackpointer-8
+28	:_t0=a`12+1
+29	:pushparam _t0
+30	:pushparam a`12
+31	:_t1=call test9.call, 2
+32	:stackpointer=stackpointer-16
+33	:endfunc 
+34	:endclass 
