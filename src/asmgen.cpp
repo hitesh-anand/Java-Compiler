@@ -17,7 +17,7 @@ Function naming convention: <className>.<functionName> as is in 3ac
 #define RSP "%rsp"
 #define ADDQ "addq\t"
 #define SUBQ "subq\t"
-#define MULQ "mulq\t"
+#define MULQ "imulq\t"
 #define DIVQ "divq\t"
 #define XORQ "xorq\t"
 #define DEBUG 1
@@ -505,11 +505,11 @@ vector<string> identifyInstr(string instr)
                 string classname= s.substr(s.find(' ') + 1);
 
                 call_malloc(var1,4*100,var1, to_string(classSize[classname]), "" , ans);
-                string ins = string(MOVQ) + to_string(getAddressDes(var1)) + string(", %rdi");
+                string ins = string(MOVQ) + to_string(getAddressDes(var1)) + string("(%rbp), %rdi");
 
                 ans.push_back(ins);
-                ins = "call\t" + objClass[var1] + "-" + objClass[var1];
-                ans.push_back(ins);
+                // ins = "call\t" + objClass[var1] + "-" + objClass[var1];
+                // ans.push_back(ins);
                 return ans;
 
             }
@@ -946,8 +946,11 @@ string getfuncName(string x){
                 temp = data[i][3] + "-" + func;
             }
         }
+        std::cout << "temp =" << temp << "\n";
+    std::cout << "var = " << var << '\n';
 
     }
+    
     // int f=0;
     // for(int j=0;j<x.size();j++){
     //     if(f==1&&x[j]==','){
@@ -1169,7 +1172,7 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         //v1*w2+v2
         instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
         funCode.push_back(instr);
-        instr="mulq %rsi, %rax";
+        instr="imulq %rsi, %rax";
         funCode.push_back(instr);
         instr="addq %rsi, %rax";
         funCode.push_back(instr);
@@ -1205,11 +1208,11 @@ void ary_ass(string lex,int tp,string v1,string v2,string v3,string val,vector<s
         instr="movq "+to_string(getAddressDes(lex + "_w3"))+"(%rbp), %r9";
         funCode.push_back(instr);
         //v3+v1*w2*w3+v2*w3
-        instr="mulq %rsi, %rax";
+        instr="imulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="mulq %r9, %rax";
+        instr="imulq %r9, %rax";
         funCode.push_back(instr);
-        instr="mulq %r9, %rdi";
+        instr="imulq %r9, %rdi";
         funCode.push_back(instr);
         instr="addq %rdi, %rax";
         funCode.push_back(instr);
@@ -1264,7 +1267,7 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         //v1*w2+v2
         instr="movq "+to_string(getAddressDes(lex + "_w2"))+"(%rbp), %rsi";
         funCode.push_back(instr);
-        instr="mulq %rsi, %rax";
+        instr="imulq %rsi, %rax";
         funCode.push_back(instr);
         instr="addq %rsi, %rax";
         funCode.push_back(instr);
@@ -1296,11 +1299,11 @@ void ary_acc(string lex,int tp,string v1,string v2,string v3,string r,vector<str
         instr="movq "+to_string(getAddressDes(lex + "_w3"))+"(%rbp), %r9";
         funCode.push_back(instr);
         //v3+v1*w2*w3+v2*w3
-        instr="mulq %rsi, %rax";
+        instr="imulq %rsi, %rax";
         funCode.push_back(instr);
-        instr="mulq %r9, %rax";
+        instr="imulq %r9, %rax";
         funCode.push_back(instr);
-        instr="mulq %r9, %rdi";
+        instr="imulq %r9, %rdi";
         funCode.push_back(instr);
         instr="addq %rdi, %rax";
         funCode.push_back(instr);
@@ -1506,8 +1509,12 @@ void func_call(vector<string>a,vector<string>&funcCode){
         else{
             // string x=currClassName + "::" + currFuncName + "::" + smplPush(a[j]);
             string x = smplPush(a[j]);
+            cout << "x = " << x << "\n";
             if(var_info(x).size()==0){
                 cout<<"No such variable exist\n";
+                if(x[0] == '_') {
+                    things.push_back({y,0});
+                }
             }
             else{
                 vector<int>info=var_info(x);
@@ -1582,7 +1589,7 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
     if(tp==200){
         instr="movq "+s1+",%rdi";
         funCode.push_back(instr);
-        instr="mulq "+s2+",%rdi";
+        instr="imulq "+s2+",%rdi";
         funCode.push_back(instr);
         instr="salq $3,%rdi";
         funCode.push_back(instr);
@@ -1598,9 +1605,9 @@ void call_malloc(string name,int tp,string s1,string s2,string s3,vector<string>
     if(tp==300){
         instr="movq "+s1+",%rdi";
         funCode.push_back(instr);
-        instr="mulq "+s2+",%rdi";
+        instr="imulq "+s2+",%rdi";
         funCode.push_back(instr);
-        instr="mulq "+s3+",%rdi";
+        instr="imulq "+s3+",%rdi";
         funCode.push_back(instr);
         instr="salq $3,%rdi";
         funCode.push_back(instr);
@@ -1653,9 +1660,10 @@ int main(int argc, char *argv[])
     relConv["=="] = "je";
     sizes["int"] = sizes["byte"] = sizes["short"] = sizes["long"] = 8;
     
-    vector<string> classes = {"Person"};
+    vector<string> classes = {"Dog", "TestInheritance2"};
     map<string, vector<string> > funcs;
-    funcs["Person"] = {"Person", "printDetails", "main"};
+    funcs["Dog"] = {"bark"};
+    funcs["TestInheritance2"] = {"main"};
     vector<string> code ;
     for (auto it: classes) {
         handleClassDec(it + ".3ac");
