@@ -2,49 +2,21 @@
 // demo for use of final  and super modifier
 class Person {
     int id;
-	Person(int a)
+	int age;
+	Person(int id, int age)
 	{
-		id = a+1;
+		this.id = id;
+		this.age = age;
 	}
-}
-
-class Employee extends Person{
-    String name;
-	Employee(int d, int c)
+	void show()
 	{
-		super(d);
-		d = c+1;
-		d++;
+		System.out.println(id);
+		System.out.println(age);
+	}
+	public static void main()
+	{
+		Person p = new Person(27, 20);
+		p.show();
 	}
 }
 
-class Vehicle {
-    int maxSpeed = 120;
-	final void display()
-    {
-        System.out.println("Maximum Speed of Vehicle: "+ maxSpeed);
-    }
-}
-
-
-class animal{
-	int legs=5;
-	animal(int a){
-		legs=a;
-	}
-	void display(){
-		System.out.println("Number of legs: "+legs);
-	}
-}
-
-class dog extends animal{
-	int legs=4;
-	dog(int a){
-		super(a);
-		legs=a;
-	}
-	void display(){
-		System.out.println("Number of legs: "+legs);
-		System.out.println("Number of legs of general animal: "+super.legs);
-	}
-}

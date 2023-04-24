@@ -10,6 +10,7 @@
     extern void yyerror(const char*sp);
     extern int importflag;
     extern int isarrayinit;
+    extern string currClass;
     int fin=0;
     extern int scope_level;
 %}
@@ -203,6 +204,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
 {ID}            {   
                     if((root->currNode->name=="class"||root->currNode->name=="classextends")&&
                     root->currNode->isClassName==false){
+                        currClass = yytext;
                         SymNode* res = root->currNode->scope_clookup(yytext);
                         if(res)
                         {
@@ -245,6 +247,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                         if(root->currNode->vulnerable==false&&
                         root->currNode->isIfScope==true){
                             root->endcurrScope();
+                            scope_level++;
                             root->currNode->isThisDead=true;
                         }
                         else
@@ -256,6 +259,7 @@ Separator           "("|")"|"{"|"}"|"["|"]"|";"|","|"..."|"."|"@"|"::"
                     else{
                         isarrayinit--;
                     }
+                    // scope_level--;
                     yylval.lexeme = strdup(yytext); 
                     return RIGHTCURLYBRACKET;
                 }

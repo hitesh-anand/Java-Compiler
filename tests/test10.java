@@ -1,19 +1,11 @@
-//multiple inheritance
-class Animal {
-    void eat() {
-        System.out.println("eating...");
-    }
-}
+//Test case for do while loops
 
-class Dog extends Animal {
-    void bark() {
-        System.out.println("barking...");
+public class test10{    
+public static void main(String args[]) {    
+    int i=1;    
+    while(i<10){    
+        System.out.println(i);    
+        i++;    
     }
-}
-
-class TestInheritance2 {
-    public static void main(String args[]) {
-        Dog d = new Dog();
-        d.bark();
-    }
-}
+}    
+} 

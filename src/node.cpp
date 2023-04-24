@@ -13,9 +13,9 @@ Node::Node(string label, string attr)
     this->arrayType = 0;
     this->last = ircode.size() - 1;
     this->isCond = false;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string label, string attr, int id)
 {
@@ -27,9 +27,9 @@ Node::Node(string label, string attr, int id)
     this->arrayType = 0;
     this->last = ircode.size() - 1;
     this->isCond = false;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string label, string attr, vector<struct Node *> children)
 {
@@ -49,9 +49,9 @@ Node::Node(string label, string attr, vector<struct Node *> children)
     this->varName = attr;
     this->arrayType = 0;
     this->last = ircode.size() - 1;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string label, vector<struct Node *> children)
 {
@@ -66,12 +66,13 @@ Node::Node(string label, vector<struct Node *> children)
             this->code.insert(this->code.end(), it->code.begin(), it->code.end());
         this->last = max(this->last, it->last);
         this->nextlist = it->nextlist;
+        this->varName = this->attr = this->attr +  it->varName;
     }
     this->arrayType = 0;
     this->last = ircode.size() - 1;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
     // this->varName= attr;
 }
 Node::Node(string label, string attr, vector<struct Node *> children, int id)
@@ -88,13 +89,14 @@ Node::Node(string label, string attr, vector<struct Node *> children, int id)
             this->code.insert(this->code.end(), it->code.begin(), it->code.end());
         this->last = max(this->last, it->last);
         this->nextlist = it->nextlist;
+        this->varName = this->attr = this->attr +  it->varName;
     }
     this->varName = attr;
     this->arrayType = 0;
     this->last = ircode.size() - 1;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 Node::Node(string attr)
 {
@@ -105,9 +107,9 @@ Node::Node(string attr)
     this->arrayType = 0;
     this->last = ircode.size() - 1;
     this->isCond = false;
-    this->width1 = "w1";
-    this->width2 = "w2";
-    this->width3 = "w3";
+    this->width1 = "w";
+    this->width2 = "w";
+    this->width3 = "w";
 }
 
 void Node::addChild(struct Node *n)
@@ -136,19 +138,37 @@ void Node::addChildToLeft(struct Node *n)
 {
     if (n == NULL)
         return;
+    cout << "calles\n";
     int m = this->children.size();
+    cout << "m = " << m << "\n";
     this->last = max(this->last, n->last);
     this->children.resize(m + 1);
+    cout << "resizes\n";
     for (int i = m; i > 0; i--)
     {
         this->children[i] = this->children[i - 1];
     }
+        cout << "resizes\n";
+
     this->children[0] = n;
+        cout << "resizes\n";
+    
     if (n->code.size() > 0)
     {
-        n->code.insert(n->code.end(), this->code.begin(), this->code.end());
-        this->code = n->code;
+        cout << "her\n";
+        if(this->code.size() > 0 ) n->code.insert(n->code.end(), this->code.begin(), this->code.end());
+        cout << "done\n";
+        this->code.clear();
+        for(auto it: n->code) {
+            this->code.push_back(it);
+        }
+        cout << "here\n";
     }
+    else {
+        cout << "eks\n";
+    }
+    cout << "done\n";
+    return;
 }
 
 void Node::changeLabel(string newLabel)

@@ -1,72 +1,20 @@
-// to show 1 d array usage and initialization
-class NumberToWordExample1 {
+//Test for for/while loops and if-else
 
-    static void func() {
-        int len=5;
-        if (len == 0) {
-
-            System.out.println("The string is empty.");
-            return;
+class test2 {
+    int f(int a, int b) {
+        while (a > b) {
+            int c = 0;
+            if (a > 0)
+                a+=1;
+            else
+                c = a - 1;
+            a = a + 1;
         }
-
-        if (len > 4) {
-
-            System.out.println("\n The given number has more than 4 digits.");
-            return;
-        }
-
-        int onedigit[] = new int[] { 1,2,4,5,6};
-
-
-        System.out.println(": ");
-
-        if (len == 1) {
-            System.out.println(1);
-            onedigit[1]=5;
-            return;
-        }
-        int x = 0;
-        return ;
+        return a++;
     }
-    static void func2() {
-        int len=5;
-        if (len == 0) {
-
-            System.out.println("The string is empty.");
-            return;
-        }
-
-        if (len > 4) {
-
-            System.out.println("\n The given number has more than 4 digits.");
-            return;
-        }
-
-        int twodigit[][] = new int[][] { {1,2,4,5,6},{44,2,43,4,5}};
-
-
-        System.out.println(": ");
-
-        if (len == 1) {
-            System.out.println(1);
-            twodigit[1][1]=5;
-            return;
-        }
-        return ;
+    public static void main(String args[]){
+        test2 t = new test2();
+        int y=t.f(1,5);
+        System.out.println(y);
     }
-    // static void func3() {
-    //     int len=5;
-    //     int threedigit[][][] = new int[][][] { {{1,2,4,5,6},{44,2,43,4}},{{32,3,1}}};
-
-
-    //     System.out.println(": ");
-
-    //     if (len == 1) {
-    //         System.out.println(1);
-    //         threedigit[1][1][2]=5;
-    //         return;
-    //     }
-    //     return ;
-    // }
-
 }

@@ -1,15 +1,15 @@
-//short circuiting
+//Test for short circuiting
 public class test6 {
     int printnum(){
         System.out.println(3);
         return 1;
     }
     int printchar(){
-        System.out.println('a');
+        System.out.println(4);
         return 2;
     }
     int printdouble(){
-        System.out.println(1.2);
+        System.out.println(1);
         return 3;
     }
     int main(){

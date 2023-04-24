@@ -13,8 +13,9 @@ class Quadruple
 {
 public:
     int type;
-    int scope_level=-1;
+    int scope_level=0;
     // int pos;
+    int ind;
     std::string op;
     std::string arg1;
     std::string arg2;
@@ -47,3 +48,4 @@ public:
     IRcode(Quadruple *);
     IRcode(Quadruple *, IRcode *);
 };
+

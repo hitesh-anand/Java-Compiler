@@ -1,13 +1,22 @@
-class Main {
-
-    public static void main(String[] args) {
-      int rows = 5;
-  
-      for (int i = rows; i >= 1; --i) {
-        for (int j = 1; j <= i; ++j) {
-          System.out.println(j + " ");
-        }
-        System.out.println();
-      }
+//basic if and while loop
+public class test7 
+{  
+  public static void main(String args[])  
+  {  
+    int x=1;
+    int y=2;
+    int n = x+y;
+    int k = x-y;
+    int c;
+    if(n<k){
+      c=x;
     }
-  }
+    else{
+      c=y;
+    }
+    while(c>0){
+      System.out.println(c);
+      c--;
+    }
+  }  
+}

@@ -1,16 +1,31 @@
-class Test{
-    void foobar(int a[])
+//simple test for function-calls, object creation
+class hello {
+    int c;
+    hello(int a, int b)
     {
-        a[0] = 1;
-        int b = 2;
-        // return 1;
+        c = a;
     }
+    int f(int a, int b) {
+        int c=2;
+        // int c = b/a;
+        if(a==1)
+        {
+            b++;
+        }
+        return a++;
+    }
+}
 
-    int foob(int b[][], int c, boolean d)
-    {
-        // int x = b;
-        b[0][0] = 1;
-        int a = 3;
-        return 0;
+class hi{
+    int T(int a, int b) {
+        int n = a+b;
+        int k = a-b;
+        hello h = new hello(n, k);
+        h.f(n, k);
+        return 1;
+    }
+    public static void main(String args[]){
+        int y=T(1,2);
+        System.out.println(y);
     }
 }

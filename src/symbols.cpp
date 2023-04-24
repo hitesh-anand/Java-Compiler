@@ -1,12 +1,22 @@
 #include "symbols.h"
 #include "types.h"
+#include <unistd.h>
 using namespace std;
 extern int yylineno;
 extern void yyerror(const char *sp);
 extern SymGlob *orig_root;
+extern int scope_level;
 map<string, int> csv_gen;
+extern map<string, SymNode *> list_class;
+extern map<string, string> classfunc;
 
 extern TypeHandler *typeroot;
+string GetCurrentWorkingDir( void ) {
+  char buff[FILENAME_MAX];
+  getcwd( buff, FILENAME_MAX );
+  std::string current_working_dir(buff);
+  return current_working_dir;
+}
 int conv_int(string a)
 {
     int ans = 0;
@@ -27,9 +37,9 @@ Symbol::Symbol(string lexeme, int type, int lineno, int width)
     this->width = width;
     this->is_decl = true;
     this->access_type = PUBLIC_ACCESS;
-    width1 = "w1";
-    width2 = "w2";
-    width3 = "w3";
+    width1 = "w";
+    width2 = "w";
+    width3 = "w";
 }
 
 bool argsMatch(vector<int> def, vector<int> given) // def->as defined, given->passed as arguments
@@ -54,9 +64,9 @@ Symbol::Symbol(string lexeme, int type, int lineno)
     this->decl_line_no = lineno;
     this->is_decl = true;
     this->access_type = PUBLIC_ACCESS;
-    width1 = "w1";
-    width2 = "w2";
-    width3 = "w3";
+    width1 = "w";
+    width2 = "w";
+    width3 = "w";
 }
 
 Symbol::Symbol(string lexeme, int type, int lineno, int width, int access_type)
@@ -67,9 +77,9 @@ Symbol::Symbol(string lexeme, int type, int lineno, int width, int access_type)
     this->is_decl = true;
     this->width = width;
     this->access_type = access_type;
-    width1 = "w1";
-    width2 = "w2";
-    width3 = "w3";
+    width1 = "w";
+    width2 = "w";
+    width3 = "w";
 }
 
 /****************************************
@@ -326,7 +336,15 @@ void SymGlob::update(string lex, Symbol *sym)
 
 void SymGlob::insert(string lex, Symbol *sym)
 {
-    Symbol *res = currNode->scope_lookup(lex);
+    Symbol *res = nullptr;
+    SymNode *temp = currNode;
+    while (temp && temp->name != "class" && temp->name != "classextends")
+    {
+        res = temp->scope_lookup(lex);
+        if (res)
+            break;
+        temp = temp->parent;
+    }
     if (res)
     {
         cout << "Error! The name " << lex << " has been declared already on line number : " << res->decl_line_no << endl;
@@ -407,6 +425,7 @@ void SymGlob::addNewScope()
 
 void SymGlob::endcurrScope()
 {
+    scope_level++;
     if (currNode->name == "classextends")
     {
         if (currNode && currNode->ogparent)
@@ -431,6 +450,7 @@ void SymGlob::end_all_vulnerable()
             currNode = currNode->ogparent;
         else
             cout << "Error!! No global scope defined." << endl;
+        scope_level++;
     }
     else
     {
@@ -438,10 +458,12 @@ void SymGlob::end_all_vulnerable()
             currNode = currNode->parent;
         else
             cout << "Error!! No global scope defined." << endl;
+        scope_level++;
     }
 
     while (currNode != NULL && currNode->vulnerable == true)
     {
+        scope_level++;
         if (currNode->name == "classextends")
         {
             if (currNode && currNode->ogparent)
@@ -480,7 +502,7 @@ void SymGlob::printTree()
         }
 
         q.pop();
-        cout << "Scope level : " << p.second << " " << endl;
+        cout << "Scope level : " << p.second << " bdbjb " << endl;
         cout << "The variables are : " << endl;
         for (auto it : p.first->mp)
         {
@@ -686,9 +708,83 @@ void SymNode::constr_insert(vector<int> args)
     constr_args.push_back(args);
 }
 
+void SymGlob::dumpClassSymbols()
+{
+    for (auto it : list_class)
+    {
+        int scope_num = 0;
+        ofstream fout;
+        string nm = GetCurrentWorkingDir()+"/temporary/"+(it.first) + ".csv";
+        fout.open(nm);
+        SymNode *res = it.second;
+        int c = 0;
+        fout << "Num,Syntactic Category,Lexeme,Type,Line of Declaration" << endl;
+        for (auto ch : res->mp)
+        {
+            fout << scope_num++ << ",";
+            fout << "Identifier,";
+            Symbol *temp = ch.second;
+            fout << temp->lexeme << ",";
+            if (temp->type < 100)
+            {
+                fout << typeroot->inv_types[temp->type] << ",";
+            }
+            else
+            {
+                fout << typeroot->inv_types[temp->type % 100];
+
+                if (temp->type > 100)
+                {
+                    fout << "[";
+                    temp->num_elems1 = conv_int(temp->width1);
+                    if (temp->num_elems1 > 0 && temp->width1 != "w")
+                    {
+                        fout << temp->num_elems1;
+                    }
+                    else
+                    {
+                        fout << temp->width1;
+                    }
+                    fout << "]";
+                }
+                if (temp->type > 200)
+                {
+                    fout << "[";
+                    temp->num_elems2 = conv_int(temp->width2);
+                    if (temp->num_elems2 > 0 && temp->width2 != "w")
+                    {
+                        fout << temp->num_elems2;
+                    }
+                    else
+                    {
+                        fout << temp->width2;
+                    }
+                    fout << "]";
+                }
+                if (temp->type > 300)
+                {
+                    fout << "[";
+                    temp->num_elems3 = conv_int(temp->width3);
+                    if (temp->num_elems3 > 0 && temp->width3 != "w")
+                    {
+                        fout << temp->num_elems3;
+                    }
+                    else
+                    {
+                        fout << temp->width3;
+                    }
+                    fout << "]";
+                }
+                fout << ",";
+            }
+            fout << temp->decl_line_no << endl;
+        }
+    }
+}
+
 void SymGlob::dumpSymbolTable()
 {
-
+    this->dumpClassSymbols();
     queue<SymNode *> qg;
     qg.push(orig_root->currNode);
     while (!qg.empty())
@@ -704,7 +800,7 @@ void SymGlob::dumpSymbolTable()
             {
                 int scope_num = 0;
                 ofstream fout;
-                string nm = (it.first) + "_" + to_string(csv_gen[it.first]++) + ".csv";
+                string nm = GetCurrentWorkingDir()+"/temporary/"+classfunc[it.first] + "_" + (it.first) + ".csv";
                 fout.open(nm);
                 SymNode *res = it.second;
                 queue<pair<SymNode *, int>> q;
@@ -724,10 +820,12 @@ void SymGlob::dumpSymbolTable()
                     q.pop();
                     for (auto ch : p.first->mp)
                     {
-                        fout << scope_num++ << ",";
-                        fout << "Identifier, ";
                         Symbol *temp = ch.second;
-                        fout << temp->lexeme << ",";
+                        if(temp->lexeme=="args" && temp->type>100)
+                            continue;
+                        fout << scope_num++ << ",";
+                        fout << "Identifier,";
+                        fout << temp->lexeme << "`" << temp->scope_level << ",";
                         if (temp->type < 100)
                         {
                             fout << typeroot->inv_types[temp->type] << ",";
@@ -740,7 +838,7 @@ void SymGlob::dumpSymbolTable()
                             {
                                 fout << "[";
                                 temp->num_elems1 = conv_int(temp->width1);
-                                if (temp->num_elems1 > 0 && temp->width1 != "w1")
+                                if (temp->num_elems1 > 0 && temp->width1 != "w")
                                 {
                                     fout << temp->num_elems1;
                                 }
@@ -754,7 +852,7 @@ void SymGlob::dumpSymbolTable()
                             {
                                 fout << "[";
                                 temp->num_elems2 = conv_int(temp->width2);
-                                if (temp->num_elems2 > 0 && temp->width2 != "w2")
+                                if (temp->num_elems2 > 0 && temp->width2 != "w")
                                 {
                                     fout << temp->num_elems2;
                                 }
@@ -768,7 +866,7 @@ void SymGlob::dumpSymbolTable()
                             {
                                 fout << "[";
                                 temp->num_elems3 = conv_int(temp->width3);
-                                if (temp->num_elems3 > 0 && temp->width3 != "w3")
+                                if (temp->num_elems3 > 0 && temp->width3 != "w")
                                 {
                                     fout << temp->num_elems3;
                                 }

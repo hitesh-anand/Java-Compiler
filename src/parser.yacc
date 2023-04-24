@@ -15,10 +15,15 @@ extern int fin;
 extern int v;
 extern int cnt;
 extern int isarrayinit;
+extern vector<string> field_vars;
+extern vector<string> func_names;
 // map<string, pair<int, int>> typeroot->typewidth;
 extern map<string,SymNode*> list_class;
+extern map<string, int> tempVars;
+extern map<string, string> classfunc;
 extern string otpt;
 
+vector<string> static_funcs;
 int scope_level = 0;
 
 extern int startPos;
@@ -26,8 +31,12 @@ extern int startPos;
 extern int temp ;
 
 extern int varCnt;
+extern int tempCnt;
 extern int labelCnt ;
 extern int importflag ;
+
+string currFunc = "";
+string currClass = "";
 
 extern string condvar;
 extern int isCond ;
@@ -42,10 +51,9 @@ extern int whilepos ;
 extern SymGlob* root ;
 extern SymGlob* orig_root ;
 extern SymNode* magic_ptr;
-
-
-
-
+extern SymNode* origNode;
+// magic_ptr = origNode;
+int spacelast = 0;
 %}
 
 %locations 
@@ -122,13 +130,16 @@ CompilationUnit:
             
             root->printFuncs();
             for(auto it: $$->code) {
-                it->print();
+                cout << "callong print\n";
+                //it->print();
+                cout << "print return";
             }
             cout << "Incremental IR \n\n";
             int cnt = 0;
             for(auto it: ircode) {
                 cout << cnt << "\t:\t";
-                it->print();
+                cout << "callong print\n";
+                //it->print();
                 cnt++;
             }
         }
@@ -297,7 +308,7 @@ SingleTypeImportDeclaration:
 
         vector<Node*> t = {t1, $2};
         $$ = new struct Node("SingleTypeImportDeclaration", t);
-        verbose(v,"IIMPORT Name SEMICOLON->SingleTypeImportDeclaration");
+        verbose(v,"IMPORT Name SEMICOLON->SingleTypeImportDeclaration");
 
         Symbol* res = root->lookup($2->attr);
         if(!res)
@@ -678,12 +689,18 @@ Name:
         {
             if(!root->flookup($1))
             {
+                cout<<"hulhul Found "<<$1<<endl;
                 cout<<"Error! Name "<<$1<<" has not been declared before"<<endl;
                 yyerror("Error");
             }
         }
         else
         {
+            
+            if(res->isField == 1) {
+                $$->varName = "this." + $$->varName;
+                $$->attr = $$->varName;
+            }
             $$->type = res->type;
         }
         }
@@ -693,7 +710,7 @@ Name:
         string s = $1->attr + $2 + $3;
         $$ = new Node("Name", s);
         verbose(v,"Name DOT IDENTIFIER->Name");
-
+        cout<<"Working here"<<endl;
         if(importflag==0)
         {
         int i = spacestripind($1->attr);
@@ -964,6 +981,7 @@ NormalClassDeclaration:
     root->cinsert($1, res);
     Symbol* r = new Symbol($1, typeroot->addNewClassType(), yylineno);
     list_class[$1]=res;
+    r->scope_level = scope_level;
     root->insert(r->lexeme, r);
 }
 |   Class ClassExtends ClassPermits ClassBody     {
@@ -1635,6 +1653,7 @@ FieldDeclaration:
     Type VariableDeclaratorList SEMICOLON
     {
         //struct Node* t = new Node("Separator", ";");
+        cout<<"Here man man man man"<<endl;
         vector<Node*> temp;
         if($1->useful == false) {
             for(auto it : $1->children)
@@ -1657,6 +1676,10 @@ FieldDeclaration:
 
         for(auto ch : $2->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
@@ -1665,9 +1688,19 @@ FieldDeclaration:
                     else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$1->attr].second);
+            sym->isField = 1;
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE)))
@@ -1677,12 +1710,17 @@ FieldDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
+                
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
 
             }
             else {
-                
-                    processUninitDec($$, ch);
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
+                    //sym->lexeme = ch->attr;
+                    
+                    processUninitDec($$, ch, _type);
                 
             }
             if(ch->arrayType > 0) {
@@ -1693,6 +1731,8 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }
+            sym->isField = 1;
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         processPostIncre($$);
@@ -1738,6 +1778,10 @@ FieldDeclaration:
         }
         for(auto ch : $4->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $3->type;
             if(ch->arrayType) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) 
@@ -1748,10 +1792,19 @@ FieldDeclaration:
                     else if(ch->arrayType == 2 ) init2DArray(ch, $3->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $3->attr);
                 }
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second, acc);
-            sym->isStatic = isStatic;
+            
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE)))
@@ -1761,13 +1814,22 @@ FieldDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
+               
+                
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
+               
+                
 
             }
              else {
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level);
+                    //sym->lexeme = ch->attr;
+                    
                 
-                    processUninitDec($$, ch);
-                
+                    processUninitDec($$, ch, _type);
+                    
             }
             if(ch->arrayType > 0) {
                 sym->isArray = true;
@@ -1776,6 +1838,8 @@ FieldDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            } 
+            sym->isField = 1;
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -1804,6 +1868,10 @@ FieldDeclaration:
             acc = PROTECTED_ACCESS;
         for(auto ch : $4->children)
         {
+            if(ch->attr=="=")
+                field_vars.push_back(ch->children[0]->attr);
+            else
+                field_vars.push_back(ch->attr);
             int _type = $3->type;
             if(ch->arrayType) _type += ch->arrayType*100  ; 
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $3->type + 100 * ch->children[1]->arrayType; 
@@ -1812,6 +1880,15 @@ FieldDeclaration:
                 else if(ch->arrayType == 3) init3DArray(ch, $3->attr);
 
             }
+            else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             cout << ch->arrayType << "\n";
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second, acc);
             sym->isFinal=true;
@@ -1823,14 +1900,16 @@ FieldDeclaration:
                     yyerror("Error");
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
-                
                 sym->lexeme = ch->children[0]->attr;
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
 
             }
              else {
-               
-                  processUninitDec($$, ch);
+                //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                //sym->lexeme = ch->attr;
+                processUninitDec($$, ch, _type);
                 
             }
             if(ch->arrayType > 0) {
@@ -1841,6 +1920,8 @@ FieldDeclaration:
                 //sym->calcWidths();
            }
             processPostIncre($$);
+            sym->isField = 1;
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"Inserted "<<sym->lexeme<<endl;
         }
@@ -1910,7 +1991,10 @@ VariableDeclarator:
             }
             cout<<"Came outside"<<endl;
         }
-        else temp.push_back($3);
+        else{
+            if($3->children.size())
+            cout<<"useful hai bhai "<<$3->label<<" with "<<$3->children[1]->attr<<endl;
+            temp.push_back($3);}
         for(auto it: temp) {
             t->addChild(it);
         }
@@ -2004,7 +2088,7 @@ VariableDeclaratorId:
     struct Node* n = new struct Node("VariableDeclaratorId", $1, temp);
     $$ = n;
     $$->arrayType= $2->arrayType;
-    cout<<"array with name : "<<$1<<" and type is "<<$$->arrayType<<endl;
+    cout<<"array with name : "<<$1<<" and type is "<<$$->arrayType<<" on line "<<yylineno<<endl;
     //$$->type = $1->type + 100*$2->arrayType;
     printf("\n\n%d\n\n", $2->arrayType);
     verbose(v,"IDENTIFIER Dims->VariableDeclaratorId");
@@ -2128,8 +2212,13 @@ MethodDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
-        varCnt = 0;
         $$->last = ircode.size() - 1;
+
+        cout<<"currfunc is "<<currFunc<<" and tempcnt is "<<tempCnt<<"and varcnt is"<<varCnt<<endl;
+        tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
+        varCnt = 0;
+        tempCnt=0;
         //backpatch($2->nextlist, ircode.size() -1);
         
         //($1);
@@ -2162,7 +2251,10 @@ MethodDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
+        tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
+        tempCnt = 0;
         //backpatch($4->nextlist, ircode.size() -1);
         $$->last = ircode.size() - 1;
         //Quadruple* q = new Quadruple(7);
@@ -2170,17 +2262,25 @@ MethodDeclaration:
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
 
         int acc=PUBLIC_ACCESS;
+        int isStatic = 0;
         if($1->attr=="private")
             acc = PRIVATE_ACCESS;
+        if($1->attr=="static")
+            isStatic = 1;    
         
         if($2)
         {
             for(auto ch:$2->children)
             {
-                if($1->attr=="private")
+                if(ch->attr=="private")
                     acc = PRIVATE_ACCESS;
+                if(ch->attr=="static")
+                    isStatic=1;
             }
         }
+
+        if(isStatic)
+            static_funcs.push_back($3->children[1]->children[0]->attr);
         root->currNode->childscopes.back()->node_acc_type = acc;
     } //here
 |   FINAL Modifiers MethodHeader MethodBody   {
@@ -2208,10 +2308,31 @@ MethodDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
+        tempVars[currFunc] = varCnt;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
+        tempCnt=0;
         //backpatch($4->nextlist, ircode.size() -1);
         $$->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers MethodHeader MethodBody->MethodDeclaration");
+
+        int acc=PUBLIC_ACCESS;
+        int isStatic = 0;   
+        
+        if($2)
+        {
+            for(auto ch:$2->children)
+            {
+                if(ch->attr=="private")
+                    acc = PRIVATE_ACCESS;
+                if(ch->attr=="static")
+                    isStatic=1;
+            }
+        }
+
+        if(isStatic)
+            static_funcs.push_back($3->children[1]->children[0]->attr);
+        root->currNode->childscopes.back()->node_acc_type = acc;
     } 
 ;
 
@@ -2226,12 +2347,17 @@ MethodHeader:
         //($1);
         //($2);
         verbose(v,"Type MethodDeclarator->MethodHeader");
+        currFunc = $2->children[0]->attr;
 
         vector<int> args;
         vector<string> params;
         for(int i=2; i<$2->children.size(); i+=2)
         {
-            params.push_back(append_scope_level($2->children[i]->attr));
+            string s = $2->children[i]->attr;
+            // if($2->children[i])
+            if(s=="args")
+                continue;
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
         }
 
         for(int i=1; i<$2->children.size(); i+=2)
@@ -2278,6 +2404,7 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         Quadruple* q = new Quadruple(6, $2->varName , params);
@@ -2298,16 +2425,16 @@ MethodHeader:
         ***************************************************/
 
 
-        int last = $2->children.size()-1;
-        if(last%2)
-            last--;
-        for(int i=2; i<=last; i+=2)
-        {
-            Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr ));
-            $$->code.push_back(q);
-            ircode.push_back(q);       
-            cout << "i = " << i << endl;     
-        }
+        // int last = $2->children.size()-1;
+        // if(last%2)
+        //     last--;
+        // for(int i=2; i<=last; i+=2)
+        // {
+        //     Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr ));
+        //     $$->code.push_back(q);
+        //     ircode.push_back(q);       
+        //     cout << "i = " << i << endl;     
+        // }
 
         int space = 0;
 
@@ -2328,7 +2455,7 @@ MethodHeader:
         vector<struct Node*> temp;
         struct Node* t = new Node("Keyword", "void");
         temp = {t, $2};
-       
+        currFunc = $2->children[0]->attr;
         struct Node* n = new struct Node("MethodHeader", temp);
         $$ = n;
         //($1);
@@ -2358,6 +2485,15 @@ MethodHeader:
             }
             else
                 args.push_back(typeroot->typewidth[$2->children[i]->attr].first);
+        }
+
+        vector<string> params;
+        for(int i=2; i<$2->children.size(); i+=2)
+        {
+            string s = $2->children[i]->attr;
+            if(s=="args")
+                continue;
+            params.push_back($2->children[i]->attr+"`"+to_string(scope_level+1));
         }
 
         SymNode* check = root->currNode->scope_flookup($2->children[0]->attr, args, typeroot->typewidth[$1].first);
@@ -2392,13 +2528,10 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
-        vector<string> params;
-        for(int i=2; i<$2->children.size(); i+=2)
-        {
-            params.push_back(append_scope_level($2->children[i]->attr));
-        }
+
         Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -2416,16 +2549,16 @@ MethodHeader:
         ircode.push_back(qb);
         **************************************************/
 
-        int last = $2->children.size()-1;
-        if(last%2)
-            last--;
-        for(int i=2; i<=last; i+=2)
-        {
-            Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr));
-            $$->code.push_back(q);
-            ircode.push_back(q);       
-            cout << "i = " << i << endl;     
-        }
+        // int last = $2->children.size()-1;
+        // if(last%2)
+        //     last--;
+        // for(int i=2; i<=last; i+=2)
+        // {
+        //     Quadruple* q = new Quadruple(13, append_scope_level($2->children[i]->attr));
+        //     $$->code.push_back(q);
+        //     ircode.push_back(q);       
+        //     cout << "i = " << i << endl;     
+        // }
 
         int space = 0;
 
@@ -2435,6 +2568,7 @@ MethodHeader:
         }
     }  
 |   TypeParameters Result MethodDeclarator   {
+        currFunc = $3->children[0]->attr;
         vector<struct Node*> temp;
         temp = {$1, $2, $3};
         struct Node* n = new struct Node("MethodHeader", temp);
@@ -2475,12 +2609,16 @@ MethodHeader:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         vector<string> params;
         for(int i=2; i<$3->children.size(); i+=2)
         {
-            params.push_back(append_scope_level($3->children[i]->attr));
+            string s = $3->children[i]->attr;
+            if(s=="args")
+                continue;
+            params.push_back($3->children[i]->attr+"`"+to_string(scope_level+1));
         }
         Quadruple* q = new Quadruple(6, $3->varName , params);
         $$->code.push_back(q);
@@ -2917,7 +3055,11 @@ ConstructorDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
+        tempVars[currFunc] = varCnt;
+        cout<<"Adding "<<currClass<<" for "<<currFunc<<endl;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
+        tempCnt = 0;
         $$->last = ircode.size() - 1;
         verbose(v,"ConstructorDeclarator ConstructorBody->ConstructorDeclaration");
 
@@ -2955,7 +3097,11 @@ ConstructorDeclaration:
         Quadruple* q = new Quadruple(7, string("endfunc") );
         $$->code.push_back(q);
         ircode.push_back(q);
+        tempVars[currFunc] = varCnt;
+        cout<<"Adding "<<currClass<<" for "<<currFunc<<endl;
+        classfunc[currFunc] = currClass;
         varCnt = 0;
+        tempCnt = 0;
         $$->last = ircode.size() - 1;
         verbose(v,"Modifier Modifiers ConstructorDeclarator ConstructorBody ->ConstructorDeclaration");
     }
@@ -2975,7 +3121,7 @@ ConstructorDeclarator:
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
     verbose(v,"Name LEFTPARENTHESIS RIGHTPARENTHESIS->ConstructorDeclarator");
-
+    currFunc = $1->attr;
 
         vector<int> args;
         args.push_back(-1);
@@ -2996,6 +3142,8 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
+        scope_level++;
         Quadruple* q = new Quadruple(6,  $1->varName);
         $$->code.push_back(q);
         ircode.push_back(q);
@@ -3007,6 +3155,7 @@ ConstructorDeclarator:
     temp.push_back($1);
     
     // temp.push_back($3);
+    currFunc = $1->attr;
    
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
@@ -3021,13 +3170,17 @@ ConstructorDeclarator:
     temp.push_back($1);
     temp.push_back($3);
     
-    
+    currFunc = $1->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
+    scope_level++;
         vector<string> params;
         for(auto it : $3->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            string s = it->children[1]->attr;
+            if(s=="args")
+                continue;
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3051,10 +3204,10 @@ ConstructorDeclarator:
             else
                 args.push_back(typeroot->typewidth[it->children[0]->attr].first);
                 
-                cout<<"THISHTIS "<<it->children[1]->attr<<endl;
-                Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
-                $$->code.push_back(q);
-                ircode.push_back(q); 
+                // cout<<"THISHTIS "<<it->children[1]->attr<<endl;
+                // Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+                // $$->code.push_back(q);
+                // ircode.push_back(q); 
         }
 
         bool check = root->currNode->scope_constrlookup(args);
@@ -3069,6 +3222,8 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
+        root->finsert($1->attr, newf);
+        // scope_level++;
 
         // for(aut$3->children)
         for(int i=0; i<$3->children.size(); i++)
@@ -3081,13 +3236,25 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
+
+        // int last = $3->children.size()-1;
+        // if(last%2)
+        //     last--;
+        // for(auto it : $3->children)
+        // {
+        //     Quadruple* q = new Quadruple(13, append_scope_level(it->children[1]->attr ));
+        //     $$->code.push_back(q);
+        //     ircode.push_back(q);       
+        //     // cout << "i = " << i << endl;     
+        // }
 }
 |   Name LEFTPARENTHESIS ReceiverParameter COMMA FormalParameterList RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
-    
+    currFunc = $1->attr;
     temp.push_back($5);
    
    
@@ -3096,7 +3263,10 @@ ConstructorDeclarator:
         vector<string> params;
         for(auto it : $5->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            string s = it->children[1]->attr;
+            if(s=="args")
+                continue;
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
      Quadruple* q = new Quadruple(6, $1->varName , params);
         $$->code.push_back(q);
@@ -3127,7 +3297,8 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-
+        root->finsert($1->attr, newf);
+        scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$5->children.size(); i++)
         {
@@ -3139,6 +3310,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -3146,7 +3318,7 @@ ConstructorDeclarator:
     vector<struct Node*> temp;
     temp.push_back($1);
     temp.push_back($2);
-   
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
      Quadruple* q = new Quadruple(6, $2->varName );
@@ -3161,7 +3333,7 @@ ConstructorDeclarator:
     temp.push_back($2);
     
     // temp.push_back($4);
-    
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
     Quadruple* q = new Quadruple(6, $2->varName );
@@ -3176,13 +3348,16 @@ ConstructorDeclarator:
     temp.push_back($2);
     temp.push_back($4);
    
-   
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
             vector<string> params;
         for(auto it : $4->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            string s = it->children[1]->attr;
+            if(s=="args")
+                continue;
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -3213,7 +3388,8 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-
+        root->finsert($2->attr, newf);
+        scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$4->children.size(); i++)
         {
@@ -3225,6 +3401,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }  
@@ -3238,13 +3415,16 @@ ConstructorDeclarator:
     for(auto it:$6->children)
         for(auto ch : it->children)
             temp.push_back(ch);
-    
+    currFunc = $2->attr;
     struct Node* n = new struct Node("ConstructorDeclarator", temp);
     $$ = n;
         vector<string> params;
         for(auto it : $6->children)
         {
-            params.push_back(append_scope_level(it->children[1]->attr));
+            string s = it->children[1]->attr;
+            if(s=="args")
+                continue;
+            params.push_back(it->children[1]->attr+"`"+to_string(scope_level));
         }
     Quadruple* q = new Quadruple(6, $2->varName , params);
         $$->code.push_back(q);
@@ -3275,7 +3455,8 @@ ConstructorDeclarator:
         root->currNode->childscopes.push_back(newf);
         root->currNode->constr_insert(args);
         root->currNode=newf;
-
+        root->finsert($2->attr, newf);
+        scope_level++;
         // for(aut$3->children)
         for(int i=0; i<$6->children.size(); i++)
         {
@@ -3287,6 +3468,7 @@ ConstructorDeclarator:
                 yyerror("Error");
             }
                 // yyerror("Variable already declared");
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
 }
@@ -3438,7 +3620,7 @@ ExplicitConstructorInvocation:
         yyerror("Error");
     }
 
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3511,7 +3693,7 @@ ExplicitConstructorInvocation:
         yyerror("Error");
     }
 
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3554,7 +3736,7 @@ ExplicitConstructorInvocation:
     // ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3609,7 +3791,7 @@ ExplicitConstructorInvocation:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
     processPostIncre($$);
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
    
@@ -3633,7 +3815,7 @@ ExplicitConstructorInvocation:
     Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
     $$->code.push_back(q);
 
-    q = new Quadruple("+int ", "stackpointer", "8", "stackpointer");
+    q = new Quadruple("+", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3644,7 +3826,7 @@ ExplicitConstructorInvocation:
 
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
-    q = new Quadruple("-int ", "stackpointer", "8", "stackpointer");
+    q = new Quadruple("-", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3670,7 +3852,7 @@ ExplicitConstructorInvocation:
 
     int space = 8;
     if(space > 0) {
-        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
+        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer" );
         $$->code.push_back(q);
         ircode.push_back(q);
     }
@@ -3694,7 +3876,7 @@ ExplicitConstructorInvocation:
 
     int space = 8;
     if(space > 0) {
-        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
         $$->code.push_back(q);
         ircode.push_back(q);
     }
@@ -3704,7 +3886,7 @@ ExplicitConstructorInvocation:
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3748,7 +3930,7 @@ ExplicitConstructorInvocation:
     Quadruple* q = new Quadruple(5,  append_scope_level($5->varName));
     $$->code.push_back(q);
 
-     q = new Quadruple("+int ", "stackpointer", "8", "stackpointer");
+     q = new Quadruple("+", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3759,7 +3941,7 @@ ExplicitConstructorInvocation:
 
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
-     q = new Quadruple("-int ", "stackpointer", "8", "stackpointer");
+     q = new Quadruple("-", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3785,7 +3967,7 @@ ExplicitConstructorInvocation:
     $$ = n;
     Quadruple* q = new Quadruple(5,  append_scope_level($5->varName));
     $$->code.push_back(q);
-     q = new Quadruple("+int ", "stackpointer", "8", "stackpointer");
+     q = new Quadruple("+", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3796,7 +3978,7 @@ ExplicitConstructorInvocation:
 
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
-     q = new Quadruple("-int ", "stackpointer", "8", "stackpointer");
+     q = new Quadruple("-", "stackpointer", "8", "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -3949,12 +4131,24 @@ LocalVariableDeclaration:
         {
             int _type = $1->type;
             if(ch->arrayType && _type < 100) _type += ch->arrayType*100  ; 
+            //cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << ch->children[1]->label << "\n";
             if(ch->children.size() > 1 && ch->children[1]->arrayType) {ch->children[1]->type = $1->type%100 + 100 * ch->children[1]->arrayType; 
                 if(ch->children[1]->label == "ArrayInitializer") {
                     if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
                     else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
                     else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
                 }
+                
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", append_scope_level(ch->children[1]->varName), "", append_scope_level(ch->children[0]->varName));
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
+                
             }
 
             // cout<<"For "<<ch->children[0]->attr<<", width is "<<typeroot->typewidth[$1->attr].second<<endl;
@@ -3968,13 +4162,16 @@ LocalVariableDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
                 if(!ch->arrayType) processFieldDec($$, ch, _type);
                 
 
             }
              else {
-              
-                    processUninitDec($$, ch);
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                    //sym->lexeme = ch->attr;
+                    processUninitDec($$, ch, _type);
              
             }
             //sym->type += ch->arrayType * 100;
@@ -3990,6 +4187,7 @@ LocalVariableDeclaration:
                 
                 //sym->calcWidths();
            }
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
             // cout<<"For "<<sym->lexeme<<", width is "<<root->lookup(sym->lexeme)->width<<endl;
             //if(cc) backpatch((ch-1)->nextlist,(ch-1)->last + 1);
@@ -3999,7 +4197,24 @@ LocalVariableDeclaration:
 
         int space = typeroot->widths[$1->type] * $2->children.size();
 
-        
+        for(auto ch : $2->children)
+        {
+            if(ch->attr=="=" && spacelast>0)
+            {
+
+                int space = spacelast;
+                spacelast = 0;
+                if(space>0)
+                {
+                Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+                $$->code.push_back(q);
+                ircode.push_back(q);
+                $$->last = ircode.size() - 1;
+                }
+            }
+        }
+
+        cout << "finished\n";
     }
 |   VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList {
         vector<struct Node*> temp;
@@ -4030,6 +4245,7 @@ LocalVariableDeclaration:
         *****************************/
         struct Node* n = new struct Node("LocalVariableDeclaration", temp);
         $$ = n;
+        int isStatic = 0;
         verbose(v,"VariableModifier VariableModifiers LocalVariableType VariableDeclaratorList->LocalVariableDeclaration");
         for(auto ch : $4->children)
         {
@@ -4041,10 +4257,22 @@ LocalVariableDeclaration:
                     else if(ch->arrayType == 2) init2DArray(ch, $3->attr);
                     else if(ch->arrayType == 3) init3DArray(ch, $3->attr);
                 }
-                
+                else if(ch->children[1]->label == "ArrayCreationExpression") {
+                    cout << ch->children[0]->varName << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2\n";
+                    Quadruple* q = new Quadruple("", ch->children[1]->varName, "", ch->children[0]->varName);
+                    ircode.push_back(q);
+                    $$->code.push_back(q);
+                    //if(ch->arrayType == 1 ) init1DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 2 ) init2DArray(ch, $1->attr);
+                    //else if(ch->arrayType == 3 ) init3DArray(ch, $1->attr);
+                }
             
             }
             Symbol* sym = new Symbol(ch->attr, _type, yylineno, typeroot->typewidth[$3->attr].second);
+            if($1->attr=="static")
+            {
+                isStatic=1;
+            }
             if(sym->lexeme=="=")
             {
                 if(!((sym->type == ch->children[1]->type) || (typeroot->categorize(sym->type)==FLOATING_TYPE && typeroot->categorize(ch->children[1]->type)==INTEGER_TYPE) || (sym->type==DOUBLE_NUM && ch->children[1]->type==FLOAT_NUM)))
@@ -4054,12 +4282,20 @@ LocalVariableDeclaration:
                     // yyerror("Type Mismatch Error! Incompatible types ");
                 }
                 sym->lexeme = ch->children[0]->attr;
+                //ch->children[0]->attr += "`" + to_string(scope_level);  ch->children[0]->varName = ch->children[0]->attr;
+                
+                
+                
                 if(!ch->arrayType ) processFieldDec($$, ch, _type);
+                
 
             }
              else {
-                
-                    processUninitDec($$, ch);
+                    //ch->varName = ch->attr = ch->attr + "`" + to_string(scope_level); 
+                    //sym->lexeme = ch->attr;
+                  
+                    processUninitDec($$, ch, _type);
+                   
                 
             }
             if(ch->arrayType > 0) {
@@ -4069,10 +4305,27 @@ LocalVariableDeclaration:
                 sym->width3 = ch->width3;
                 //sym->calcWidths();
            }     
+            sym->scope_level = scope_level;
             root->insert(sym->lexeme, sym);
         }
         $$->last = ircode.size() - 1;
         //($1);
+        for(auto ch : $4->children)
+        {
+            if(ch->attr=="=" && spacelast>0)
+            {
+
+                int space = spacelast;
+                spacelast = 0;
+                if(space>0)
+                {
+                Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+                $$->code.push_back(q);
+                ircode.push_back(q);
+                $$->last = ircode.size() - 1;
+                }
+            }
+        }
     }
 ;
 
@@ -5572,10 +5825,11 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = generateArgumentList($4->children, $4);
-    Quadruple* q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS ClassBody {
@@ -5647,10 +5901,11 @@ UnqualifiedClassInstanceCreationExpression:
     $$->type = res->type;
 
     int space = generateArgumentList($4->children, $4);
-    Quadruple* q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // Quadruple* q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 |   NEW Name LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
@@ -5726,15 +5981,16 @@ UnqualifiedClassInstanceCreationExpression:
     $$->code.push_back(q);
     ircode.push_back(q);
 
-    q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 |   NEW Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
@@ -5774,15 +6030,16 @@ UnqualifiedClassInstanceCreationExpression:
     $$->code.push_back(q);
     ircode.push_back(q);
 
-    q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    $$->last = ircode.size() - 1;
+    // q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
+    // $$->code.push_back(q);
+    // ircode.push_back(q);
+    // $$->last = ircode.size() - 1;
+    spacelast = space;
 } 
 ;
 
@@ -5872,8 +6129,7 @@ ArrayAccess:
         yyerror("Error");
     }
     
-    string resName = string("_t") + to_string(varCnt);
-    varCnt++;
+    
     Symbol* ss = root->lookup($1->attr);
     if(!ss)
     {
@@ -5881,19 +6137,22 @@ ArrayAccess:
         yyerror("Error");
     }
     // cout << ss->width1 << "947t9wefih\n";
-    Quadruple* q= new Quadruple(string("*int "),  append_scope_level($3->varName), to_string(root->lookup($1->attr)->width),  resName );
+    /***************************************************************************
+    Quadruple* q= new Quadruple(string("*"),  append_scope_level($3->varName), to_string(4),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("_t") + to_string(varCnt);
-    varCnt++;
+    string resName2 = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
     q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName + string("]") ,  resName2 );
     //cout << "hi\n";
     $$->code.push_back(q);
     ircode.push_back(q);
-    $$->varName = resName2;
+    ******************************************************/
+    $$->varName = append_scope_level($1->varName) + "[" + append_scope_level($3->varName) + "]";
     $$->attr = $1->attr;
+    cout << $$->code.size() << "\n";
     $$->type = root->lookup($1->varName)->type - 100;
-    $$->last = ircode.size() - 1;
+   // $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
     
@@ -5914,35 +6173,38 @@ ArrayAccess:
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
     $$->attr = $1->attr;
-    string resName = string("_t") + to_string(varCnt);
-    varCnt++;
+    /**************************************************************
+    string resName = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
     Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width2, to_string(root->lookup($1->varName)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName1 = string("_t") + to_string(varCnt);
-    varCnt++;
-    q= new Quadruple(string("*int "),  append_scope_level($3->varName), resName,  resName1 );
+    string resName1 = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
+    q= new Quadruple(string("*"),  append_scope_level($3->varName), resName,  resName1 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("_t") + to_string(varCnt);
-    varCnt++;
-    q= new Quadruple(string("*int "),  append_scope_level($6->varName), to_string(root->lookup($1->varName)->width),  resName2 );
+    string resName2 = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
+    q= new Quadruple(string("*"),  append_scope_level($6->varName), to_string(root->lookup($1->varName)->width),  resName2 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName3 = string("_t") + to_string(varCnt);
-    varCnt++;
-    q= new Quadruple(string("+int "), resName1, resName2,  resName3 );
+    string resName3 = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
+    q= new Quadruple(string("+"), resName1, resName2,  resName3 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName4 = string("_t") + to_string(varCnt++);
+    string resName4 = string("_q") + to_string(varCnt++);
+    tempCnt++;
     
     q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName3 + string("]") ,  resName4 );
    
     $$->code.push_back(q);
     ircode.push_back(q);
-    $$->varName = resName4;
+    **********************************************************/
+    $$->varName = append_scope_level($1->varName) + "[" + append_scope_level($3->varName)+ "][" + append_scope_level($6->varName)+ "]";
     $$->attr = $1->attr;
-    $$->last = ircode.size() - 1;
+    //$$->last = ircode.size() - 1;
     $$->type = root->lookup($1->varName)->type - 200;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
@@ -5964,50 +6226,51 @@ ArrayAccess:
     struct Node* n = new struct Node("ArrayAccess", temp);
     $$ = n;
     $$->attr = $1->attr;
-    
-    string resName = string("_t") + to_string(varCnt);
-    varCnt++;
+    /********************************************************
+    string resName = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
     Quadruple* q= new Quadruple(string("*"), root->lookup($1->varName)->width3 , to_string(root->lookup($1->varName)->width),  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName1 = string("_t") + to_string(varCnt);
-    varCnt++;
-    q= new Quadruple(string("*int "), root->lookup($1->varName)->width2 , resName,  resName1 );
+    string resName1 = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
+    q= new Quadruple(string("*"), root->lookup($1->varName)->width2 , resName,  resName1 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName2 = string("_t") + to_string(varCnt);
-    varCnt++;
-    q= new Quadruple(string("*int "),  append_scope_level($6->varName), resName,  resName2 );
+    string resName2 = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
+    q= new Quadruple(string("*"),  append_scope_level($6->varName), resName,  resName2 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    resName = string("_t") + to_string(varCnt);
-    varCnt++;
-    q= new Quadruple(string("*int "),  append_scope_level($3->varName), resName1,  resName );
+    resName = string("_q") + to_string(varCnt);
+    varCnt++; tempCnt++;
+    q= new Quadruple(string("*"),  append_scope_level($3->varName), resName1,  resName );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName3 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("*int "),  append_scope_level($9->varName), to_string(root->lookup($1->varName)->width),  resName3 );
+    string resName3 = string("_q") + to_string(varCnt++);tempCnt++;
+    q= new Quadruple(string("*"),  append_scope_level($9->varName), to_string(root->lookup($1->varName)->width),  resName3 );
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName4 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("+int "), resName, resName2,  resName4 );
+    string resName4 = string("_q") + to_string(varCnt++);tempCnt++;
+    q= new Quadruple(string("+"), resName, resName2,  resName4 );
 
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName5 = string("_t") + to_string(varCnt++);
-    q= new Quadruple(string("+int "), resName4, resName3,  resName5 );
+    string resName5 = string("_q") + to_string(varCnt++); tempCnt++;
+    q= new Quadruple(string("+"), resName4, resName3,  resName5 );
 
     $$->code.push_back(q);
     ircode.push_back(q);
-    string resName6 = string("_t") + to_string(varCnt++);
+    string resName6 = string("_q") + to_string(varCnt++); tempCnt++;
     q= new Quadruple(string("="), string( append_scope_level($1->varName)) + string("[") + resName5 + string("]") ,  resName6 );
    
     $$->code.push_back(q);
     ircode.push_back(q);
-    $$->varName = resName6;
+    ***********************************************/
+    $$->varName =  append_scope_level($1->varName) + "[" + append_scope_level($3->varName) + "][" + append_scope_level($6->varName) + "][" + append_scope_level($9->varName);
     $$->attr = $1->attr;
     $$->type = root->lookup($1->varName)->type - 300;
-    $$->last = ircode.size() - 1;
+    //$$->last = ircode.size() - 1;
     verbose(v,"Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->ArrayAccess");
     $$->cnt++;
 };
@@ -6016,6 +6279,8 @@ MethodInvocation:
     Name LEFTPARENTHESIS RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
+
+    func_names.push_back($1->attr);
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
@@ -6032,10 +6297,21 @@ MethodInvocation:
 
     SymNode* ex;
     vector<int> args;
-    if(magic_ptr->name=="Global")
-        ex = root->flookup(sp, args);
+    // if(magic_ptr->name=="Global")
+    //     ex = root->flookup(sp, args);
+    // else
+    //     ex = magic_ptr->scope_flookup(sp, args, false);
+
+    if(magic_ptr == origNode)
+    {
+        cout<<"Searching for root"<<endl;
+            ex = root->flookup(sp, args);}
     else
-        ex = magic_ptr->scope_flookup(sp, args, false);
+    { 
+        cout<<"Seaerching thru magic pointer and changing"<<endl;
+           ex = magic_ptr->scope_flookup(sp, args, false);
+        magic_ptr = origNode;
+    }
 
     if(!ex)
     {
@@ -6045,13 +6321,13 @@ MethodInvocation:
     $$->type = ex->returntype;
     Quadruple* q;
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string(0), resName );
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string(0), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = q = new Quadruple(4, $1->attr, to_string(0) );
+        q = q = new Quadruple(4, append_scope_level($1->attr), to_string(0) );
     }
     $$->code.push_back(q);
     ircode.push_back(q);
@@ -6063,6 +6339,7 @@ MethodInvocation:
 |   Name LEFTPARENTHESIS ArgumentList RIGHTPARENTHESIS   {
     vector<struct Node*> temp;
     temp.push_back($1);
+        func_names.push_back($1->attr);
   
     temp.push_back($3);
     
@@ -6079,12 +6356,19 @@ MethodInvocation:
         yyerror("Error");
     }
 
+    cout<<"To search for : "<<sp<<endl;
     SymNode* ex;
     
-    if(magic_ptr->name=="Global")
-        ex = root->flookup(sp, args);
+    if(magic_ptr == origNode)
+    {
+        cout<<"Searching for root"<<endl;
+            ex = root->flookup(sp, args);}
     else
-    {    ex = magic_ptr->scope_flookup(sp, args, false);}
+    { 
+        cout<<"Seaerching thru magic pointer and changing"<<endl;
+           ex = magic_ptr->scope_flookup(sp, args, false);
+        magic_ptr = origNode;
+    }
     if(!ex)
     {
         cout<<"Error on line number "<<yylineno<<". No matching function to call"<<endl;
@@ -6093,23 +6377,23 @@ MethodInvocation:
     $$->type = ex->returntype;
 
     Quadruple* q;
-   
+   cout<<"Called thist thisi sish t"<<$1->attr<<endl;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName );
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string($3->children.size()), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = new Quadruple(4, $1->attr, to_string($3->children.size()) );
+        q = new Quadruple(4, append_scope_level($1->attr), to_string($3->children.size()) );
     }
 
     $$->code.push_back(q);
     ircode.push_back(q);
 
   
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6125,7 +6409,7 @@ MethodInvocation:
     $$ = n;
     Quadruple* q; 
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(0), resName );
         $$->varName = resName;
     }
@@ -6156,7 +6440,7 @@ MethodInvocation:
     Quadruple* q;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string($5->children.size()), resName );
         $$->varName = resName;
     }
@@ -6165,7 +6449,7 @@ MethodInvocation:
     }
     $$->code.push_back(q);
     ircode.push_back(q);
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6185,7 +6469,7 @@ MethodInvocation:
     Quadruple* q;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "",  $1 + string(".") + $3, to_string(0), resName );
         $$->varName = resName;
     }
@@ -6229,7 +6513,7 @@ MethodInvocation:
     Quadruple* q;
     
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "", $1 + string(".") + $3, to_string($5->children.size()), resName );
         $$->varName = resName;
     }
@@ -6238,7 +6522,7 @@ MethodInvocation:
     }
     $$->code.push_back(q);
     ircode.push_back(q);
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6273,7 +6557,7 @@ MethodInvocation:
     $$ = n;
     Quadruple* q ;
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "", $1->attr + string(".") + $3 + string(".") + $5, to_string(0), resName );
         $$->varName = resName;
     }
@@ -6321,7 +6605,7 @@ MethodInvocation:
     int space = generateArgumentList($7->children, $7);
     Quadruple* q;
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string($7->children.size()), resName );
         $$->varName = resName;
     }
@@ -6330,7 +6614,7 @@ MethodInvocation:
     }
     $$->code.push_back(q);
     ircode.push_back(q);
-    q = new Quadruple("-int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6358,7 +6642,7 @@ MethodInvocation:
 |   Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS    {
     vector<struct Node*> temp;
     temp.push_back($1);
-    
+        func_names.push_back($1->attr);
     temp.push_back($3);
     
     struct Node* n = new struct Node("MethodInvocation", temp);
@@ -6368,18 +6652,18 @@ MethodInvocation:
     ircode.push_back(q);
     int space = 8;
     if(space > 0) {
-        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
+        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer" );
         $$->code.push_back(q);
         ircode.push_back(q);
     }
     // $$->type = ex->returntype;
 
-        //     string resName = string("_t") + to_string(varCnt++);
+        //     string resName = string("_t") + to_string(varCnt++); tempCnt++
         // q = new Quadruple(4, "", $1->attr, to_string($3->children.size()), resName);
         // $$->varName = resName;
    
     // if($$->type != VOID_TYPE) {
-    //     string resName = string("_t") + to_string(varCnt++);
+    //     string resName = string("_t") + to_string(varCnt++); tempCnt++
     //     q = new Quadruple(4, "", $1->attr, to_string(1), resName);
     //     $$->varName = resName;
     // }
@@ -6408,11 +6692,13 @@ MethodInvocation:
 
     SymNode* ex;
     
-    if(magic_ptr->name=="Global")
+    if(magic_ptr==origNode)
         ex = root->flookup(sp, args);
     else
+    {
         ex = magic_ptr->scope_flookup(sp, args, false);
-
+        magic_ptr = origNode;
+}
     if(!ex)
     {
         cout<<"Error on line number "<<yylineno<<". No matching function to call"<<endl;
@@ -6432,26 +6718,26 @@ MethodInvocation:
     // $$->code.push_back(q);
     // ircode.push_back(q);
 
-    // q = new Quadruple("+int", "stackpointer", to_string(space), "stackpointer");
+    // q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
     // $$->code.push_back(q);
     // ircode.push_back(q);
     // $$->last = ircode.size() - 1;
 
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
-        q = new Quadruple(4, "", $1->attr, to_string(1), resName );
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
+        q = new Quadruple(4, "", append_scope_level($1->attr), to_string(1), resName );
         $$->varName = resName;
     }
     else 
     {
-        q = q = new Quadruple(4, $1->attr, to_string(1) );
+        q = q = new Quadruple(4, append_scope_level($1->attr), to_string(1) );
     }
 
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6472,13 +6758,13 @@ MethodInvocation:
     ircode.push_back(q);
     int space = 8;
     if(space > 0) {
-        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
         $$->code.push_back(q);
         ircode.push_back(q);
     }
     
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "", $1->attr + string(".") + $3, to_string(1), resName );
         $$->varName = resName;
     }
@@ -6496,12 +6782,12 @@ MethodInvocation:
     $$->code.push_back(q);
     ircode.push_back(q);
 
-    q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6524,14 +6810,14 @@ MethodInvocation:
     int space = 8;
 
     if(space > 0) {
-        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
         $$->code.push_back(q);
         ircode.push_back(q);
     }
     
    
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "", $1 + string(".") + $3, to_string(1), resName );
         $$->varName = resName;
     }
@@ -6566,12 +6852,12 @@ MethodInvocation:
     $$->code.push_back(q);
     ircode.push_back(q);
 
-    q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
 
-    q = new Quadruple("-int", "stackpointer", to_string(space), "stackpointer");
+    q = new Quadruple("-", "stackpointer", to_string(space), "stackpointer");
     $$->code.push_back(q);
     ircode.push_back(q);
     $$->last = ircode.size() - 1;
@@ -6595,13 +6881,13 @@ MethodInvocation:
     ircode.push_back(q);
     int space = 8;
     if(space > 0) {
-        Quadruple* q = new Quadruple("+int ", "stackpointer", to_string(space), "stackpointer" );
+        Quadruple* q = new Quadruple("+", "stackpointer", to_string(space), "stackpointer" );
         $$->code.push_back(q);
         ircode.push_back(q);
     }
     
     if($$->type != VOID_TYPE) {
-        string resName = string("_t") + to_string(varCnt++);
+        string resName = string("_t") + to_string(varCnt++); tempCnt++;
         q = new Quadruple(4, "",$1->attr + string(".") + $3 + string(".") + $5, to_string(1), resName );
         $$->varName = resName;
     }
@@ -6634,18 +6920,18 @@ MethodInvocation:
     
     struct Node* n = new struct Node("MethodInvocation", temp);
     $$ = n;
-    Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    q = new Quadruple("+int ", "stackpointer", "8", "stackpointer" );
-    $$->code.push_back(q);
-    ircode.push_back(q);
-    q = new Quadruple(7, "", "print",  append_scope_level($3->varName), "" );
+    //Quadruple* q = new Quadruple(5,  append_scope_level($3->varName));
+    //$$->code.push_back(q);
+    //ircode.push_back(q);
+    //q = new Quadruple("+", "stackpointer", "8", "stackpointer" );
+    //$$->code.push_back(q);
+    //ircode.push_back(q);
+    Quadruple* q = new Quadruple(7, "", "print",  append_scope_level($3->varName), "" );
    
     $$->code.push_back(q);
     ircode.push_back(q);
     // if($$->type != VOID_TYPE) {
-    //     string resName = string("_t") + to_string(varCnt++);
+    //     string resName = string("_t") + to_string(varCnt++); tempCnt++
     //     q = new Quadruple(4, "", $1->attr, to_string(1), resName);
     //     $$->varName = resName;
     // }
@@ -6656,9 +6942,9 @@ MethodInvocation:
 
     // $$->code.push_back(q);
     // ircode.push_back(q);
-    q = new Quadruple("-int ", "stackpointer", "8", "stackpointer");
-    $$->code.push_back(q);
-    ircode.push_back(q);
+    //q = new Quadruple("-", "stackpointer", "8", "stackpointer");
+    //$$->code.push_back(q);
+    //ircode.push_back(q);
     $$->last = ircode.size() - 1;
     verbose(v,"Name LEFTPARENTHESIS Expression RIGHTPARENTHESIS->MethodInvocation");
 
@@ -6781,7 +7067,7 @@ ArrayCreationExpression:
     cout<<"The widths here1 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
-    $$->varName = string("new ") + $2->attr ;
+    $$->varName = string("new ") + $2->attr + $3->attr ;
     verbose(v,"NEW PrimitiveType DimExpr_ ->ArrayCreationExpression");
 }
 |   NEW Name DimExpr_   {
@@ -6797,7 +7083,7 @@ ArrayCreationExpression:
         $$->width3 = $3->width3;
         $$->arrayType = $3->arrayType;
         $$->type = $$->arrayType*100 + $2->type;
-        $$->varName = string("new ") + $2->attr ;
+        $$->varName = string("new ") + $2->attr +$3->attr;
         verbose(v,"NEW Name DimExpr_->ArrayCreationExpression");
     }
 |   NEW PrimitiveType Dims ArrayInitializer {
@@ -6820,7 +7106,7 @@ ArrayCreationExpression:
     cout<<"The widths here2 are : "<<$$->width1<<", "<<$$->width2<<", "<<$$->width3<<endl;
     $$->arrayType = $3->arrayType;
     $$->type = $$->arrayType*100 + $2->type;
-    $$->varName = string("new ") + $2->attr ;
+    $$->varName = string("new ") + $2->attr  + $3->attr;
     verbose(v,"NEW PrimitiveType Dims ArrayInitializer->ArrayCreationExpression");
 }
 
@@ -6844,6 +7130,7 @@ DimExpr_:
     $$ = n;
     $$->width1 = $2->varName;
     $$->arrayType = 1;
+    $$->attr = string($1) + $2->varName + string($3);
     //$$->width1 = stoi($2->attr);
     cout << "\n\nvarname ="<< $2->varName << "\n\n";
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET->DimExpr_");
@@ -6886,6 +7173,7 @@ DimExpr_:
     struct Node* n = new struct Node("DimExpr_", temp);
     $$ = n;
     $$->arrayType = 2;
+    $$->attr = string($1) + $2->varName + string($3) + string($4) + $5->varName + string($6);
     $$->width1 = $2->varName;
     $$->width2 = $5->varName;
     verbose(v,"LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET LEFTSQUAREBRACKET Expression->DimExpr_");
@@ -6963,6 +7251,7 @@ DimExpr_:
     struct Node* n = new struct Node("DimExpr_", temp);
     $$ = n;
     $$->arrayType = 3;
+    $$->attr = string($1) + $2->varName + string($3) + string($4) + $5->varName + string($6) + string($7) + $8->varName + string($9);
     $$->width1 = $2->varName;
     $$->width2 = $5->varName;
     $$->width3 = $8->varName;
@@ -7028,6 +7317,7 @@ AssignmentExpression:
 
 Assignment:
     LeftHandSide AssignmentOperatorEqual Expression {
+        cout << "here\n";
         vector<Node*> temp;
         if($1->useful == false) {
             for(auto it : $1->children)
@@ -7036,11 +7326,12 @@ Assignment:
             }
         }
         else temp.push_back($1);
+        cout << "Reached here\n";
         //$2 = new Node("Operator", $2);
         for(auto it: temp) {
             $2->addChildToLeft(it);
         }
-        
+        cout << "Reached here2\n";
         temp.clear();
         //temp.push_back(t2);
         if($3->useful == false) {
@@ -7050,6 +7341,7 @@ Assignment:
             }
         }
         else temp.push_back($3);
+        cout << "Reached here3\n";
         for(auto it: temp) {
             $2->addChild(it);
         }
@@ -7057,17 +7349,9 @@ Assignment:
         cout<<"HERE MF"<<endl;
         //struct Node* n = new struct Node("ExclusiveOrExpression", temp);
         $$ = $2;
-        Quadruple * q = new Quadruple(string("="),  append_scope_level($3->varName),  append_scope_level($1->varName));
-        if(isCond == 0) $$->code.push_back(q);
-        if(isCond == 0)ircode.push_back(q);
-        $$->last = ircode.size() - 1;
-        verbose(v,"LeftHandSide AssignmentOperator Expression->Assignment");
-        cout << $1->type << " " << $3->type << endl;
-
         int lhstype=$1->type, rhstype=$3->type;
 
         cout<<"Types are "<<lhstype<<", "<<rhstype<<endl;
-
         if($1->type==$3->type || (typeroot->categorize(lhstype)==FLOATING_TYPE && typeroot->categorize(rhstype)==INTEGER_TYPE) || (lhstype==DOUBLE_NUM && rhstype==FLOAT_NUM))
         {
             $$->type = $1->type;
@@ -7077,10 +7361,15 @@ Assignment:
                 cout << "\n\nhere\n\n";
                 cout << $3->width1 <<"\n";
                 Symbol* sym = root->currNode->scope_lookup($1->varName);
+                
                 if(sym) {
                     sym->width1 = $3->width1;
                     sym->width2 = $3->width2;
                     sym->width3 = $3->width3;
+                    if(sym->isField == 1) {
+                        $1->varName = "this."+ $1->varName;
+                        $1->attr = $1->varName;
+                    }
                 }
             }
         }
@@ -7089,6 +7378,16 @@ Assignment:
             cout<<"Error on line number "<<yylineno<<"! Type Mismatch : Cannot convert from "<<typeroot->inv_types[$3->type]<<" to "<<typeroot->inv_types[$1->type]<<endl;
             yyerror("Error");
         }
+        Quadruple * q = new Quadruple(string("="),  append_scope_level($3->varName),  append_scope_level($1->varName));
+        if(isCond == 0) $$->code.push_back(q);
+        if(isCond == 0)ircode.push_back(q);
+        $$->last = ircode.size() - 1;
+        verbose(v,"LeftHandSide AssignmentOperator Expression->Assignment");
+        cout << $1->type << " " << $3->type << endl;
+
+        
+
+        
         isCond = 0;
         $$->nextlist = $3->nextlist;
     }  
@@ -7125,8 +7424,11 @@ Assignment:
         verbose(v,"LeftHandSide AssignmentOperator Expression->Assignment");
         cout << $1->type << " " << $3->type << endl;
 
+       
+
         int lhstype=$1->type, rhstype=$3->type;
 
+        cout<<"Types are "<<lhstype<<", "<<rhstype<<endl;
         if($1->type==$3->type || (typeroot->categorize(lhstype)==FLOATING_TYPE && typeroot->categorize(rhstype)==INTEGER_TYPE) || (lhstype==DOUBLE_NUM && rhstype==FLOAT_NUM))
         {
             $$->type = $1->type;
@@ -7136,10 +7438,15 @@ Assignment:
                 cout << "\n\nhere\n\n";
                 cout << $3->width1 <<"\n";
                 Symbol* sym = root->currNode->scope_lookup($1->varName);
+                
                 if(sym) {
                     sym->width1 = $3->width1;
                     sym->width2 = $3->width2;
                     sym->width3 = $3->width3;
+                    if(sym->isField == 1) {
+                        $1->varName = "this."+ $1->varName;
+                        $1->attr = $1->varName;
+                    }
                 }
             }
         }
@@ -7164,14 +7471,7 @@ LeftHandSide:
        
        $$ = $1;
        
-       Quadruple* q = ircode.back();
-       $$->code.pop_back();
-       //q = new Quadruple("", "*(" + $$->attr + "+int " + $$->varName + ")", "", "")
-       ircode.pop_back();
-       varCnt-= 2;
-       $$->last -= 1;
-       $$->varName = string("_t") + to_string(varCnt++);
-       $$->varName = "*(" + append_scope_level($$->attr) + "+int " + append_scope_level($$->varName) + ")";
+       
        verbose(v,"ArrayAccess->LeftHandSide");
     }
 ;
@@ -7180,7 +7480,7 @@ AssignmentOperatorEqual:
     ASSIGN {
         struct Node* n = new struct Node("Operator", $1);
         $$ = n;
-        verbose(v,"MULTEQUAL->AssignmentOperator");
+        verbose(v,"->AssignmentOperator");
     }
 ;
 
@@ -7309,7 +7609,9 @@ ConditionalExpression:
             ircode.pop_back();
         }
         Quadruple* q = new Quadruple("",  append_scope_level($4->varName), "", condvar );
-        q->print();
+        cout << "called print\n";
+        //q->print();
+        cout << "hey me\n";
         $4->code.push_back(q);
         ircode.insert(ircode.end(), $4->code.begin(), $4->code.end());
         int lastpos = $1->last + 1;
@@ -8265,7 +8567,7 @@ PreIncrementExpression:
         else temp.push_back($2);
         struct Node* n = new struct Node("PreIncrementExpression", temp);
         $$ = n;
-        Quadruple* q = new Quadruple(string("+int "),  append_scope_level($2->varName), string("1"),  append_scope_level($2->varName));
+        Quadruple* q = new Quadruple(string("+"),  append_scope_level($2->varName), string("1"),  append_scope_level($2->varName));
         $$->code.push_back(q);
         
         ircode.push_back(q);
@@ -8298,7 +8600,7 @@ PreDecrementExpression:
         else temp.push_back($2);
         struct Node* n = new struct Node("PreDecrementExpression", temp);
         $$ = n;
-        Quadruple* q = new Quadruple(string("-int "),  append_scope_level($2->varName), string("1"),  append_scope_level($2->varName));
+        Quadruple* q = new Quadruple(string("-"),  append_scope_level($2->varName), string("1"),  append_scope_level($2->varName));
         $$->code.push_back(q);
         
         ircode.push_back(q);
@@ -8458,7 +8760,7 @@ PostIncrementExpression:
         struct Node* n = new Node("PostIncrementExpression", temp);
         $$ = n;
         $$->varName= $1->varName;
-        Quadruple* q = new Quadruple(string("+int "),  append_scope_level($1->varName), string("1"),  append_scope_level($1->varName));
+        Quadruple* q = new Quadruple(string("+"),  append_scope_level($1->varName), string("1"),  append_scope_level($1->varName));
         //$$->code.push_back(q);
         residualCode.push_back(q);
         //ircode.push_back(q);
@@ -8496,7 +8798,7 @@ PostDecrementExpression:
         struct Node* n = new Node("PostDecrementExpression", temp);
         $$ = n;
         $$->varName=$1->varName;
-        Quadruple* q = new Quadruple(string("-int "),  append_scope_level($1->varName), string("1"),  append_scope_level($1->varName));
+        Quadruple* q = new Quadruple(string("-"),  append_scope_level($1->varName), string("1"),  append_scope_level($1->varName));
         //$$->code.push_back(q);
         residualCode.push_back(q);
         verbose(v,"PostfixExpression DECRE->PostDecrementExpression");

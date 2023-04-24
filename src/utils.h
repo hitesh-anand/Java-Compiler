@@ -4,7 +4,7 @@
 #include "irtype.h"
 
 void defineCastNames();
-
+string GetCurrentWorkingDir( void );
 string append_scope_level(string s);
 
 void ir_gen(vector<Quadruple *> ircode, string fln);
@@ -41,4 +41,4 @@ int generateArgumentList(vector<Node *> nodes, Node *n);
 
 void verbose(int v, string h);
 
-void processUninitDec(Node *, Node *);
+void processUninitDec(Node *, Node *, int);
