@@ -1,79 +1,27 @@
 .text
 
 
-<<<<<<< HEAD
-.globl main
-main:
+.globl hello_f
+hello_f:
 pushq %rbp
 movq %rsp, %rbp
-subq $24, %rsp
-movq	%rdi, -16(%rbp)
-movq	$1, -8(%rbp)
-.L3:
-movq	-8(%rbp), %rax
-movq	$10, %rcx
-cmpq	%rcx, %rax
-jl .L5
-jmp .L8
-.L5:
-movq	-8(%rbp), %r10
-movq	$0, %rax
-movq	$printfmt, %rdi
-movq	%r10, %rsi
-call printf
-movq	-8(%rbp), %rbx
-movq	$1, %rcx
-addq	%rcx, %rbx
-movq	%rbx, -8(%rbp)
-jmp .L3
-.L8:
-=======
-.globl test2_f
-test2_f:
-pushq %rbp
-movq %rsp, %rbp
-subq $64, %rsp
-movq	%rdi, -56(%rbp)
+subq $40, %rsp
+movq	%rdi, -32(%rbp)
 movq %rsi, -8(%rbp)
 movq %rdx, -16(%rbp)
+.L3:
 movq	-8(%rbp), %rax
-movq	-16(%rbp), %rcx
-.L2:
+movq	$1, %rcx
 cmpq	%rcx, %rax
-jg .L4
-jmp .L15
-.L4:
-movq	$0, -24(%rbp)
-movq	-8(%rbp), %rax
-movq	$0, %rcx
+je .L5
+jmp .L7
 .L5:
-cmpq	%rcx, %rax
-jg .L7
-jmp .L10
+movq	-16(%rbp), %rbx
+movq	$1, %rcx
+addq	%rcx, %rbx
+movq	%rbx, -16(%rbp)
+movq	$1, 0(%rbp)
 .L7:
-movq	-8(%rbp), %rbx
-movq	$1, %rcx
-addq	%rcx, %rbx
-movq	%rbx, -32(%rbp)
-movq	-32(%rbp), %rbx
-movq	%rbx, -8(%rbp)
-jmp .L12
-.L10:
-movq	-8(%rbp), %rbx
-movq	$1, %rcx
-subq	%rcx, %rbx
-movq	%rbx, -40(%rbp)
-movq	-40(%rbp), %rbx
-movq	%rbx, -24(%rbp)
-.L12:
-movq	-8(%rbp), %rbx
-movq	$1, %rcx
-addq	%rcx, %rbx
-movq	%rbx, -48(%rbp)
-movq	-48(%rbp), %rbx
-movq	%rbx, -8(%rbp)
-jmp .L2
-.L15:
 movq	-8(%rbp), %rax
 movq	-8(%rbp), %rbx
 movq	$1, %rcx
@@ -83,36 +31,62 @@ leave
 ret
 
 
+.globl hi_T
+hi_T:
+pushq %rbp
+movq %rsp, %rbp
+subq $96, %rsp
+movq	%rdi, -88(%rbp)
+movq %rsi, -8(%rbp)
+movq %rdx, -16(%rbp)
+movq	-8(%rbp), %rbx
+movq	-16(%rbp), %rcx
+addq	%rcx, %rbx
+movq	%rbx, -64(%rbp)
+movq	-64(%rbp), %rbx
+movq	%rbx, -48(%rbp)
+movq	-8(%rbp), %rbx
+movq	-16(%rbp), %rcx
+subq	%rcx, %rbx
+movq	%rbx, -72(%rbp)
+movq	-72(%rbp), %rbx
+movq	%rbx, -40(%rbp)
+movq	$8, %rdi
+call	malloc
+movq	%rax, -32(%rbp)
+movq	-32(%rbp), %rdi
+movq  -48(%rbp), %rsi
+movq  -40(%rbp), %rdx
+call hello_f
+movq	%rax, -80(%rbp)
+movq	-80(%rbp), %rbx
+movq	%rbx, -56(%rbp)
+movq	-56(%rbp), %rax
+leave
+ret
+
+
 .globl main
 main:
 pushq %rbp
 movq %rsp, %rbp
-subq $64, %rsp
-movq	%rdi, -56(%rbp)
-movq	$0, %rdi
-call	malloc
-movq	%rax, -8(%rbp)
-movq	-8(%rbp), %rdi
+subq $56, %rsp
+movq	%rdi, -48(%rbp)
 movq  $1, %rsi
-movq  $5, %rdx
-call test2_f
-movq	%rax, -24(%rbp)
-movq	-24(%rbp), %rbx
-movq	%rbx, -16(%rbp)
-movq	-16(%rbp), %r10
+movq  $2, %rdx
+call hi_T
+movq	%rax, -16(%rbp)
+movq	-16(%rbp), %rbx
+movq	%rbx, -8(%rbp)
+movq	-8(%rbp), %r10
 movq	$0, %rax
 movq	$printfmt, %rdi
 movq	%r10, %rsi
 call printf
->>>>>>> c93454f3b5154ea4e6fe2417364a8e6eb5dd0cbf
 leave
 ret
 movq $60, %rax
 xorq %rbx, %rbx
 syscall
 printfmt: 
-<<<<<<< HEAD
 .string "%d\n"
-=======
-.string "%d"
->>>>>>> c93454f3b5154ea4e6fe2417364a8e6eb5dd0cbf
