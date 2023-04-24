@@ -6,8 +6,8 @@ public class test5 {
                 ans+=a[j];
             }
         
-        return ans;
-    }
+    //     return ans;
+    // }
     public int main(){
         int arr[]=new int [3];
         int i;

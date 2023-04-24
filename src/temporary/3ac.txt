@@ -1,0 +1,29 @@
+0	:beginclass test2 
+1	:beginfunc f a`2,b`2
+2	:if a`2>b`2 goto 4
+3	:goto 15
+4	:c`3=0
+5	:if a`2>0 goto 7
+6	:goto 10
+7	:_t0=a`2+1
+8	:a`2=_t0
+9	:goto 12
+10	:_t1=a`2-1
+11	:c`3=_t1
+12	:_t2=a`2+1
+13	:a`2=_t2
+14	:goto 2
+15	:return a`2
+16	:a`2=a`2+1
+17	:endfunc 
+18	:beginfunc main 
+19	:t`10=new test2
+20	:pushparam 5
+21	:pushparam 1
+22	:stackpointer=stackpointer+ 16
+23	:_t0=call t`10.f
+24	:stackpointer=stackpointer-16
+25	:y`10=_t0
+26	:print y`10
+27	:endfunc 
+28	:endclass 

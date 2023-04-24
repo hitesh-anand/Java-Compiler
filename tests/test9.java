@@ -41,3 +41,13 @@ class test{
         ob.call(a, a+1);
     }
 }
+
+class test{
+    void func2(int a)
+    {
+        test9.count++;
+        test9 ob = new test9(a);
+        ob.func1(a);
+        test9.call(a, a+1);
+    }
+}

@@ -14,7 +14,11 @@ class test2 {
     }
     public static void main(String args[]){
         test2 t = new test2();
+<<<<<<< HEAD
         int y=t.f(1,5);
+=======
+        int y=t.f(1,2);
+>>>>>>> c93454f3b5154ea4e6fe2417364a8e6eb5dd0cbf
         System.out.println(y);
     }
 }
