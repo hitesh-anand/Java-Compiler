@@ -56,27 +56,31 @@ There are four possible options flags:
 * '--help' : can be used to see the available flags and their usage
 
 For example:
-`./parser --input=../tests/test_1.java --output=3ac.txt --verbose`
-
+```console
+./parser --input=../tests/test_1.java --output=3ac.txt --verbose
+```
 The resulting output will be the IR (in a 3AC format) stored in the
 3ac.txt file in the folder named `temporary`
 
 ### Final Assembly code generation
 
-`g++ asmgen.cpp`
-./a.out --input=<input_file> --output=<output_file>`
-`gcc <output_file> -o <executable_file>`
-`./executable_file`
-
+```console
+g++ asmgen.cpp
+./a.out --input=<input_file> --output=<output_file>
+gcc <output_file> -o <executable_file>
+./executable_file
+```
 Here, the input should be the 3AC file generated above, and the
 output should be the name of the x86 assembly file to 
 be generated (in .s format)
 
 For example:
-`g++ asmgen.cpp`
-`./a.out --input=3ac.txt --output=test.s`
-'gcc test.s -o test`
-`./test`
+```console
+g++ asmgen.cpp
+./a.out --input=3ac.txt --output=test.s
+gcc test.s -o test
+./test
+```
 
 Here, `test.s` contains the assembly code for the IR
 contained in the `3ac.txt` file. We compile the `test.s` file
