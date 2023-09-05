@@ -40,9 +40,11 @@ to test different features. These test cases include:
 ## Compilation
 
 ```
-cd milestone4/src
-make
+var add2 = function(number) {
+  return number + 2;
+}
 ```
+
 
 ## Execution
 
