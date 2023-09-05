@@ -39,10 +39,9 @@ to test different features. These test cases include:
 
 ## Compilation
 
-```
-var add2 = function(number) {
-  return number + 2;
-}
+```console
+cd milestone4/src
+make
 ```
 
 
