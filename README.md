@@ -87,7 +87,7 @@ contained in the `3ac.txt` file. We compile the `test.s` file
 to create the executable `test` and then simply run the
 executable and observe the output
 
-## Assembly Conventiona and Assumptions
+## Assembly Conventions and Assumptions
 
 * All the arrays and objects are allocated on heap as done by the real JAVA compiler
 * 6 registers are used to transfer arguments to a function, and if there are more arguments, we push them onto the stack.
