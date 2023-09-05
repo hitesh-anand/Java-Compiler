@@ -39,8 +39,8 @@ to test different features. These test cases include:
 
 ## Compilation
 
-* `cd milestone4/src`
-* `make`
+`cd milestone4/src
+make`
 
 ## Execution
 
