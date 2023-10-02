@@ -53,7 +53,7 @@ There are four possible options flags:
 * `--input` : To specify the path of the input file (Required)
 * `--output` : To specify the path of the output text file containing the 3AC (Required)
 * `--verbose` : If used, the user can see the exact rules that are being used during the parsing (Optional)
-* '--help' : can be used to see the available flags and their usage
+* `--help` : can be used to see the available flags and their usage
 
 For example:
 ```console
